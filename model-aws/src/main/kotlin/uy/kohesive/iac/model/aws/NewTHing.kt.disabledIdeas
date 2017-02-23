@@ -1,0 +1,152 @@
+package uy.kohesive.iac.model.aws
+
+import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
+
+
+class Reference<T : Any>(val thing: KClass<T>) {
+    val ref: T by lazy { thing.java.newInstance() /* state loading */ }
+}
+
+enum class ModelState { fromModel, fromAws }
+
+abstract class AwsInfraModel() {
+    fun <T : AwsInfraModel> import(otherModel: KClass<T>): Reference<T> {
+        return Reference(otherModel)
+    }
+
+    fun <T : AwsInfraModel> importDisconnectedModel(otherModel: T): Reference<T> {
+        return Reference(otherModel.javaClass.kotlin)
+    }
+
+    fun <T : AwsInfraModel, V : Any> valueFrom(field: KProperty1<T, V>): Reference<V> {
+        TODO("")
+    }
+}
+
+class SubServiceIac(val env: String, val nodeCount: Int, val autoScaleMax: Int) : AwsInfraModel() {
+    val endpoint: String = mine("freddy", LoadBalancer::class).urlEndpoint
+
+    build {
+        LoadBalancer("freddy") {
+            Listener {
+
+            }
+        }
+    }
+}
+
+// ==== below is new, above is old ===
+
+// import is one of
+//     model <= current AWS state
+//     model <= cached JSON state (team database)
+//     model <= sample instantiated model class (repo defines construction parameters, or a META-INF file in the JAR tells defaults)
+//     model <= sample instantiated model class (programmer defines construction parameters)
+//
+// variables from AWS are one of "actual" or "computed" or "unavailable"
+//
+
+class WebAppIac(val env: String) : AwsInfraModel() {
+    val whateverEndpoint = valueFrom(DataStreamsIac::arn)
+
+
+}
+
+// kinesis => s3 for user activity data
+class DataStreamsIac(val env: String) : AwsInfraModel() {
+    val arn: String = ""
+}
+
+// =============
+
+class WebServer() : Autoscalable {
+    // updates yum, security patches, installs apache
+}
+
+// ==============
+
+class CompoundSystem(val env: String):  AwsInfraModel() {
+    // I want a pool of webservers in an autoscale group, and a load balancer
+     build {
+        autoScaleGroupWithLoadBalancer(WebServer::class, 3, 5, loadBalancerConfig)
+        autoScaleGroupWithLoadBalancer(WebServer::class, 3, 5, valueFrom(GlobalAppLoadBalancers::arn, "specificId"))
+
+    }
+}
+
+// ====
+
+// pick SSH key for instances
+// pick security group
+// modify existing security group
+// pick instance size
+// autoscale min/max
+//
+sealed class ReferenceValue<T: Any>() {
+    class Computed<T: Any>(): ReferenceValue<T>()
+    class Unavailable<T: Any>(): ReferenceValue<T>()
+    class Value <T: Any>(val value: T): ReferenceValue<T>()
+
+    companion object {
+        fun <T: Any> ofValue(value: T) = ReferenceValue.Value(value)
+    }
+}
+class ElasticSearchClusterIac(val name: String, val minNodeCount: Int, val maxNodeCount: Int, val version: String, val pluginsToInstall: List<String>) {
+    val masterNodes: List<String> = emptyList()
+    val dataNodes: List<String> = emptyList()
+
+    val autoScaleSettings: String = ""
+
+    val autoScaleGroup = AutoScalingEc2Instances()
+    val autoScaleGroupArn: ReferenceValue<String> = autoScaleGroup.arn // = mine("group1", AutoScaleGroup::class).urlEndpoint // ReferenceValues = /* actual code */ ReferenceValues.Computed()
+}
+
+class AwsAutoscaleGroupLoadBalancer(autoScaleArn: ReferenceValue<String>)
+
+class WebSite : AwsInfraModel(envName = "prod", namingStategy = EnvNamePrefixed) {
+    val autoScaleRange = when (envName) {
+        "test" -> 1..2
+        "prod" -> 5..15
+    }
+    val search = ElasticSearchClusterIac().extend {
+        it.forEachNode { afterProvision { remoteExec("agent install newrelic") } }
+    }
+    val loadBalancer = AwsAutoscaleGroupLoadBalancer(search.autoScaleGroupArn)
+    val loadBalancer = AwsAutoscaleGroupLoadBalancer(ReferenceValue.ofValue("arn:some:persons:group"))
+    val webServers = AutoScalingMyAppServers(3, loadBalancer.endpoint)
+    val mysql = AwsRdsMysql(name, version = MySQLVersions.LATEST, replicas = 2, rootPassword = "frankenstein")
+}
+
+
+// mutliple instances of same thing, which are we talking about
+// how extend.  for example. "Java Batch Server" is an EC2 instance + 3 commands, I want to use it, but add 1 command.
+// instead of extend, wrap and delegate
+
+// name uniquess / ID  (id could be stored in Tags for the item, and name uniqueness could TRY to be unique, but might not be)
+
+
+interface Autoscalable {
+}
+interface Instance
+
+// ============
+
+class LoadBalanceBuilder(val inputPorts: List<String>, val outputPorts: List<String>) // set value 80
+
+class LoadBalancer(val inputPorts: List<String>, val outputPorts: List<String>) // 8080
+
+class Plan()
+class Response()
+
+class AwsInfraPlanner() {
+    fun plan(vararg model: AwsInfraModel): Plan {
+        TODO()
+    }
+}
+
+class AwsInfraFabricator() {
+    fun executePlan(plan: Plan): Response {
+        TODO()
+    }
+}

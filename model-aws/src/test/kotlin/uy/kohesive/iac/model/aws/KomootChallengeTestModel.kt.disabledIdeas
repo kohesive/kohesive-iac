@@ -1,0 +1,23 @@
+package uy.kohesive.iac.model.aws
+
+// TODO:  things to think about
+
+// Some services must be in the same region as others that connect
+// Some services are only available in some regions
+
+// Some services are custom steps, like database migration
+
+// is there machine readable version of https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/
+// this might cover it: https://aws.amazon.com/blogs/aws/new-aws-price-list-api/
+// which also includes pricing.  we could rough out calculate stack prices
+// more here: http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/price-changes.html
+// can notify on changes that affect a previously deployed stack as well
+
+// Ruby API includes JSON description of all AWS SDK api's, might be useful https://github.com/aws/aws-sdk-ruby/tree/master/aws-sdk-core/apis
+// the Java JDK has `resouce/models` in some (or all?) of the SDK's that looks like it might be used for codegen (https://github.com/aws/aws-sdk-java/tree/master/aws-java-sdk-code-generator)
+// bunch of models here as well: https://github.com/aws/aws-sdk-java/tree/master/aws-java-sdk-models/src/main/resources/models
+
+// some python project out there scanned cloud format docs to try and build JSON schema, using this source http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-reference.html
+
+// someone made a scala DSL type thing to generate cloud formation templates
+

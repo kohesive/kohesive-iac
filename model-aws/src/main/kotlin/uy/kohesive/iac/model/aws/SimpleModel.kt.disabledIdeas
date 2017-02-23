@@ -1,0 +1,111 @@
+package uy.kohesive.iac.model.aws
+
+
+
+fun foo() {
+
+    // TODO: plan should have a naming strategy that could be applied to all nodes
+    val clusterName = "somethingFromConfig"
+
+    val esRestPortSet = ExposedPortSet("REST", listOf(PortRange(9200..9299)))
+    val esClusterPortSet = ExposedPortSet("CLUSTER", listOf(PortRange(9300..9399)))
+    val esAllPorts = listOf(esRestPortSet, esClusterPortSet)
+
+    val securityGroupForMasterNodes = SecurityGroup(/* obviously not configured */)
+
+    val masterNodes = (1..3).map { idx ->
+        // how are we passing data to either startup actions, or to the machine (user data)?
+        // to modify an ES config we would have to come up with settings including security group
+
+        Ec2Instance("es-master-$idx",
+                    SshKey(/* obviously not configured */),
+                    IamRole(/* obviously not configured */),
+                    listOf(securityGroupForMasterNodes),
+                    AMI("x-199akkx"), // people typically look these up from somewhere, at least should verify against account list before running
+                    instanceType = Ec2InstanceType(Ec2KnownInstanceTypes.m4_large),
+                    startupActions = listOf(InstanceStartupAction(/* obviously not configured */)),
+                    tags = mapOf("es.role" to "es-master", "es.clusterName" to clusterName)
+                )
+    }.map {
+        Ec2InstanceWithExposedPorts(it, esAllPorts)
+    }
+
+    val securityGroupForDataNodes = SecurityGroup(/* obviously not configured */)
+
+    val dataNodes = (1..5).map { idx ->
+        Ec2Instance("es-data-$idx",
+                SshKey(/* obviously not configured */),
+                IamRole(/* obviously not configured */),
+                listOf(securityGroupForDataNodes),
+                AMI("x-199akkx"), // people typically look these up from somewhere, at least should verify against account list before running
+                instanceType = Ec2InstanceType(Ec2KnownInstanceTypes.m4_large),
+                startupActions = listOf(InstanceStartupAction(/* obviously not configured */)),
+                tags = mapOf("es.role" to "es-master", "es.clusterName" to clusterName)
+        )
+    }.map {
+        Ec2InstanceWithExposedPorts(it, esAllPorts)
+    }
+
+    securityGroupForMasterNodes.allowIngresFrom(securityGroupForMasterNodes, masterNodes)
+    securityGroupForMasterNodes.allowIngresFrom(securityGroupForDataNodes, dataNodes)
+    securityGroupForDataNodes.allowIngresFrom(securityGroupForMasterNodes, masterNodes)
+    securityGroupForDataNodes.allowIngresFrom(securityGroupForDataNodes, dataNodes)
+}
+
+class Ec2Instance(val name: String,
+                  val sshKey: SshKey,
+                  val iamRole: IamRole,
+                  val securityGroups: List<SecurityGroup>,
+                  val ami: AMI,
+                  val instanceType: Ec2InstanceType,
+                  val startupActions: List<InstanceStartupAction> = emptyList(),
+                  val tags: Map<String, String> = emptyMap())
+
+class Ec2LoadBalancer(): ExposedPorts {
+    override val portSets: List<ExposedPortSet> get() = emptyList() // derived from load balancer config
+}
+
+enum class Ec2KnownInstanceTypes {
+    t4_nano, t4_micro, m4_large, m4_2xlarge, m4_4xlarge, c3_large, c3_2xlarge
+}
+
+class Ec2InstanceType(val typeId: String) {
+    constructor (typeId: Ec2KnownInstanceTypes): this(typeId.name)
+}
+
+class InstanceStartupAction()
+
+class AMI(val amiId: String)
+class SshKey()
+class SecurityGroup()
+class SecurityGroupRule()
+class IamRole()
+class IamPolicy()
+
+class PortRange(val range: IntRange)
+
+class ExposedPortSet(val id: String, val ports: List<PortRange>)
+interface ExposedPorts {
+    val portSets: List<ExposedPortSet>
+}
+
+interface ItemWithExposedPorts<T: Any>: ExposedPorts {
+    val wrapped: T
+}
+
+
+class Ec2InstanceWithExposedPorts(val instance: Ec2Instance, override val portSets: List<ExposedPortSet>): ItemWithExposedPorts<Ec2Instance> {
+   override val wrapped: Ec2Instance get() = instance
+}
+
+fun SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onPorts: List<PortRange>) {}
+fun SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onPorts: PortRange) {}
+@JvmName("allowIngresFromListOfExposedPortSet")
+fun SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onPortSets: List<ExposedPortSet>) {}
+fun SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onPortSet: ExposedPortSet) {}
+@JvmName("allowIngresFromListOfItemWithExposedPorts")
+fun <T: Any> SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onItemPortSets: List<ItemWithExposedPorts<T>>) {}
+fun <T: Any> SecurityGroup.allowIngresFrom(otherGroup: SecurityGroup, onItemPortSet: ItemWithExposedPorts<T>) {}
+
+// TODO: allowIngresFrom ... something that has a security group in it, or ItemWithExposedPorts where T is of a type that has a security group in it
+//       problem with Ec2 instance is it could have a list of them

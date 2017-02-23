@@ -1,0 +1,46 @@
+package uy.kohesive.iac.model.aws
+
+class TestModel {
+   companion object {
+       @JvmStatic fun main(args: Array<String>) {
+
+       }
+   }
+
+   fun useCase1() {
+        // we have SNS topic on other region/account and we need to subscribe to it with Lambda Function that writes to Kinesis Firehose
+        // the SNS topic exists, but nothing else does
+
+       val komootChallenge = SnsTopic.existing("arn:aws:sns:eu-west-1:963797398573:challenge-notifications")
+   }
+
+    fun useCase2() {
+        // we have SNS topic on other region/account and we need to subscribe to it with Lambda Function that writes to Kinesis Firehose
+        // the SNS topic and Kinesis firehose already exists, but not anything else
+    }
+}
+
+// we have model which identifies the items and relationships
+// we then have state which represents current situation in AWS
+// we then compare model to state to identify plan
+// we then execute the plan
+
+
+
+
+open class ModelElement(val id: String)
+
+
+interface ExistingSnsTopic {
+    val arn: String
+    val x: ModelElement
+}
+
+interface SnsTopic {
+    companion object {
+        fun existing(arn: String) {
+            ExistingSnsTopic::x::id
+        }
+
+    }
+}

@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':model-common')
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: version_awssdk
+}
