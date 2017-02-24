@@ -47,10 +47,7 @@ inline fun <S, reified T : Any> makeProxy(
                 throw IllegalArgumentException("${ method.name } is disallowed for referencing")
             } else {
                 if (includeReferences === ProxyUtils.INCLUDE_ALL_PROPS || includeReferences.any { it.name == method.name }) {
-                    val propertyName = method.name.drop(3).let {
-                        it[0] + it.substring(1)
-                    }
-                    return@MethodInterceptor createReference(id, propertyName)
+                    return@MethodInterceptor createReference(id, method.name.drop(3))
                 } else {
                     throw IllegalArgumentException("${ method.name } is disallowed for referencing")
                 }
