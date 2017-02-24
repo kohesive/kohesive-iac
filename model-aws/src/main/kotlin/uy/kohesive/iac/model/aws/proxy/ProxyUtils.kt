@@ -49,7 +49,7 @@ inline fun <S, reified T : Any> makeProxy(
                     }
                 }
             } else {
-                method.invoke(delegate, * args)
+                return@MethodInterceptor method.invoke(delegate, * args)
             }
         }) as T).withId(id)
     }
