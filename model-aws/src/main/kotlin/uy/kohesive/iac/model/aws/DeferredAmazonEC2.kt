@@ -15,7 +15,7 @@ class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC
         return with (context) {
             val id = getId(request) ?: throw IllegalStateException()
             if (request.minCount == null || request.minCount < 1 ||  request.minCount != request.maxCount) {
-                throw IllegalArgumentException("minCount & maCount must be not-null, equal and positive")
+                throw IllegalArgumentException("minCount & maxCount must be not-null, equal and positive")
             }
 
 //            val securityGroups = makeListProxy()
@@ -26,14 +26,11 @@ class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC
                     .withInstances((0..request.minCount - 1).map { instanceIdx ->
                         makeProxy<RunInstancesRequest, Instance>(context, "$id[$instanceIdx]", request, mapOf(
                             RunInstancesRequest::getImageId             to Instance::getImageId,
-                            RunInstancesRequest::getBlockDeviceMappings to Instance::getBlockDeviceMappings,
                             RunInstancesRequest::getClientToken         to Instance::getClientToken,
                             RunInstancesRequest::getEbsOptimized        to Instance::getEbsOptimized,
-                            RunInstancesRequest::getIamInstanceProfile  to Instance::getIamInstanceProfile,
                             RunInstancesRequest::getInstanceType        to Instance::getInstanceType,
                             RunInstancesRequest::getKernelId            to Instance::getKernelId,
                             RunInstancesRequest::getKeyName             to Instance::getKeyName,
-                            RunInstancesRequest::getMonitoring          to Instance::getMonitoring,
                             RunInstancesRequest::getNetworkInterfaces   to Instance::getNetworkInterfaces,
                             RunInstancesRequest::getPlacement           to Instance::getPlacement,
                             RunInstancesRequest::getRamdiskId           to Instance::getRamdiskId,
