@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws.proxy
 
+import com.amazonaws.services.ec2.model.IamInstanceProfile
 import com.amazonaws.services.ec2.model.Instance
 import com.amazonaws.services.ec2.model.RunInstancesRequest
 import net.sf.cglib.proxy.Enhancer
@@ -20,6 +21,9 @@ fun main(args: Array<String>) {
 
     println(instance.imageId)
     println(instance.subnetId)
+
+    instance.iamInstanceProfile = IamInstanceProfile()
+    println(instance.iamInstanceProfile)
 }
 
 object ProxyUtils {
@@ -35,14 +39,12 @@ inline fun <S, reified T : Any> makeProxy(
     includeReferences: List<KFunction1<T, Any>>  = ProxyUtils.INCLUDE_ALL_PROPS,
     disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
 ): T {
+    val delegate = T::class.java.newInstance()
     return Enhancer.create(T::class.java, MethodInterceptor { obj, method, args, proxy ->
         copyFromReq.keys.firstOrNull { it.name == method.name }?.let { sourceFunction ->
             return@MethodInterceptor sourceFunction.invoke(sourceObj)
         }
-        if (method.returnType != String::class.java) {
-            throw IllegalArgumentException("Expecting referenced String type")
-        }
-        if (method.name.startsWith("get")) {
+        if (method.name.startsWith("get") && method.returnType == String::class.java) {
             if (disallowReferences.any { it.name == method.name }) {
                 throw IllegalArgumentException("${ method.name } is disallowed for referencing")
             } else {
@@ -53,7 +55,7 @@ inline fun <S, reified T : Any> makeProxy(
                 }
             }
         } else {
-            throw IllegalArgumentException("Expecting a getter")
+            method.invoke(delegate, * args)
         }
     }) as T
 }
