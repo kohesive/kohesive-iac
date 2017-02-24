@@ -1,5 +1,9 @@
 {
     "compile": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -29,6 +33,10 @@
         }
     },
     "compileClasspath": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -58,6 +66,10 @@
         }
     },
     "compileOnly": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -87,6 +99,10 @@
         }
     },
     "default": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -135,6 +151,10 @@
         }
     },
     "runtime": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -165,6 +185,10 @@
         }
     },
     "testCompile": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -201,6 +225,10 @@
         }
     },
     "testCompileClasspath": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -237,6 +265,10 @@
         }
     },
     "testCompileOnly": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -273,6 +305,10 @@
         }
     },
     "testRuntime": {
+        "cglib:cglib": {
+            "locked": "3.2.4",
+            "requested": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
