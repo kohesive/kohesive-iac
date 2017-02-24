@@ -1,0 +1,52 @@
+package uy.kohesive.iac.model.aws
+
+import com.amazonaws.services.ec2.AbstractAmazonEC2
+import com.amazonaws.services.ec2.AmazonEC2
+import com.amazonaws.services.ec2.model.Instance
+import com.amazonaws.services.ec2.model.Reservation
+import com.amazonaws.services.ec2.model.RunInstancesRequest
+import com.amazonaws.services.ec2.model.RunInstancesResult
+import uy.kohesive.iac.model.aws.proxy.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
+
+class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
+
+    override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
+        return with (context) {
+            val id = getId(request) ?: throw IllegalStateException()
+            if (request.minCount == null || request.minCount < 1 ||  request.minCount != request.maxCount) {
+                throw IllegalArgumentException("minCount & maCount must be not-null, equal and positive")
+            }
+
+//            val securityGroups = makeListProxy()
+
+            RunInstancesResult().withId(id).apply {
+                withReservation(makeProxy<RunInstancesRequest, Reservation>(context, "$id-Reservation", request)
+                    // Instances
+                    .withInstances((0..request.minCount - 1).map { instanceIdx ->
+                        makeProxy<RunInstancesRequest, Instance>(context, "$id[$instanceIdx]", request, mapOf(
+                            RunInstancesRequest::getImageId             to Instance::getImageId,
+                            RunInstancesRequest::getBlockDeviceMappings to Instance::getBlockDeviceMappings,
+                            RunInstancesRequest::getClientToken         to Instance::getClientToken,
+                            RunInstancesRequest::getEbsOptimized        to Instance::getEbsOptimized,
+                            RunInstancesRequest::getIamInstanceProfile  to Instance::getIamInstanceProfile,
+                            RunInstancesRequest::getInstanceType        to Instance::getInstanceType,
+                            RunInstancesRequest::getKernelId            to Instance::getKernelId,
+                            RunInstancesRequest::getKeyName             to Instance::getKeyName,
+                            RunInstancesRequest::getMonitoring          to Instance::getMonitoring,
+                            RunInstancesRequest::getNetworkInterfaces   to Instance::getNetworkInterfaces,
+                            RunInstancesRequest::getPlacement           to Instance::getPlacement,
+                            RunInstancesRequest::getRamdiskId           to Instance::getRamdiskId,
+                            // TODO: this is wrong. How do we construct these?
+                            RunInstancesRequest::getSecurityGroups      to Instance::getSecurityGroups,
+                            RunInstancesRequest::getSubnetId            to Instance::getSubnetId
+                        ))
+                    })
+
+                    // TODO: rest of 'Instance' properties
+                )
+            }
+        }
+    }
+
+}
