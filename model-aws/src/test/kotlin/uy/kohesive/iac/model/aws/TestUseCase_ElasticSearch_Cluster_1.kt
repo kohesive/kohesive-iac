@@ -1,10 +1,6 @@
 package uy.kohesive.iac.model.aws
 
-import com.amazonaws.services.ec2.model.RunInstancesRequest
-import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
-import com.amazonaws.services.identitymanagement.model.*
-import org.junit.Test
-import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.helpers.*
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
 //       that is generated from the region => service => pricing API
@@ -59,39 +55,39 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 description = "EC2 Instance type.",
                 errorDescription = "Must be a valid Amazon EC2 instance type.",
                 allowedValues = listOf(
-                "t1.micro",
-                "m1.small",
-                "m1.medium",
-                "m1.large",
-                "m1.xlarge",
-                "m3.medium",
-                "m3.large",
-                "m3.xlarge",
-                "m3.2xlarge",
-                "c1.medium",
-                "c1.xlarge",
-                "c3.large",
-                "c3.xlarge",
-                "c3.2xlarge",
-                "c3.4xlarge",
-                "c3.8xlarge",
-                "cc2.8xlarge",
-                "m2.xlarge",
-                "m2.2xlarge",
-                "m2.4xlarge",
-                "r3.large",
-                "r3.xlarge",
-                "r3.2xlarge",
-                "r3.4xlarge",
-                "r3.8xlarge",
-                "cr1.8xlarge",
-                "hi1.4xlarge",
-                "hs1.8xlarge",
-                "i2.xlarge",
-                "i2.2xlarge",
-                "i2.4xlarge",
-                "i2.8xlarge"
-        ))
+                        "t1.micro",
+                        "m1.small",
+                        "m1.medium",
+                        "m1.large",
+                        "m1.xlarge",
+                        "m3.medium",
+                        "m3.large",
+                        "m3.xlarge",
+                        "m3.2xlarge",
+                        "c1.medium",
+                        "c1.xlarge",
+                        "c3.large",
+                        "c3.xlarge",
+                        "c3.2xlarge",
+                        "c3.4xlarge",
+                        "c3.8xlarge",
+                        "cc2.8xlarge",
+                        "m2.xlarge",
+                        "m2.2xlarge",
+                        "m2.4xlarge",
+                        "r3.large",
+                        "r3.xlarge",
+                        "r3.2xlarge",
+                        "r3.4xlarge",
+                        "r3.8xlarge",
+                        "cr1.8xlarge",
+                        "hi1.4xlarge",
+                        "hs1.8xlarge",
+                        "i2.xlarge",
+                        "i2.2xlarge",
+                        "i2.4xlarge",
+                        "i2.8xlarge"
+                ))
 
         // TODO:  IP CIDR should be built-in type (our own, doesn't exist in Cloud Formation)
         val sshLocation = ParameterizedValue("SSHLocation",
@@ -112,50 +108,50 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         // ===[ MAPPINGS ]==============================================================================================
 
-        val awsInstantType2Arch = MappedValues("AWSInstanceType2Arch", mapOf (
-                "t1.micro"     to mapOf( "Arch" to "64" ),
-                "m1.small"     to mapOf( "Arch" to "64" ),
-                "m1.medium"    to mapOf( "Arch" to "64" ),
-                "m1.large"     to mapOf( "Arch" to "64" ),
-                "m1.xlarge"    to mapOf( "Arch" to "64" ),
-                "m3.medium"    to mapOf( "Arch" to "64" ),
-                "m3.large"     to mapOf( "Arch" to "64" ),
-                "m3.xlarge"    to mapOf( "Arch" to "64" ),
-                "m3.2xlarge"   to mapOf( "Arch" to "64" ),
-                "c1.medium"    to mapOf( "Arch" to "64" ),
-                "c1.xlarge"    to mapOf( "Arch" to "64" ),
-                "c3.large"     to mapOf( "Arch" to "64" ),
-                "c3.xlarge"    to mapOf( "Arch" to "64" ),
-                "c3.2xlarge"   to mapOf( "Arch" to "64" ),
-                "c3.4xlarge"   to mapOf( "Arch" to "64" ),
-                "c3.8xlarge"   to mapOf( "Arch" to "64" ),
-                "cc2.8xlarge"  to mapOf( "Arch" to "64HVM" ),
-                "m2.xlarge"    to mapOf( "Arch" to "64" ),
-                "m2.2xlarge"   to mapOf( "Arch" to "64" ),
-                "m2.4xlarge"   to mapOf( "Arch" to "64" ),
-                "r3.large"     to mapOf( "Arch" to "64HVM" ),
-                "r3.xlarge"    to mapOf( "Arch" to "64HVM" ),
-                "r3.2xlarge"   to mapOf( "Arch" to "64HVM" ),
-                "r3.4xlarge"   to mapOf( "Arch" to "64HVM" ),
-                "r3.8xlarge"   to mapOf( "Arch" to "64HVM" ),
-                "cr1.8xlarge"  to mapOf( "Arch" to "64HVM" ),
-                "hi1.4xlarge"  to mapOf( "Arch" to "64HVM" ),
-                "hs1.8xlarge"  to mapOf( "Arch" to "64HVM" ),
-                "i2.xlarge"    to mapOf( "Arch" to "64HVM" ),
-                "i2.2xlarge"   to mapOf( "Arch" to "64HVM" ),
-                "i2.4xlarge"   to mapOf( "Arch" to "64HVM" ),
-                "i2.8xlarge"   to mapOf( "Arch" to "64HVM" )
+        val awsInstantType2Arch = MappedValues("AWSInstanceType2Arch", mapOf(
+                "t1.micro" to mapOf("Arch" to "64"),
+                "m1.small" to mapOf("Arch" to "64"),
+                "m1.medium" to mapOf("Arch" to "64"),
+                "m1.large" to mapOf("Arch" to "64"),
+                "m1.xlarge" to mapOf("Arch" to "64"),
+                "m3.medium" to mapOf("Arch" to "64"),
+                "m3.large" to mapOf("Arch" to "64"),
+                "m3.xlarge" to mapOf("Arch" to "64"),
+                "m3.2xlarge" to mapOf("Arch" to "64"),
+                "c1.medium" to mapOf("Arch" to "64"),
+                "c1.xlarge" to mapOf("Arch" to "64"),
+                "c3.large" to mapOf("Arch" to "64"),
+                "c3.xlarge" to mapOf("Arch" to "64"),
+                "c3.2xlarge" to mapOf("Arch" to "64"),
+                "c3.4xlarge" to mapOf("Arch" to "64"),
+                "c3.8xlarge" to mapOf("Arch" to "64"),
+                "cc2.8xlarge" to mapOf("Arch" to "64HVM"),
+                "m2.xlarge" to mapOf("Arch" to "64"),
+                "m2.2xlarge" to mapOf("Arch" to "64"),
+                "m2.4xlarge" to mapOf("Arch" to "64"),
+                "r3.large" to mapOf("Arch" to "64HVM"),
+                "r3.xlarge" to mapOf("Arch" to "64HVM"),
+                "r3.2xlarge" to mapOf("Arch" to "64HVM"),
+                "r3.4xlarge" to mapOf("Arch" to "64HVM"),
+                "r3.8xlarge" to mapOf("Arch" to "64HVM"),
+                "cr1.8xlarge" to mapOf("Arch" to "64HVM"),
+                "hi1.4xlarge" to mapOf("Arch" to "64HVM"),
+                "hs1.8xlarge" to mapOf("Arch" to "64HVM"),
+                "i2.xlarge" to mapOf("Arch" to "64HVM"),
+                "i2.2xlarge" to mapOf("Arch" to "64HVM"),
+                "i2.4xlarge" to mapOf("Arch" to "64HVM"),
+                "i2.8xlarge" to mapOf("Arch" to "64HVM")
         ))
 
-        val awsRegionArchi2Ami = MappedValues("AWSRegionArch2AMI", mapOf (
-                "us-east-1"      to mapOf( "64" to "ami-fb8e9292", "64HVM" to "ami-978d91fe" ),
-                "us-west-1"      to mapOf( "64" to "ami-7aba833f", "64HVM" to "ami-5aba831f" ),
-                "us-west-2"      to mapOf( "64" to "ami-043a5034", "64HVM" to "ami-383a5008" ),
-                "eu-west-1"      to mapOf( "64" to "ami-2918e35e", "64HVM" to "ami-4b18e33c" ),
-                "sa-east-1"      to mapOf( "64" to "ami-215dff3c", "64HVM" to "ami-635dff7e" ),
-                "ap-southeast-1" to mapOf( "64" to "ami-b40d5ee6", "64HVM" to "ami-860d5ed4" ),
-                "ap-southeast-2" to mapOf( "64" to "ami-3b4bd301", "64HVM" to "ami-cf4ad2f5" ),
-                "ap-northeast-1" to mapOf( "64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba" )
+        val awsRegionArchi2Ami = MappedValues("AWSRegionArch2AMI", mapOf(
+                "us-east-1" to mapOf("64" to "ami-fb8e9292", "64HVM" to "ami-978d91fe"),
+                "us-west-1" to mapOf("64" to "ami-7aba833f", "64HVM" to "ami-5aba831f"),
+                "us-west-2" to mapOf("64" to "ami-043a5034", "64HVM" to "ami-383a5008"),
+                "eu-west-1" to mapOf("64" to "ami-2918e35e", "64HVM" to "ami-4b18e33c"),
+                "sa-east-1" to mapOf("64" to "ami-215dff3c", "64HVM" to "ami-635dff7e"),
+                "ap-southeast-1" to mapOf("64" to "ami-b40d5ee6", "64HVM" to "ami-860d5ed4"),
+                "ap-southeast-2" to mapOf("64" to "ami-3b4bd301", "64HVM" to "ami-cf4ad2f5"),
+                "ap-northeast-1" to mapOf("64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba")
         ))
 
         // ===[ BUILDING ]==============================================================================================
@@ -164,7 +160,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            val esDiscoveryRole = with (iamClient) {
+            val esDiscoveryRole = with(iamClient) {
                 val clusterDiscoveryRole = createRole {
                     roleName = "ElasticsearchDiscoveryRole"
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
@@ -182,7 +178,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
 
-            with (ec2Client) {
+            with(ec2Client) {
 
                 // ec2Client.runInstances(RunInstancesRequest())
             }
