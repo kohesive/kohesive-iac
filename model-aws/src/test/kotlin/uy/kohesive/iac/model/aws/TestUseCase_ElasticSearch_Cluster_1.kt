@@ -166,23 +166,20 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
             val esDiscoveryRole = with (iamClient) {
                 val clusterDiscoveryRole = createRole {
-                    withRoleName("ElasticsearchDiscoveryRole")
-                    withAssumeRolePolicyDocument(AssumeRolePolicies.EC2.asPolicyDoc())
-                    withKohesiveIdFromName()
-                }
+                    roleName = "ElasticsearchDiscoveryRole"
+                    assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
+                    withKohesiveIdFromName()  // TODO: this could be moved invisibly inside createRole, but we have two-receiver issue
+                }.role
 
                 val allowDiscoveryPolicy = createPolicy {
-                    withPolicyName("ElasticsearchAllowEc2DescribeInstances")
-                    withPolicyDocument(CustomPolicyStatement("ec2:DescribeInstances", PolicyEffect.Allow, "*"))
+                    policyName = "ElasticsearchAllowEc2DescribeInstances"
+                    policyFromStatement = CustomPolicyStatement("ec2:DescribeInstances", PolicyEffect.Allow, "*")
                     withKohesiveIdFromName()
-                }
+                }.policy
 
-                attachRolePolicy {
-                    withRoleName(clusterDiscoveryRole.role.roleName)
-                    withPolicyArn(allowDiscoveryPolicy.policy.arn)
-                }
+                attachRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
-                Pair(clusterDiscoveryRole.role.arn, clusterDiscoveryRole.role.roleName)
+                Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
 
             with (ec2Client) {
