@@ -10,7 +10,6 @@ import uy.kohesive.iac.model.aws.proxy.IacContext
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
-
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
             val id = getId(request) ?: throw IllegalStateException()
