@@ -19,7 +19,7 @@ class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC
 
 //            val securityGroups = makeListProxy()
 
-            RunInstancesResult().withId(id).apply {
+            RunInstancesResult().withKohesiveId(id).apply {
                 withReservation(makeProxy<RunInstancesRequest, Reservation>(context, "$id-Reservation", request)
                     // Instances
                     .withInstances((0..request.minCount - 1).map { instanceIdx ->

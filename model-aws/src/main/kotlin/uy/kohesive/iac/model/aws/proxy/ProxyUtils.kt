@@ -52,6 +52,6 @@ inline fun <S, reified T : Any> makeProxy(
             } else {
                 return@MethodInterceptor method.invoke(delegate, * args)
             }
-        }) as T).withId(id)
+        }) as T).withKohesiveId(id)
     }
 }

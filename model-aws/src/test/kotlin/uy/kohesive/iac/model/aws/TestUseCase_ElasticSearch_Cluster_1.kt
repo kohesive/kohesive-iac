@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.ec2.model.RunInstancesRequest
-import com.amazonaws.services.identitymanagement.model.CreateRoleRequest
-import com.amazonaws.services.identitymanagement.model.Role
+import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
+import com.amazonaws.services.identitymanagement.model.*
 import org.junit.Test
 import uy.kohesive.iac.model.aws.IacContext
 
@@ -158,15 +158,43 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 "ap-northeast-1" to mapOf( "64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba" )
         ))
 
-
-        // ===[ BUILDING ===============================================================================================
+        // ===[ BUILDING ]==============================================================================================
 
         IacContext("test", "es-cluster-91992881DX") {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
+            // TODO: need a policy document builder
+            //     also service names should be enums like `ec2.amazonaws.com` and `sqs.amazonaws.com`
+            //     assume role actions as well should be something easy
+
             with (iamClient) {
-                val clusterDiscoveryRole = CreateRoleRequest().withRoleName("ElasticsearchDiscoveryRole")
+                // TODO: this needs to be somewhere else but has 2 receivers
+                fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
+                        withKohesiveId(this.roleName)
+                    }
+
+                // TODO: this needs to be somewhere else but has 2 receivers
+                fun CreatePolicyRequest.withKohesiveIdFromName(): CreatePolicyRequest = apply {
+                    withKohesiveId(this.policyName)
+                }
+
+                val clusterDiscoveryRole = createRole {
+                    withRoleName("ElasticsearchDiscoveryRole")
+                    withAssumeRolePolicyDocument(AssumeRolePolicies.EC2.asPolicyDoc())
+                    withKohesiveIdFromName()
+                }
+
+                val allowDiscoveryPolicy = createPolicy {
+                    withPolicyName("ElasticsearchAllowEc2DescribeInstances")
+                    withPolicyDocument(CustomPolicyStatement("ec2:DescribeInstances", PolicyEffect.Allow, "*"))
+                    withKohesiveIdFromName()
+                }
+
+                attachRolePolicy {
+                    withRoleName(clusterDiscoveryRole.role.roleName)
+                    withPolicyArn(allowDiscoveryPolicy.policy.arn)
+                }
             }
 
             with (ec2Client) {
@@ -176,5 +204,5 @@ class TestUseCase_ElasticSearch_Cluster_1 {
         }
 
     }
-
 }
+
