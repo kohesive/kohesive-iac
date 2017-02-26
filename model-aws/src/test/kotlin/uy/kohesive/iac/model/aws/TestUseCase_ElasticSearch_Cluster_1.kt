@@ -1,5 +1,7 @@
 package uy.kohesive.iac.model.aws
 
+import com.amazonaws.services.identitymanagement.model.AddRoleToInstanceProfileRequest
+import com.amazonaws.services.identitymanagement.model.CreateInstanceProfileRequest
 import uy.kohesive.iac.model.aws.helpers.*
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
@@ -160,7 +162,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            val esDiscoveryRole = withIamContext {
+            val (esDiscoveryRoleArn, esDiscoveryRoleName) = withIamContext {
                 val clusterDiscoveryRole = createRole {
                     roleName = "ElasticsearchDiscoveryRole"
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
@@ -168,7 +170,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
                 val allowDiscoveryPolicy = createPolicy {
                     policyName = "ElasticsearchAllowEc2DescribeInstances"
-                    policyFromStatement = CustomPolicyStatement("ec2:DescribeInstances", PolicyEffect.Allow, "*")
+                    policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
                 }.policy
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
@@ -177,6 +179,8 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
 
             withEc2Context {
+                // CreateInstanceProfileRequest()
+
 
                 // ec2Client.runInstances(RunInstancesRequest())
             }

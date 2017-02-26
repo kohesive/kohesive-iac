@@ -2,12 +2,11 @@ package uy.kohesive.iac.model.aws.helpers
 
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.identitymanagement.model.*
-import uy.kohesive.iac.model.aws.DeferredAmazonIdentityManagement
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.utils.writeOnlyVirtualProperty
 
-interface IamRoleIdentifiable: KohesiveIdentifiable {
+interface IamRoleIdentifiable : KohesiveIdentifiable {
     fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
         withKohesiveId(this.roleName)
     }
@@ -17,13 +16,13 @@ interface IamRoleIdentifiable: KohesiveIdentifiable {
     }
 }
 
-interface IamRoleEnabled: IamRoleIdentifiable {
+interface IamRoleEnabled : IamRoleIdentifiable {
     val iamClient: AmazonIdentityManagement
     val iamContext: IamContext
-    fun <T> withIamContext(init: IamContext.(AmazonIdentityManagement)->T): T = iamContext.init(iamClient)
+    fun <T> withIamContext(init: IamContext.(AmazonIdentityManagement) -> T): T = iamContext.init(iamClient)
 }
 
-class IamContext(private val context: IacContext): IamRoleEnabled by context {
+class IamContext(private val context: IacContext) : IamRoleEnabled by context {
     fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
         return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() })
     }
@@ -53,15 +52,15 @@ class IamContext(private val context: IacContext): IamRoleEnabled by context {
 
 // ===[ General Helpers ]===============================================================================================
 
-fun AmazonIdentityManagement.createRole(init: CreateRoleRequest.()->Unit): CreateRoleResult {
+fun AmazonIdentityManagement.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
     return createRole(CreateRoleRequest().apply { this.init() })
 }
 
-fun AmazonIdentityManagement.createPolicy(init: CreatePolicyRequest.()->Unit): CreatePolicyResult {
+fun AmazonIdentityManagement.createPolicy(init: CreatePolicyRequest.() -> Unit): CreatePolicyResult {
     return createPolicy(CreatePolicyRequest().apply { this.init() })
 }
 
-fun AmazonIdentityManagement.attachRolePolicy(init: AttachRolePolicyRequest.()->Unit): AttachRolePolicyResult {
+fun AmazonIdentityManagement.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): AttachRolePolicyResult {
     return attachRolePolicy(AttachRolePolicyRequest().apply { this.init() })
 }
 
@@ -152,24 +151,25 @@ abstract class IsReallyJson {
     }
 }
 
-abstract class PolicyStatement(val effect: PolicyEffect): IsReallyJson() {
+abstract class PolicyStatement(val effect: PolicyEffect) : IsReallyJson() {
 
 }
 
-fun <T: AssumeRolePolicyStatement> T.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(listOf(this))
+fun <T : AssumeRolePolicyStatement> T.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(listOf(this))
 @JvmName("asAssumePolicyDoc")
-fun <T: AssumeRolePolicyStatement> List<T>.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(this)
-fun <T: CustomPolicyStatement> T.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(listOf(this))
+fun <T : AssumeRolePolicyStatement> List<T>.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(this)
+
+fun <T : CustomPolicyStatement> T.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(listOf(this))
 @JvmName("asCustomPolicyDoc")
-fun <T: CustomPolicyStatement> List<T>.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(this)
+fun <T : CustomPolicyStatement> List<T>.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(this)
 
 private fun List<String>.mapQuoted(): List<String> = this.map { "\"" + it + "\"" }
 private fun List<String>.toQuotedCommaDelimitedString(): String = this.mapQuoted().joinToString(", ")
 
-open class CustomPolicyStatement(val actions: List<String>, effect: PolicyEffect, val resources: List<String>): PolicyStatement(effect) {
-    constructor (action: String, effect: PolicyEffect, resource: String) : this(listOf(action), effect, listOf(resource))
-    constructor (action: String, effect: PolicyEffect, resources: List<String>) : this(listOf(action), effect, resources)
-    constructor (actions: List<String>, effect: PolicyEffect, resource: String): this(actions, effect, listOf(resource))
+open class CustomPolicyStatement(effect: PolicyEffect, val actions: List<String>, val resources: List<String>) : PolicyStatement(effect) {
+    constructor (effect: PolicyEffect, action: String, resource: String) : this(effect, listOf(action), listOf(resource))
+    constructor (effect: PolicyEffect, action: String, resources: List<String>) : this(effect, listOf(action), resources)
+    constructor (effect: PolicyEffect, actions: List<String>, resource: String) : this(effect, actions, listOf(resource))
 
     override val json: String get() = """
               {
@@ -184,7 +184,7 @@ open class CustomPolicyStatement(val actions: List<String>, effect: PolicyEffect
         """
 }
 
-open class AssumeRolePolicyStatement(val principal: String): PolicyStatement(PolicyEffect.Allow) {
+open class AssumeRolePolicyStatement(val principal: String) : PolicyStatement(PolicyEffect.Allow) {
     override val json: String get() = """
               {
                 "Effect" : "${effect}",
@@ -196,7 +196,7 @@ open class AssumeRolePolicyStatement(val principal: String): PolicyStatement(Pol
         """
 }
 
-class PolicyDocument<STATEMENT_TYPE: PolicyStatement>(val statements: List<STATEMENT_TYPE>, val version: String = "2012-10-17"): IsReallyJson() {
+class PolicyDocument<STATEMENT_TYPE : PolicyStatement>(val statements: List<STATEMENT_TYPE>, val version: String = "2012-10-17") : IsReallyJson() {
     override val json: String get() = """
               {
                   "Version": "${version},
