@@ -5,6 +5,7 @@ import com.amazonaws.services.identitymanagement.model.*
 import uy.kohesive.iac.model.aws.DeferredAmazonIdentityManagement
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
+import uy.kohesive.iac.model.aws.utils.writeOnlyVirtualProperty
 
 interface IamRoleIdentifiable: KohesiveIdentifiable {
     fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
@@ -107,20 +108,16 @@ fun CreateRoleRequest.withAssumeRolePolicyDocument(statements: List<AssumeRolePo
 // TODO: is it better to create a builder class?
 
 var CreateRoleRequest.assumeRoleFromPolicyDocument: PolicyDocument<AssumeRolePolicyStatement>
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withAssumeRolePolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.toString() }
 
 var CreateRoleRequest.assumeRoleFromPrincipal: AssumeRolePrincipals
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withAssumeRolePolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
 
 var CreateRoleRequest.assumeRoleFromPolicyStatement: AssumeRolePolicyStatement
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withAssumeRolePolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
 
 var CreateRoleRequest.assumeRoleFromPolicyStatements: List<AssumeRolePolicyStatement>
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withAssumeRolePolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
 
 fun CreatePolicyRequest.withPolicyDocument(document: PolicyDocument<CustomPolicyStatement>): CreatePolicyRequest = apply {
     withPolicyDocument(document.toString())
@@ -135,16 +132,13 @@ fun CreatePolicyRequest.withPolicyDocument(statements: List<CustomPolicyStatemen
 }
 
 var CreatePolicyRequest.policyFromDocument: PolicyDocument<CustomPolicyStatement>
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withPolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.toString() }
 
 var CreatePolicyRequest.policyFromStatement: CustomPolicyStatement
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withPolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toString() }
 
 var CreatePolicyRequest.policyFromStatements: List<CustomPolicyStatement>
-    get() = throw IllegalStateException("This is a write only property")
-    set(value) { withPolicyDocument(value) }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toString() }
 
 enum class PolicyEffect { Allow, Deny }
 abstract class PolicyStatement(val effect: PolicyEffect) {
