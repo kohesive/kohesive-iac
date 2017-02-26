@@ -15,12 +15,6 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
-    def lambdaLogging = false
-    if (name.contains('lambda')) {
-        lambdaLogging = true
-    }
-
-
     dependencies {
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8'
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
@@ -28,23 +22,16 @@ subprojects {
         resolutionRules group: 'com.netflix.nebula', name: 'gradle-resolution-rules', version: version_nebula_resolution
         resolutionRules files("${rootDir}/gradle-local-dependency-rules.json")
 
-        if (lambdaLogging) {
-
-        }
-        else {
-            compile group: 'org.slf4j', name: 'slf4j-api', version: version_slf4j
-            runtime group: 'ch.qos.logback', name: 'logback-classic', version: version_logback
-        }
+        compile group: 'org.slf4j', name: 'slf4j-api', version: version_slf4j
+        runtime group: 'ch.qos.logback', name: 'logback-classic', version: version_logback
 
         testCompile group: 'junit', name: 'junit', version: version_junit
         testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test'
     }
 
 
-    if (!lambdaLogging) {
-        nebulaResolutionRules {
-            optional = ['slf4j-bridge']
-        }
+    nebulaResolutionRules {
+        optional = ['slf4j-bridge']
     }
 
     repositories {
