@@ -8,5 +8,5 @@ interface IacContextNamingStrategy {
     fun nameFor(environment: String, type: String, localName: String): String
 
     // Type is like CreateRoleRequest::class
-    fun <T: Any> nameFor(environment: String, type: KClass<T>, localName: String): String = nameFor(environment, awsTypeFromClass(type), localName)
+    fun <T: Any> nameFor(environment: String, type: KClass<T>, localName: String): String = nameFor(environment, awsTypeFromRequestClass(type), localName)
 }
