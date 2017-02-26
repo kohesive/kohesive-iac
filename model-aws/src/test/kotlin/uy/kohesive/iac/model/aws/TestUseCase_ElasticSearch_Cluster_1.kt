@@ -160,25 +160,23 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            val esDiscoveryRole = with(iamClient) {
+            val esDiscoveryRole = withIamContext {
                 val clusterDiscoveryRole = createRole {
                     roleName = "ElasticsearchDiscoveryRole"
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
-                    withKohesiveIdFromName()  // TODO: this could be moved invisibly inside createRole, but we have two-receiver issue
                 }.role
 
                 val allowDiscoveryPolicy = createPolicy {
                     policyName = "ElasticsearchAllowEc2DescribeInstances"
                     policyFromStatement = CustomPolicyStatement("ec2:DescribeInstances", PolicyEffect.Allow, "*")
-                    withKohesiveIdFromName()
                 }.policy
 
-                attachRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
+                attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
                 Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
 
-            with(ec2Client) {
+            withEc2Context {
 
                 // ec2Client.runInstances(RunInstancesRequest())
             }
