@@ -1,6 +1,8 @@
 package uy.kohesive.iac.model.aws
 
 import com.amazonaws.AmazonWebServiceRequest
+import com.amazonaws.AmazonWebServiceResult
+import com.amazonaws.ResponseMetadata
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.DeferredAmazonEC2
@@ -28,6 +30,16 @@ class IacContext(
     fun getId(obj: Any): String?  = objectsToIds[obj]
 
     fun <T : AmazonWebServiceRequest> T.withKohesiveId(id: String): T = apply {
+        objectsToIds[this@withKohesiveId] = id
+    }
+
+    // only we do random things like this, so don't pollute the user's AmazonWebServiceResult.* namespace
+    internal fun <K: ResponseMetadata, T : AmazonWebServiceResult<out K>> T.withKohesiveId(id: String): T = apply {
+        objectsToIds[this@withKohesiveId] = id
+    }
+
+    // only we do random things like this, so don't pollute the user's Any.* namespace
+    internal fun <T : Any> T.withKohesiveId(id: String): T = apply {
         objectsToIds[this@withKohesiveId] = id
     }
 
