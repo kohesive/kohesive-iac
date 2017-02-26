@@ -5,6 +5,8 @@ import com.amazonaws.AmazonWebServiceResult
 import com.amazonaws.ResponseMetadata
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
+import com.amazonaws.services.identitymanagement.model.CreatePolicyRequest
+import com.amazonaws.services.identitymanagement.model.CreateRoleRequest
 import uy.kohesive.iac.model.aws.DeferredAmazonEC2
 import uy.kohesive.iac.model.aws.ParameterizedValue
 import java.util.*
@@ -53,5 +55,18 @@ class IacContext(
 
     fun build(builder: IacContext.()->Unit) {
         this.builder()
+    }
+
+
+    // ===[ Stuff we would like to put somewhere else but cannot (i.e. has two recievers)]==============================
+
+    // TODO: this needs to be somewhere else but has 2 receivers
+    fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
+        withKohesiveId(this.roleName)
+    }
+
+    // TODO: this needs to be somewhere else but has 2 receivers
+    fun CreatePolicyRequest.withKohesiveIdFromName(): CreatePolicyRequest = apply {
+        withKohesiveId(this.policyName)
     }
 }

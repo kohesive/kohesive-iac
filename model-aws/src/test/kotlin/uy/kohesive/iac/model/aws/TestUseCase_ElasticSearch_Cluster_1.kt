@@ -164,21 +164,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            // TODO: need a policy document builder
-            //     also service names should be enums like `ec2.amazonaws.com` and `sqs.amazonaws.com`
-            //     assume role actions as well should be something easy
-
-            with (iamClient) {
-                // TODO: this needs to be somewhere else but has 2 receivers
-                fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
-                        withKohesiveId(this.roleName)
-                    }
-
-                // TODO: this needs to be somewhere else but has 2 receivers
-                fun CreatePolicyRequest.withKohesiveIdFromName(): CreatePolicyRequest = apply {
-                    withKohesiveId(this.policyName)
-                }
-
+            val esDiscoveryRole = with (iamClient) {
                 val clusterDiscoveryRole = createRole {
                     withRoleName("ElasticsearchDiscoveryRole")
                     withAssumeRolePolicyDocument(AssumeRolePolicies.EC2.asPolicyDoc())
@@ -195,6 +181,8 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     withRoleName(clusterDiscoveryRole.role.roleName)
                     withPolicyArn(allowDiscoveryPolicy.policy.arn)
                 }
+
+                Pair(clusterDiscoveryRole.role.arn, clusterDiscoveryRole.role.roleName)
             }
 
             with (ec2Client) {
