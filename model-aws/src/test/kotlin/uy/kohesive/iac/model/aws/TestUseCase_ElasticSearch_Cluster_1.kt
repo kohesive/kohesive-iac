@@ -1,6 +1,8 @@
 package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.ec2.model.RunInstancesRequest
+import com.amazonaws.services.identitymanagement.model.CreateRoleRequest
+import com.amazonaws.services.identitymanagement.model.Role
 import org.junit.Test
 import uy.kohesive.iac.model.aws.IacContext
 
@@ -163,7 +165,14 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            // ec2Client.runInstances(RunInstancesRequest())
+            with (iamClient) {
+                val clusterDiscoveryRole = CreateRoleRequest().withRoleName("ElasticsearchDiscoveryRole")
+            }
+
+            with (ec2Client) {
+
+                // ec2Client.runInstances(RunInstancesRequest())
+            }
         }
 
     }

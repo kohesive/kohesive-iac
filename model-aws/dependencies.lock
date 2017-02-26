@@ -14,6 +14,12 @@
             "locked": "1.11.94",
             "requested": "1.11.+"
         },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
+        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -46,6 +52,12 @@
         "com.amazonaws:aws-java-sdk": {
             "locked": "1.11.94",
             "requested": "1.11.+"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
@@ -80,6 +92,12 @@
             "locked": "1.11.94",
             "requested": "1.11.+"
         },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
+        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -113,6 +131,12 @@
         "com.amazonaws:aws-java-sdk": {
             "locked": "1.11.94",
             "requested": "1.11.+"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
@@ -166,6 +190,12 @@
             "locked": "1.11.94",
             "requested": "1.11.+"
         },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
+        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -202,6 +232,12 @@
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
@@ -243,6 +279,12 @@
             "locked": "4.12",
             "requested": "4.+"
         },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
+        },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
@@ -282,6 +324,12 @@
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
@@ -323,6 +371,12 @@
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
+        },
+        "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.1.0-rc-91"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "firstLevelTransitive": [
