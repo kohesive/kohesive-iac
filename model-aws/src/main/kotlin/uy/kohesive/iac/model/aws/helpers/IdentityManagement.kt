@@ -19,7 +19,7 @@ interface IamRoleIdentifiable: KohesiveIdentifiable {
 interface IamRoleEnabled: IamRoleIdentifiable {
     val iamClient: AmazonIdentityManagement
     val iamContext: IamContext
-    fun withIamContext(init: IamContext.(AmazonIdentityManagement)->Unit) = iamContext.init(iamClient)
+    fun <T> withIamContext(init: IamContext.(AmazonIdentityManagement)->T): T = iamContext.init(iamClient)
 }
 
 class IamContext(private val context: IacContext): IamRoleEnabled by context {
