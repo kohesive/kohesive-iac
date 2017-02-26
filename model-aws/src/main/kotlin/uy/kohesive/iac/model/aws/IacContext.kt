@@ -1,4 +1,4 @@
-package uy.kohesive.iac.model.aws.proxy
+package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.ec2.AmazonEC2
 import uy.kohesive.iac.model.aws.DeferredAmazonEC2
@@ -13,6 +13,7 @@ class IacContext(
 
     private val objectsToIds = IdentityHashMap<Any, String>()
     private val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
+    private val mappings: MutableMap<String, MappedValues> = hashMapOf()
 
     val ec2Client: AmazonEC2 by lazy { DeferredAmazonEC2(this) }
 
@@ -28,6 +29,10 @@ class IacContext(
 
     fun addVariables(vararg vari: ParameterizedValue) {
         variables.putAll(vari.map { it.name to it})
+    }
+
+    fun addMappings(vararg maps: MappedValues) {
+        mappings.putAll(maps.map { it.name to it})
     }
 
     fun build(builder: IacContext.()->Unit) {

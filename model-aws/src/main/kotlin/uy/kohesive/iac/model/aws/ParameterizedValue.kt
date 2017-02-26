@@ -10,7 +10,7 @@ class ParameterizedValue(val name: String,
                         val noEcho: Boolean = false,
                         val description: String? = null,
                         val errorDescription: String? = null) {
-    val asRef: String = "{{kohesive:var:$name}}"
+    fun asRef(): String = "{{kohesive:var:$name}}"
 }
 
 enum class ParameterizedValueTypes(val cloudFormationName: kotlin.String, val defaultDescription: kotlin.String? = null, val defaultErrorDescription: kotlin.String? = null) {

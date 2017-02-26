@@ -5,6 +5,7 @@ import com.amazonaws.services.ec2.model.Reservation
 import com.amazonaws.services.ec2.model.RunInstancesRequest
 import com.amazonaws.services.ec2.model.RunInstancesResult
 import junit.framework.TestCase
+import uy.kohesive.iac.model.aws.IacContext
 import kotlin.test.assertFails
 
 class ProxyTest : TestCase() {

@@ -2,6 +2,7 @@ package uy.kohesive.iac.model.aws.proxy
 
 import net.sf.cglib.proxy.Enhancer
 import net.sf.cglib.proxy.MethodInterceptor
+import uy.kohesive.iac.model.aws.IacContext
 import java.util.*
 import kotlin.reflect.KFunction1
 
@@ -12,12 +13,12 @@ object ProxyUtils {
 fun createReference(targetId: String, property: String) = "{{kohesive:ref:$targetId:$property}}"
 
 inline fun <S, reified T : Any> makeListProxy(
-    context: IacContext,
-    baseId: String,
-    requestObjects: List<S>,
-    copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>>,
-    includeReferences: List<KFunction1<T, Any>>  = ProxyUtils.INCLUDE_ALL_PROPS,
-    disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
+        context: IacContext,
+        baseId: String,
+        requestObjects: List<S>,
+        copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>>,
+        includeReferences: List<KFunction1<T, Any>>  = ProxyUtils.INCLUDE_ALL_PROPS,
+        disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
 ): List<T> {
     return requestObjects.mapIndexed { idx, obj ->
         makeProxy(context, "$baseId[$idx]", obj, copyFromReq, includeReferences, disallowReferences)
@@ -25,12 +26,12 @@ inline fun <S, reified T : Any> makeListProxy(
 }
 
 inline fun <S, reified T : Any> makeProxy(
-    context: IacContext,
-    id: String,
-    requestObject: S,
-    copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>> = emptyMap(),
-    includeReferences: List<KFunction1<T, Any>> = ProxyUtils.INCLUDE_ALL_PROPS,
-    disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
+        context: IacContext,
+        id: String,
+        requestObject: S,
+        copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>> = emptyMap(),
+        includeReferences: List<KFunction1<T, Any>> = ProxyUtils.INCLUDE_ALL_PROPS,
+        disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
 ): T {
     return with (context) {
         val delegate = T::class.java.newInstance()
