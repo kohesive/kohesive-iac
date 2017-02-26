@@ -86,11 +86,11 @@ enum class AssumeRolePrincipals(val statement: AssumeRolePolicyStatement) {
     KinesisFirehose(AssumeRolePolicyStatement("firehose.amazonaws.com"));
 
     fun asPolicyDoc(): PolicyDocument<AssumeRolePolicyStatement> = statement.asPolicyDoc()
-    override fun toString(): String = statement.asPolicyDoc().toString()
+    override fun toString(): String = statement.asPolicyDoc().toJson()
 }
 
 fun CreateRoleRequest.withAssumeRolePolicyDocument(document: PolicyDocument<AssumeRolePolicyStatement>): CreateRoleRequest = apply {
-    withAssumeRolePolicyDocument(document.toString())
+    withAssumeRolePolicyDocument(document.toJson())
 }
 
 fun CreateRoleRequest.withAssumeRolePolicyDocument(principal: AssumeRolePrincipals): CreateRoleRequest = apply {
@@ -108,19 +108,19 @@ fun CreateRoleRequest.withAssumeRolePolicyDocument(statements: List<AssumeRolePo
 // TODO: is it better to create a builder class?
 
 var CreateRoleRequest.assumeRoleFromPolicyDocument: PolicyDocument<AssumeRolePolicyStatement>
-        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.toString() }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.toJson() }
 
 var CreateRoleRequest.assumeRoleFromPrincipal: AssumeRolePrincipals
-        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toJson() }
 
 var CreateRoleRequest.assumeRoleFromPolicyStatement: AssumeRolePolicyStatement
-        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toJson() }
 
 var CreateRoleRequest.assumeRoleFromPolicyStatements: List<AssumeRolePolicyStatement>
-        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toString() }
+        by writeOnlyVirtualProperty(CreateRoleRequest::setAssumeRolePolicyDocument) { it.asPolicyDoc().toJson() }
 
 fun CreatePolicyRequest.withPolicyDocument(document: PolicyDocument<CustomPolicyStatement>): CreatePolicyRequest = apply {
-    withPolicyDocument(document.toString())
+    withPolicyDocument(document.toJson())
 }
 
 fun CreatePolicyRequest.withPolicyDocument(statement: CustomPolicyStatement): CreatePolicyRequest = apply {
@@ -132,21 +132,28 @@ fun CreatePolicyRequest.withPolicyDocument(statements: List<CustomPolicyStatemen
 }
 
 var CreatePolicyRequest.policyFromDocument: PolicyDocument<CustomPolicyStatement>
-        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.toString() }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.toJson() }
 
 var CreatePolicyRequest.policyFromStatement: CustomPolicyStatement
-        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toString() }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toJson() }
 
 var CreatePolicyRequest.policyFromStatements: List<CustomPolicyStatement>
-        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toString() }
+        by writeOnlyVirtualProperty(CreatePolicyRequest::setPolicyDocument) { it.asPolicyDoc().toJson() }
 
 enum class PolicyEffect { Allow, Deny }
-abstract class PolicyStatement(val effect: PolicyEffect) {
-    abstract val body: String
 
-    override fun toString(): String {
-        return body
+abstract class IsReallyJson {
+    abstract val json: String
+
+    override fun toString(): String = toJson()
+
+    fun toJson(): String {
+        return json
     }
+}
+
+abstract class PolicyStatement(val effect: PolicyEffect): IsReallyJson() {
+
 }
 
 fun <T: AssumeRolePolicyStatement> T.asPolicyDoc(): PolicyDocument<T> = PolicyDocument(listOf(this))
@@ -164,7 +171,7 @@ open class CustomPolicyStatement(val actions: List<String>, effect: PolicyEffect
     constructor (action: String, effect: PolicyEffect, resources: List<String>) : this(listOf(action), effect, resources)
     constructor (actions: List<String>, effect: PolicyEffect, resource: String): this(actions, effect, listOf(resource))
 
-    override val body: String get() = """
+    override val json: String get() = """
               {
                 "Effect" : "${effect}",
                 "Action" : [
@@ -178,7 +185,7 @@ open class CustomPolicyStatement(val actions: List<String>, effect: PolicyEffect
 }
 
 open class AssumeRolePolicyStatement(val principal: String): PolicyStatement(PolicyEffect.Allow) {
-    override val body: String get() = """
+    override val json: String get() = """
               {
                 "Effect" : "${effect}",
                 "Principal" : {
@@ -189,15 +196,13 @@ open class AssumeRolePolicyStatement(val principal: String): PolicyStatement(Pol
         """
 }
 
-class PolicyDocument<STATEMENT_TYPE: PolicyStatement>(val statements: List<STATEMENT_TYPE>, val version: String = "2012-10-17") {
-    override fun toString(): String {
-        return """
+class PolicyDocument<STATEMENT_TYPE: PolicyStatement>(val statements: List<STATEMENT_TYPE>, val version: String = "2012-10-17"): IsReallyJson() {
+    override val json: String get() = """
               {
                   "Version": "${version},
                   "Statement": [
-                     ${statements.map { it.toString() }.joinToString(",\n")}
+                     ${statements.map { it.toJson() }.joinToString(",\n")}
                   ]
               }
             """
-    }
 }
