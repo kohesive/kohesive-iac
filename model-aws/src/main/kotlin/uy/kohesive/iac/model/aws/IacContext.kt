@@ -2,10 +2,11 @@ package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
-import uy.kohesive.iac.model.aws.helpers.*
+import uy.kohesive.iac.model.aws.contexts.*
+import uy.kohesive.iac.model.aws.utils.DslScope
 import java.util.*
 
-
+@DslScope
 open class IacContext(
         val environment: String,
         val planId: String,
@@ -13,6 +14,7 @@ open class IacContext(
         init: IacContext.() -> Unit = {}
 ) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled {
     override val objectsToIds = IdentityHashMap<Any, String>()
+
     private val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
     private val mappings: MutableMap<String, MappedValues> = hashMapOf()
 

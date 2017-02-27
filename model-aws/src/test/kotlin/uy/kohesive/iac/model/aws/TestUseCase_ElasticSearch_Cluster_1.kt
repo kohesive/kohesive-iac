@@ -175,11 +175,17 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
+                val esInstanceProfile = createInstanceProfile {
+                    instanceProfileName = "ElasticsearchInstanceProfile"
+                }
+
+                // TODO: AddRoleToInstanceProfileRequest() need to add the above role as stupid second step, WTF WHY?!?  whatever just do it
+
                 Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
 
             withEc2Context {
-                // CreateInstanceProfileRequest()
+
 
 
                 // ec2Client.runInstances(RunInstancesRequest())

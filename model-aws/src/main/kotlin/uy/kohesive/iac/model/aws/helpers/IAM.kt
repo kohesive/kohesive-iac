@@ -1,56 +1,11 @@
 package uy.kohesive.iac.model.aws.helpers
 
+import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.identitymanagement.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.utils.writeOnlyVirtualProperty
-
-interface IamRoleIdentifiable : KohesiveIdentifiable {
-    fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
-        withKohesiveId(this.roleName)
-    }
-
-    fun CreatePolicyRequest.withKohesiveIdFromName(): CreatePolicyRequest = apply {
-        withKohesiveId(this.policyName)
-    }
-}
-
-interface IamRoleEnabled : IamRoleIdentifiable {
-    val iamClient: AmazonIdentityManagement
-    val iamContext: IamContext
-    fun <T> withIamContext(init: IamContext.(AmazonIdentityManagement) -> T): T = iamContext.init(iamClient)
-}
-
-class IamContext(private val context: IacContext) : IamRoleEnabled by context {
-    fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
-        return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() })
-    }
-
-    fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): CreatePolicyResult {
-        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); withKohesiveIdFromName() })
-    }
-
-    fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): AttachRolePolicyResult {
-        return iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); withKohesiveId(this.roleName + " => " + this.policyArn) })
-    }
-
-    fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): AttachRolePolicyResult {
-        return attachRolePolicy {
-            roleName = roleResult.role.roleName
-            policyArn = policyResult.policy.arn
-        }
-    }
-
-    fun IamContext.attachIamRolePolicy(role: Role, policy: Policy): AttachRolePolicyResult {
-        return attachRolePolicy {
-            roleName = role.roleName
-            policyArn = policy.arn
-        }
-    }
-}
-
-// ===[ General Helpers ]===============================================================================================
 
 fun AmazonIdentityManagement.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
     return createRole(CreateRoleRequest().apply { this.init() })
@@ -77,6 +32,11 @@ fun AmazonIdentityManagement.attachRolePolicy(role: Role, policy: Policy): Attac
         policyArn = policy.arn
     }
 }
+
+fun AmazonIdentityManagement.createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): CreateInstanceProfileResult {
+    return createInstanceProfile(CreateInstanceProfileRequest().apply { this.init() })
+}
+
 
 enum class AssumeRolePrincipals(val statement: AssumeRolePolicyStatement) {
     EC2(AssumeRolePolicyStatement("ec2.amazonaws.com")),
