@@ -185,6 +185,17 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
 
+            withAutoScalingContext {
+                createAutoScalingGroup {
+                    autoScalingGroupName = "ElasticsearchServerGroup"
+                    // TODO: launchConfigurationName via ref
+                    minSize = 1
+                    maxSize = 12
+                    // TODO: desiredCapacity via ref
+                    withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
+                }
+            }
+
             withEc2Context {
 
 

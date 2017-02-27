@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws
 
+import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
@@ -12,7 +13,7 @@ open class IacContext(
         val planId: String,
         val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
         init: IacContext.() -> Unit = {}
-) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled {
+) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
     override val objectsToIds = IdentityHashMap<Any, String>()
 
     private val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
@@ -22,6 +23,8 @@ open class IacContext(
     override val ec2Context: Ec2Context by lazy { Ec2Context(this) }
     override val iamClient: AmazonIdentityManagement by lazy { DeferredAmazonIdentityManagement(this) }
     override val iamContext: IamContext by lazy { IamContext(this) }
+    override val autoScalingClient: AmazonAutoScaling by lazy { DeferredAmazonAutoScaling(this) }
+    override val autoScalingContext: AutoScalingContext by lazy { AutoScalingContext(this) }
 
     init {
         init()

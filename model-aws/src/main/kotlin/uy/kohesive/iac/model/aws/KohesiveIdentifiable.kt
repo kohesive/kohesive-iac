@@ -23,3 +23,9 @@ interface KohesiveIdentifiable {
         objectsToIds[this@withKohesiveId] = id
     }
 }
+
+interface TagAware<out T : Any> {
+    fun createTag(key: String, value: String): T
+    fun tags(vararg keysToValues: Pair<String, String>): List<T> =
+        keysToValues.map { createTag(it.first, it.second) }
+}

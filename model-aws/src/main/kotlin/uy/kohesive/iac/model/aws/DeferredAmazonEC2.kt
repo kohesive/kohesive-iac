@@ -6,7 +6,6 @@ import com.amazonaws.services.ec2.model.Instance
 import com.amazonaws.services.ec2.model.Reservation
 import com.amazonaws.services.ec2.model.RunInstancesRequest
 import com.amazonaws.services.ec2.model.RunInstancesResult
-import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
