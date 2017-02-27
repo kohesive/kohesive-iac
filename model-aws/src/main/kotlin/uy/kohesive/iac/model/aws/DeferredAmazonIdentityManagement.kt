@@ -7,6 +7,32 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazonIdentityManagement(), AmazonIdentityManagement {
 
+    override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult {
+        // TODO: do we need to do anything there? I think not — we've registered the request already
+        return AttachRolePolicyResult()
+    }
+
+    override fun addRoleToInstanceProfile(request: AddRoleToInstanceProfileRequest): AddRoleToInstanceProfileResult {
+        // TODO: do we need to do anything there? I think not — we've registered the request already
+        return AddRoleToInstanceProfileResult()
+    }
+
+    override fun createInstanceProfile(request: CreateInstanceProfileRequest): CreateInstanceProfileResult {
+        return with (context) {
+            CreateInstanceProfileResult().withInstanceProfile(
+                makeProxy<CreateInstanceProfileRequest, InstanceProfile>(
+                    context       = this@with,
+                    id            = getId(request) ?: throw IllegalStateException(),
+                    requestObject = request,
+                    copyFromReq   = mapOf(
+                        CreateInstanceProfileRequest::getInstanceProfileName to InstanceProfile::getInstanceProfileName,
+                        CreateInstanceProfileRequest::getPath to InstanceProfile::getPath
+                    )
+                )
+            )
+        }
+    }
+
     // TODO: does this look right?
     override fun createRole(request: CreateRoleRequest): CreateRoleResult {
         return with (context) {

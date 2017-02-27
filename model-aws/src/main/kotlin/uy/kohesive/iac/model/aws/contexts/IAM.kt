@@ -29,6 +29,11 @@ interface IamRoleEnabled : IamRoleIdentifiable {
 
 @DslScope
 class IamContext(private val context: IacContext) : IamRoleEnabled by context {
+
+    fun IamContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): AddRoleToInstanceProfileResult {
+        return iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); withKohesiveId(this.roleName + " => " + this.instanceProfileName) })
+    }
+
     fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
         return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() })
     }
@@ -43,15 +48,29 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
 
     fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): AttachRolePolicyResult {
         return attachRolePolicy {
-            roleName = roleResult.role.roleName
+            roleName  = roleResult.role.roleName
             policyArn = policyResult.policy.arn
         }
     }
 
     fun IamContext.attachIamRolePolicy(role: Role, policy: Policy): AttachRolePolicyResult {
         return attachRolePolicy {
-            roleName = role.roleName
+            roleName  = role.roleName
             policyArn = policy.arn
+        }
+    }
+
+    fun IamContext.addRoleToInstanceProfile(role: Role, profile: InstanceProfile): AddRoleToInstanceProfileResult {
+        return addRoleToInstanceProfile {
+            roleName            = role.roleName
+            instanceProfileName = profile.instanceProfileName
+        }
+    }
+
+    fun IamContext.addRoleToInstanceProfile(roleResult: CreateRoleResult, profile: CreateInstanceProfileResult): AddRoleToInstanceProfileResult {
+        return addRoleToInstanceProfile {
+            roleName            = roleResult.role.roleName
+            instanceProfileName = profile.instanceProfile.instanceProfileName
         }
     }
 

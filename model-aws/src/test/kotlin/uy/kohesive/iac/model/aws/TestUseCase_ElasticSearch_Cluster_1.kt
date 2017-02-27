@@ -1,7 +1,5 @@
 package uy.kohesive.iac.model.aws
 
-import com.amazonaws.services.identitymanagement.model.AddRoleToInstanceProfileRequest
-import com.amazonaws.services.identitymanagement.model.CreateInstanceProfileRequest
 import uy.kohesive.iac.model.aws.helpers.*
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
@@ -43,6 +41,9 @@ import uy.kohesive.iac.model.aws.helpers.*
 // alternative fork of same script that does more services:
 //     https://github.com/ilia-semenov/awspricingfull/blob/master/awspricingfull.py
 
+fun main(args: Array<String>) {
+    TestUseCase_ElasticSearch_Cluster_1().`test making an Elasticsearch cluster using the SDK`()
+}
 
 class TestUseCase_ElasticSearch_Cluster_1 {
     fun `test making an Elasticsearch cluster using the SDK`() {
@@ -177,9 +178,9 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
                 val esInstanceProfile = createInstanceProfile {
                     instanceProfileName = "ElasticsearchInstanceProfile"
-                }
+                }.instanceProfile
 
-                // TODO: AddRoleToInstanceProfileRequest() need to add the above role as stupid second step, WTF WHY?!?  whatever just do it
+                addRoleToInstanceProfile(clusterDiscoveryRole, esInstanceProfile)
 
                 Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
             }
