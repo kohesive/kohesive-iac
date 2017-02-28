@@ -9,14 +9,16 @@ import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationResult
 
 class DeferredAmazonAutoScaling(val context: IacContext) : AbstractAmazonAutoScaling(), AmazonAutoScaling {
 
-    override fun createAutoScalingGroup(request: CreateAutoScalingGroupRequest?): CreateAutoScalingGroupResult {
-        // TODO: do we need to do anything there? I think not — we've registered the request already
-        return CreateAutoScalingGroupResult()
+    override fun createAutoScalingGroup(request: CreateAutoScalingGroupRequest): CreateAutoScalingGroupResult {
+        with (context) {
+            return CreateAutoScalingGroupResult().withKohesiveId(getIdStrict(request))
+        }
     }
 
-    override fun createLaunchConfiguration(request: CreateLaunchConfigurationRequest?): CreateLaunchConfigurationResult {
-        // TODO: do we need to do anything there? I think not — we've registered the request already
-        return CreateLaunchConfigurationResult()
+    override fun createLaunchConfiguration(request: CreateLaunchConfigurationRequest): CreateLaunchConfigurationResult {
+        with (context) {
+            return CreateLaunchConfigurationResult().withKohesiveId(getIdStrict(request))
+        }
     }
 
 }

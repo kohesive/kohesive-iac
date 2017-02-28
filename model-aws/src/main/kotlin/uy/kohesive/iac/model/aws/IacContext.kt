@@ -4,16 +4,18 @@ import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
+import uy.kohesive.iac.model.aws.proxy.createReference
 import uy.kohesive.iac.model.aws.utils.DslScope
 import java.util.*
 
 @DslScope
 open class IacContext(
-        val environment: String,
-        val planId: String,
-        val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
-        init: IacContext.() -> Unit = {}
+    val environment: String,
+    val planId: String,
+    val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
+    init: IacContext.() -> Unit = {}
 ) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
+
     override val objectsToIds = IdentityHashMap<Any, String>()
 
     private val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
@@ -41,5 +43,8 @@ open class IacContext(
     fun build(builder: IacContext.() -> Unit) {
         this.builder()
     }
+
+    internal inline fun <reified T : Any> T.asRefDefault(): String
+        = createReference<T>(getId(this) ?: throw IllegalStateException("No known Id for $this"))
 
 }

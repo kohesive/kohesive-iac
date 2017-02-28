@@ -5,6 +5,7 @@ import com.amazonaws.services.autoscaling.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.TagAware
+import uy.kohesive.iac.model.aws.proxy.createReference
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 interface AutoScalingIdentifiable : KohesiveIdentifiable, TagAware<Tag> {
@@ -18,6 +19,8 @@ interface AutoScalingIdentifiable : KohesiveIdentifiable, TagAware<Tag> {
     fun CreateLaunchConfigurationRequest.withKohesiveIdFromName(): CreateLaunchConfigurationRequest = apply {
         withKohesiveId(this.launchConfigurationName)
     }
+
+    fun CreateLaunchConfigurationResult.asRef() = createReference<LaunchConfiguration>(getIdStrict(this))
 
 }
 

@@ -8,7 +8,9 @@ import java.util.*
 interface KohesiveIdentifiable {
     val objectsToIds: IdentityHashMap<Any, String>
 
-    fun getId(obj: Any): String?  = objectsToIds[obj]
+    fun getId(obj: Any): String? = objectsToIds[obj]
+
+    fun getIdStrict(obj: Any): String = objectsToIds[obj] ?: throw IllegalStateException("$obj doesn't have ID")
 
     fun <T : AmazonWebServiceRequest> T.withKohesiveId(id: String): T = apply {
         objectsToIds[this@withKohesiveId] = id
@@ -22,6 +24,7 @@ interface KohesiveIdentifiable {
     fun <T : Any> T.withKohesiveId(id: String): T = apply {
         objectsToIds[this@withKohesiveId] = id
     }
+
 }
 
 interface TagAware<out T : Any> {

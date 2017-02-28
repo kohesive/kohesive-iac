@@ -4,10 +4,12 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.identitymanagement.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
+import uy.kohesive.iac.model.aws.proxy.createReference
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 
 interface IamRoleIdentifiable : KohesiveIdentifiable {
+
     fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
         withKohesiveId(this.roleName)
     }
@@ -19,6 +21,12 @@ interface IamRoleIdentifiable : KohesiveIdentifiable {
     fun CreateInstanceProfileRequest.withKohesiveIdFromName(): CreateInstanceProfileRequest = apply {
         withKohesiveId(this.instanceProfileName)
     }
+
+    fun InstanceProfile.asRef() = asRefDefault()
+
+    private inline fun <reified T : Any> T.asRefDefault(): String
+        = createReference<T>(getId(this) ?: throw IllegalArgumentException())
+
 }
 
 interface IamRoleEnabled : IamRoleIdentifiable {
@@ -74,7 +82,8 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         }
     }
 
-    fun createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): CreateInstanceProfileResult {
+    fun createInstanceProfile(init: CreateInstanceProfileRequest.() -> Unit): CreateInstanceProfileResult {
         return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); withKohesiveIdFromName() })
     }
+
 }
