@@ -52,115 +52,122 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         val keyNameParameter = ParameterizedValue("KeyName", type = ParameterizedValueTypes.EC2KeyPairKeyName)
 
+        val clusterSize = ParameterizedValue("ClusterSize",
+            type         = ParameterizedValueTypes.Number,
+            description  = "The number of Elasticsearch instances to launch in the Auto Scaling group",
+            defaultValue = "3"
+        )
 
         val instanceType = ParameterizedValue("InstanceType", type = ParameterizedValueTypes.String,
-                defaultValue = "m3.large",
-                description = "EC2 Instance type.",
-                errorDescription = "Must be a valid Amazon EC2 instance type.",
-                allowedValues = listOf(
-                        "t1.micro",
-                        "m1.small",
-                        "m1.medium",
-                        "m1.large",
-                        "m1.xlarge",
-                        "m3.medium",
-                        "m3.large",
-                        "m3.xlarge",
-                        "m3.2xlarge",
-                        "c1.medium",
-                        "c1.xlarge",
-                        "c3.large",
-                        "c3.xlarge",
-                        "c3.2xlarge",
-                        "c3.4xlarge",
-                        "c3.8xlarge",
-                        "cc2.8xlarge",
-                        "m2.xlarge",
-                        "m2.2xlarge",
-                        "m2.4xlarge",
-                        "r3.large",
-                        "r3.xlarge",
-                        "r3.2xlarge",
-                        "r3.4xlarge",
-                        "r3.8xlarge",
-                        "cr1.8xlarge",
-                        "hi1.4xlarge",
-                        "hs1.8xlarge",
-                        "i2.xlarge",
-                        "i2.2xlarge",
-                        "i2.4xlarge",
-                        "i2.8xlarge"
-                ))
+            defaultValue     = "m3.large",
+            description      = "EC2 Instance type.",
+            errorDescription = "Must be a valid Amazon EC2 instance type.",
+            allowedValues    = listOf(
+                "t1.micro",
+                "m1.small",
+                "m1.medium",
+                "m1.large",
+                "m1.xlarge",
+                "m3.medium",
+                "m3.large",
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c1.medium",
+                "c1.xlarge",
+                "c3.large",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "c3.8xlarge",
+                "cc2.8xlarge",
+                "m2.xlarge",
+                "m2.2xlarge",
+                "m2.4xlarge",
+                "r3.large",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "r3.8xlarge",
+                "cr1.8xlarge",
+                "hi1.4xlarge",
+                "hs1.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge",
+                "i2.8xlarge"
+            )
+        )
 
         // TODO:  IP CIDR should be built-in type (our own, doesn't exist in Cloud Formation)
         val sshLocation = ParameterizedValue("SSHLocation",
-                defaultValue = "0.0.0.0/0",
-                description = "IP CIDR range for allowing SSH access to the instances",
-                errorDescription = "Must be a valid IP CIDR range of the form x.x.x.x/x.",
-                type = ParameterizedValueTypes.String,
-                allowedLength = 8..18,
-                allowedPattern = """(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})""".toRegex())
+            defaultValue     = "0.0.0.0/0",
+            description      = "IP CIDR range for allowing SSH access to the instances",
+            errorDescription = "Must be a valid IP CIDR range of the form x.x.x.x/x.",
+            type             = ParameterizedValueTypes.String,
+            allowedLength    = 8..18,
+            allowedPattern   = """(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})""".toRegex()
+        )
 
         val elasticsearchVersion = ParameterizedValue("ElasticsearchVersion",
-                defaultValue = "5.2.1",
-                description = "Elasticsearch version number",
-                errorDescription = "Must be a supported version number.",
-                type = ParameterizedValueTypes.String,
-                allowedValues = listOf("5.2.1"))
-
+            defaultValue     = "5.2.1",
+            description      = "Elasticsearch version number",
+            errorDescription = "Must be a supported version number.",
+            type             = ParameterizedValueTypes.String,
+            allowedValues    = listOf("5.2.1")
+        )
 
         // ===[ MAPPINGS ]==============================================================================================
 
         val awsInstantType2Arch = MappedValues("AWSInstanceType2Arch", mapOf(
-                "t1.micro" to mapOf("Arch" to "64"),
-                "m1.small" to mapOf("Arch" to "64"),
-                "m1.medium" to mapOf("Arch" to "64"),
-                "m1.large" to mapOf("Arch" to "64"),
-                "m1.xlarge" to mapOf("Arch" to "64"),
-                "m3.medium" to mapOf("Arch" to "64"),
-                "m3.large" to mapOf("Arch" to "64"),
-                "m3.xlarge" to mapOf("Arch" to "64"),
-                "m3.2xlarge" to mapOf("Arch" to "64"),
-                "c1.medium" to mapOf("Arch" to "64"),
-                "c1.xlarge" to mapOf("Arch" to "64"),
-                "c3.large" to mapOf("Arch" to "64"),
-                "c3.xlarge" to mapOf("Arch" to "64"),
-                "c3.2xlarge" to mapOf("Arch" to "64"),
-                "c3.4xlarge" to mapOf("Arch" to "64"),
-                "c3.8xlarge" to mapOf("Arch" to "64"),
-                "cc2.8xlarge" to mapOf("Arch" to "64HVM"),
-                "m2.xlarge" to mapOf("Arch" to "64"),
-                "m2.2xlarge" to mapOf("Arch" to "64"),
-                "m2.4xlarge" to mapOf("Arch" to "64"),
-                "r3.large" to mapOf("Arch" to "64HVM"),
-                "r3.xlarge" to mapOf("Arch" to "64HVM"),
-                "r3.2xlarge" to mapOf("Arch" to "64HVM"),
-                "r3.4xlarge" to mapOf("Arch" to "64HVM"),
-                "r3.8xlarge" to mapOf("Arch" to "64HVM"),
-                "cr1.8xlarge" to mapOf("Arch" to "64HVM"),
-                "hi1.4xlarge" to mapOf("Arch" to "64HVM"),
-                "hs1.8xlarge" to mapOf("Arch" to "64HVM"),
-                "i2.xlarge" to mapOf("Arch" to "64HVM"),
-                "i2.2xlarge" to mapOf("Arch" to "64HVM"),
-                "i2.4xlarge" to mapOf("Arch" to "64HVM"),
-                "i2.8xlarge" to mapOf("Arch" to "64HVM")
+            "t1.micro"    to mapOf("Arch" to "64"),
+            "m1.small"    to mapOf("Arch" to "64"),
+            "m1.medium"   to mapOf("Arch" to "64"),
+            "m1.large"    to mapOf("Arch" to "64"),
+            "m1.xlarge"   to mapOf("Arch" to "64"),
+            "m3.medium"   to mapOf("Arch" to "64"),
+            "m3.large"    to mapOf("Arch" to "64"),
+            "m3.xlarge"   to mapOf("Arch" to "64"),
+            "m3.2xlarge"  to mapOf("Arch" to "64"),
+            "c1.medium"   to mapOf("Arch" to "64"),
+            "c1.xlarge"   to mapOf("Arch" to "64"),
+            "c3.large"    to mapOf("Arch" to "64"),
+            "c3.xlarge"   to mapOf("Arch" to "64"),
+            "c3.2xlarge"  to mapOf("Arch" to "64"),
+            "c3.4xlarge"  to mapOf("Arch" to "64"),
+            "c3.8xlarge"  to mapOf("Arch" to "64"),
+            "cc2.8xlarge" to mapOf("Arch" to "64HVM"),
+            "m2.xlarge"   to mapOf("Arch" to "64"),
+            "m2.2xlarge"  to mapOf("Arch" to "64"),
+            "m2.4xlarge"  to mapOf("Arch" to "64"),
+            "r3.large"    to mapOf("Arch" to "64HVM"),
+            "r3.xlarge"   to mapOf("Arch" to "64HVM"),
+            "r3.2xlarge"  to mapOf("Arch" to "64HVM"),
+            "r3.4xlarge"  to mapOf("Arch" to "64HVM"),
+            "r3.8xlarge"  to mapOf("Arch" to "64HVM"),
+            "cr1.8xlarge" to mapOf("Arch" to "64HVM"),
+            "hi1.4xlarge" to mapOf("Arch" to "64HVM"),
+            "hs1.8xlarge" to mapOf("Arch" to "64HVM"),
+            "i2.xlarge"   to mapOf("Arch" to "64HVM"),
+            "i2.2xlarge"  to mapOf("Arch" to "64HVM"),
+            "i2.4xlarge"  to mapOf("Arch" to "64HVM"),
+            "i2.8xlarge"  to mapOf("Arch" to "64HVM")
         ))
 
         val awsRegionArchi2Ami = MappedValues("AWSRegionArch2AMI", mapOf(
-                "us-east-1" to mapOf("64" to "ami-fb8e9292", "64HVM" to "ami-978d91fe"),
-                "us-west-1" to mapOf("64" to "ami-7aba833f", "64HVM" to "ami-5aba831f"),
-                "us-west-2" to mapOf("64" to "ami-043a5034", "64HVM" to "ami-383a5008"),
-                "eu-west-1" to mapOf("64" to "ami-2918e35e", "64HVM" to "ami-4b18e33c"),
-                "sa-east-1" to mapOf("64" to "ami-215dff3c", "64HVM" to "ami-635dff7e"),
-                "ap-southeast-1" to mapOf("64" to "ami-b40d5ee6", "64HVM" to "ami-860d5ed4"),
-                "ap-southeast-2" to mapOf("64" to "ami-3b4bd301", "64HVM" to "ami-cf4ad2f5"),
-                "ap-northeast-1" to mapOf("64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba")
+            "us-east-1" to mapOf("64" to "ami-fb8e9292", "64HVM" to "ami-978d91fe"),
+            "us-west-1" to mapOf("64" to "ami-7aba833f", "64HVM" to "ami-5aba831f"),
+            "us-west-2" to mapOf("64" to "ami-043a5034", "64HVM" to "ami-383a5008"),
+            "eu-west-1" to mapOf("64" to "ami-2918e35e", "64HVM" to "ami-4b18e33c"),
+            "sa-east-1" to mapOf("64" to "ami-215dff3c", "64HVM" to "ami-635dff7e"),
+            "ap-southeast-1" to mapOf("64" to "ami-b40d5ee6", "64HVM" to "ami-860d5ed4"),
+            "ap-southeast-2" to mapOf("64" to "ami-3b4bd301", "64HVM" to "ami-cf4ad2f5"),
+            "ap-northeast-1" to mapOf("64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba")
         ))
 
         // ===[ BUILDING ]==============================================================================================
 
         IacContext("test", "es-cluster-91992881DX") {
-            addVariables(keyNameParameter, instanceType, sshLocation, elasticsearchVersion)
+            addVariables(keyNameParameter, instanceType, sshLocation, clusterSize, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
             val (esDiscoveryRoleArn, esDiscoveryRoleName) = withIamContext {
@@ -186,20 +193,24 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
 
             withAutoScalingContext {
+                val launchConfiguration = createLaunchConfiguration {
+                    launchConfigurationName = "ElasticsearchServer"
+                    // TODO: metadata?
+                    // TODO: properties
+                }
+
                 createAutoScalingGroup {
                     autoScalingGroupName = "ElasticsearchServerGroup"
-                    // TODO: launchConfigurationName via ref
+                    // TODO: launchConfigurationName via ref - how?!
                     minSize = 1
                     maxSize = 12
-                    // TODO: desiredCapacity via ref
+                    // TODO: desiredCapacity via ref - how?!
+                    desiredCapacity
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
             }
 
             withEc2Context {
-
-
-
                 // ec2Client.runInstances(RunInstancesRequest())
             }
         }
