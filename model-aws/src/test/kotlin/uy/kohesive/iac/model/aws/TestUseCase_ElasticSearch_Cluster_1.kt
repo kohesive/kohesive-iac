@@ -170,31 +170,32 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParameter, instanceType, sshLocation, clusterSize, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
-            val (esDiscoveryRoleArn, esDiscoveryRoleName) = withIamContext {
+            val esInstanceProfile = withIamContext {
                 val clusterDiscoveryRole = createRole {
                     roleName = "ElasticsearchDiscoveryRole"
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
-                }.role
+                }
 
                 val allowDiscoveryPolicy = createPolicy {
                     policyName = "ElasticsearchAllowEc2DescribeInstances"
                     policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
-                }.policy
+                }
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
                 val esInstanceProfile = createInstanceProfile {
                     instanceProfileName = "ElasticsearchInstanceProfile"
-                }.instanceProfile
+                }
 
                 addRoleToInstanceProfile(clusterDiscoveryRole, esInstanceProfile)
 
-                Pair(clusterDiscoveryRole.arn, clusterDiscoveryRole.roleName)
+                esInstanceProfile
             }
 
             withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration {
                     launchConfigurationName = "ElasticsearchServer"
+                    iamInstanceProfile = esInstanceProfile.arn
                     // TODO: metadata?
                     // TODO: properties
                 }

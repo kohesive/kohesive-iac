@@ -30,51 +30,51 @@ interface IamRoleEnabled : IamRoleIdentifiable {
 @DslScope
 class IamContext(private val context: IacContext) : IamRoleEnabled by context {
 
-    fun IamContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): AddRoleToInstanceProfileResult {
-        return iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); withKohesiveId(this.roleName + " => " + this.instanceProfileName) })
+    fun IamContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): Unit {
+        iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); withKohesiveId(this.roleName + " => " + this.instanceProfileName) })
     }
 
-    fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
-        return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() })
+    fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): Role {
+        return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() }).role
     }
 
-    fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): CreatePolicyResult {
-        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); withKohesiveIdFromName() })
+    fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): Policy {
+        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); withKohesiveIdFromName() }).policy
     }
 
-    fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): AttachRolePolicyResult {
-        return iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); withKohesiveId(this.roleName + " => " + this.policyArn) })
+    fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): Unit {
+        iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); withKohesiveId(this.roleName + " => " + this.policyArn) })
     }
 
-    fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): AttachRolePolicyResult {
-        return attachRolePolicy {
+    fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): Unit {
+        attachRolePolicy {
             roleName  = roleResult.role.roleName
             policyArn = policyResult.policy.arn
         }
     }
 
-    fun IamContext.attachIamRolePolicy(role: Role, policy: Policy): AttachRolePolicyResult {
-        return attachRolePolicy {
+    fun IamContext.attachIamRolePolicy(role: Role, policy: Policy): Unit {
+        attachRolePolicy {
             roleName  = role.roleName
             policyArn = policy.arn
         }
     }
 
-    fun IamContext.addRoleToInstanceProfile(role: Role, profile: InstanceProfile): AddRoleToInstanceProfileResult {
-        return addRoleToInstanceProfile {
+    fun IamContext.addRoleToInstanceProfile(role: Role, profile: InstanceProfile): Unit {
+        addRoleToInstanceProfile {
             roleName            = role.roleName
             instanceProfileName = profile.instanceProfileName
         }
     }
 
-    fun IamContext.addRoleToInstanceProfile(roleResult: CreateRoleResult, profile: CreateInstanceProfileResult): AddRoleToInstanceProfileResult {
-        return addRoleToInstanceProfile {
+    fun IamContext.addRoleToInstanceProfile(roleResult: CreateRoleResult, profile: CreateInstanceProfileResult): Unit {
+        addRoleToInstanceProfile {
             roleName            = roleResult.role.roleName
             instanceProfileName = profile.instanceProfile.instanceProfileName
         }
     }
 
-    fun createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): CreateInstanceProfileResult {
-        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); withKohesiveIdFromName() })
+    fun createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): InstanceProfile {
+        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); withKohesiveIdFromName() }).instanceProfile
     }
 }
