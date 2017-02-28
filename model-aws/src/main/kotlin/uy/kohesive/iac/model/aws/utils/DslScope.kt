@@ -1,4 +1,4 @@
 package uy.kohesive.iac.model.aws.utils
 
-@DslMarker
+//@DslMarker
 annotation class DslScope
