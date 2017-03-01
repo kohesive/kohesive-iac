@@ -34,12 +34,20 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); withKohesiveId(this.roleName + " => " + this.instanceProfileName) })
     }
 
-    fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): Role {
-        return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() }).role
+    fun IamContext.createRole(roleName: String, init: CreateRoleRequest.() -> Unit): Role {
+        return iamClient.createRole(CreateRoleRequest().apply {
+            this.roleName = roleName
+            this.init()
+            this.withKohesiveIdFromName()
+        }).role
     }
 
-    fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): Policy {
-        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); withKohesiveIdFromName() }).policy
+    fun IamContext.createPolicy(policyName: String, init: CreatePolicyRequest.() -> Unit): Policy {
+        return iamClient.createPolicy(CreatePolicyRequest().apply {
+            this.policyName = policyName
+            this.init()
+            this.withKohesiveIdFromName()
+        }).policy
     }
 
     fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): Unit {
@@ -74,7 +82,11 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         }
     }
 
-    fun createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): InstanceProfile {
-        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); withKohesiveIdFromName() }).instanceProfile
+    fun createInstanceProfile(instanceProfileName: String, init: CreateInstanceProfileRequest.()->Unit): InstanceProfile {
+        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply {
+            this.instanceProfileName = instanceProfileName
+            this.init()
+            this.withKohesiveIdFromName()
+        }).instanceProfile
     }
 }

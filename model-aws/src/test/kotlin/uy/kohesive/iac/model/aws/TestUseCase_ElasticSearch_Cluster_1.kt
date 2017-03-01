@@ -179,20 +179,18 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
             val esInstanceProfile = withIamContext {
-                val clusterDiscoveryRole = createRole {
-                    roleName = "ElasticsearchDiscoveryRole"
+                val clusterDiscoveryRole = createRole("ElasticsearchDiscoveryRole") {
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
                 }
 
-                val allowDiscoveryPolicy = createPolicy {
-                    policyName = "ElasticsearchAllowEc2DescribeInstances"
+                val allowDiscoveryPolicy = createPolicy("ElasticsearchAllowEc2DescribeInstances") {
                     policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
                 }
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
-                val esInstanceProfile = createInstanceProfile {
-                    instanceProfileName = "ElasticsearchInstanceProfile"
+                val esInstanceProfile = createInstanceProfile("ElasticsearchInstanceProfile") {
+                    path = "/"
                 }
 
                 addRoleToInstanceProfile(clusterDiscoveryRole, esInstanceProfile)
@@ -201,8 +199,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
 
             withAutoScalingContext {
-                val launchConfiguration = createLaunchConfiguration {
-                    launchConfigurationName = "ElasticsearchServer"
+                val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
                     iamInstanceProfile = esInstanceProfile.arn
 
                     // TODO: metadata?
@@ -221,10 +218,9 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     // TODO: user data
                 }
 
-                createAutoScalingGroup {
+                createAutoScalingGroup("ElasticsearchServerGroup") {
                     // TODO: availability zones set as `Fn::GetAZs`, have to decide later if we want a similar function (to match region)
                     //       since likely we don't really want to just pass these through as function calls specific to cloud formation
-                    autoScalingGroupName = "ElasticsearchServerGroup"
                     launchConfigurationName = launchConfiguration.launchConfigurationName
                     minSize = 1
                     maxSize = 12

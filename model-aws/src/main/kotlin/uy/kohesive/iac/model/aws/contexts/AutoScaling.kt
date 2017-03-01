@@ -31,10 +31,11 @@ interface AutoScalingEnabled : AutoScalingIdentifiable {
 class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by context {
     val launchConfigTracking = hashMapOf<CreateLaunchConfigurationResult, CreateLaunchConfigurationRequest>()
 
-    fun AutoScalingContext.createLaunchConfiguration(init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
+    fun AutoScalingContext.createLaunchConfiguration(launchConfigurationName: String, init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
         val launchConfig = CreateLaunchConfigurationRequest().apply {
-            init()
-            withKohesiveIdFromName()
+            this.launchConfigurationName = launchConfigurationName
+            this.init()
+            this.withKohesiveIdFromName()
         }
         return autoScalingClient.createLaunchConfiguration(launchConfig).apply {
             launchConfigTracking.put(this, launchConfig)
@@ -43,10 +44,11 @@ class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by
 
     val CreateLaunchConfigurationResult.launchConfigurationName: String get() = launchConfigTracking.get(this)!!.launchConfigurationName
 
-    fun AutoScalingContext.createAutoScalingGroup(init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
+    fun AutoScalingContext.createAutoScalingGroup(autoScalingGroupName: String, init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {
-            init()
-            withKohesiveIdFromName()
+            this.autoScalingGroupName = autoScalingGroupName
+            this.init()
+            this.withKohesiveIdFromName()
         })
     }
 
