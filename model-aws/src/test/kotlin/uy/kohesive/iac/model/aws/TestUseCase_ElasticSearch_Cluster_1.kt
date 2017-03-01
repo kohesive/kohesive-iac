@@ -207,12 +207,12 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     imageId = awsRegionArchi2Ami.asRef(
                         keyVariable = createLiteralReference("AWS::Region"),
                         valueVariable = awsInstantType2Arch.asRef(
-                            keyVariable = instanceTypeParam.asStringRef(),
+                            keyVariable = instanceTypeParam.asString(),
                             valueVariable = "Arch"
                         )
                     )
-                    instanceType = instanceTypeParam.asStringRef()
-                    keyName = keyNameParameter.asStringRef()
+                    instanceType = instanceTypeParam.asString()
+                    keyName = keyNameParameter.asString()
 
                     // TODO: security group
                     // TODO: user data
@@ -224,7 +224,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     launchConfigurationName = launchConfiguration.launchConfigurationName
                     minSize = 1
                     maxSize = 12
-                    desiredCapacity = clusterSize.asIntRef()
+                    desiredCapacity = clusterSize.asInt()
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
             }

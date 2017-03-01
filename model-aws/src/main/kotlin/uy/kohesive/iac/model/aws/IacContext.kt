@@ -55,7 +55,7 @@ open class IacContext(
         this.builder()
     }
 
-    fun intValueToStringRef(value: Int): String? = intVariablesReferences.get(value)?.asStringRef()
-    fun ParameterizedValue.asStringRef(): String = "{{kohesive:var:$name}}"
-    fun ParameterizedValue.asIntRef(): Int = addOrGetIntVariableRef(this)
+    fun intValueToStringRef(value: Int): String? = intVariablesReferences.get(value)?.asString()
+    fun ParameterizedValue.asString(): String = "{{kohesive:var:$name}}"
+    fun ParameterizedValue.asInt(): Int = addOrGetIntVariableRef(this)
 }
