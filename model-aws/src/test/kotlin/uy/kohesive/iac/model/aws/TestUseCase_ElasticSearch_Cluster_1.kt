@@ -202,6 +202,8 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 }
 
                 createAutoScalingGroup {
+                    // TODO: availability zones set as `Fn::GetAZs`, have to decide later if we want a similar function (to match region)
+                    //       since likely we don't really want to just pass these through as function calls specific to cloud formation
                     autoScalingGroupName = "ElasticsearchServerGroup"
                     launchConfigurationName = launchConfiguration.launchConfigurationName
                     minSize = 1
