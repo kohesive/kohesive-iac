@@ -8,17 +8,6 @@ import uy.kohesive.iac.model.aws.utils.DslScope
 
 
 interface IamRoleIdentifiable : KohesiveIdentifiable {
-    fun CreateRoleRequest.withKohesiveIdFromName(): CreateRoleRequest = apply {
-        withKohesiveId(this.roleName)
-    }
-
-    fun CreatePolicyRequest.withKohesiveIdFromName(): CreatePolicyRequest = apply {
-        withKohesiveId(this.policyName)
-    }
-
-    fun CreateInstanceProfileRequest.withKohesiveIdFromName(): CreateInstanceProfileRequest = apply {
-        withKohesiveId(this.instanceProfileName)
-    }
 }
 
 interface IamRoleEnabled : IamRoleIdentifiable {
@@ -31,19 +20,23 @@ interface IamRoleEnabled : IamRoleIdentifiable {
 class IamContext(private val context: IacContext) : IamRoleEnabled by context {
 
     fun IamContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): Unit {
-        iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); withKohesiveId(this.roleName + " => " + this.instanceProfileName) })
+        iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); registerWithAutoName() })
     }
 
     fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): Role {
-        return iamClient.createRole(CreateRoleRequest().apply { init(); withKohesiveIdFromName() }).role
+        return iamClient.createRole(CreateRoleRequest().apply { init(); registerWithAutoName() }).role
     }
 
     fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): Policy {
-        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); withKohesiveIdFromName() }).policy
+        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); registerWithAutoName() }).policy
     }
 
     fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): Unit {
-        iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); withKohesiveId(this.roleName + " => " + this.policyArn) })
+        iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); registerWithAutoName() })
+    }
+
+    fun IamContext.createInstanceProfile(init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
+        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); registerWithAutoName() }).instanceProfile
     }
 
     fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): Unit {
@@ -74,7 +67,4 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         }
     }
 
-    fun createInstanceProfile(init: CreateInstanceProfileRequest.()->Unit): InstanceProfile {
-        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); withKohesiveIdFromName() }).instanceProfile
-    }
 }

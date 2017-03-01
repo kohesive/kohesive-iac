@@ -15,7 +15,8 @@ open class IacContext(
         val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
         init: IacContext.() -> Unit = {}
 ) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
-    override val objectsToIds = IdentityHashMap<Any, String>()
+
+    override val objectsToNames= IdentityHashMap<Any, String>()
 
     val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
     val mappings: MutableMap<String, MappedValues> = hashMapOf()

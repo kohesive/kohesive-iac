@@ -11,18 +11,18 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
-            val id = getId(request) ?: throw IllegalStateException()
+            val requestName = getNameStrict(request)
             if (request.minCount == null || request.minCount < 1 ||  request.minCount != request.maxCount) {
                 throw IllegalArgumentException("minCount & maxCount must be not-null, equal and positive")
             }
 
 //            val securityGroups = makeListProxy()
 
-            RunInstancesResult().withKohesiveId(id).apply {
-                withReservation(makeProxy<RunInstancesRequest, Reservation>(context, "$id-Reservation", request)
+            RunInstancesResult().registerWithName(requestName).apply {
+                withReservation(makeProxy<RunInstancesRequest, Reservation>(context, "$requestName-Reservation", request)
                     // Instances
                     .withInstances((0..request.minCount - 1).map { instanceIdx ->
-                        makeProxy<RunInstancesRequest, Instance>(context, "$id[$instanceIdx]", request, mapOf(
+                        makeProxy<RunInstancesRequest, Instance>(context, "$requestName[$instanceIdx]", request, mapOf(
                             RunInstancesRequest::getImageId             to Instance::getImageId,
                             RunInstancesRequest::getClientToken         to Instance::getClientToken,
                             RunInstancesRequest::getEbsOptimized        to Instance::getEbsOptimized,

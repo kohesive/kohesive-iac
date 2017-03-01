@@ -11,14 +11,6 @@ interface AutoScalingIdentifiable : KohesiveIdentifiable, TagAware<Tag> {
 
     override fun createTag(key: String, value: String): Tag = Tag().withKey(key).withValue(value)
 
-    fun CreateAutoScalingGroupRequest.withKohesiveIdFromName(): CreateAutoScalingGroupRequest = apply {
-        withKohesiveId(this.autoScalingGroupName)
-    }
-
-    fun CreateLaunchConfigurationRequest.withKohesiveIdFromName(): CreateLaunchConfigurationRequest = apply {
-        withKohesiveId(this.launchConfigurationName)
-    }
-
 }
 
 interface AutoScalingEnabled : AutoScalingIdentifiable {
@@ -34,7 +26,7 @@ class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by
     fun AutoScalingContext.createLaunchConfiguration(init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
         val launchConfig = CreateLaunchConfigurationRequest().apply {
             init()
-            withKohesiveIdFromName()
+            registerWithAutoName()
         }
         return autoScalingClient.createLaunchConfiguration(launchConfig).apply {
             launchConfigTracking.put(this, launchConfig)
@@ -46,7 +38,7 @@ class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by
     fun AutoScalingContext.createAutoScalingGroup(init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {
             init()
-            withKohesiveIdFromName()
+            registerWithAutoName()
         })
     }
 
