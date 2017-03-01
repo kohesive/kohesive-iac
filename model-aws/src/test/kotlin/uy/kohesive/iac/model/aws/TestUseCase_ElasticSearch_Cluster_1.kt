@@ -56,7 +56,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
         // ===[ VARIABLES ]=============================================================================================
 
         val keyNameParameter = ParameterizedValue("KeyName",
-            type = ParameterizedValueTypes.EC2KeyPairKeyName, // TODO: shouldn't it be String?
+            type = ParameterizedValueTypes.EC2KeyPairKeyName,
             constraintDescription = "KeyPair name from 1 to 255 ASCII characters."
         )
 
@@ -237,7 +237,6 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 // ec2Client.runInstances(RunInstancesRequest())
             }
         }
-
 
         val JSON = jacksonObjectMapper()
             .setPropertyNamingStrategy(CasePreservingNamingStrategy())

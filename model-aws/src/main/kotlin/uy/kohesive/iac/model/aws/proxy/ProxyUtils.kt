@@ -31,12 +31,12 @@ internal inline fun <S, reified T : Any> makeListProxy(
 }
 
 internal inline fun <S, reified T : Any> makeProxy(
-        context: IacContext,
-        id: String,
-        requestObject: S,
-        copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>> = emptyMap(),
-        includeReferences: List<KFunction1<T, Any>> = ProxyUtils.INCLUDE_ALL_PROPS,
-        disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
+    context: IacContext,
+    id: String,
+    requestObject: S,
+    copyFromReq: Map<KFunction1<S, Any>, KFunction1<T, Any>> = emptyMap(),
+    includeReferences: List<KFunction1<T, Any>> = ProxyUtils.INCLUDE_ALL_PROPS,
+    disallowReferences: List<KFunction1<T, Any>> = copyFromReq.values.toList()
 ): T {
     return with (context) {
         val delegate = T::class.java.newInstance()

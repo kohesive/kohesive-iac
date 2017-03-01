@@ -18,8 +18,8 @@ enum class AwsTypes(val type: String,
                     vararg val relatedClasses: KClass<out Any>) {
 
     IamRole("AWS::IAM::Role", CreateRoleRequest::class, CreateRoleResult::class, Role::class),
-    IamPolicy("AWS::IAM::Policy", CreatePolicyRequest::class, CreatePolicyResult::class, Policy::class),
-    IamInstanceProfile("AWS::IAM::InstanceProfile", CreateInstanceProfileRequest::class, CreateInstanceProfileResult::class, InstanceProfile::class),
+    IamPolicy("AWS::IAM::Policy", CreatePolicyRequest::class, CreatePolicyResult::class, Policy::class, AttachRolePolicyRequest::class),
+    IamInstanceProfile("AWS::IAM::InstanceProfile", CreateInstanceProfileRequest::class, CreateInstanceProfileResult::class, InstanceProfile::class, AddRoleToInstanceProfileRequest::class),
     AutoScalingGroup("AWS::AutoScaling::AutoScalingGroup", CreateAutoScalingGroupRequest::class, CreateAutoScalingGroupResult::class, com.amazonaws.services.autoscaling.model.AutoScalingGroup::class),
     LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class);
 
@@ -30,7 +30,12 @@ enum class AwsTypes(val type: String,
                 .flatten()
                 .toMap()
 
+        private val requestClasses: Set<KClass<out AmazonWebServiceRequest>> = enumValues<AwsTypes>().map { it.requestClass }.toSet()
+
         fun fromString(typeString: String): AwsTypes = typeStringToEnum.get(typeString) ?: throw IllegalArgumentException("type ${typeString} is not a known AWS type")
+
         fun fromClass(relatedClass: KClass<out Any>): AwsTypes = typeClassToEnum.get(relatedClass) ?: throw IllegalArgumentException("type ${relatedClass.simpleName} is not a known AWS type")
+
+        fun isCreationRequestClass(requestClass: KClass<out AmazonWebServiceRequest>) = requestClasses.contains(requestClass)
     }
 }
