@@ -24,9 +24,8 @@ enum class AwsTypes(val type: String,
     LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class);
 
     companion object {
-        // TODO: can't resolve 'enumValues'
-        private val typeStringToEnum = AwsTypes.values().map { it.type to it }.toMap()
-        private val typeClassToEnum  = AwsTypes.values()
+        private val typeStringToEnum = enumValues<AwsTypes>().map { it.type to it }.toMap()
+        private val typeClassToEnum  = enumValues<AwsTypes>()
                 .map { item -> (item.relatedClasses.toList() + listOf(item.requestClass, item.resultClass, item.stateClass)).map { it to item } }
                 .flatten()
                 .toMap()
