@@ -6,8 +6,10 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
 import uy.kohesive.iac.model.aws.utils.DslScope
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
 
-@DslScope
+// @DslScope
 open class IacContext(
         val environment: String,
         val planId: String,
@@ -26,6 +28,18 @@ open class IacContext(
     override val autoScalingClient: AmazonAutoScaling by lazy { DeferredAmazonAutoScaling(this) }
     override val autoScalingContext: AutoScalingContext by lazy { AutoScalingContext(this) }
 
+    val intVariablesReferences = ConcurrentHashMap<Int, ParameterizedValue>()
+    val intVariablesRevReferences = ConcurrentHashMap<ParameterizedValue, Int>()
+    val intVariableLastUsed = AtomicInteger(Int.MIN_VALUE)
+
+    fun addOrGetIntVariableRef(variable: ParameterizedValue): Int {
+        val currentValue = intVariablesRevReferences.computeIfAbsent(variable) {
+            intVariableLastUsed.incrementAndGet()
+        }
+        intVariablesReferences.putIfAbsent(currentValue, variable)
+        return currentValue
+    }
+
     init {
         init()
     }
@@ -42,4 +56,7 @@ open class IacContext(
         this.builder()
     }
 
+    fun intValueToStringRef(value: Int): String? = intVariablesReferences.get(value)?.asStringRef()
+    fun ParameterizedValue.asStringRef(): String = "{{kohesive:var:$name}}"
+    fun ParameterizedValue.asIntRef(): Int = addOrGetIntVariableRef(this)
 }

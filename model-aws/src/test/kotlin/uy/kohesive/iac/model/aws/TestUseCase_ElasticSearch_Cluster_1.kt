@@ -196,17 +196,17 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 val launchConfiguration = createLaunchConfiguration {
                     launchConfigurationName = "ElasticsearchServer"
                     iamInstanceProfile = esInstanceProfile.arn
+
                     // TODO: metadata?
                     // TODO: properties
                 }
 
                 createAutoScalingGroup {
                     autoScalingGroupName = "ElasticsearchServerGroup"
-                    // TODO: launchConfigurationName via ref - how?!
+                    launchConfigurationName = launchConfiguration.launchConfigurationName
                     minSize = 1
                     maxSize = 12
-                    // TODO: desiredCapacity via ref - how?!
-                    desiredCapacity
+                    desiredCapacity = clusterSize.asIntRef()
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
             }

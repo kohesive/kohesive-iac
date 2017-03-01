@@ -29,13 +29,19 @@ interface AutoScalingEnabled : AutoScalingIdentifiable {
 
 @DslScope
 class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by context {
+    val launchConfigTracking = hashMapOf<CreateLaunchConfigurationResult, CreateLaunchConfigurationRequest>()
 
     fun AutoScalingContext.createLaunchConfiguration(init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
-        return autoScalingClient.createLaunchConfiguration(CreateLaunchConfigurationRequest().apply {
+        val launchConfig = CreateLaunchConfigurationRequest().apply {
             init()
             withKohesiveIdFromName()
-        })
+        }
+        return autoScalingClient.createLaunchConfiguration(launchConfig).apply {
+            launchConfigTracking.put(this, launchConfig)
+        }
     }
+
+    val CreateLaunchConfigurationResult.launchConfigurationName: String get() = launchConfigTracking.get(this)!!.launchConfigurationName
 
     fun AutoScalingContext.createAutoScalingGroup(init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {

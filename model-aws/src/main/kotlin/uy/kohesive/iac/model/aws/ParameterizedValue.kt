@@ -10,7 +10,6 @@ class ParameterizedValue(val name: String,
                         val noEcho: Boolean = false,
                         val description: String? = null,
                         val errorDescription: String? = null) {
-    fun asRef(): String = "{{kohesive:var:$name}}"
     // TODO: factory methods that limit parameter set by the type so it adds less noise
 }
 
