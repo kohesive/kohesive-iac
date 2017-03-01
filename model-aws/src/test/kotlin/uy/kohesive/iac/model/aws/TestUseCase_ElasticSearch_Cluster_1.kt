@@ -1,6 +1,7 @@
 package uy.kohesive.iac.model.aws
 
 import uy.kohesive.iac.model.aws.helpers.*
+import uy.kohesive.iac.model.aws.proxy.createLiteralReference
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
 //       that is generated from the region => service => pricing API
@@ -58,7 +59,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             defaultValue = "3"
         )
 
-        val instanceType = ParameterizedValue("InstanceType", type = ParameterizedValueTypes.String,
+        val instanceTypeParam = ParameterizedValue("InstanceType", type = ParameterizedValueTypes.String,
             defaultValue     = "m3.large",
             description      = "EC2 Instance type.",
             errorDescription = "Must be a valid Amazon EC2 instance type.",
@@ -167,7 +168,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
         // ===[ BUILDING ]==============================================================================================
 
         IacContext("test", "es-cluster-91992881DX") {
-            addVariables(keyNameParameter, instanceType, sshLocation, clusterSize, elasticsearchVersion)
+            addVariables(keyNameParameter, instanceTypeParam, sshLocation, clusterSize, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
             val esInstanceProfile = withIamContext {
@@ -198,7 +199,19 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     iamInstanceProfile = esInstanceProfile.arn
 
                     // TODO: metadata?
-                    // TODO: properties
+
+                    imageId = awsRegionArchi2Ami.asRef(
+                        keyVariable = createLiteralReference("AWS::Region"),
+                        valueVariable = awsInstantType2Arch.asRef(
+                            keyVariable = instanceTypeParam.asStringRef(),
+                            valueVariable = "Arch"
+                        )
+                    )
+                    instanceType = instanceTypeParam.asStringRef()
+                    keyName = keyNameParameter.asStringRef()
+
+                    // TODO: security group
+                    // TODO: user data
                 }
 
                 createAutoScalingGroup {
