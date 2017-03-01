@@ -18,6 +18,7 @@ subprojects {
     dependencies {
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8'
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
+        compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin'
 
         resolutionRules group: 'com.netflix.nebula', name: 'gradle-resolution-rules', version: version_nebula_resolution
         resolutionRules files("${rootDir}/gradle-local-dependency-rules.json")

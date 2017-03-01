@@ -9,7 +9,8 @@ class ParameterizedValue(val name: String,
                         val allowedValues: List<String> = emptyList(),
                         val noEcho: Boolean = false,
                         val description: String? = null,
-                        val errorDescription: String? = null) {
+                        val errorDescription: String? = null,
+                        val constraintDescription: String? = null) {
     // TODO: factory methods that limit parameter set by the type so it adds less noise
 }
 

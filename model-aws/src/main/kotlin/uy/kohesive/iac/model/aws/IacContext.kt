@@ -4,7 +4,6 @@ import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
-import uy.kohesive.iac.model.aws.utils.DslScope
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -18,8 +17,8 @@ open class IacContext(
 ) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
     override val objectsToIds = IdentityHashMap<Any, String>()
 
-    private val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
-    private val mappings: MutableMap<String, MappedValues> = hashMapOf()
+    val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
+    val mappings: MutableMap<String, MappedValues> = hashMapOf()
 
     override val ec2Client: AmazonEC2 by lazy { DeferredAmazonEC2(this) }
     override val ec2Context: Ec2Context by lazy { Ec2Context(this) }

@@ -40,7 +40,7 @@ class ProxyTest : TestCase() {
         assertEquals("myImageId", instance.imageId)
 
         // New ref-property
-        assertEquals("{{kohesive:ref:MyInstance:PublicDnsName}}", instance.publicDnsName)
+        assertEquals("{{kohesive:ref:Instance:MyInstance:PublicDnsName}}", instance.publicDnsName)
 
         // Disallowed property
         assertFails {

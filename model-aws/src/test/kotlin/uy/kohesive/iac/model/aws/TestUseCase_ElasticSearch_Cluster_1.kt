@@ -1,5 +1,9 @@
 package uy.kohesive.iac.model.aws
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import uy.kohesive.iac.model.aws.cloudformation.CasePreservingNamingStrategy
+import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
 import uy.kohesive.iac.model.aws.helpers.*
 import uy.kohesive.iac.model.aws.proxy.createLiteralReference
 
@@ -51,7 +55,10 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         // ===[ VARIABLES ]=============================================================================================
 
-        val keyNameParameter = ParameterizedValue("KeyName", type = ParameterizedValueTypes.EC2KeyPairKeyName)
+        val keyNameParameter = ParameterizedValue("KeyName",
+            type = ParameterizedValueTypes.EC2KeyPairKeyName, // TODO: shouldn't it be String?
+            constraintDescription = "KeyPair name from 1 to 255 ASCII characters."
+        )
 
         val clusterSize = ParameterizedValue("ClusterSize",
             type         = ParameterizedValueTypes.Number,
@@ -167,7 +174,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         // ===[ BUILDING ]==============================================================================================
 
-        IacContext("test", "es-cluster-91992881DX") {
+        val context = IacContext("test", "es-cluster-91992881DX") {
             addVariables(keyNameParameter, instanceTypeParam, sshLocation, clusterSize, elasticsearchVersion)
             addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
 
@@ -231,6 +238,15 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
         }
 
+
+        val JSON = jacksonObjectMapper()
+            .setPropertyNamingStrategy(CasePreservingNamingStrategy())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+            .writerWithDefaultPrettyPrinter()
+
+        val cfTemplate = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
+
+        println(JSON.writeValueAsString(cfTemplate))
     }
 }
 
