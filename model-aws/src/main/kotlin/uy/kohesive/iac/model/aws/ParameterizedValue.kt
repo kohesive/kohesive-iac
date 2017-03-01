@@ -1,6 +1,6 @@
 package uy.kohesive.iac.model.aws
 
-class ParameterizedValue(val name: String,
+class ParameterizedValue<T: Any>(val name: String,
                          val type: ParameterizedValueTypes,
                         val defaultValue: String? = null,
                         val allowedLength: IntRange? = null,
@@ -12,6 +12,74 @@ class ParameterizedValue(val name: String,
                         val errorDescription: String? = null,
                         val constraintDescription: String? = null) {
     // TODO: factory methods that limit parameter set by the type so it adds less noise
+    companion object {
+        fun newString(name: String, defaultValue: String? = null,
+                      allowedLength: IntRange? = null, allowedPattern: Regex? = null,
+                      allowedValues: List<String> = emptyList(),
+                      noEcho: Boolean = false,
+                      description: String? = null,
+                      errorDescription: String? = null,
+                      constraintDescription: String? = null): ParameterizedValue<String> =
+                ParameterizedValue<String>(name,
+                        type = ParameterizedValueTypes.String,
+                        defaultValue = defaultValue,
+                        allowedLength = allowedLength, allowedPattern = allowedPattern,
+                        allowedValues = allowedValues,
+                        noEcho = noEcho,
+                        description = description,
+                        errorDescription = errorDescription,
+                        constraintDescription = constraintDescription)
+
+        fun newInt(name: String, defaultValue: Int? = null,
+                   allowedNumericValues: IntRange? = null,
+                   noEcho: Boolean = false,
+                   description: String? = null,
+                   errorDescription: String? = null,
+                   constraintDescription: String? = null): ParameterizedValue<Int> =
+                ParameterizedValue<Int>(name,
+                        type = ParameterizedValueTypes.Number,
+                        defaultValue = defaultValue?.toString(),
+                        allowedNumericValues = allowedNumericValues?.let { it.start.toLong()..it.endInclusive.toLong() },
+                        noEcho = noEcho,
+                        description = description,
+                        errorDescription = errorDescription,
+                        constraintDescription = constraintDescription)
+
+        fun newLong(name: String, defaultValue: Long? = null,
+                    allowedNumericValues: LongRange? = null,
+                    noEcho: Boolean = false,
+                    description: String? = null,
+                    errorDescription: String? = null,
+                    constraintDescription: String? = null): ParameterizedValue<Long> =
+                ParameterizedValue<Long>(name,
+                        type = ParameterizedValueTypes.Number,
+                        defaultValue = defaultValue?.toString(),
+                        allowedNumericValues = allowedNumericValues,
+                        noEcho = noEcho,
+                        description = description,
+                        errorDescription = errorDescription,
+                        constraintDescription = constraintDescription)
+
+        // TODO: make one that works for each special type
+        fun newTyped(name: String, type: ParameterizedValueTypes, defaultValue: String? = null,
+                      allowedLength: IntRange? = null, allowedPattern: Regex? = null,
+                      allowedValues: List<String> = emptyList(),
+                      allowedNumericValues: LongRange? = null,
+                      noEcho: Boolean = false,
+                      description: String? = null,
+                      errorDescription: String? = null,
+                      constraintDescription: String? = null): ParameterizedValue<String> =
+                ParameterizedValue<String>(name,
+                        type = type,
+                        defaultValue = defaultValue,
+                        allowedLength = allowedLength, allowedPattern = allowedPattern,
+                        allowedValues = allowedValues,
+                        allowedNumericValues = allowedNumericValues,
+                        noEcho = noEcho,
+                        description = description,
+                        errorDescription = errorDescription,
+                        constraintDescription = constraintDescription)
+    }
 }
 
 enum class ParameterizedValueTypes(val cloudFormationName: kotlin.String, val defaultDescription: kotlin.String? = null, val defaultErrorDescription: kotlin.String? = null) {

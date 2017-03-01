@@ -64,7 +64,7 @@ data class Resource(
     val Metadata: Map<String, Any>? = emptyMap()
 )
 
-fun ParameterizedValue.toCFParameter(): Parameter = Parameter(
+fun ParameterizedValue<out Any>.toCFParameter(): Parameter = Parameter(
     Description           = description,
     Type                  = type.cloudFormationName,
     AllowedPattern        = allowedPattern?.pattern,

@@ -159,7 +159,7 @@ open class AssumeRolePolicyStatement(val principal: String) : PolicyStatement(Po
 class PolicyDocument<STATEMENT_TYPE : PolicyStatement>(val statements: List<STATEMENT_TYPE>, val version: String = "2012-10-17") : IsReallyJson() {
     override val json: String get() = """
               {
-                  "Version": "${version},
+                  "Version": "${version}",
                   "Statement": [
                      ${statements.map { it.toJson() }.joinToString(",\n")}
                   ]
