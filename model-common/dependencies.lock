@@ -1,11 +1,15 @@
 {
     "compile": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -13,12 +17,16 @@
         }
     },
     "compileClasspath": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -26,12 +34,16 @@
         }
     },
     "compileOnly": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -43,12 +55,16 @@
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -57,14 +73,14 @@
     },
     "kapt": {
         "org.jetbrains.kotlin:kotlin-annotation-processing": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         }
     },
     "kaptTest": {
         "org.jetbrains.kotlin:kotlin-annotation-processing": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         }
     },
     "resolutionRules": {
@@ -78,12 +94,16 @@
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -91,19 +111,23 @@
         }
     },
     "testCompile": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -111,19 +135,23 @@
         }
     },
     "testCompileClasspath": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -131,19 +159,23 @@
         }
     },
     "testCompileOnly": {
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -155,19 +187,23 @@
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.fasterxml.jackson.module:jackson-module-kotlin": {
+            "locked": "2.8.5",
+            "requested": "2.8.5"
+        },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
-            "locked": "1.1.0-rc-91",
-            "requested": "1.1.0-rc-91"
+            "locked": "1.1.0",
+            "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
-            "locked": "1.1.0-rc-91"
+            "locked": "1.1.0"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
