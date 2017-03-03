@@ -18,23 +18,27 @@ class TemplateBuilder(
             Parameters = context.variables.mapValues { varEntry ->
                 varEntry.value.toCFParameter()
             },
-            // TODO: This is wrong, we need to group all the objects (request, response & related) by id/name
-            // TODO: so we can, for example, see the attach policy to role request in role creation.
-            // TODO: To do this, we need to figure out the auto-naming VS ids first.
-            Resources = context.objectsToIds.filterKeys { obj ->
-                (obj as? AmazonWebServiceRequest)?.let { request ->
-                    AwsTypes.isCreationRequestClass(request::class)
-                } ?: false
-            }.map { entry ->
-                val name = entry.value
-                val obj  = entry.key
+            Resources = context.objectsToNames.toList().groupBy(Pair<Any, String>::second).mapValues {
+                it.value.map { it.first }
+            }.mapValues {
+                val objectsWithSameName = it.value
 
-                val awsType = AwsTypes.fromClass(obj::class)
+                objectsWithSameName.firstOrNull{ obj ->
+                    (obj as? AmazonWebServiceRequest)?.let { request ->
+                        AwsTypes.isCreationRequestClass(request::class)
+                    } ?: false
+                }?.let { creationRequest ->
+                    val awsType = AwsTypes.fromClass(creationRequest::class)
 
-                name to Resource(
-                    Type = awsType.type
-                )
-            }.toMap()
+                    Resource(
+                        Type       = awsType.type,
+                        Properties = ResourcePropertyBuilders.getBuilder(awsType)?.buildResource(
+                            creationRequest as AmazonWebServiceRequest,
+                            objectsWithSameName
+                        )
+                    )
+                }
+            }.filterValues { it != null }.mapValues { it.value!! }
         )
     }
 }
@@ -58,9 +62,11 @@ data class Parameter(
     val ConstraintDescription: String?
 )
 
+interface ResourceProperties
+
 data class Resource(
     val Type: String,
-    val Properties: Map<String, Any>? = emptyMap(),
+    val Properties: ResourceProperties? = null,
     val Metadata: Map<String, Any>? = emptyMap()
 )
 

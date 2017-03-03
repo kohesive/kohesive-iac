@@ -8,13 +8,11 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazonIdentityManagement(), AmazonIdentityManagement {
 
     override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult {
-        // TODO: do we need to do anything there? I think not — we've registered the request already
-        return AttachRolePolicyResult()
+        return with (context) { AttachRolePolicyResult().registerWithSameNameAs(request) }
     }
 
     override fun addRoleToInstanceProfile(request: AddRoleToInstanceProfileRequest): AddRoleToInstanceProfileResult {
-        // TODO: do we need to do anything there? I think not — we've registered the request already
-        return AddRoleToInstanceProfileResult()
+        return with (context) { AddRoleToInstanceProfileResult().registerWithSameNameAs(request) }
     }
 
     override fun createInstanceProfile(request: CreateInstanceProfileRequest): CreateInstanceProfileResult {
@@ -22,7 +20,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
             CreateInstanceProfileResult().withInstanceProfile(
                 makeProxy<CreateInstanceProfileRequest, InstanceProfile>(
                     context       = this@with,
-                    id            = getId(request) ?: throw IllegalStateException(),
+                    sourceName    = getNameStrict(request),
                     requestObject = request,
                     copyFromReq   = mapOf(
                         CreateInstanceProfileRequest::getInstanceProfileName to InstanceProfile::getInstanceProfileName,
@@ -39,7 +37,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
             CreateRoleResult().withRole(
                 makeProxy<CreateRoleRequest, Role>(
                     context       = this@with,
-                    id            = getId(request) ?: throw IllegalStateException(),
+                    sourceName    = getNameStrict(request),
                     requestObject = request,
                     copyFromReq   = mapOf(
                         CreateRoleRequest::getAssumeRolePolicyDocument to Role::getAssumeRolePolicyDocument,
@@ -57,7 +55,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
             CreatePolicyResult().withPolicy(
                 makeProxy<CreatePolicyRequest, Policy>(
                     context       = this@with,
-                    id            = getId(request) ?: throw IllegalStateException(),
+                    sourceName    = getNameStrict(request),
                     requestObject = request,
                     copyFromReq   = mapOf(
                         CreatePolicyRequest::getDescription to Policy::getDescription,

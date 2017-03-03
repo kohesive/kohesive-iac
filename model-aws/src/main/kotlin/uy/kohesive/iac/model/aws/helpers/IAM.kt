@@ -1,10 +1,9 @@
 package uy.kohesive.iac.model.aws.helpers
 
-import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.identitymanagement.model.*
-import uy.kohesive.iac.model.aws.IacContext
-import uy.kohesive.iac.model.aws.KohesiveIdentifiable
+import uy.kohesive.iac.model.aws.proxy.KohesiveReference
+import uy.kohesive.iac.model.aws.proxy.isKohesiveRef
 import uy.kohesive.iac.model.aws.utils.writeOnlyVirtualProperty
 
 fun AmazonIdentityManagement.createRole(init: CreateRoleRequest.() -> Unit): CreateRoleResult {
@@ -165,4 +164,11 @@ class PolicyDocument<STATEMENT_TYPE : PolicyStatement>(val statements: List<STAT
                   ]
               }
             """
+}
+
+fun AttachRolePolicyRequest.getPolicyNameFromArn() = if (policyArn.isKohesiveRef()) {
+    KohesiveReference.fromString(policyArn).targetId
+} else {
+    // TODO: implement
+    throw RuntimeException("Can't figure out policy name from ARN")
 }

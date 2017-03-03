@@ -34,7 +34,7 @@ class ProxyTest : TestCase() {
         val instance = result.reservation.instances[0]
 
         // Id
-        assertEquals("MyInstance", context.getId(instance))
+        assertEquals("MyInstance", context.getNameStrict(instance))
 
         // Copied property
         assertEquals("myImageId", instance.imageId)

@@ -1,27 +1,27 @@
 package uy.kohesive.iac.model.aws
 
 import com.amazonaws.AmazonWebServiceRequest
-import com.amazonaws.AmazonWebServiceResult
-import com.amazonaws.ResponseMetadata
 import java.util.*
 
 interface KohesiveIdentifiable {
-    val objectsToIds: IdentityHashMap<Any, String>
 
-    fun getId(obj: Any): String?  = objectsToIds[obj]
+    val objectsToNames: IdentityHashMap<Any, String>
 
-    fun <T : AmazonWebServiceRequest> T.withKohesiveId(id: String): T = apply {
-        objectsToIds[this@withKohesiveId] = id
+    fun getName(obj: Any) = objectsToNames[obj]
+    fun getNameStrict(obj: Any) = objectsToNames[obj] ?: throw IllegalStateException("Unknown object $obj")
+
+    fun <T : Any> T.registerWithName(name: String): T = apply {
+        objectsToNames[this@registerWithName] = name
     }
 
-    fun <K: ResponseMetadata, T : AmazonWebServiceResult<out K>> T.withKohesiveId(id: String): T = apply {
-        objectsToIds[this@withKohesiveId] = id
+    fun <T : Any> T.registerWithSameNameAs(another: Any): T = apply {
+        objectsToNames[this@registerWithSameNameAs] = getNameStrict(another)
     }
 
-    // TODO: any way to avoid Any?  what types are possible here?
-    fun <T : Any> T.withKohesiveId(id: String): T = apply {
-        objectsToIds[this@withKohesiveId] = id
+    fun <T : AmazonWebServiceRequest> T.registerWithAutoName(): T = apply {
+        registerWithName(AutoNaming.getName(this) ?: throw IllegalArgumentException("Unknown request"))
     }
+
 }
 
 interface TagAware<out T : Any> {
