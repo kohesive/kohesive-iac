@@ -8,8 +8,11 @@ import kotlin.reflect.KClass
 object ResourcePropertyBuilders {
 
     private val awsTypeToBuilder: Map<AwsTypes, ResourcePropertiesBuilder<*>> = mapOf(
-        AwsTypes.IamPolicy          to IamPolicyResourcePropertiesBuilder(),
-        AwsTypes.IamInstanceProfile to IamInstanceProfilePropertiesBuilder()
+        AwsTypes.IamRole             to IamRoleResourcePropertiesBuilder(),
+        AwsTypes.IamPolicy           to IamPolicyResourcePropertiesBuilder(),
+        AwsTypes.IamInstanceProfile  to IamInstanceProfilePropertiesBuilder(),
+        AwsTypes.LaunchConfiguration to LaunchConfigurationPropertiesBuilder(),
+        AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder()
     )
 
     fun getBuilder(awsType: AwsTypes) = awsTypeToBuilder[awsType]
