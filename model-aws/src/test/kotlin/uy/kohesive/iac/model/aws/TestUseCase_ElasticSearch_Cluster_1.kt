@@ -55,18 +55,16 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         // ===[ VARIABLES ]=============================================================================================
 
-        val keyNameParameter = ParameterizedValue("KeyName",
-            type = ParameterizedValueTypes.EC2KeyPairKeyName,
+        val keyNameParam = ParameterizedValue.newTyped("KeyName", ParameterizedValueTypes.EC2KeyPairKeyName,
             constraintDescription = "KeyPair name from 1 to 255 ASCII characters."
         )
 
-        val clusterSize = ParameterizedValue("ClusterSize",
-            type         = ParameterizedValueTypes.Number,
+        val clusterSizeParam = ParameterizedValue.newInt("ClusterSize",
             description  = "The number of Elasticsearch instances to launch in the Auto Scaling group",
-            defaultValue = "3"
+            defaultValue = 3
         )
 
-        val instanceTypeParam = ParameterizedValue("InstanceType", type = ParameterizedValueTypes.String,
+        val instanceTypeParam = ParameterizedValue.newTyped("InstanceType", ParameterizedValueTypes.String,
             defaultValue     = "m3.large",
             description      = "EC2 Instance type.",
             errorDescription = "Must be a valid Amazon EC2 instance type.",
@@ -107,26 +105,24 @@ class TestUseCase_ElasticSearch_Cluster_1 {
         )
 
         // TODO:  IP CIDR should be built-in type (our own, doesn't exist in Cloud Formation)
-        val sshLocation = ParameterizedValue("SSHLocation",
+        val sshLocationParam = ParameterizedValue.newString("SSHLocation",
             defaultValue     = "0.0.0.0/0",
             description      = "IP CIDR range for allowing SSH access to the instances",
             errorDescription = "Must be a valid IP CIDR range of the form x.x.x.x/x.",
-            type             = ParameterizedValueTypes.String,
             allowedLength    = 8..18,
             allowedPattern   = """(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/(\d{1,2})""".toRegex()
         )
 
-        val elasticsearchVersion = ParameterizedValue("ElasticsearchVersion",
+        val elasticsearchVersionParam = ParameterizedValue.newString("ElasticsearchVersion",
             defaultValue     = "5.2.1",
             description      = "Elasticsearch version number",
             errorDescription = "Must be a supported version number.",
-            type             = ParameterizedValueTypes.String,
             allowedValues    = listOf("5.2.1")
         )
 
         // ===[ MAPPINGS ]==============================================================================================
 
-        val awsInstantType2Arch = MappedValues("AWSInstanceType2Arch", mapOf(
+        val awsInstantType2ArchMap = MappedValues("AWSInstanceType2Arch", mapOf(
             "t1.micro"    to mapOf("Arch" to "64"),
             "m1.small"    to mapOf("Arch" to "64"),
             "m1.medium"   to mapOf("Arch" to "64"),
@@ -161,7 +157,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             "i2.8xlarge"  to mapOf("Arch" to "64HVM")
         ))
 
-        val awsRegionArchi2Ami = MappedValues("AWSRegionArch2AMI", mapOf(
+        val awsRegionArchi2AmiMap = MappedValues("AWSRegionArch2AMI", mapOf(
             "us-east-1" to mapOf("64" to "ami-fb8e9292", "64HVM" to "ami-978d91fe"),
             "us-west-1" to mapOf("64" to "ami-7aba833f", "64HVM" to "ami-5aba831f"),
             "us-west-2" to mapOf("64" to "ami-043a5034", "64HVM" to "ami-383a5008"),
@@ -175,24 +171,22 @@ class TestUseCase_ElasticSearch_Cluster_1 {
         // ===[ BUILDING ]==============================================================================================
 
         val context = IacContext("test", "es-cluster-91992881DX") {
-            addVariables(keyNameParameter, instanceTypeParam, sshLocation, clusterSize, elasticsearchVersion)
-            addMappings(awsInstantType2Arch, awsRegionArchi2Ami)
+            addVariables(keyNameParam, instanceTypeParam, sshLocationParam, clusterSizeParam, elasticsearchVersionParam)
+            addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap)
 
             val esInstanceProfile = withIamContext {
-                val clusterDiscoveryRole = createRole {
-                    roleName = "ElasticsearchDiscoveryRole"
+                val clusterDiscoveryRole = createRole("ElasticsearchDiscoveryRole") {
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
                 }
 
-                val allowDiscoveryPolicy = createPolicy {
-                    policyName = "ElasticsearchAllowEc2DescribeInstances"
+                val allowDiscoveryPolicy = createPolicy("ElasticsearchAllowEc2DescribeInstances") {
                     policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
                 }
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
-                val esInstanceProfile = createInstanceProfile {
-                    instanceProfileName = "ElasticsearchInstanceProfile"
+                val esInstanceProfile = createInstanceProfile("ElasticsearchInstanceProfile") {
+                    path = "/"
                 }
 
                 addRoleToInstanceProfile(clusterDiscoveryRole, esInstanceProfile)
@@ -201,34 +195,32 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
 
             withAutoScalingContext {
-                val launchConfiguration = createLaunchConfiguration {
-                    launchConfigurationName = "ElasticsearchServer"
+                val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
                     iamInstanceProfile = esInstanceProfile.arn
 
                     // TODO: metadata?
 
-                    imageId = awsRegionArchi2Ami.asRef(
+                    imageId = awsRegionArchi2AmiMap.asRef(
                         keyVariable = createLiteralReference("AWS::Region"),
-                        valueVariable = awsInstantType2Arch.asRef(
-                            keyVariable = instanceTypeParam.asStringRef(),
+                        valueVariable = awsInstantType2ArchMap.asRef(
+                            keyVariable = instanceTypeParam.value,
                             valueVariable = "Arch"
                         )
                     )
-                    instanceType = instanceTypeParam.asStringRef()
-                    keyName = keyNameParameter.asStringRef()
+                    instanceType = instanceTypeParam.value
+                    keyName = keyNameParam.value
 
                     // TODO: security group
                     // TODO: user data
                 }
 
-                createAutoScalingGroup {
+                createAutoScalingGroup("ElasticsearchServerGroup") {
                     // TODO: availability zones set as `Fn::GetAZs`, have to decide later if we want a similar function (to match region)
                     //       since likely we don't really want to just pass these through as function calls specific to cloud formation
-                    autoScalingGroupName = "ElasticsearchServerGroup"
                     launchConfigurationName = launchConfiguration.launchConfigurationName
                     minSize = 1
                     maxSize = 12
-                    desiredCapacity = clusterSize.asIntRef()
+                    desiredCapacity = clusterSizeParam.value
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
             }

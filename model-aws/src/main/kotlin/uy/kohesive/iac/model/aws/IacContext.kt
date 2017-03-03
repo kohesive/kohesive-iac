@@ -7,6 +7,7 @@ import uy.kohesive.iac.model.aws.contexts.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 // @DslScope
 open class IacContext(
@@ -18,7 +19,7 @@ open class IacContext(
 
     override val objectsToNames= IdentityHashMap<Any, String>()
 
-    val variables: MutableMap<String, ParameterizedValue> = hashMapOf()
+    val variables: MutableMap<String, ParameterizedValue<out Any>> = hashMapOf()
     val mappings: MutableMap<String, MappedValues> = hashMapOf()
 
     override val ec2Client: AmazonEC2 by lazy { DeferredAmazonEC2(this) }
@@ -28,23 +29,11 @@ open class IacContext(
     override val autoScalingClient: AmazonAutoScaling by lazy { DeferredAmazonAutoScaling(this) }
     override val autoScalingContext: AutoScalingContext by lazy { AutoScalingContext(this) }
 
-    val intVariablesReferences = ConcurrentHashMap<Int, ParameterizedValue>()
-    val intVariablesRevReferences = ConcurrentHashMap<ParameterizedValue, Int>()
-    val intVariableLastUsed = AtomicInteger(Int.MIN_VALUE)
-
-    fun addOrGetIntVariableRef(variable: ParameterizedValue): Int {
-        val currentValue = intVariablesRevReferences.computeIfAbsent(variable) {
-            intVariableLastUsed.incrementAndGet()
-        }
-        intVariablesReferences.putIfAbsent(currentValue, variable)
-        return currentValue
-    }
-
     init {
         init()
     }
 
-    fun addVariables(vararg vari: ParameterizedValue) {
+    fun addVariables(vararg vari: ParameterizedValue<out Any>) {
         variables.putAll(vari.map { it.name to it })
     }
 
@@ -56,7 +45,23 @@ open class IacContext(
         this.builder()
     }
 
-    fun intValueToStringRef(value: Int): String? = intVariablesReferences.get(value)?.asStringRef()
-    fun ParameterizedValue.asStringRef(): String = "{{kohesive:var:$name}}"
-    fun ParameterizedValue.asIntRef(): Int = addOrGetIntVariableRef(this)
+    val numericVarTracker = NumericVariableTracker()
+
+    val ParameterizedValue<String>.value: String get() = "{{kohesive:var:$name}}"
+    val ParameterizedValue<Int>.value: Int get() = numericVarTracker.addOrGetNumericVariableRef(this)
+    val ParameterizedValue<Long>.value: Long get() = numericVarTracker.addOrGetNumericVariableRef(this).toLong()
+
+    class NumericVariableTracker() {
+        val numericToVarMap = ConcurrentHashMap<Int, ParameterizedValue<out Any>>()
+        val varToNumericMap = ConcurrentHashMap<ParameterizedValue<out Any>, Int>()
+        val lastUsed = AtomicInteger(Int.MIN_VALUE)
+
+        fun addOrGetNumericVariableRef(variable: ParameterizedValue<out Any>): Int {
+            val currentValue = varToNumericMap.computeIfAbsent(variable) {
+                lastUsed.incrementAndGet()
+            }
+            numericToVarMap.putIfAbsent(currentValue, variable)
+            return currentValue
+        }
+    }
 }

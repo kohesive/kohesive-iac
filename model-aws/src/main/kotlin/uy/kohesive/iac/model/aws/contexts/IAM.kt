@@ -23,20 +23,32 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); registerWithAutoName() })
     }
 
-    fun IamContext.createRole(init: CreateRoleRequest.() -> Unit): Role {
-        return iamClient.createRole(CreateRoleRequest().apply { init(); registerWithAutoName() }).role
+    fun IamContext.createRole(roleName: String, init: CreateRoleRequest.() -> Unit): Role {
+        return iamClient.createRole(CreateRoleRequest().apply {
+            this.roleName = roleName
+            this.init()
+            this.registerWithAutoName()
+        }).role
     }
 
-    fun IamContext.createPolicy(init: CreatePolicyRequest.() -> Unit): Policy {
-        return iamClient.createPolicy(CreatePolicyRequest().apply { this.init(); registerWithAutoName() }).policy
+    fun IamContext.createPolicy(policyName: String, init: CreatePolicyRequest.() -> Unit): Policy {
+        return iamClient.createPolicy(CreatePolicyRequest().apply {
+            this.policyName = policyName
+            this.init()
+            this.registerWithAutoName()
+        }).policy
     }
 
     fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): Unit {
         iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); registerWithAutoName() })
     }
 
-    fun IamContext.createInstanceProfile(init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
-        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { this.init(); registerWithAutoName() }).instanceProfile
+    fun IamContext.createInstanceProfile(instanceProfileName: String, init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
+        return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { 
+          this.instanceProfileName = instanceProfileName
+          this.init(); 
+          registerWithAutoName() 
+        }).instanceProfile
     }
 
     fun IamContext.attachIamRolePolicy(roleResult: CreateRoleResult, policyResult: CreatePolicyResult): Unit {
@@ -66,5 +78,4 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
             instanceProfileName = profile.instanceProfile.instanceProfileName
         }
     }
-
 }
