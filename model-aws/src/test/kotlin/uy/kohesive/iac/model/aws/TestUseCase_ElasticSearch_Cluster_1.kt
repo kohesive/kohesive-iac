@@ -200,6 +200,18 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     // TODO: metadata?
 
                     // TODO: this is not very friendly vvv
+                    //     maybe some X.path(abc).path(yyz) or json path looking thing
+                    //     in the case below would be:
+                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value).path(awsInstantType2ArchMap.path(instanceTypeParam.value).path("Arch").value).value
+                    //     or
+                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value)[awsInstantType2ArchMap.path(instanceTypeParam.value)["Arch"]]
+                    //     or
+                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value).get(awsInstantType2ArchMap.path(instanceTypeParam.value).get("Arch"))
+                    //     or
+                    //        awsRegionArchi2AmiMap.get(ImplicitValues.Region.value).get(awsInstantType2ArchMap.get(instanceTypeParam.value).get("Arch"))
+                    //     or because get() is also []...
+                    //        awsRegionArchi2AmiMap[ImplicitValues.Region.value][awsInstantType2ArchMap[instanceTypeParam.value]["Arch"]]
+                    //
                     imageId = awsRegionArchi2AmiMap.asLookup(
                         keyVariable = ImplicitValues.Region.value,
                         valueVariable = awsInstantType2ArchMap.asLookup(
