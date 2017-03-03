@@ -5,7 +5,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import uy.kohesive.iac.model.aws.cloudformation.CasePreservingNamingStrategy
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
 import uy.kohesive.iac.model.aws.helpers.*
-import uy.kohesive.iac.model.aws.proxy.createLiteralReference
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
 //       that is generated from the region => service => pricing API
@@ -202,7 +201,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
                     // TODO: this is not very friendly vvv
                     imageId = awsRegionArchi2AmiMap.asRef(
-                        keyVariable = createLiteralReference("AWS::Region"),
+                        keyVariable = ImplicitValues.Region.asRef(),
                         valueVariable = awsInstantType2ArchMap.asRef(
                             keyVariable = instanceTypeParam.value,
                             valueVariable = "Arch"

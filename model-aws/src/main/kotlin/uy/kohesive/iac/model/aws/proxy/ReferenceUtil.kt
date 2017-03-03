@@ -2,10 +2,24 @@ package uy.kohesive.iac.model.aws.proxy
 
 fun String.isKohesiveRef() = startsWith("{{kohesive") && endsWith("}}")
 
+enum class ReferenceType(val value: String) {
+    Ref("ref"),
+    Var("var"),
+    Map("map"),
+    Implicit("ivar");
+
+    companion object {
+        private val strValueToRefType = values().associate { it.value to it }
+
+        fun fromString(str: String) = strValueToRefType[str] ?: throw IllegalArgumentException("Unknown ref type: $str")
+    }
+}
+
 data class KohesiveReference(
-    val refType: String, // ref || literal-ref || var
-    val targetType: String? = null,
+    val refType: ReferenceType,
+
     val targetId: String,
+    val targetType: String? = null,
     val targetProperty: String? = null
 ) {
     companion object {
@@ -14,24 +28,29 @@ data class KohesiveReference(
             if (arr.size < 3) {
                 throw IllegalArgumentException("Not a valid reference: $str")
             }
-            val refType = arr[1]
-            if (refType == "literal-ref") {
-                return KohesiveReference(refType = refType, targetId = arr[2])
-            }
-            if (refType == "ref") {
-                if (arr.size == 4) {
-                    return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3])
+
+            val refType = ReferenceType.fromString(arr[1])
+            when (refType) {
+                ReferenceType.Ref, ReferenceType.Map -> {
+                    if (arr.size == 4) {
+                        return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3])
+                    } else if (arr.size == 5) {
+                        return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3], targetProperty = arr[4])
+                    } else {
+                        throw IllegalArgumentException("Incorrect reference $str")
+                    }
                 }
-                if (arr.size == 5) {
-                    return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3], targetProperty = arr[4])
+                ReferenceType.Implicit, ReferenceType.Var -> {
+                    return KohesiveReference(refType = refType, targetId = arr[2])
                 }
             }
-            throw IllegalArgumentException("Not a valid reference: $str")
         }
     }
-}
 
-internal fun createLiteralReference(ref: String) = "{{kohesive:literal-ref:$ref}}"
+    override fun toString() =
+        "{{" + listOf("kohesive", refType.value, targetType, targetId, targetProperty).filterNotNull() + "}}"
+
+}
 
 inline internal fun <reified T : Any> createReference(targetId: String)
     = "{{kohesive:ref:${T::class.java.simpleName}:$targetId}}"
