@@ -2,6 +2,8 @@ package uy.kohesive.iac.model.aws.cloudformation
 
 import uy.kohesive.iac.model.aws.proxy.createReference
 
+// TODO: ignore this for now
+
 class One(val value: Any)
 class Two(val value: Any)
 class Three(val value: Any)
