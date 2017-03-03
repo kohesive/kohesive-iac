@@ -12,4 +12,5 @@ enum class ImplicitValues(val type: String) {
     StackName("AWS::StackName");
 
     fun asRef(): String = "{{kohesive:ivar:$type}}"
+    val value: String get() = asRef()
 }
