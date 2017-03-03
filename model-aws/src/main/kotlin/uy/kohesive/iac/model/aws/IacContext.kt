@@ -7,7 +7,6 @@ import uy.kohesive.iac.model.aws.contexts.*
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicLong
 
 // @DslScope
 open class IacContext(
@@ -29,6 +28,8 @@ open class IacContext(
     override val autoScalingClient: AmazonAutoScaling by lazy { DeferredAmazonAutoScaling(this) }
     override val autoScalingContext: AutoScalingContext by lazy { AutoScalingContext(this) }
 
+    val numericVarTracker = NumericVariableTracker()
+
     init {
         init()
     }
@@ -44,8 +45,6 @@ open class IacContext(
     fun build(builder: IacContext.() -> Unit) {
         this.builder()
     }
-
-    val numericVarTracker = NumericVariableTracker()
 
     val ParameterizedValue<String>.value: String get() = "{{kohesive:var:$name}}"
     val ParameterizedValue<Int>.value: Int get() = numericVarTracker.addOrGetNumericVariableRef(this)
