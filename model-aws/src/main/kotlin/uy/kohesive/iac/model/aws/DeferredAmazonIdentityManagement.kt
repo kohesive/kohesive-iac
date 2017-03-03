@@ -8,15 +8,22 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazonIdentityManagement(), AmazonIdentityManagement {
 
     override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult {
-        return with (context) { AttachRolePolicyResult().registerWithSameNameAs(request) }
+        return with (context) {
+            request.registerWithAutoName()
+            AttachRolePolicyResult().registerWithSameNameAs(request)
+        }
     }
 
     override fun addRoleToInstanceProfile(request: AddRoleToInstanceProfileRequest): AddRoleToInstanceProfileResult {
-        return with (context) { AddRoleToInstanceProfileResult().registerWithSameNameAs(request) }
+        return with (context) {
+            request.registerWithAutoName()
+            AddRoleToInstanceProfileResult().registerWithSameNameAs(request)
+        }
     }
 
     override fun createInstanceProfile(request: CreateInstanceProfileRequest): CreateInstanceProfileResult {
         return with (context) {
+            request.registerWithAutoName()
             CreateInstanceProfileResult().withInstanceProfile(
                 makeProxy<CreateInstanceProfileRequest, InstanceProfile>(
                     context       = this@with,
@@ -34,6 +41,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
     // TODO: does this look right?
     override fun createRole(request: CreateRoleRequest): CreateRoleResult {
         return with (context) {
+            request.registerWithAutoName()
             CreateRoleResult().withRole(
                 makeProxy<CreateRoleRequest, Role>(
                     context       = this@with,
@@ -52,6 +60,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
     // TODO: does this look right?
     override fun createPolicy(request: CreatePolicyRequest): CreatePolicyResult {
         return with (context) {
+            request.registerWithAutoName()
             CreatePolicyResult().withPolicy(
                 makeProxy<CreatePolicyRequest, Policy>(
                     context       = this@with,

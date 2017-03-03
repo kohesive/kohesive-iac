@@ -200,6 +200,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
                     // TODO: metadata?
 
+                    // TODO: this is not very friendly vvv
                     imageId = awsRegionArchi2AmiMap.asRef(
                         keyVariable = createLiteralReference("AWS::Region"),
                         valueVariable = awsInstantType2ArchMap.asRef(

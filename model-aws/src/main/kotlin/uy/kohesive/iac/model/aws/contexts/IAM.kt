@@ -20,14 +20,13 @@ interface IamRoleEnabled : IamRoleIdentifiable {
 class IamContext(private val context: IacContext) : IamRoleEnabled by context {
 
     fun IamContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): Unit {
-        iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init(); registerWithAutoName() })
+        iamClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init() })
     }
 
     fun IamContext.createRole(roleName: String, init: CreateRoleRequest.() -> Unit): Role {
         return iamClient.createRole(CreateRoleRequest().apply {
             this.roleName = roleName
             this.init()
-            this.registerWithAutoName()
         }).role
     }
 
@@ -35,19 +34,17 @@ class IamContext(private val context: IacContext) : IamRoleEnabled by context {
         return iamClient.createPolicy(CreatePolicyRequest().apply {
             this.policyName = policyName
             this.init()
-            this.registerWithAutoName()
         }).policy
     }
 
     fun IamContext.attachRolePolicy(init: AttachRolePolicyRequest.() -> Unit): Unit {
-        iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); registerWithAutoName() })
+        iamClient.attachRolePolicy(AttachRolePolicyRequest().apply { this.init(); })
     }
 
     fun IamContext.createInstanceProfile(instanceProfileName: String, init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
         return iamClient.createInstanceProfile(CreateInstanceProfileRequest().apply { 
           this.instanceProfileName = instanceProfileName
-          this.init(); 
-          registerWithAutoName() 
+          this.init()
         }).instanceProfile
     }
 
