@@ -1,74 +1,311 @@
 {
     "compile": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "compileClasspath": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "compileOnly": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "default": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "kapt": {
@@ -90,124 +327,430 @@
         }
     },
     "runtime": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "testCompile": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
         },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "testCompileClasspath": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
         },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "testCompileOnly": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
+        "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "1.2.1"
+        },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
         },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     },
     "testRuntime": {
+        "cglib:cglib": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "3.2.4"
+        },
         "ch.qos.logback:logback-classic": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.2.1",
             "requested": "1.+"
         },
+        "com.amazonaws:aws-java-sdk": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "locked": "1.11.98"
+        },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
             "requested": "4.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.1.0",
             "requested": "1.1.0"
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
         },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
         "org.slf4j:slf4j-api": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws",
+                "uy.kohesive.iac :model-common"
+            ],
             "locked": "1.7.24",
             "requested": "1.+"
+        },
+        "uy.kohesive.iac :model-aws": {
+            "project": true
+        },
+        "uy.kohesive.iac :model-common": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-aws"
+            ],
+            "project": true
         }
     }
 }

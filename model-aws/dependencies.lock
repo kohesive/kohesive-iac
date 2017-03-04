@@ -18,8 +18,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "firstLevelTransitive": [
@@ -33,6 +33,20 @@
             ],
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -64,8 +78,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "firstLevelTransitive": [
@@ -79,6 +93,20 @@
             ],
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -110,8 +138,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "firstLevelTransitive": [
@@ -125,6 +153,20 @@
             ],
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -157,8 +199,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "firstLevelTransitive": [
@@ -172,6 +214,20 @@
             ],
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -222,8 +278,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "firstLevelTransitive": [
@@ -237,6 +293,20 @@
             ],
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -268,8 +338,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -290,6 +360,23 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -321,8 +408,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -343,6 +430,23 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -374,8 +478,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -396,6 +500,23 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [
@@ -428,8 +549,8 @@
             "firstLevelTransitive": [
                 "uy.kohesive.iac :model-common"
             ],
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -450,6 +571,23 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "firstLevelTransitive": [
+                "uy.kohesive.iac :model-common"
+            ],
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "firstLevelTransitive": [

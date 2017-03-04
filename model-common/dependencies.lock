@@ -1,8 +1,8 @@
 {
     "compile": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.1.0"
@@ -10,6 +10,14 @@
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -18,8 +26,8 @@
     },
     "compileClasspath": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.1.0"
@@ -27,6 +35,14 @@
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -35,8 +51,8 @@
     },
     "compileOnly": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.1.0"
@@ -44,6 +60,14 @@
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -56,8 +80,8 @@
             "requested": "1.+"
         },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.1.0"
@@ -65,6 +89,14 @@
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -95,8 +127,8 @@
             "requested": "1.+"
         },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "org.jetbrains.kotlin:kotlin-reflect": {
             "locked": "1.1.0"
@@ -104,6 +136,14 @@
         "org.jetbrains.kotlin:kotlin-stdlib-jre8": {
             "locked": "1.1.0",
             "requested": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -112,8 +152,8 @@
     },
     "testCompile": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -128,6 +168,17 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -136,8 +187,8 @@
     },
     "testCompileClasspath": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -152,6 +203,17 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -160,8 +222,8 @@
     },
     "testCompileOnly": {
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -176,6 +238,17 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",
@@ -188,8 +261,8 @@
             "requested": "1.+"
         },
         "com.fasterxml.jackson.module:jackson-module-kotlin": {
-            "locked": "2.8.5",
-            "requested": "2.8.5"
+            "locked": "2.8.7",
+            "requested": "2.8.+"
         },
         "junit:junit": {
             "locked": "4.12",
@@ -204,6 +277,17 @@
         },
         "org.jetbrains.kotlin:kotlin-test": {
             "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlin:kotlin-test-junit": {
+            "locked": "1.1.0"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
+            "locked": "0.12",
+            "requested": "0.12"
+        },
+        "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8": {
+            "locked": "0.12",
+            "requested": "0.12"
         },
         "org.slf4j:slf4j-api": {
             "locked": "1.7.24",

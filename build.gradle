@@ -18,6 +18,8 @@ subprojects {
     dependencies {
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8'
         compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
+        compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: version_kotlin_coroutines
+        compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-jdk8', version: version_kotlin_coroutines
         compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: version_jackson
 
         resolutionRules group: 'com.netflix.nebula', name: 'gradle-resolution-rules', version: version_nebula_resolution
@@ -28,6 +30,7 @@ subprojects {
 
         testCompile group: 'junit', name: 'junit', version: version_junit
         testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test'
+        testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit'
     }
 
 
@@ -37,7 +40,11 @@ subprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url "http://dl.bintray.com/kotlin/kotlin-eap-1.1"
+        }
     }
-}
 
+    kotlin { experimental { coroutines 'enable' } }
+}
 
