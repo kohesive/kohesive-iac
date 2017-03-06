@@ -78,11 +78,11 @@ sealed class ResourceNode(
 
     companion object {
         fun forReferenceType(refType: ReferenceType) = when (refType) {
-            ReferenceType.Ref         -> Ref()
+            ReferenceType.Ref         -> RefNode()
             ReferenceType.RefProperty -> RefPropertyNode()
-            ReferenceType.Var         -> VariableResourceNode()
-            ReferenceType.Map         -> MapResourceNode()
-            ReferenceType.Implicit    -> ImplicitResourceNode()
+            ReferenceType.Var         -> VariableNode()
+            ReferenceType.Map         -> MapNode()
+            ReferenceType.Implicit    -> ImplicitNode()
         }
     }
 
@@ -91,11 +91,11 @@ sealed class ResourceNode(
         fun append(c: Char) = value.append(c)
         override fun toString() = "\"$value\""
     }
-    class ImplicitResourceNode : ResourceNode(1)
-    class VariableResourceNode : ResourceNode(1)
-    class Ref                  : ResourceNode(2)
-    class RefPropertyNode      : ResourceNode(3)
-    class MapResourceNode      : ResourceNode(3)
+    class ImplicitNode    : ResourceNode(1)
+    class VariableNode    : ResourceNode(1)
+    class RefNode         : ResourceNode(2)
+    class RefPropertyNode : ResourceNode(3)
+    class MapNode         : ResourceNode(3)
 
     private val children = ArrayList<ResourceNode>()
 
