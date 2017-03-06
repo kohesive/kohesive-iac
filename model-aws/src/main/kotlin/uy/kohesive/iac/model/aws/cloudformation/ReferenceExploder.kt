@@ -89,6 +89,7 @@ sealed class ResourceNode(
     class StringLiteralNode : ResourceNode(0) {
         private val value: StringBuffer = StringBuffer()
         fun append(c: Char) = value.append(c)
+        fun value() = value.toString()
         override fun toString() = "\"$value\""
     }
     class ImplicitNode    : ResourceNode(1)
@@ -97,7 +98,7 @@ sealed class ResourceNode(
     class RefPropertyNode : ResourceNode(3)
     class MapNode         : ResourceNode(3)
 
-    private val children = ArrayList<ResourceNode>()
+    val children = ArrayList<ResourceNode>()
 
     fun isReferenceNode() = arity > 0
     fun isUnresolved()    = children.size < arity
