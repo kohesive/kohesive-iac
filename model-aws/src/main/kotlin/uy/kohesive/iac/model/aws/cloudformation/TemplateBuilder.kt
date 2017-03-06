@@ -13,9 +13,9 @@ class TemplateBuilder(
 
     fun build(): Template {
         return Template(
-            Description = description,
+            Description              = description,
             AWSTemplateFormatVersion = version,
-            Parameters = context.variables.mapValues { varEntry ->
+            Parameters               = context.variables.mapValues { varEntry ->
                 varEntry.value.toCFParameter()
             },
             Resources = context.objectsToNames.toList().groupBy(Pair<Any, String>::second).mapValues {
@@ -44,30 +44,30 @@ class TemplateBuilder(
 }
 
 data class Template(
-    val AWSTemplateFormatVersion: String?,
-    val Description: String?,
-    val Parameters: Map<String, Parameter> = emptyMap(),
-    val Mappings: Map<String, Any> = emptyMap(),
-    val Resources: Map<String, Resource> = emptyMap()
+    var AWSTemplateFormatVersion: String?,
+    var Description: String?,
+    var Parameters: Map<String, Parameter> = emptyMap(),
+    var Mappings: Map<String, Any> = emptyMap(),
+    var Resources: Map<String, Resource> = emptyMap()
 )
 
 data class Parameter(
-    val Description: String?,
-    val Type: String,
-    val Default: String?,
-    val MinLength: String?,
-    val MaxLength: String?,
-    val AllowedValues: List<String>?,
-    val AllowedPattern: String?,
-    val ConstraintDescription: String?
+    var Description: String?,
+    var Type: String,
+    var Default: String?,
+    var MinLength: String?,
+    var MaxLength: String?,
+    var AllowedValues: List<String>?,
+    var AllowedPattern: String?,
+    var ConstraintDescription: String?
 )
 
 interface ResourceProperties
 
 data class Resource(
-    val Type: String,
-    val Properties: ResourceProperties? = null,
-    val Metadata: Map<String, Any>? = emptyMap()
+    var Type: String,
+    var Properties: ResourceProperties? = null,
+    var Metadata: Map<String, Any>? = emptyMap()
 )
 
 fun ParameterizedValue<out Any>.toCFParameter(): Parameter = Parameter(

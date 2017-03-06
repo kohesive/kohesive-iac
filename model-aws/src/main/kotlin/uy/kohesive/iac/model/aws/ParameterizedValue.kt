@@ -80,6 +80,9 @@ class ParameterizedValue<T: Any>(val name: String,
                         errorDescription = errorDescription,
                         constraintDescription = constraintDescription)
     }
+
+    val ref = "{{kohesive:var:$name}}"
+
 }
 
 enum class ParameterizedValueTypes(val cloudFormationName: kotlin.String, val defaultDescription: kotlin.String? = null, val defaultErrorDescription: kotlin.String? = null) {
