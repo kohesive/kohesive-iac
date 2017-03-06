@@ -1,19 +1,114 @@
 package uy.kohesive.iac.model.aws.cloudformation
 
-import uy.kohesive.iac.model.aws.proxy.createReference
+import uy.kohesive.iac.model.aws.proxy.ReferenceType
+import java.util.*
+import kotlin.collections.ArrayList
 
-// TODO: ignore this for now
+fun explodeReference(str: String): List<ResourceNode> {
+    val stack = Stack<ResourceNode>()
 
-class One(val value: Any)
-class Two(val value: Any)
-class Three(val value: Any)
+    fun isWithinUnresolvedReference()
+        = stack.filter { it.isReferenceNode() }.any { it.isUnresolved() }
 
-fun main(args: Array<String>) {
-    val one   = createReference<One>("one")
-    val two   = createReference<Two>(one)
-    val three = createReference<Three>(two)
+    var i = 0
+    while (i < str.length) {
+        val currentNode: ResourceNode? = if (stack.empty()) null else stack.peek()
+        val nextRefStart = str.indexOf("{{kohesive:", i)
+        val nextRefEnd   = str.indexOf("}}", i)
+
+        // Start new reference
+        if (nextRefStart == i) {
+            // We need to figure out the type of reference
+
+            val refTypeStart = nextRefStart + "{{kohesive:".length
+            val refTypeEnd   = str.indexOf(":", refTypeStart)
+
+            val refType = ReferenceType.fromString(str.substring(
+                startIndex = refTypeStart,
+                endIndex   = refTypeEnd
+            ))
+
+            // Push the new reference node to the stack
+            val referenceNode = ResourceNode.forReferenceType(refType)
+            stack.push(referenceNode)
+
+            i = refTypeEnd + 1
+        } else if (nextRefEnd == i && isWithinUnresolvedReference()) {
+            // Pop the arguments (reference parts) and assign them as reference children
+
+            val referenceArguments = ArrayList<ResourceNode>()
+            while (true) {
+                val node = stack.peek()
+
+                if (node.isReferenceNode() && node.isUnresolved()) {
+                    for (referenceNode in referenceArguments) {
+                        node.insertChild(referenceNode)
+                    }
+                    break
+                } else {
+                    referenceArguments.add(stack.pop())
+                }
+            }
+
+            i += 2
+        } else {
+            if (str[i] == ':' && isWithinUnresolvedReference()) {
+                if (i != nextRefStart - 1) {
+                    stack.push(ResourceNode.StringLiteralNode())
+                }
+                i++; continue
+            }
+
+            // Must be a string literal
+            val stringNode = currentNode as? ResourceNode.StringLiteralNode ?:
+                ResourceNode.StringLiteralNode().apply {
+                    stack.push(this)
+                }
+
+            stringNode.append(str[i++])
+        }
+    }
+
+    return stack
 }
 
-class ReferenceExploder() {
+sealed class ResourceNode(
+    val arity: Int
+) {
 
+    companion object {
+        fun forReferenceType(refType: ReferenceType) = when (refType) {
+            ReferenceType.Ref         -> Ref()
+            ReferenceType.RefProperty -> RefPropertyNode()
+            ReferenceType.Var         -> VariableResourceNode()
+            ReferenceType.Map         -> MapResourceNode()
+            ReferenceType.Implicit    -> ImplicitResourceNode()
+        }
+    }
+
+    class StringLiteralNode : ResourceNode(0) {
+        private val value: StringBuffer = StringBuffer()
+        fun append(c: Char) = value.append(c)
+        override fun toString() = "\"$value\""
+    }
+    class ImplicitResourceNode : ResourceNode(1)
+    class VariableResourceNode : ResourceNode(1)
+    class Ref                  : ResourceNode(2)
+    class RefPropertyNode      : ResourceNode(3)
+    class MapResourceNode      : ResourceNode(3)
+
+    private val children = ArrayList<ResourceNode>()
+
+    fun isReferenceNode() = arity > 0
+    fun isUnresolved()    = children.size < arity
+
+    fun insertChild(childNode: ResourceNode, index: Int = 0) {
+        if (children.size + 1 > arity) {
+            throw IllegalStateException("Max children count reached for ${ this::class.simpleName }")
+        }
+        children.add(index, childNode)
+    }
+
+    override fun toString() = "${ this::class.simpleName }: (${children.joinToString(", ")})"
 }
+

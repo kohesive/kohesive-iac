@@ -4,6 +4,7 @@ fun String.isKohesiveRef() = startsWith("{{kohesive") && endsWith("}}")
 
 enum class ReferenceType(val value: String) {
     Ref("ref"),
+    RefProperty("ref-property"),
     Var("var"),
     Map("map"),
     Implicit("ivar");
@@ -31,11 +32,16 @@ data class KohesiveReference(
 
             val refType = ReferenceType.fromString(arr[1])
             when (refType) {
-                ReferenceType.Ref, ReferenceType.Map -> {
+                ReferenceType.RefProperty, ReferenceType.Map -> {
+                    if (arr.size == 5) {
+                        return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3], targetProperty = arr[4])
+                    } else {
+                        throw IllegalArgumentException("Incorrect reference $str")
+                    }
+                }
+                ReferenceType.Ref -> {
                     if (arr.size == 4) {
                         return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3])
-                    } else if (arr.size == 5) {
-                        return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3], targetProperty = arr[4])
                     } else {
                         throw IllegalArgumentException("Incorrect reference $str")
                     }
@@ -53,6 +59,6 @@ data class KohesiveReference(
 }
 
 inline internal fun <reified T : Any> createReference(targetId: String)
-    = "{{kohesive:ref:${T::class.java.simpleName}:$targetId}}"
+    = "{{kohesive:${ReferenceType.Ref.value}:${T::class.java.simpleName}:$targetId}}"
 inline internal fun <reified T : Any> createReference(targetId: String, property: String)
-    = "{{kohesive:ref:${T::class.java.simpleName}:$targetId:$property}}"
+    = "{{kohesive:${ReferenceType.RefProperty.value}:${T::class.java.simpleName}:$targetId:$property}}"
