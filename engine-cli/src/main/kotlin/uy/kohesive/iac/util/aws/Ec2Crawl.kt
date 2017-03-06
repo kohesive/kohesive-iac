@@ -1,12 +1,16 @@
 package uy.kohesive.iac.util.aws
 
+import com.amazonaws.auth.*
 import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2ClientBuilder
 import com.amazonaws.services.ec2.model.*
-import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
+import com.amazonaws.services.ec2.model.AvailabilityZone
+import com.amazonaws.services.ec2.model.Subnet
+import com.amazonaws.services.ec2.model.Tag
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClientBuilder
 import com.amazonaws.services.identitymanagement.model.*
+import com.amazonaws.services.rds.AmazonRDSClientBuilder
+import com.amazonaws.services.rds.model.*
 import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder
 import com.amazonaws.services.securitytoken.model.GetCallerIdentityRequest
 import kotlinx.coroutines.experimental.Deferred
@@ -15,13 +19,27 @@ import kotlinx.coroutines.experimental.newFixedThreadPoolContext
 import kotlinx.coroutines.experimental.runBlocking
 import kotlin.coroutines.experimental.buildSequence
 
-class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 16) {
+data class AwsCrawlCredentials(private val basicCredentials: BasicAWSCredentials? = null,
+                               private val profileName: String? = null) {
+    val provider: AWSCredentialsProvider = run {
+        val providers = listOf(
+                basicCredentials?.let { AWSStaticCredentialsProvider(it) },
+                profileName?.let { ProfileCredentialsProvider(profileName) },
+                if (basicCredentials == null && profileName == null) InstanceProfileCredentialsProvider(true) else null
+        ).filterNotNull()
+        AWSCredentialsProviderChain(providers)
+    }
+}
+
+
+class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
+               parallelism: Int = Runtime.getRuntime().availableProcessors() * 16) {
     val parallelism = parallelism.coerceAtLeast(4).coerceAtMost(64)
     val baseContext = newFixedThreadPoolContext(parallelism, "AWS-crawl-pool")
 
     data class RegionClient<T : Any>(val region: String, val client: T)
 
-    fun <T : Any> List<RegionClient<AmazonEC2>>.perClient(f: AmazonEC2.() -> List<T>): Deferred<Map<String, List<T>>> = async(baseContext) {
+    fun <T : Any, C : Any> List<RegionClient<C>>.perClient(f: C.() -> List<T>): Deferred<Map<String, List<T>>> = async(baseContext) {
         val workers = this@perClient.map { ec2 ->
             async(context) {
                 ec2.client.f().map { Pair(ec2.region, it) }
@@ -30,7 +48,7 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
         workers.map { it.await() }.flatten().groupBy { it.first }.mapValues { it.value.map { it.second } }
     }
 
-    fun <T : Any> List<RegionClient<AmazonEC2>>.perClientPaged(f: AmazonEC2.(nextToken: String?) -> Pair<String?, List<T>>): Deferred<Map<String, List<T>>> = async(baseContext) {
+    fun <T : Any, C : Any> List<RegionClient<C>>.perClientPaged(f: C.(nextToken: String?) -> Pair<String?, List<T>>): Deferred<Map<String, List<T>>> = async(baseContext) {
         val workers = this@perClientPaged.map { ec2 ->
             async(context) {
                 buildSequence {
@@ -46,7 +64,7 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
         workers.map { it.await() }.flatten().groupBy { it.first }.mapValues { it.value.map { it.second } }
     }
 
-    fun <T : Any> RegionClient<AmazonIdentityManagement>.paged(f: AmazonIdentityManagement.(nextToken: String?) -> Pair<String?, List<T>>): Deferred<List<T>> = async(baseContext) {
+    fun <T : Any, C : Any> RegionClient<C>.paged(f: C.(nextToken: String?) -> Pair<String?, List<T>>): Deferred<List<T>> = async(baseContext) {
         buildSequence {
             var pagingToken: String? = null
             paging@ while (true) {
@@ -57,26 +75,24 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
         }.toList() // force consume
     }
 
-    fun List<Tag>.nameTag() = firstOrNull { it.key.equals("Name", ignoreCase = true) }?.value ?: "unknown"
-
     val usEast1Region = "us-east-1"
-    val credentials = ProfileCredentialsProvider("collokia-all")
+    val credentials = credentialsCfg.provider
 
     fun fetchAccountId(): String = runBlocking<String> {
-            val stsUsEast1 = RegionClient(usEast1Region, AWSSecurityTokenServiceClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
-            println("Fetching Account ID...")
-            val awsAccountIdTask = async(baseContext) { stsUsEast1.client.getCallerIdentity(GetCallerIdentityRequest()).account }
-            awsAccountIdTask.await()
+        val stsUsEast1 = RegionClient(usEast1Region, AWSSecurityTokenServiceClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
+        println("Fetching Account ID...")
+        val awsAccountIdTask = async(baseContext) { stsUsEast1.client.getCallerIdentity(GetCallerIdentityRequest()).account }
+        awsAccountIdTask.await()
     }
 
     fun fetchAwsRegions(): List<Region> = runBlocking<List<Region>> {
-            val ec2UsEast1 = RegionClient(usEast1Region, AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
-            println("Fetching AWS Regions...")
-            val ec2RegionsTask = async(baseContext) { ec2UsEast1.client.describeRegions().regions }
-            ec2RegionsTask.await()
+        val ec2UsEast1 = RegionClient(usEast1Region, AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
+        println("Fetching AWS Regions...")
+        val ec2RegionsTask = async(baseContext) { ec2UsEast1.client.describeRegions().regions }
+        ec2RegionsTask.await()
     }
 
-    fun fetchEc2Data(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<Unit> {
+    fun fetchEc2Data(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<Ec2Data> {
         println("Making clients per Region...")
         val ec2UsEast1 = RegionClient(usEast1Region, AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
         val ec2All = ec2Regions.map { region -> RegionClient(region.regionName, AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(region.regionName).build()) }
@@ -220,132 +236,32 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
         val ec2AccountAttrs = ec2AccountInfoTask.await().map { it.value }.first()
         val ec2ReferencedAmiImages = ec2UnknownAmiImagesTask.await()
 
-        println()
-        println("============[ EC2 RESULTS ]=============")
-        println()
-
-        println("Account attributes:")
-        ec2AccountAttrs.forEach {
-            println("  ${it.attributeName} = ${it.attributeValues.map { it.attributeValue }.joinToString()}")
-        }
-
-        println()
-        println("Regions:")
-        ec2Regions.forEach {
-            println("  ${it.regionName} :: ${it.endpoint}")
-        }
-
-        println()
-        println("Availability zones:")
-        ec2AvailZones.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.regionName} :: ${it.zoneName}")
-            }
-        }
-
-        println()
-        println("EC2 Instances:")
-        ec2Instances.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.tags.nameTag()} :: ${it.instanceId} :: ${it.imageId} :: ${it.keyName} :: ${it.securityGroups.map { it.groupName }.joinToString()}")
-            }
-        }
-
-        println()
-        println("EC2 Instance Profiles Assoc:")
-        ec2InstanceProfileAssoc.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.instanceId} :: ${it.iamInstanceProfile.id} :: ${it.iamInstanceProfile.arn}")
-            }
-        }
-
-        println()
-        println("EC2 KeyPairs:")
-        ec2KeyPairs.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.keyName} :: ${it.keyFingerprint}")
-            }
-        }
-
-        println()
-        println("Security Groups:")
-        ec2SecurityGroups.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.groupName} :: ${it.groupId} :: ${it.vpcId}")
-            }
-        }
-
-        println()
-        println("Elastic IPs:")
-        ec2ElasticIps.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.publicIp} :: ${it.privateIpAddress} :: ${it.instanceId}")
-            }
-        }
-
-        println()
-        println("VPCs:")
-        ec2Vpcs.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.tags.nameTag()} :: ${it.vpcId}")
-            }
-        }
-
-        println()
-        println("VPC Peering:")
-        ec2VpcPeeringConnections.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.tags.nameTag()} :: ${it.vpcPeeringConnectionId} :: ${it.accepterVpcInfo.vpcId} <- ${it.requesterVpcInfo.vpcId}")
-            }
-        }
-
-        println()
-        println("EC2 Subnets:")
-        ec2Subnets.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.tags.nameTag()} :: ${it.vpcId} :: ${it.subnetId} :: ${it.cidrBlock}")
-            }
-        }
-
-        println()
-        println("EC2 Owned AMI Images:")
-        ec2OwnedAmiImages.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
-            }
-        }
-
-        println()
-        println("EC2 Execute Privileged AMI Images:")
-        ec2ExecAmiImages.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
-            }
-        }
-
-        println()
-        println("EC2 Other Referenced AMI Images:")
-        ec2ReferencedAmiImages.forEach {
-            println("  ${it.key}:")
-            it.value.forEach {
-                println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
-            }
-        }
-
+        Ec2Data(accountAttributes = ec2AccountAttrs,
+                regions = ec2Regions.map { it.regionName },
+                availabilityZonesByRegion = ec2AvailZones,
+                instancesByRegion = ec2Instances,
+                ownedAmisByRegion = ec2OwnedAmiImages,
+                execAmisByRegion = ec2ExecAmiImages,
+                otherAmisByRegion = ec2ReferencedAmiImages,
+                securityGroupsByRegion = ec2SecurityGroups,
+                elasticIpsByRegion = ec2ElasticIps,
+                keyPairsByRegion = ec2KeyPairs,
+                instanceProfileAssociationsByRegion = ec2InstanceProfileAssoc,
+                clusterGatewaysByRegion = ec2CustomerGateways,
+                egressOnlyInternetGatewaysByRegion = ec2EgressOnlyGateways,
+                internetGatewaysByRegion = ec2InternetGateways,
+                natGatewaysByRegion = ec2NatGateways,
+                networkAclsByRegion = ec2NetworkAcls,
+                networkInterfacesByRegion = ec2NetworkInterfaces,
+                routeTablesByRegion = ec2RouteTables,
+                subnetsByRegion = ec2Subnets,
+                vpcsByRegion = ec2Vpcs,
+                vpcPeeringConnectionsByRegion = ec2VpcPeeringConnections,
+                vpnGatewaysByRegion = ec2VpnGateways,
+                vpnConnectionsByRegion = ec2VpnConnections)
     }
 
-    fun fetchIamData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<Unit> {
+    fun fetchIamData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<IamData> {
         val iamUsEast1 = RegionClient(usEast1Region, AmazonIdentityManagementClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
 
         // continue onto IAM ...
@@ -382,6 +298,7 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
             val results = listPolicies(ListPoliciesRequest().apply {
                 maxItems = 1000
                 marker = pagingToken
+                this.setScope(PolicyScopeType.Local)
             })
             Pair(if (results.isTruncated()) results.marker else null, results.policies)
         }
@@ -394,6 +311,25 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
             })
             Pair(if (results.isTruncated()) results.marker else null, results.instanceProfiles)
         }
+
+        println("Fetching IAM Virtual MFA Devices...")
+        val iamVirtMfaDevicesTask = iamUsEast1.paged { pagingToken ->
+            val results = listVirtualMFADevices(ListVirtualMFADevicesRequest().apply {
+                maxItems = 1000
+                marker = pagingToken
+                assignmentStatus = "Assigned"
+            })
+            Pair(if (results.isTruncated()) results.marker else null, results.virtualMFADevices)
+        }
+
+        // TODO:  Things not fetched:
+        //        OpenIDConnectProviders
+        //        SAMLProviders
+        //        ServerCertificates
+        //        ServiceSpecificCredentials
+        //        SigningCertificates
+        //        SSHPublicKeys
+        //
 
         // gather IAM stuff, and fan out new 2nd level requests...
 
@@ -450,6 +386,20 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
             }
             Pair(user, keys)
         }
+
+        println("Fetching IAM MFA Device for each User...")
+        val iamUserMfaDevicesTask = iamUserList.map { user ->
+            val keys = iamUsEast1.paged { pagingToken ->
+                val results = listMFADevices(ListMFADevicesRequest().apply {
+                    maxItems = 1000
+                    marker = pagingToken
+                    userName = user.userName
+                })
+                Pair(if (results.isTruncated()) results.marker else null, results.mfaDevices)
+            }
+            Pair(user, keys)
+        }
+
 
         val iamGroupList = iamGroupsTask.await()
 
@@ -520,8 +470,6 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
             Pair(role, keys)
         }
 
-
-
         val iamPolicyList = iamPoliciesTask.await()
 
         /* we already get this from the user, group, role lookups
@@ -542,77 +490,414 @@ class Ec2Crawl(parallelism: Int = Runtime.getRuntime().availableProcessors() * 1
         // gather second level IAM requests
 
         val iamInstanceProfiles = iamInstanceProfilesTask.await()
+        val iamVirtMfaDevices = iamVirtMfaDevicesTask.await()
         val iamUserArnToGroups = iamUserGroupsTask.map { it.first.arn to it.second.await() }.toMap()
         val iamUserArnToAccessKeys = iamUserAccessKeysTask.map { it.first.arn to it.second.await() }.toMap()
         val iamUserArnToAttachedPolicies = iamUserAttachedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
         val iamUserArnToEmbeddedPolicies = iamUserEmbeddedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
+        val iamUserArnToMfaDevices = iamUserMfaDevicesTask.map { it.first.arn to it.second.await() }.toMap()
+        val iamUserArnToVirtMfaDevices = iamVirtMfaDevices.map { it.user.arn to it }.toMap()
         val iamGroupArnToAttachedPolicies = iamGroupAttachedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
         val iamGroupArnToEmbeddedPolicies = iamGroupEmbeddedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
         val iamRoleArnToAttachedPolicies = iamRoleAttachedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
         val iamRoleArnToEmbeddedPolicies = iamRoleEmbeddedPoliciesTask.map { it.first.arn to it.second.await() }.toMap()
         val iamRoleArnToAssocInstanceProfiles = iamRoleAssocInstanceProfilesTask.map { it.first.arn to it.second.await() }.toMap()
 
-        // print all results:
+        IamData(users = iamUserList,
+                groups = iamGroupList,
+                policies = iamPolicyList,
+                roles = iamRoleList,
+                instanceProfiles = iamInstanceProfiles,
+                virtMfaDevices = iamVirtMfaDevices,
+                userGroupAssignmentsByUserArn = iamUserArnToGroups,
+                userAccessKeysByUserArn = iamUserArnToAccessKeys,
+                userAttachedPoliciesByUserArn = iamUserArnToAttachedPolicies,
+                userEmbeddedPolicyNamesByUserArn = iamUserArnToEmbeddedPolicies,
+                userMfaDevicesByUserArn = iamUserArnToMfaDevices,
+                userVirtualMfaDevicesByUserArn = iamUserArnToVirtMfaDevices,
+                groupAttachedPoliciesByGroupArn = iamGroupArnToAttachedPolicies,
+                groupEmbeddedPolicyNamesByGroupArn = iamGroupArnToEmbeddedPolicies,
+                roleAttachedPoliciesByRoleArn = iamRoleArnToAttachedPolicies,
+                roleEmbeddedPolicyNamesByRoleArn = iamRoleArnToEmbeddedPolicies,
+                roleAssociatedInstanceProfilesByRoleArn = iamRoleArnToAssocInstanceProfiles)
 
-
-
-        println()
-        println("============[ IAM RESULTS ]=============")
-        println()
-
-        println("IAM User List:")
-        iamUserList.forEach {
-            println("  ${it.userName} :: ${it.userId} :: ${it.arn} :: ")
-            println("       groups:        ${iamUserArnToGroups.get(it.arn)?.map { it.groupName }?.joinToString() ?: "n/a"}")
-            println("       keys:          ${iamUserArnToAccessKeys.get(it.arn)?.map { it.accessKeyId }?.joinToString() ?: "n/a"}")
-            println("       policies:      ${iamUserArnToEmbeddedPolicies.get(it.arn)?.joinToString() ?: "n/a"}")
-            println("       ext policies:  ${iamUserArnToAttachedPolicies.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
-        }
-
-        println()
-        println("IAM Group List:")
-        iamGroupList.forEach {
-            println("  ${it.groupName} :: ${it.groupId} :: ${it.arn}")
-            println("       policies:      ${iamGroupArnToEmbeddedPolicies.get(it.arn)?.joinToString() ?: "n/a"}")
-            println("       ext policies:  ${iamGroupArnToAttachedPolicies.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
-        }
-
-        println()
-        println("IAM Role List:")
-        iamRoleList.forEach {
-            println("  ${it.roleName} :: ${it.roleId} :: ${it.arn}")
-            println("       policies:      ${iamRoleArnToEmbeddedPolicies.get(it.arn)?.joinToString() ?: "n/a"}")
-            println("       ext policies:  ${iamRoleArnToAttachedPolicies.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
-            println("       inst profiles: ${iamRoleArnToAssocInstanceProfiles.get(it.arn)?.map { it.instanceProfileName }?.joinToString() ?: "n/a"}")
-        }
-
-        println()
-        println("IAM Policy List:")
-        iamPolicyList.forEach {
-            println("  ${it.policyName} :: ${it.policyId} :: ${it.arn}")
-        }
-
-        println()
-        println("IAM Instance Profiles List:")
-        iamInstanceProfiles.forEach {
-            println("  ${it.instanceProfileName} :: ${it.instanceProfileId} :: ${it.arn}")
-        }
-
-        println()
-        println("done.")
     }
 
-    fun go() = runBlocking<Unit> {
+    fun fetchRdsData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<RdsData> {
+        val rdsUsEast1 = RegionClient(usEast1Region, AmazonRDSClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
+        // val rdsAll = ec2Regions.map { region -> RegionClient(region.regionName, AmazonRDSClientBuilder.standard().withCredentials(credentials).withRegion(region.regionName).build()) }
+
+        println("Fetching RDS Account quotas...")
+        val accountQuotas = async(baseContext) { rdsUsEast1.client.describeAccountAttributes().accountQuotas }.await()
+
+        println("Fetching RDS Certificates...")
+        val rdsCertificatesTask = rdsUsEast1.paged { pagingToken ->
+            val results = rdsUsEast1.client.describeCertificates(DescribeCertificatesRequest().apply {
+                maxRecords = 100
+                marker = pagingToken
+            })
+            Pair(results.marker, results.certificates)
+        }
+
+        println("Fetching RDS Clusters...")
+        val rdsClustersTask = rdsUsEast1.paged { pagingToken ->
+            val results = rdsUsEast1.client.describeDBClusters(DescribeDBClustersRequest().apply {
+                maxRecords = 100
+                marker = pagingToken
+            })
+            Pair(results.marker, results.dbClusters)
+        }
+
+        println("Fetching RDS Instances...")
+        val rdsInstancesTask = rdsUsEast1.paged { pagingToken ->
+            val results = rdsUsEast1.client.describeDBInstances(DescribeDBInstancesRequest().apply {
+                maxRecords = 100
+                marker = pagingToken
+            })
+            Pair(results.marker, results.dbInstances)
+        }
+
+        println("Fetching RDS Security Groups...")
+        val rdsSecurityGroupsTask = rdsUsEast1.paged { pagingToken ->
+            val results = rdsUsEast1.client.describeDBSecurityGroups(DescribeDBSecurityGroupsRequest().apply {
+                maxRecords = 100
+                marker = pagingToken
+            })
+            Pair(results.marker, results.dbSecurityGroups)
+        }
+
+        println("Fetching RDS Subnet Groups...")
+        val rdsSubnetGroupsTask = rdsUsEast1.paged { pagingToken ->
+            val results = rdsUsEast1.client.describeDBSubnetGroups(DescribeDBSubnetGroupsRequest().apply {
+                maxRecords = 100
+                marker = pagingToken
+            })
+            Pair(results.marker, results.dbSubnetGroups)
+        }
+
+
+        val rdsCertificates = rdsCertificatesTask.await()
+        val rdsInstances = rdsInstancesTask.await()
+        val rdsSecurityGroups = rdsSecurityGroupsTask.await()
+        val rdsSubnetGroups = rdsSubnetGroupsTask.await()
+        val rdsClusters = rdsClustersTask.await()
+
+        RdsData(dbCertificates = rdsCertificates,
+                dbClusters = rdsClusters,
+                dbInstances = rdsInstances,
+                dbSecurityGroups = rdsSecurityGroups,
+                dbSubnetGroups = rdsSubnetGroups)
+
+        /*
+        rdsUsEast1.client.describeDBClusterParameterGroups()
+        rdsUsEast1.client.describeDBClusterParameters()
+        rdsUsEast1.client.describeDBClusterSnapshots()
+        rdsUsEast1.client.describeDBClusterSnapshotAttributes()
+        rdsUsEast1.client.describeDBEngineVersions()
+        rdsUsEast1.client.describeDBParameterGroups()
+        rdsUsEast1.client.describeDBParameters()
+        rdsUsEast1.client.describeDBSnapshots()
+        rdsUsEast1.client.describeDBSnapshotAttributes()
+        rdsUsEast1.client.describeEngineDefaultClusterParameters()
+        rdsUsEast1.client.describeEngineDefaultParameters()
+        rdsUsEast1.client.describeEventCategories()
+        rdsUsEast1.client.describeEventSubscriptions()
+        rdsUsEast1.client.describeEvents()
+        rdsUsEast1.client.describeOptionGroupOptions()
+        rdsUsEast1.client.describeOptionGroups()
+        rdsUsEast1.client.describeOrderableDBInstanceOptions()
+        rdsUsEast1.client.describePendingMaintenanceActions()
+        rdsUsEast1.client.describeSourceRegions()
+        */
+
+
+    }
+
+    fun fetchAllData() = runBlocking<AwsData> {
         val accountId = fetchAccountId()
         val regions = fetchAwsRegions()
 
-        fetchEc2Data(accountId, regions)
-        fetchIamData(accountId, regions)
+        val ec2Data = fetchEc2Data(accountId, regions)
+        val iamData = fetchIamData(accountId, regions)
+        val rdsData = fetchRdsData(accountId, regions)
+
+        printEc2Data(ec2Data)
+        printIamData(iamData)
+        printRdsData(rdsData)
+
+        AwsData(accountId, ec2Data, iamData, rdsData)
     }
 }
+
+data class AwsData(val accountId: String,
+                   val ec2Data: Ec2Data,
+                   val iamData: IamData,
+                   val rdsData: RdsData)
+
+data class Ec2Data(val accountAttributes: List<AccountAttribute>,
+                   val regions: List<String>,
+                   val availabilityZonesByRegion: Map<String, List<AvailabilityZone>>,
+                   val instancesByRegion: Map<String, List<Instance>>,
+                   val ownedAmisByRegion: Map<String, List<Image>>,
+                   val execAmisByRegion: Map<String, List<Image>>,
+                   val otherAmisByRegion: Map<String, List<Image>>,
+                   val securityGroupsByRegion: Map<String, List<SecurityGroup>>,
+                   val elasticIpsByRegion: Map<String, List<Address>>,
+                   val keyPairsByRegion: Map<String, List<KeyPairInfo>>,
+                   val instanceProfileAssociationsByRegion: Map<String, List<IamInstanceProfileAssociation>>,
+                   val clusterGatewaysByRegion: Map<String, List<CustomerGateway>>,
+                   val egressOnlyInternetGatewaysByRegion: Map<String, List<EgressOnlyInternetGateway>>,
+                   val internetGatewaysByRegion: Map<String, List<InternetGateway>>,
+                   val natGatewaysByRegion: Map<String, List<NatGateway>>,
+                   val networkAclsByRegion: Map<String, List<NetworkAcl>>,
+                   val networkInterfacesByRegion: Map<String, List<NetworkInterface>>,
+                   val routeTablesByRegion: Map<String, List<RouteTable>>,
+                   val subnetsByRegion: Map<String, List<Subnet>>,
+                   val vpcsByRegion: Map<String, List<Vpc>>,
+                   val vpcPeeringConnectionsByRegion: Map<String, List<VpcPeeringConnection>>,
+                   val vpnGatewaysByRegion: Map<String, List<VpnGateway>>,
+                   val vpnConnectionsByRegion: Map<String, List<VpnConnection>>)
+
+data class IamData(val users: List<User>,
+                   val groups: List<Group>,
+                   val policies: List<Policy>,
+                   val roles: List<Role>,
+                   val instanceProfiles: List<InstanceProfile>,
+                   val virtMfaDevices: List<VirtualMFADevice>,
+                   val userGroupAssignmentsByUserArn: Map<String, List<Group>>,
+                   val userAccessKeysByUserArn: Map<String, List<AccessKeyMetadata>>,
+                   val userAttachedPoliciesByUserArn: Map<String, List<AttachedPolicy>>,
+                   val userEmbeddedPolicyNamesByUserArn: Map<String, List<String>>,
+                   val userMfaDevicesByUserArn: Map<String, List<MFADevice>>,
+                   val userVirtualMfaDevicesByUserArn: Map<String, VirtualMFADevice>,
+                   val groupAttachedPoliciesByGroupArn: Map<String, List<AttachedPolicy>>,
+                   val groupEmbeddedPolicyNamesByGroupArn: Map<String, List<String>>,
+                   val roleAttachedPoliciesByRoleArn: Map<String, List<AttachedPolicy>>,
+                   val roleEmbeddedPolicyNamesByRoleArn: Map<String, List<String>>,
+                   val roleAssociatedInstanceProfilesByRoleArn: Map<String, List<InstanceProfile>>)
+
+data class RdsData(val dbCertificates: List<Certificate>,
+                   val dbClusters: List<DBCluster>,
+                   val dbInstances: List<DBInstance>,
+                   val dbSecurityGroups: List<DBSecurityGroup>,
+                   val dbSubnetGroups: List<DBSubnetGroup>)
 
 fun main(args: Array<String>) {
     println("AWS Crawler")
 
-    Ec2Crawl().go()
+    val profileName = if (args[0] == "instance") null else args[0]
+    val parallelism = args[1].toInt()
+    val awsData = Ec2Crawl(AwsCrawlCredentials(profileName = profileName), parallelism).fetchAllData()
+
+    println()
+    println("done.")
 }
+
+fun printEc2Data(data: Ec2Data) {
+    println()
+    println("============[ EC2 RESULTS ]=============")
+    println()
+
+    println("Account attributes:")
+    data.accountAttributes.forEach {
+        println("  ${it.attributeName} = ${it.attributeValues.map { it.attributeValue }.joinToString()}")
+    }
+
+    println()
+    println("Regions:")
+    data.regions.forEach {
+        println("  $it")
+    }
+
+    println()
+    println("Availability zones:")
+    data.availabilityZonesByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.regionName} :: ${it.zoneName}")
+        }
+    }
+
+    println()
+    println("EC2 Instances:")
+    data.instancesByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.tags.nameTag()} :: ${it.instanceId} :: ${it.imageId} :: ${it.keyName} :: ${it.securityGroups.map { it.groupName }.joinToString()}")
+        }
+    }
+
+    println()
+    println("EC2 Instance Profiles Assoc:")
+    data.instanceProfileAssociationsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.instanceId} :: ${it.iamInstanceProfile.id} :: ${it.iamInstanceProfile.arn}")
+        }
+    }
+
+    println()
+    println("EC2 KeyPairs:")
+    data.keyPairsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.keyName} :: ${it.keyFingerprint}")
+        }
+    }
+
+    println()
+    println("Security Groups:")
+    data.securityGroupsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.groupName} :: ${it.groupId} :: ${it.vpcId}")
+        }
+    }
+
+    println()
+    println("Elastic IPs:")
+    data.elasticIpsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.publicIp} :: ${it.privateIpAddress} :: ${it.instanceId}")
+        }
+    }
+
+    println()
+    println("VPCs:")
+    data.vpcsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.tags.nameTag()} :: ${it.vpcId}")
+        }
+    }
+
+    println()
+    println("VPC Peering:")
+    data.vpcPeeringConnectionsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.tags.nameTag()} :: ${it.vpcPeeringConnectionId} :: ${it.accepterVpcInfo.vpcId} <- ${it.requesterVpcInfo.vpcId}")
+        }
+    }
+
+    println()
+    println("EC2 Subnets:")
+    data.subnetsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.tags.nameTag()} :: ${it.vpcId} :: ${it.subnetId} :: ${it.cidrBlock}")
+        }
+    }
+
+    println()
+    println("EC2 Owned AMI Images:")
+    data.ownedAmisByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
+        }
+    }
+
+    println()
+    println("EC2 Execute Privileged AMI Images:")
+    data.execAmisByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
+        }
+    }
+
+    println()
+    println("EC2 Other Referenced AMI Images:")
+    data.otherAmisByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.name ?: it.tags.nameTag()} :: ${it.imageId} :: ${it.architecture} :: ${it.imageType} :: ${it.kernelId} :: ${it.description}")
+        }
+    }
+}
+
+fun printIamData(data: IamData) {
+    println()
+    println("============[ IAM RESULTS ]=============")
+    println()
+
+    println("IAM User List:")
+    data.users.forEach {
+        println("  ${it.userName} :: ${it.userId} :: ${it.arn} :: ")
+        println("       groups:          ${data.userGroupAssignmentsByUserArn.get(it.arn)?.map { it.groupName }?.joinToString() ?: "n/a"}")
+        println("       keys:            ${data.userAccessKeysByUserArn.get(it.arn)?.map { it.accessKeyId }?.joinToString() ?: "n/a"}")
+        println("       VirtMFA devices: ${data.userVirtualMfaDevicesByUserArn.get(it.arn)?.let { it.serialNumber } ?: "n/a"}")
+        println("       MFA devices:     ${data.userMfaDevicesByUserArn.get(it.arn)?.map { it.serialNumber }?.joinToString() ?: "n/a"}")
+        println("       policies:        ${data.userEmbeddedPolicyNamesByUserArn.get(it.arn)?.joinToString() ?: "n/a"}")
+        println("       ext policies:    ${data.userAttachedPoliciesByUserArn.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
+    }
+
+    println()
+    println("IAM Group List:")
+    data.groups.forEach {
+        println("  ${it.groupName} :: ${it.groupId} :: ${it.arn}")
+        println("       policies:      ${data.groupEmbeddedPolicyNamesByGroupArn.get(it.arn)?.joinToString() ?: "n/a"}")
+        println("       ext policies:  ${data.groupAttachedPoliciesByGroupArn.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
+    }
+
+    println()
+    println("IAM Role List:")
+    data.roles.forEach {
+        println("  ${it.roleName} :: ${it.roleId} :: ${it.arn}")
+        println("       policies:      ${data.roleEmbeddedPolicyNamesByRoleArn.get(it.arn)?.joinToString() ?: "n/a"}")
+        println("       ext policies:  ${data.roleAttachedPoliciesByRoleArn.get(it.arn)?.map { it.policyName }?.joinToString() ?: "n/a"}")
+        println("       inst profiles: ${data.roleAssociatedInstanceProfilesByRoleArn.get(it.arn)?.map { it.instanceProfileName }?.joinToString() ?: "n/a"}")
+    }
+
+    println()
+    println("IAM Policy List:")
+    data.policies.forEach {
+        println("  ${it.policyName} :: ${it.policyId} :: ${it.arn}")
+    }
+
+    println()
+    println("IAM Instance Profiles List:")
+    data.instanceProfiles.forEach {
+        println("  ${it.instanceProfileName} :: ${it.instanceProfileId} :: ${it.arn}")
+    }
+}
+
+fun printRdsData(data: RdsData) {
+    println()
+    println("============[ RDS RESULTS ]=============")
+    println()
+
+    println()
+    println("RDS Certificates:")
+    data.dbCertificates.forEach {
+        println("    ${it.certificateIdentifier} :: ${it.certificateType} :: ${it.certificateArn}")
+    }
+
+    println()
+    println("RDS Clusters:")
+    data.dbClusters.forEach {
+        println("    ${it.databaseName} :: ${it.dbClusterIdentifier} :: ${it.engine} :: ${it.engineVersion} :: ${it.dbClusterArn}")
+    }
+
+    println()
+    println("RDS Instances:")
+    data.dbInstances.forEach {
+        println("    ${it.dbName} :: ${it.dbInstanceIdentifier} :: ${it.dbInstanceClass} :: ${it.dbInstanceArn}")
+    }
+
+    println()
+    println("RDS Security Groups:")
+    data.dbSecurityGroups.forEach {
+        println("    ${it.vpcId} :: ${it.dbSecurityGroupName} :: ${it.dbSecurityGroupArn}")
+    }
+
+    println()
+    println("RDS Subnet Groups:")
+    data.dbSubnetGroups.forEach {
+        println("    ${it.vpcId} :: ${it.dbSubnetGroupName} :: ${it.dbSubnetGroupArn} :: ${it.subnets.map { it.subnetIdentifier }.joinToString()}")
+    }
+}
+
+fun List<Tag>.nameTag() = firstOrNull { it.key.equals("Name", ignoreCase = true) }?.value ?: "unknown"
