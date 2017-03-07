@@ -18,7 +18,7 @@ class CFBase64Function(value: Any?) : CloudFormationFunction {
 
 @JsonSerialize(using = CloudFormationFunctionSerializer::class)
 class CFJoinFunction(args: List<Any>, delimiter: Any = "") : CloudFormationFunction {
-    override val name = "Fn::Base64"
+    override val name = "Fn::Join"
     override val args = listOf(delimiter) + listOf(args)
 }
 
