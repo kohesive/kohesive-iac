@@ -1,10 +1,8 @@
 package uy.kohesive.iac.model.aws
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
-import uy.kohesive.iac.model.aws.cloudformation.processing.TemplateProcessor
 import uy.kohesive.iac.model.aws.helpers.*
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 
@@ -243,18 +241,14 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
         }
 
-        val JsonMapper = jacksonObjectMapper()
+        val JsonWriter = jacksonObjectMapper()
             .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
-        val JsonWriter = JsonMapper
             .writerWithDefaultPrettyPrinter()
 
-        val templateUnprocessed = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
-        val templateTree        = JsonMapper.valueToTree<ObjectNode>(templateUnprocessed)
+        val cfTemplate = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
 
-        TemplateProcessor(context).process(templateTree)
-
-        println(JsonWriter.writeValueAsString(templateTree))
+        println(JsonWriter.writeValueAsString(cfTemplate))
     }
 }
 
