@@ -23,7 +23,7 @@ class CFJoinFunction(args: List<Any>, delimiter: Any = "") : CloudFormationFunct
 }
 
 @JsonSerialize(using = CloudFormationFunctionSerializer::class)
-class CFFindInMapFunction(mapName: String, topLevelKey: Any, secondLevelKey: Any) : CloudFormationFunction {
+class CFFindInMapFunction(mapName: Any, topLevelKey: Any, secondLevelKey: Any) : CloudFormationFunction {
     override val name = "Fn::FindInMap"
     override val args = listOf(mapName, topLevelKey, secondLevelKey)
 }

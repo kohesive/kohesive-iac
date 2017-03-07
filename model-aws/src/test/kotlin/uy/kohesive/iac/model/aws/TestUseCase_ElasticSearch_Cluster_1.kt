@@ -3,10 +3,10 @@ package uy.kohesive.iac.model.aws
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
 import uy.kohesive.iac.model.aws.cloudformation.processing.TemplateProcessor
 import uy.kohesive.iac.model.aws.helpers.*
+import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
 //       that is generated from the region => service => pricing API
@@ -191,7 +191,6 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 }
 
                 addRoleToInstanceProfile(clusterDiscoveryRole, esInstanceProfile)
-
                 esInstanceProfile
             }
 

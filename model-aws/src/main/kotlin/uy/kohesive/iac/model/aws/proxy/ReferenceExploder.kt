@@ -77,11 +77,11 @@ sealed class ResourceNode(
 
     companion object {
         fun forReferenceType(refType: ReferenceType) = when (refType) {
-            ReferenceType.Ref -> RefNode()
+            ReferenceType.Ref         -> RefNode()
             ReferenceType.RefProperty -> RefPropertyNode()
-            ReferenceType.Var -> VariableNode()
-            ReferenceType.Map -> MapNode()
-            ReferenceType.Implicit -> ImplicitNode()
+            ReferenceType.Var         -> VariableNode()
+            ReferenceType.Map         -> MapNode()
+            ReferenceType.Implicit    -> ImplicitNode()
         }
     }
 
