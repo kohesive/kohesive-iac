@@ -1,8 +1,9 @@
-package uy.kohesive.iac.model.aws.cloudformation
+package uy.kohesive.iac.model.aws.cloudformation.processing
 
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.node.TextNode
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.cloudformation.Template
 
 /**
  * Replaces the negative integers from context with string {{kohesive:var:*}} references.

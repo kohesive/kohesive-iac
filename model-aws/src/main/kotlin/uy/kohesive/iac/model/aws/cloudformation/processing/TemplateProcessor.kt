@@ -1,4 +1,4 @@
-package uy.kohesive.iac.model.aws.cloudformation
+package uy.kohesive.iac.model.aws.cloudformation.processing
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
@@ -20,7 +20,8 @@ class TemplateProcessor(val context: IacContext) {
 
     companion object {
         val stringProcessors: List<TemplateStringProcessor> = listOf(
-           NumericVarPreProcessor()
+           NumericVarPreProcessor(),
+            CloudFormationFunctionsProcessor()
         )
     }
 
@@ -45,9 +46,9 @@ interface TextNodeInParent {
 }
 
 data class TextNodeInArray(
-    override val textNode: TextNode,
-    val array: ArrayNode,
-    val index: Int
+        override val textNode: TextNode,
+        val array: ArrayNode,
+        val index: Int
 ) : TextNodeInParent {
 
     override fun replaceWith(node: JsonNode) {
@@ -57,9 +58,9 @@ data class TextNodeInArray(
 }
 
 data class TextNodeInObject(
-    override val textNode: TextNode,
-    val obj: ObjectNode,
-    val fieldName: String
+        override val textNode: TextNode,
+        val obj: ObjectNode,
+        val fieldName: String
 ) : TextNodeInParent {
 
     override fun replaceWith(node: JsonNode) {

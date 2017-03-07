@@ -2,6 +2,7 @@ package uy.kohesive.iac.model.aws.cloudformation
 
 import com.amazonaws.AmazonWebServiceRequest
 import uy.kohesive.iac.model.aws.AwsTypes
+import uy.kohesive.iac.model.aws.cloudformation.resources.*
 import kotlin.reflect.KClass
 
 // TODO: I failed to use generics here :(

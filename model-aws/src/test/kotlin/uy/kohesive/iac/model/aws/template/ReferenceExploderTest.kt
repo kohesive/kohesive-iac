@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.template
 
 import junit.framework.TestCase
-import uy.kohesive.iac.model.aws.cloudformation.ResourceNode
-import uy.kohesive.iac.model.aws.cloudformation.explodeReference
+import uy.kohesive.iac.model.aws.proxy.ResourceNode
+import uy.kohesive.iac.model.aws.proxy.explodeReference
 
 class ReferenceExploderTest : TestCase() {
 

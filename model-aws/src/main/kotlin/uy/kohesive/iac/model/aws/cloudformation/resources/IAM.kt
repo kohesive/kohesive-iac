@@ -1,8 +1,10 @@
-package uy.kohesive.iac.model.aws.cloudformation
+package uy.kohesive.iac.model.aws.cloudformation.resources
 
 import com.amazonaws.AmazonWebServiceRequest
 import com.amazonaws.services.identitymanagement.model.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
+import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
 
 class IamInstanceProfilePropertiesBuilder : ResourcePropertiesBuilder<CreateInstanceProfileRequest> {
     override val requestClazz = CreateInstanceProfileRequest::class

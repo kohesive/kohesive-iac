@@ -1,9 +1,11 @@
 package uy.kohesive.iac.model.aws
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import uy.kohesive.iac.model.aws.cloudformation.CasePreservingNamingStrategy
+import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
+import uy.kohesive.iac.model.aws.cloudformation.processing.TemplateProcessor
 import uy.kohesive.iac.model.aws.helpers.*
 
 // TODO: we should have instance lists auto generated and kept up to date with an automatic build system, so a library
@@ -242,14 +244,18 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             }
         }
 
-        val JSON = jacksonObjectMapper()
-            .setPropertyNamingStrategy(CasePreservingNamingStrategy())
+        val JsonMapper = jacksonObjectMapper()
+            .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+        val JsonWriter = JsonMapper
             .writerWithDefaultPrettyPrinter()
 
-        val cfTemplate = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
+        val templateUnprocessed = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
+        val templateTree        = JsonMapper.valueToTree<ObjectNode>(templateUnprocessed)
 
-        println(JSON.writeValueAsString(cfTemplate))
+        TemplateProcessor(context).process(templateTree)
+
+        println(JsonWriter.writeValueAsString(templateTree))
     }
 }
 

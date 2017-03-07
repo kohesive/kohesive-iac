@@ -23,7 +23,7 @@ class TemplateBuilder(
             }.mapValues {
                 val objectsWithSameName = it.value
 
-                objectsWithSameName.firstOrNull{ obj ->
+                objectsWithSameName.firstOrNull { obj ->
                     (obj as? AmazonWebServiceRequest)?.let { request ->
                         AwsTypes.isCreationRequestClass(request::class)
                     } ?: false

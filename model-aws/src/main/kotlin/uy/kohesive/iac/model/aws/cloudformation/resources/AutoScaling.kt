@@ -1,8 +1,10 @@
-package uy.kohesive.iac.model.aws.cloudformation
+package uy.kohesive.iac.model.aws.cloudformation.resources
 
 import com.amazonaws.AmazonWebServiceRequest
 import com.amazonaws.services.autoscaling.model.CreateAutoScalingGroupRequest
 import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationRequest
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
+import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
 
 class LaunchConfigurationPropertiesBuilder : ResourcePropertiesBuilder<CreateLaunchConfigurationRequest> {
 
