@@ -27,9 +27,12 @@ class TemplateBuilder(
         val rawTemplate = Template(
             Description              = description,
             AWSTemplateFormatVersion = version,
-            Parameters               = context.variables.mapValues { varEntry ->
+            Parameters = context.variables.mapValues { varEntry ->
                 varEntry.value.toCFParameter()
             },
+            Mappings = context.mappings.map {
+                it.key to it.value.map
+            }.toMap(),
             Resources = context.objectsToNames.toList().groupBy(Pair<Any, String>::second).mapValues {
                 it.value.map { it.first }
             }.mapValues {

@@ -181,7 +181,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         val context = IacContext("test", "es-cluster-91992881DX") {
             addVariables(keyNameParam, instanceTypeParam, sshLocationParam, clusterSizeParam, elasticsearchVersionParam)
-            addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap)
+            addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap, elasticsearchVersion2ServiceWrapperHashMap, elasticsearchVersion2AWSCloudPluginVersion)
 
             val esInstanceProfile = withIamContext {
                 val clusterDiscoveryRole = createRole("ElasticsearchDiscoveryRole") {

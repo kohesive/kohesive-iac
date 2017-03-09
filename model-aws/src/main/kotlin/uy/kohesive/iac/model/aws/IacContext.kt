@@ -18,8 +18,8 @@ open class IacContext(
 
     override val objectsToNames= IdentityHashMap<Any, String>()
 
-    val variables: MutableMap<String, ParameterizedValue<out Any>> = hashMapOf()
-    val mappings: MutableMap<String, MappedValues> = hashMapOf()
+    val variables: MutableMap<String, ParameterizedValue<out Any>> = mutableMapOf()
+    val mappings: MutableMap<String, MappedValues> = mutableMapOf()
 
     override val ec2Client: AmazonEC2 by lazy { DeferredAmazonEC2(this) }
     override val ec2Context: Ec2Context by lazy { Ec2Context(this) }
