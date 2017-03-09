@@ -13,4 +13,5 @@ enum class ImplicitValues(val type: String) {
 
     fun asRef(): String = "{{kohesive:ivar:$type}}"
     val value: String get() = asRef()
+    override fun toString() = asRef()
 }

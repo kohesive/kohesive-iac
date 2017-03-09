@@ -169,11 +169,11 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             "ap-northeast-1" to mapOf("64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba")
         ))
 
-        val elasticsearchVersion2ServiceWrapperHashMap = MappedValues("ElasticsearchVersion2ServiceWrapperHash", mapOf(
+        val esVer2ServiceWrapHash = MappedValues("ElasticsearchVersion2ServiceWrapperHash", mapOf(
             "1.4.2" to mapOf("Hash" to "4943d5a")
         ))
 
-        val elasticsearchVersion2AWSCloudPluginVersion = MappedValues("ElasticsearchVersion2AWSCloudPluginVersion", mapOf(
+        val esVer2AWSPluginVersion = MappedValues("ElasticsearchVersion2AWSCloudPluginVersion", mapOf(
             "1.4.2" to mapOf("Ver" to "2.4.1")
         ))
 
@@ -181,7 +181,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         val context = IacContext("test", "es-cluster-91992881DX") {
             addVariables(keyNameParam, instanceTypeParam, sshLocationParam, clusterSizeParam, elasticsearchVersionParam)
-            addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap, elasticsearchVersion2ServiceWrapperHashMap, elasticsearchVersion2AWSCloudPluginVersion)
+            addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap, esVer2ServiceWrapHash, esVer2AWSPluginVersion)
 
             val esInstanceProfile = withIamContext {
                 val clusterDiscoveryRole = createRole("ElasticsearchDiscoveryRole") {
@@ -191,9 +191,6 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 val allowDiscoveryPolicy = createPolicy("ElasticsearchAllowEc2DescribeInstances") {
                     policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
                 }
-
-                // TODO: delete this vvv
-                allowDiscoveryPolicy.makeDependable(clusterDiscoveryRole)
 
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
@@ -235,38 +232,12 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
             withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
-                    val awsCloudPluginVersion = elasticsearchVersion2AWSCloudPluginVersion.asLookup(
-                        keyVariable   = elasticsearchVersionParam.value,
-                        valueVariable = "Ver"
-                    )
-                    val esServiceWrapperHash = elasticsearchVersion2ServiceWrapperHashMap.asLookup(
-                        keyVariable   = elasticsearchVersionParam.value,
-                        valueVariable = "Hash"
-                    )
+                    val awsCloudPluginVersion = esVer2AWSPluginVersion[elasticsearchVersionParam.value]["Ver"]
+                    val esServiceWrapperHash  = esVer2ServiceWrapHash[elasticsearchVersionParam.value]["Hash"]
 
                     iamInstanceProfile = esInstanceProfile.arn
 
-                    // TODO: metadata?
-                    // TODO: this is not very friendly vvv
-                    //     maybe some X.path(abc).path(yyz) or json path looking thing
-                    //     in the case below would be:
-                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value).path(awsInstantType2ArchMap.path(instanceTypeParam.value).path("Arch").value).value
-                    //     or
-                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value)[awsInstantType2ArchMap.path(instanceTypeParam.value)["Arch"]]
-                    //     or
-                    //        awsRegionArchi2AmiMap.path(ImplicitValues.Region.value).get(awsInstantType2ArchMap.path(instanceTypeParam.value).get("Arch"))
-                    //     or
-                    //        awsRegionArchi2AmiMap.get(ImplicitValues.Region.value).get(awsInstantType2ArchMap.get(instanceTypeParam.value).get("Arch"))
-                    //     or because get() is also []...
-                    //        awsRegionArchi2AmiMap[ImplicitValues.Region.value][awsInstantType2ArchMap[instanceTypeParam.value]["Arch"]]
-                    //
-                    imageId = awsRegionArchi2AmiMap.asLookup(
-                        keyVariable   = ImplicitValues.Region.value,
-                        valueVariable = awsInstantType2ArchMap.asLookup(
-                            keyVariable   = instanceTypeParam.value,
-                            valueVariable = "Arch"
-                        )
-                    )
+                    imageId      = awsRegionArchi2AmiMap[ImplicitValues.Region.value][awsInstantType2ArchMap[instanceTypeParam.value]["Arch"]]
                     instanceType = instanceTypeParam.value
                     keyName      = keyNameParam.value
                     userData     = """
@@ -279,7 +250,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                           exit 1
                         }
                         # Install application
-                        #/opt/aws/bin/cfn-init -s ${ImplicitValues.StackId.value} -r ElasticsearchServer --region ${ImplicitValues.Region.value}
+                        #/opt/aws/bin/cfn-init -s ${ImplicitValues.StackId} -r ElasticsearchServer --region ${ImplicitValues.Region}
                         #get and unzip elasticsearch
                         wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${elasticsearchVersionParam.value}.zip || error_exit "Failed to retrieve elasticsearch archive"
                         unzip elasticsearch-${elasticsearchVersionParam.value}.zip -d /usr/local/elasticsearch
@@ -290,7 +261,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                            error_exit "Failed to install aws plugin: $\{res}"
                         fi
                         # Install elasticsearch config.yml
-                        /opt/aws/bin/cfn-init -s ${ImplicitValues.StackId.value} -r ElasticsearchServer --region ${ImplicitValues.Region.value} || error_exit "failed to run cfn-init"
+                        /opt/aws/bin/cfn-init -s ${ImplicitValues.StackId} -r ElasticsearchServer --region ${ImplicitValues.Region} || error_exit "failed to run cfn-init"
                         #install elasticsearch servicewrapper daemon
                         cd ~
                         wget https://github.com/elasticsearch/elasticsearch-servicewrapper/zipball/$esServiceWrapperHash
