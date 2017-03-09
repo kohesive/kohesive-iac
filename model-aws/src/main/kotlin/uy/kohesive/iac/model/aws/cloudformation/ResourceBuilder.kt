@@ -13,7 +13,8 @@ object ResourcePropertyBuilders {
         AwsTypes.IamPolicy           to IamPolicyResourcePropertiesBuilder(),
         AwsTypes.IamInstanceProfile  to IamInstanceProfilePropertiesBuilder(),
         AwsTypes.LaunchConfiguration to LaunchConfigurationPropertiesBuilder(),
-        AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder()
+        AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder(),
+        AwsTypes.Ec2SecurityGroup    to Ec2SecurityGroupPropertiesBuilder()
     )
 
     fun getBuilder(awsType: AwsTypes) = awsTypeToBuilder[awsType]

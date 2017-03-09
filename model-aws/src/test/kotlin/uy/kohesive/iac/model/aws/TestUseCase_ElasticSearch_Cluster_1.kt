@@ -1,5 +1,7 @@
 package uy.kohesive.iac.model.aws
 
+import com.amazonaws.services.ec2.model.IpPermission
+import com.amazonaws.services.ec2.model.IpRange
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
@@ -192,6 +194,34 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 esInstanceProfile
             }
 
+            val securityGroupId = withEc2Context {
+                val groupId = createSecurityGroup("ElasticsearchSecurityGroup") {
+                    description = "Enable Elasticsearch access"
+                }
+
+                authorizeSecurityGroupIngress("ElasticsearchSecurityGroup") {
+                    withIpPermissions(
+                        IpPermission()
+                            .withIpProtocol("tcp")
+                            .withFromPort(9200)
+                            .withToPort(9200)
+                            .withIpv4Ranges(IpRange().withCidrIp("0.0.0.0/0")),
+                        IpPermission()
+                            .withIpProtocol("tcp")
+                            .withFromPort(9300)
+                            .withToPort(9300)
+                            .withIpv4Ranges(IpRange().withCidrIp("0.0.0.0/0")),
+                        IpPermission()
+                            .withIpProtocol("tcp")
+                            .withFromPort(22)
+                            .withToPort(22)
+                            .withIpv4Ranges(IpRange().withCidrIp(sshLocationParam.value))
+                    )
+                }
+
+                return@withEc2Context groupId
+            }
+
             withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
                     iamInstanceProfile = esInstanceProfile.arn
@@ -220,8 +250,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     )
                     instanceType = instanceTypeParam.value
                     keyName = keyNameParam.value
-
-                    // TODO: security group
+                    withSecurityGroups(securityGroupId)
                     // TODO: user data
                 }
 

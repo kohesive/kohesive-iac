@@ -7,6 +7,10 @@ import com.amazonaws.services.autoscaling.model.CreateAutoScalingGroupRequest
 import com.amazonaws.services.autoscaling.model.CreateAutoScalingGroupResult
 import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationRequest
 import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationResult
+import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
+import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
+import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
+import com.amazonaws.services.ec2.model.SecurityGroup
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
@@ -22,7 +26,8 @@ object AutoNaming {
         CreateAutoScalingGroupRequest::class    to CreateAutoScalingGroupRequest::getAutoScalingGroupName,
         CreateLaunchConfigurationRequest::class to CreateLaunchConfigurationRequest::getLaunchConfigurationName,
         AddRoleToInstanceProfileRequest::class  to AddRoleToInstanceProfileRequest::getInstanceProfileName,
-        AttachRolePolicyRequest::class          to AttachRolePolicyRequest::getPolicyNameFromArn
+        AttachRolePolicyRequest::class          to AttachRolePolicyRequest::getPolicyNameFromArn,
+        CreateSecurityGroupRequest::class       to CreateSecurityGroupRequest::getGroupName
     )
 
     fun getName(request: AmazonWebServiceRequest): String? {
@@ -44,7 +49,8 @@ enum class AwsTypes(val type: String,
     IamPolicy("AWS::IAM::Policy", CreatePolicyRequest::class, CreatePolicyResult::class, Policy::class, AttachRolePolicyRequest::class),
     IamInstanceProfile("AWS::IAM::InstanceProfile", CreateInstanceProfileRequest::class, CreateInstanceProfileResult::class, InstanceProfile::class, AddRoleToInstanceProfileRequest::class),
     AutoScalingGroup("AWS::AutoScaling::AutoScalingGroup", CreateAutoScalingGroupRequest::class, CreateAutoScalingGroupResult::class, com.amazonaws.services.autoscaling.model.AutoScalingGroup::class),
-    LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class);
+    LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class),
+    Ec2SecurityGroup("AWS::EC2::SecurityGroup", CreateSecurityGroupRequest::class, CreateSecurityGroupResult::class, SecurityGroup::class, AuthorizeSecurityGroupIngressRequest::class);
 
     companion object {
         private val typeStringToEnum = enumValues<AwsTypes>().map { it.type to it }.toMap()

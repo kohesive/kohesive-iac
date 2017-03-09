@@ -27,7 +27,7 @@ data class KohesiveReference(
         fun fromString(str: String): KohesiveReference {
             val arr = str.drop("{{kohesive".length).dropLast("}}".length).split(':')
             if (arr.size < 3) {
-                throw IllegalArgumentException("Not a valid reference: $str")
+                throw ReferenceParseException("Not a valid reference: $str")
             }
 
             val refType = ReferenceType.fromString(arr[1])
@@ -36,14 +36,14 @@ data class KohesiveReference(
                     if (arr.size == 5) {
                         return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3], targetProperty = arr[4])
                     } else {
-                        throw IllegalArgumentException("Incorrect reference $str")
+                        throw ReferenceParseException("Incorrect reference $str")
                     }
                 }
                 ReferenceType.Ref -> {
                     if (arr.size == 4) {
                         return KohesiveReference(refType = refType, targetType = arr[2], targetId = arr[3])
                     } else {
-                        throw IllegalArgumentException("Incorrect reference $str")
+                        throw ReferenceParseException("Incorrect reference $str")
                     }
                 }
                 ReferenceType.Implicit, ReferenceType.Var -> {
@@ -57,6 +57,8 @@ data class KohesiveReference(
         "{{" + listOf("kohesive", refType.value, targetType, targetId, targetProperty).filterNotNull() + "}}"
 
 }
+
+class ReferenceParseException(message: String) : Exception(message)
 
 inline internal fun <reified T : Any> createReference(targetId: String)
     = "{{kohesive:${ReferenceType.Ref.value}:${T::class.java.simpleName}:$targetId}}"

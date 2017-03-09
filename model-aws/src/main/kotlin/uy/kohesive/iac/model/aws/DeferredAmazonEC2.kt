@@ -2,13 +2,37 @@ package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.ec2.AbstractAmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2
-import com.amazonaws.services.ec2.model.Instance
-import com.amazonaws.services.ec2.model.Reservation
-import com.amazonaws.services.ec2.model.RunInstancesRequest
-import com.amazonaws.services.ec2.model.RunInstancesResult
+import com.amazonaws.services.ec2.model.*
+import uy.kohesive.iac.model.aws.proxy.KohesiveReference
+import uy.kohesive.iac.model.aws.proxy.ReferenceParseException
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 class DeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
+
+    override fun createSecurityGroup(request: CreateSecurityGroupRequest): CreateSecurityGroupResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy(context, getNameStrict(request), request)
+        }
+    }
+
+    override fun authorizeSecurityGroupIngress(request: AuthorizeSecurityGroupIngressRequest): AuthorizeSecurityGroupIngressResult {
+        return with (context) {
+            // First, we need to make sure we have a name here
+            val nameToRegisterWith: String = request.groupName ?: request.groupId?.let { groupId ->
+                try {
+                    KohesiveReference.fromString(groupId).targetId
+                } catch (t: ReferenceParseException) {
+                    // Not a reference
+                    null
+                }
+            } ?:  throw IllegalArgumentException("Can't bind request to a known security group request")
+
+            request.registerWithName(nameToRegisterWith)
+            AuthorizeSecurityGroupIngressResult().registerWithSameNameAs(request)
+        }
+    }
+
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
             val requestName = getNameStrict(request)
