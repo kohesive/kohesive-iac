@@ -20,7 +20,8 @@ class TemplateProcessor(val context: IacContext) {
 
     companion object {
         val stringProcessors: List<TemplateStringProcessor> = listOf(
-           NumericVarPreProcessor(),
+            NumericVarPreProcessor(),
+            UserDataBase64Processor(),
             CloudFormationFunctionsProcessor()
         )
     }
