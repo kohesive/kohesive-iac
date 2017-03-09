@@ -24,6 +24,15 @@ class TemplateBuilder(
     }
 
     fun build(): JsonNode {
+        val nameToDependsOnNames = context.dependsOn.map { entry ->
+            val sourceName  = context.getNameStrict(entry.key)
+            val targetNames = entry.value.map { targetObj ->
+                context.getNameStrict(targetObj)
+            }.distinct()
+
+            sourceName to targetNames
+        }.toMap()
+
         val rawTemplate = Template(
             Description              = description,
             AWSTemplateFormatVersion = version,
@@ -36,6 +45,7 @@ class TemplateBuilder(
             Resources = context.objectsToNames.toList().groupBy(Pair<Any, String>::second).mapValues {
                 it.value.map { it.first }
             }.mapValues {
+                val name = it.key
                 val objectsWithSameName = it.value
 
                 objectsWithSameName.firstOrNull { obj ->
@@ -50,7 +60,14 @@ class TemplateBuilder(
                         Properties = ResourcePropertyBuilders.getBuilder(awsType)?.buildResource(
                             creationRequest as AmazonWebServiceRequest,
                             objectsWithSameName
-                        )
+                        ),
+                        DependsOn  = nameToDependsOnNames[name]?.let { dependOnNames ->
+                            if (dependOnNames.size == 1) {
+                                dependOnNames[0]
+                            } else {
+                                dependOnNames
+                            }
+                        }
                     )
                 }
             }.filterValues { it != null }.mapValues { it.value!! }
@@ -86,6 +103,7 @@ interface ResourceProperties
 data class Resource(
     var Type: String,
     var Properties: ResourceProperties? = null,
+    val DependsOn: Any?, // String or List<String>
     var Metadata: Map<String, Any>? = emptyMap()
 )
 

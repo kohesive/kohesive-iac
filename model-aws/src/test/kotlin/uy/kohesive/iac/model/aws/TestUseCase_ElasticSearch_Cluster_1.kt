@@ -192,6 +192,9 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     policyFromStatement = CustomPolicyStatement(PolicyEffect.Allow, "ec2:DescribeInstances", "*")
                 }
 
+                // TODO: delete this vvv
+                allowDiscoveryPolicy.makeDependable(clusterDiscoveryRole)
+
                 attachIamRolePolicy(clusterDiscoveryRole, allowDiscoveryPolicy)
 
                 val esInstanceProfile = createInstanceProfile("ElasticsearchInstanceProfile") {

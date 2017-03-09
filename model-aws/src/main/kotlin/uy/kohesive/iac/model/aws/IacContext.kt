@@ -16,8 +16,9 @@ open class IacContext(
         init: IacContext.() -> Unit = {}
 ) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
 
-    override val objectsToNames= IdentityHashMap<Any, String>()
+    override val objectsToNames = IdentityHashMap<Any, String>()
 
+    val dependsOn: MutableMap<Any, MutableList<Any>> = mutableMapOf()
     val variables: MutableMap<String, ParameterizedValue<out Any>> = mutableMapOf()
     val mappings: MutableMap<String, MappedValues> = mutableMapOf()
 
@@ -46,11 +47,15 @@ open class IacContext(
         this.builder()
     }
 
+    fun Any.makeDependable(on: Any) {
+        (dependsOn.getOrPut(this) { ArrayList<Any>() }).add(on)
+    }
+
     val ParameterizedValue<String>.value: String get() = "{{kohesive:var:$name}}"
     val ParameterizedValue<Int>.value: Int get() = numericVarTracker.addOrGetNumericVariableRef(this)
     val ParameterizedValue<Long>.value: Long get() = numericVarTracker.addOrGetNumericVariableRef(this).toLong()
 
-    class NumericVariableTracker() {
+    class NumericVariableTracker {
         val numericToVarMap = ConcurrentHashMap<Int, ParameterizedValue<out Any>>()
         val varToNumericMap = ConcurrentHashMap<ParameterizedValue<out Any>, Int>()
         val lastUsed = AtomicInteger(Int.MIN_VALUE)
