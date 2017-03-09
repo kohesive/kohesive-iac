@@ -17,7 +17,8 @@ class LaunchConfigurationPropertiesBuilder : ResourcePropertiesBuilder<CreateLau
                 InstanceType       = request.instanceType,
                 SecurityGroups     = request.securityGroups,
                 KeyName            = request.keyName,
-                IamInstanceProfile = request.iamInstanceProfile
+                IamInstanceProfile = request.iamInstanceProfile,
+                UserData           = request.userData
             )
         }
 }
@@ -49,8 +50,8 @@ data class AutoScalingLaunchConfigurationProperties(
     val InstanceType: String?,
     val SecurityGroups: List<String>?,
     val KeyName: String?,
-    val IamInstanceProfile: String?
-    // TODO: UserData
+    val IamInstanceProfile: String?,
+    val UserData: String?
 ) : ResourceProperties
 
 data class AutoScalingGroupProperties(

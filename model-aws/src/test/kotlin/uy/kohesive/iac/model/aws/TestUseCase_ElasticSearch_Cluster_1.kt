@@ -169,6 +169,14 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             "ap-northeast-1" to mapOf("64" to "ami-c9562fc8", "64HVM" to "ami-bb562fba")
         ))
 
+        val elasticsearchVersion2ServiceWrapperHashMap = MappedValues("ElasticsearchVersion2ServiceWrapperHash", mapOf(
+            "1.4.2" to mapOf("Hash" to "4943d5a")
+        ))
+
+        val elasticsearchVersion2AWSCloudPluginVersion = MappedValues("ElasticsearchVersion2AWSCloudPluginVersion", mapOf(
+            "1.4.2" to mapOf("Ver" to "2.4.1")
+        ))
+
         // ===[ BUILDING ]==============================================================================================
 
         val context = IacContext("test", "es-cluster-91992881DX") {
@@ -224,10 +232,18 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
             withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
+                    val awsCloudPluginVersion = elasticsearchVersion2AWSCloudPluginVersion.asLookup(
+                        keyVariable   = elasticsearchVersionParam.value,
+                        valueVariable = "Ver"
+                    )
+                    val esServiceWrapperHash = elasticsearchVersion2ServiceWrapperHashMap.asLookup(
+                        keyVariable   = elasticsearchVersionParam.value,
+                        valueVariable = "Hash"
+                    )
+
                     iamInstanceProfile = esInstanceProfile.arn
 
                     // TODO: metadata?
-
                     // TODO: this is not very friendly vvv
                     //     maybe some X.path(abc).path(yyz) or json path looking thing
                     //     in the case below would be:
@@ -242,16 +258,54 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     //        awsRegionArchi2AmiMap[ImplicitValues.Region.value][awsInstantType2ArchMap[instanceTypeParam.value]["Arch"]]
                     //
                     imageId = awsRegionArchi2AmiMap.asLookup(
-                        keyVariable = ImplicitValues.Region.value,
+                        keyVariable   = ImplicitValues.Region.value,
                         valueVariable = awsInstantType2ArchMap.asLookup(
-                            keyVariable = instanceTypeParam.value,
+                            keyVariable   = instanceTypeParam.value,
                             valueVariable = "Arch"
                         )
                     )
                     instanceType = instanceTypeParam.value
-                    keyName = keyNameParam.value
+                    keyName      = keyNameParam.value
+                    userData     = """
+                        #!/bin/bash
+                        yum update -y aws-cfn-bootstrap
+                        # Helper function
+                        function error_exit
+                        {
+                          #/opt/aws/bin/cfn-signal -e 1 -r "$1" 'TODO:WaitHandle'
+                          exit 1
+                        }
+                        # Install application
+                        #/opt/aws/bin/cfn-init -s ${ImplicitValues.StackId.value} -r ElasticsearchServer --region ${ImplicitValues.Region.value}
+                        #get and unzip elasticsearch
+                        wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-${elasticsearchVersionParam.value}.zip || error_exit "Failed to retrieve elasticsearch archive"
+                        unzip elasticsearch-${elasticsearchVersionParam.value}.zip -d /usr/local/elasticsearch
+                        #install aws plugin
+                        cd /usr/local/elasticsearch/elasticsearch-${elasticsearchVersionParam.value}
+                        res=$(bin/plugin -install org.elasticsearch/elasticsearch-cloud-aws/$awsCloudPluginVersion)
+                        if [ "$?" -ne "0" ]; then
+                           error_exit "Failed to install aws plugin: $\{res}"
+                        fi
+                        # Install elasticsearch config.yml
+                        /opt/aws/bin/cfn-init -s ${ImplicitValues.StackId.value} -r ElasticsearchServer --region ${ImplicitValues.Region.value} || error_exit "failed to run cfn-init"
+                        #install elasticsearch servicewrapper daemon
+                        cd ~
+                        wget https://github.com/elasticsearch/elasticsearch-servicewrapper/zipball/$esServiceWrapperHash
+                        unzip $esServiceWrapperHash
+                        mv elasticsearch-elasticsearch-servicewrapper-$esServiceWrapperHash/service/ /usr/local/elasticsearch/elasticsearch-${elasticsearchVersionParam.value}/bin/
+                        cd /usr/local/elasticsearch/elasticsearch-${elasticsearchVersionParam.value}
+                        sed -i 's#set.default.ES_HOME=.*#set.default.ES_HOME='$\PWD'#g' bin/service/elasticsearch.conf
+                        #changing default heap size for smaller instances
+                        sed -i 's#set.default.ES_HEAP_SIZE=.*#set.default.ES_HEAP_SIZE=512#g' bin/service/elasticsearch.conf
+                        bin/service/elasticsearch64 install || error_exit "Failed install elasticsearch daemon"
+                        res=$(bin/service/elasticsearch64 start)
+                        if [ "$?" -ne "0" ]; then
+                           error_exit "Failed to start elasticsearch servicewrapper: $\{res}"
+                        fi
+                        # All is well so signal success
+                        #/opt/aws/bin/cfn-signal -e $? 'TODO:WaitHandle'
+                    """.trimIndent()
                     withSecurityGroups(securityGroupId)
-                    // TODO: user data
                 }
 
                 createAutoScalingGroup("ElasticsearchServerGroup") {
@@ -263,10 +317,6 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     desiredCapacity = clusterSizeParam.value
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
-            }
-
-            withEc2Context {
-                // ec2Client.runInstances(RunInstancesRequest())
             }
         }
 
