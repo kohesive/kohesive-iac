@@ -27,7 +27,6 @@ class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by
         val launchConfig = CreateLaunchConfigurationRequest().apply {
             this.launchConfigurationName = launchConfigurationName
             this.init()
-            this.registerWithAutoName()
         }
         return autoScalingClient.createLaunchConfiguration(launchConfig).apply {
             launchConfigTracking.put(this, launchConfig)
@@ -40,7 +39,6 @@ class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {
             this.autoScalingGroupName = autoScalingGroupName
             this.init()
-            this.registerWithAutoName()
         })
     }
 

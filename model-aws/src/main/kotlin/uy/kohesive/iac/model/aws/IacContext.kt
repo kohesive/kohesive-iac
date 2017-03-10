@@ -1,6 +1,7 @@
 package uy.kohesive.iac.model.aws
 
 import com.amazonaws.services.autoscaling.AmazonAutoScaling
+import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
@@ -10,11 +11,11 @@ import java.util.concurrent.atomic.AtomicInteger
 
 // @DslScope
 open class IacContext(
-        val environment: String,
-        val planId: String,
-        val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
-        init: IacContext.() -> Unit = {}
-) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled {
+    val environment: String,
+    val planId: String,
+    val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
+    init: IacContext.() -> Unit = {}
+) : KohesiveIdentifiable, Ec2Enabled, IamRoleEnabled, AutoScalingEnabled, DynamoDbEnabled {
 
     override val objectsToNames = IdentityHashMap<Any, String>()
 
@@ -28,6 +29,8 @@ open class IacContext(
     override val iamContext: IamContext by lazy { IamContext(this) }
     override val autoScalingClient: AmazonAutoScaling by lazy { DeferredAmazonAutoScaling(this) }
     override val autoScalingContext: AutoScalingContext by lazy { AutoScalingContext(this) }
+    override val dynamoDbClient: AmazonDynamoDB by lazy { DeferredAmazonDynamoDB(this) }
+    override val dynamoDbContext: DynamoDbContext by lazy { DynamoDbContext(this) }
 
     val numericVarTracker = NumericVariableTracker()
 

@@ -49,7 +49,7 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
                     requestObject = request,
                     copyFromReq   = mapOf(
                         CreateRoleRequest::getAssumeRolePolicyDocument to Role::getAssumeRolePolicyDocument,
-                        CreateRoleRequest::getPath to Role::getPath,
+                        CreateRoleRequest::getPath     to Role::getPath,
                         CreateRoleRequest::getRoleName to Role::getRoleName
                     )
                 )
@@ -68,8 +68,8 @@ class DeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazon
                     requestObject = request,
                     copyFromReq   = mapOf(
                         CreatePolicyRequest::getDescription to Policy::getDescription,
-                        CreatePolicyRequest::getPath to Policy::getPath,
-                        CreatePolicyRequest::getPolicyName to Policy::getPolicyName
+                        CreatePolicyRequest::getPath        to Policy::getPath,
+                        CreatePolicyRequest::getPolicyName  to Policy::getPolicyName
                     )
                 )
             )
