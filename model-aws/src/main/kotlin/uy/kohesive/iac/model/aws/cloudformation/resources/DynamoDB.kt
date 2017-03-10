@@ -20,7 +20,7 @@ class DynamoDBTableResourcePropertiesBuilder : ResourcePropertiesBuilder<CreateT
                     )
                 },
                 KeySchema = request.keySchema?.toCfKeySchema(),
-                TableName = request.tableName,
+//                TableName = request.tableName,
                 ProvisionedThroughput  = request.provisionedThroughput?.toCfProvisionedThroughput(),
                 GlobalSecondaryIndexes = request.globalSecondaryIndexes?.map {
                     GlobalSecondaryIndex(
@@ -64,7 +64,7 @@ data class Projection(
 )
 
 data class DynamoDBTableResourceProperties(
-    val TableName: String?,
+//    val TableName: String?,
     val AttributeDefinitions: List<AttributeDefinition>?,
     val KeySchema: List<KeySchema>?,
     val ProvisionedThroughput: ProvisionedThroughput?,
