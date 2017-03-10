@@ -12,7 +12,7 @@ interface TemplateStringProcessor {
      * Override to limit processing scope.
      * If this method returns null, no preprocessing will be performed.
      */
-    fun scope(templateNode: ObjectNode): ObjectNode? = templateNode
+    fun scope(templateNode: ObjectNode): List<ObjectNode> = listOf(templateNode)
     fun process(context: IacContext, textNode: TextNodeInParent)
 }
 
@@ -28,7 +28,7 @@ class TemplateProcessor(val context: IacContext) {
 
     fun process(templateNode: ObjectNode) {
         stringProcessors.forEach { preprocessor ->
-            preprocessor.scope(templateNode)?.let { scope ->
+            preprocessor.scope(templateNode).forEach { scope ->
                 ArrayList<TextNodeInParent>().apply {
                     scope.collectTextNodes(this)
                 }.forEach { textNode ->

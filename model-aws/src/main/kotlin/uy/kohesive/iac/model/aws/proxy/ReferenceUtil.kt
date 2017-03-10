@@ -24,6 +24,14 @@ data class KohesiveReference(
     val targetProperty: String? = null
 ) {
     companion object {
+
+        fun isReference(str: String) = try {
+            fromString(str)
+            true
+        } catch (r: ReferenceParseException) {
+            false
+        }
+
         fun fromString(str: String): KohesiveReference {
             val arr = str.drop("{{kohesive".length).dropLast("}}".length).split(':')
             if (arr.size < 3) {

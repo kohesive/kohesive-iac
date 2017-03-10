@@ -11,7 +11,7 @@ import uy.kohesive.iac.model.aws.cloudformation.Template
 class NumericVarPreProcessor : TemplateStringProcessor {
 
     override fun scope(templateNode: ObjectNode) =
-        templateNode.get(Template::Resources.name) as? ObjectNode
+        listOf(templateNode.get(Template::Resources.name) as? ObjectNode).filterNotNull()
 
     override fun process(context: IacContext, textNode: TextNodeInParent) {
         var changed = false

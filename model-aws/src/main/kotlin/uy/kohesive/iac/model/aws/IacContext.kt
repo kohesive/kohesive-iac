@@ -5,6 +5,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
+import uy.kohesive.iac.model.aws.proxy.KohesiveReference
+import uy.kohesive.iac.model.aws.proxy.createReference
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -22,6 +24,7 @@ open class IacContext(
     val dependsOn: MutableMap<Any, MutableList<Any>> = mutableMapOf()
     val variables: MutableMap<String, ParameterizedValue<out Any>> = mutableMapOf()
     val mappings: MutableMap<String, MappedValues> = mutableMapOf()
+    val outputs: MutableList<Output> = mutableListOf()
 
     override val ec2Client: AmazonEC2 by lazy { DeferredAmazonEC2(this) }
     override val ec2Context: Ec2Context by lazy { Ec2Context(this) }
@@ -44,6 +47,18 @@ open class IacContext(
 
     fun addMappings(vararg maps: MappedValues) {
         mappings.putAll(maps.map { it.name to it })
+    }
+
+    internal inline fun <reified T : Any> addAsOutput(name: String, output: T, description: String? = null) {
+        outputs.add(Output(
+            logicalId   = name,
+            value       = if (output is String && KohesiveReference.isReference(output)) {
+                output
+            } else {
+                createReference<T>(getNameStrict(output))
+            },
+            description = description
+        ))
     }
 
     fun build(builder: IacContext.() -> Unit) {
@@ -71,4 +86,11 @@ open class IacContext(
             return currentValue
         }
     }
+
+    data class Output(
+        val logicalId: String,
+        val description: String?,
+        val value: String
+    )
+
 }

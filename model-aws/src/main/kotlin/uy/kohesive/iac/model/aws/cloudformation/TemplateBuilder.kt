@@ -70,7 +70,13 @@ class TemplateBuilder(
                         }
                     )
                 }
-            }.filterValues { it != null }.mapValues { it.value!! }
+            }.filterValues { it != null }.mapValues { it.value!! },
+            Outputs = context.outputs.map {
+                it.logicalId to Output(
+                    Value       = it.value,
+                    Description = it.description
+                )
+            }.toMap()
         )
 
         val templateTree = JSON.valueToTree<ObjectNode>(rawTemplate)
@@ -84,7 +90,13 @@ data class Template(
     var Description: String?,
     var Parameters: Map<String, Parameter> = emptyMap(),
     var Mappings: Map<String, Any> = emptyMap(),
-    var Resources: Map<String, Resource> = emptyMap()
+    var Resources: Map<String, Resource> = emptyMap(),
+    val Outputs: Map<String, Output> = emptyMap()
+)
+
+data class Output(
+    val Description: String?,
+    val Value: String
 )
 
 data class Parameter(

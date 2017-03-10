@@ -46,11 +46,11 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
 
         // ===[ BUILDING ]==============================================================================================
 
-        val context = IacContext("test", "es-cluster-91992881DX") {
+        val context = IacContext("test", "dynamodb-table-myDynamoDBTable") {
             addVariables(hashKeyNameParam, hashKeyTypeParam, readCapacityParam, writeCapacityParam)
 
             withDynamoDbContext {
-                createTable("myDynamoDBTable") {
+                val table = createTable("myDynamoDBTable") {
                     withKeySchema(KeySchemaElement(hashKeyNameParam.value, KeyType.HASH))
                     withAttributeDefinitions(AttributeDefinition(hashKeyNameParam.value, hashKeyTypeParam.value))
                     withProvisionedThroughput(ProvisionedThroughput()
@@ -58,10 +58,10 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
                         .withWriteCapacityUnits(writeCapacityParam.value)
                     )
                 }
+
+                addAsOutput("TableName", table, "Table name of the newly create DynamoDB table")
             }
         }
-
-        // TODO: output!
 
         val JsonWriter = jacksonObjectMapper()
             .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())

@@ -13,7 +13,7 @@ class UserDataBase64Processor : TemplateStringProcessor {
     }
 
     override fun scope(templateNode: ObjectNode) =
-        templateNode.get(Template::Resources.name) as? ObjectNode
+        listOf(templateNode.get(Template::Resources.name) as? ObjectNode).filterNotNull()
 
     override fun process(context: IacContext, textNode: TextNodeInParent) {
         (textNode as? TextNodeInObject)?.let { textNodeInObject ->

@@ -44,8 +44,10 @@ class CloudFormationFunctionsProcessor : TemplateStringProcessor {
         val JSON = jacksonObjectMapper() // TODO: fancy options?
     }
 
-    override fun scope(templateNode: ObjectNode) =
-        templateNode.get(Template::Resources.name) as? ObjectNode
+    override fun scope(templateNode: ObjectNode) = listOf(
+        templateNode.get(Template::Resources.name) as? ObjectNode,
+        templateNode.get(Template::Outputs.name)   as? ObjectNode
+    ).filterNotNull()
 
     override fun process(context: IacContext, textNode: TextNodeInParent) {
         if (textNode.text().contains("{{kohesive")) {
