@@ -14,14 +14,13 @@ object ResourcePropertyBuilders {
         AwsTypes.IamInstanceProfile  to IamInstanceProfilePropertiesBuilder(),
         AwsTypes.LaunchConfiguration to LaunchConfigurationPropertiesBuilder(),
         AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder(),
-        AwsTypes.Ec2SecurityGroup    to Ec2SecurityGroupPropertiesBuilder()
+        AwsTypes.Ec2SecurityGroup    to Ec2SecurityGroupPropertiesBuilder(),
+        AwsTypes.DynamoDBTable       to DynamoDBTableResourcePropertiesBuilder()
     )
 
     fun getBuilder(awsType: AwsTypes) = awsTypeToBuilder[awsType]
 
 }
-
-interface CloudFormationResourceProperties
 
 interface ResourcePropertiesBuilder<T : AmazonWebServiceRequest> {
     val requestClazz: KClass<T>

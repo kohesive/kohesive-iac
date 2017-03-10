@@ -1,5 +1,9 @@
 package uy.kohesive.iac.model.aws
 
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement
+import com.amazonaws.services.dynamodbv2.model.KeyType
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import junit.framework.TestCase
@@ -26,20 +30,38 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
             constraintDescription =  "Must be either S or N"
         )
 
-        val readCapacityParam = ParameterizedValue.newInt("ReadCapacityUnits",
+        val readCapacityParam = ParameterizedValue.newLong("ReadCapacityUnits",
             description           = "Provisioned read throughput",
             defaultValue          = 5,
-            allowedNumericValues  = 5..10000,
+            allowedNumericValues  = 5L..10000L,
+            constraintDescription = "Should be between 5 and 10000"
+        )
+
+        val writeCapacityParam = ParameterizedValue.newLong("WriteCapacityUnits",
+            description           = "Provisioned read throughput",
+            defaultValue          = 10,
+            allowedNumericValues  = 5L..10000L,
             constraintDescription = "Should be between 5 and 10000"
         )
 
         // ===[ BUILDING ]==============================================================================================
 
         val context = IacContext("test", "es-cluster-91992881DX") {
-            addVariables(hashKeyNameParam, hashKeyTypeParam, readCapacityParam)
+            addVariables(hashKeyNameParam, hashKeyTypeParam, readCapacityParam, writeCapacityParam)
 
-            // TODO: implement
+            withDynamoDbContext {
+                createTable("myDynamoDBTable") {
+                    withKeySchema(KeySchemaElement(hashKeyNameParam.value, KeyType.HASH))
+                    withAttributeDefinitions(AttributeDefinition(hashKeyNameParam.value, hashKeyTypeParam.value))
+                    withProvisionedThroughput(ProvisionedThroughput()
+                        .withReadCapacityUnits(readCapacityParam.value)
+                        .withWriteCapacityUnits(writeCapacityParam.value)
+                    )
+                }
+            }
         }
+
+        // TODO: output!
 
         val JsonWriter = jacksonObjectMapper()
             .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
