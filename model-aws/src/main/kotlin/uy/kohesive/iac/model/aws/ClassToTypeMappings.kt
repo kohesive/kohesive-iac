@@ -16,6 +16,10 @@ import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
 import com.amazonaws.services.ec2.model.SecurityGroup
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleResult
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
@@ -31,7 +35,9 @@ object AutoNaming {
         AddRoleToInstanceProfileRequest::class  to AddRoleToInstanceProfileRequest::getInstanceProfileName,
         AttachRolePolicyRequest::class          to AttachRolePolicyRequest::getPolicyNameFromArn,
         CreateSecurityGroupRequest::class       to CreateSecurityGroupRequest::getGroupName,
-        CreateTableRequest::class               to CreateTableRequest::getTableName
+        CreateTableRequest::class               to CreateTableRequest::getTableName,
+        CreateWaitConditionRequest::class       to CreateWaitConditionRequest::getName,
+        CreateWaitHandleRequest::class          to CreateWaitHandleRequest::getName
     )
 
     fun getName(request: AmazonWebServiceRequest): String? {
@@ -55,7 +61,9 @@ enum class AwsTypes(val type: String,
     AutoScalingGroup("AWS::AutoScaling::AutoScalingGroup", CreateAutoScalingGroupRequest::class, CreateAutoScalingGroupResult::class, com.amazonaws.services.autoscaling.model.AutoScalingGroup::class),
     LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class),
     Ec2SecurityGroup("AWS::EC2::SecurityGroup", CreateSecurityGroupRequest::class, CreateSecurityGroupResult::class, SecurityGroup::class, AuthorizeSecurityGroupIngressRequest::class),
-    DynamoDBTable("AWS::DynamoDB::Table", CreateTableRequest::class, CreateTableResult::class, TableDescription::class);
+    DynamoDBTable("AWS::DynamoDB::Table", CreateTableRequest::class, CreateTableResult::class, TableDescription::class),
+    WaitCondition("AWS::CloudFormation::WaitCondition", CreateWaitConditionRequest::class, CreateWaitConditionResult::class, uy.kohesive.iac.model.aws.cloudformation.wait.WaitCondition::class),
+    WaitHandle("AWS::CloudFormation::WaitConditionHandle", CreateWaitHandleRequest::class, CreateWaitHandleResult::class, uy.kohesive.iac.model.aws.cloudformation.wait.WaitConditionHandle::class);
 
     companion object {
         private val typeStringToEnum = enumValues<AwsTypes>().map { it.type to it }.toMap()

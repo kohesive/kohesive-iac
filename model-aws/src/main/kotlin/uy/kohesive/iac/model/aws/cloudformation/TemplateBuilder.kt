@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import uy.kohesive.iac.model.aws.AwsTypes
-import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.ParameterizedValue
 import uy.kohesive.iac.model.aws.cloudformation.processing.TemplateProcessor
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 
 class TemplateBuilder(
-    val context: IacContext,
+    val context: CloudFormationContext,
     val description: String? = null,
     val version: String = "2010-09-09"
 ) {

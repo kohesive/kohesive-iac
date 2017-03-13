@@ -15,7 +15,8 @@ object ResourcePropertyBuilders {
         AwsTypes.LaunchConfiguration to LaunchConfigurationPropertiesBuilder(),
         AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder(),
         AwsTypes.Ec2SecurityGroup    to Ec2SecurityGroupPropertiesBuilder(),
-        AwsTypes.DynamoDBTable       to DynamoDBTableResourcePropertiesBuilder()
+        AwsTypes.DynamoDBTable       to DynamoDBTableResourcePropertiesBuilder(),
+        AwsTypes.WaitCondition       to WaitConditionPropertiesBuilder()
     )
 
     fun getBuilder(awsType: AwsTypes) = awsTypeToBuilder[awsType]

@@ -7,6 +7,7 @@ import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import junit.framework.TestCase
+import uy.kohesive.iac.model.aws.cloudformation.CloudFormationContext
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 
@@ -46,7 +47,7 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
 
         // ===[ BUILDING ]==============================================================================================
 
-        val context = IacContext("test", "dynamodb-table-myDynamoDBTable") {
+        val context = CloudFormationContext("test", "dynamodb-table-myDynamoDBTable") {
             addVariables(hashKeyNameParam, hashKeyTypeParam, readCapacityParam, writeCapacityParam)
 
             withDynamoDbContext {
@@ -68,7 +69,7 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
             .writerWithDefaultPrettyPrinter()
 
-        val cfTemplate = TemplateBuilder(context, description = "ElasticSearch Cluster.").build()
+        val cfTemplate = TemplateBuilder(context, description = "AWS CloudFormation Sample Template: This template demonstrates the creation of a DynamoDB table.").build()
 
         println(JsonWriter.writeValueAsString(cfTemplate))
     }

@@ -4,6 +4,7 @@ import com.amazonaws.services.ec2.model.IpPermission
 import com.amazonaws.services.ec2.model.IpRange
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import uy.kohesive.iac.model.aws.cloudformation.CloudFormationContext
 import uy.kohesive.iac.model.aws.cloudformation.TemplateBuilder
 import uy.kohesive.iac.model.aws.helpers.*
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
@@ -179,7 +180,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
 
         // ===[ BUILDING ]==============================================================================================
 
-        val context = IacContext("test", "es-cluster-91992881DX") {
+        val context = CloudFormationContext("test", "es-cluster-91992881DX") {
             addVariables(keyNameParam, instanceTypeParam, sshLocationParam, clusterSizeParam, elasticsearchVersionParam)
             addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap, esVer2ServiceWrapHash, esVer2AWSPluginVersion)
 
@@ -230,6 +231,17 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 return@withEc2Context groupId
             }
 
+            val waitHandle = withWaitConditionContext {
+                val waitHandle = createWaitHandle("WaitHandle")
+
+                createWaitCondition("WaitCondition") {
+                    withHandle(waitHandle.ref)
+                    withTimeout(600)
+                }
+
+                waitHandle
+            }
+
             withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
                     val awsCloudPluginVersion = esVer2AWSPluginVersion[elasticsearchVersionParam.value]["Ver"]
@@ -246,7 +258,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                         # Helper function
                         function error_exit
                         {
-                          #/opt/aws/bin/cfn-signal -e 1 -r "$1" 'TODO:WaitHandle'
+                          /opt/aws/bin/cfn-signal -e 1 -r "$1" '${waitHandle.ref}'
                           exit 1
                         }
                         # Install application
@@ -277,7 +289,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                            error_exit "Failed to start elasticsearch servicewrapper: $\{res}"
                         fi
                         # All is well so signal success
-                        #/opt/aws/bin/cfn-signal -e $? 'TODO:WaitHandle'
+                        /opt/aws/bin/cfn-signal -e $? '${waitHandle.ref}'
                     """.trimIndent()
                     withSecurityGroups(securityGroupId)
                 }
