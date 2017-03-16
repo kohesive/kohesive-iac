@@ -231,18 +231,18 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 return@withEc2Context groupId
             }
 
-            val waitHandle = withWaitConditionContext {
+            val (waitHandle, waitCondition) = withWaitConditionContext {
                 val waitHandle = createWaitHandle("WaitHandle")
 
-                createWaitCondition("WaitCondition") {
+                val waitCondition = createWaitCondition("WaitCondition") {
                     withHandle(waitHandle.ref)
                     withTimeout(600)
                 }
 
-                waitHandle
+                waitHandle to waitCondition
             }
 
-            withAutoScalingContext {
+            val launchConfiguration = withAutoScalingContext {
                 val launchConfiguration = createLaunchConfiguration("ElasticsearchServer") {
                     val awsCloudPluginVersion = esVer2AWSPluginVersion[elasticsearchVersionParam.value]["Ver"]
                     val esServiceWrapperHash  = esVer2ServiceWrapHash[elasticsearchVersionParam.value]["Hash"]
@@ -303,7 +303,11 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     desiredCapacity = clusterSizeParam.value
                     withTags(createTag("type", "elasticsearch").withPropagateAtLaunch(true))
                 }
+
+                launchConfiguration
             }
+
+            waitCondition.makeDependable(launchConfiguration)
         }
 
         val JsonWriter = jacksonObjectMapper()
