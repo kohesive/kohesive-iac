@@ -12,30 +12,49 @@ import java.io.File
 import java.io.InputStream
 
 fun main(args: Array<String>) {
-    val stream = ModelLoaderUtils.getRequiredResourceAsStream("models/autoscaling-2016-02-06-intermediate.json")
+    val stream = ModelLoaderUtils.getRequiredResourceAsStream("models/dynamodb-2012-08-10-intermediate.json")
     val intermediateModel: IntermediateModel = loadModel(stream)
 
     val outputDirectory = File("/Users/eliseyev/TMP/codegen/").path
     val params = GeneratorTaskParams.create(intermediateModel, outputDirectory, outputDirectory)
 
-    val kohesiveGeneratorTasks = KohesiveGeneratorTasks(params)
+    val templateLoader = TemplateLoader()
+
+    val kohesiveGeneratorTasks = KohesiveGeneratorTasks(params, templateLoader)
     val emitter = CodeEmitter(kohesiveGeneratorTasks, GeneratorTaskExecutor())
     emitter.emit()
+
+    System.exit(0)
 }
 
-class KohesiveGeneratorTasks(params: GeneratorTaskParams) : BaseGeneratorTasks(params) {
+data class ContextData(val model: IntermediateModel) {
 
-    private val baseDirectory = params.pathProvider.basePackageDirectory
+    companion object {
+        val PackageName = "uy.kohesive.iac.model.aws.contexts"
+        val PackagePath = PackageName.replace('.', '/')
+    }
+
+    val contextPackageName = ContextData.PackageName
+
+    val metadata      = model.metadata
+    val serviceName   = model.metadata.serviceAbbreviation
+    val serviceNameLC = serviceName.take(1).toLowerCase() + serviceName.drop(1)
+    val syncInterface = model.metadata.syncInterface
+}
+
+class KohesiveGeneratorTasks(params: GeneratorTaskParams, val templateLoader: TemplateLoader) : BaseGeneratorTasks(params) {
+
+    private val baseDirectory = params.pathProvider.outputDirectory
 
     override fun createTasks() = listOf(
-        createSomeTask()
+        createServiceDSLContext()
     )
 
-    private fun createSomeTask() = FreemarkerGeneratorTask(
-        baseDirectory,
-        model.metadata.syncClient,
-        freemarker.syncClientTemplate,
-        model
+    private fun createServiceDSLContext() = FreemarkerGeneratorTask(
+        baseDirectory + "/" + ContextData.PackagePath,
+        model.metadata.serviceAbbreviation + ".kt",
+        templateLoader.getTemplate("/templates/context/Context.ftl"),
+        ContextData(model)
     )
 
 }
