@@ -11,15 +11,18 @@ class DslContextGeneratorTask private constructor(writer: Writer, template: Temp
     : FreemarkerGeneratorTask(writer, template, data) {
 
     companion object {
-        fun create(taskParams: GeneratorTaskParams, model: IntermediateModel): DslContextGeneratorTask {
+        fun create(taskParams: GeneratorTaskParams, model: IntermediateModel, baseContextData: BaseContextData): DslContextGeneratorTask {
             val contextData = ContextData(model)
+
+            baseContextData.enabledClassNames.add("${contextData.serviceName}Enabled")
+
             return DslContextGeneratorTask(
                 CodeWriter(
                     taskParams.pathProvider.outputDirectory + "/" + ContextData.PackagePath,
                     contextData.serviceName,
                     ".kt"
                 ),
-                TemplateDescriptor.Context.load(),
+                TemplateDescriptor.ServiceContext.load(),
                 contextData
             )
         }

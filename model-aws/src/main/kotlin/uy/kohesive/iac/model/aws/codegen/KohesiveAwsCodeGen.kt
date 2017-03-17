@@ -24,9 +24,13 @@ data class IntermediateFile(
 
 class KohesiveAwsCodeGen(val outputDirectory: String) {
 
+    private val generatorTaskExecutor = GeneratorTaskExecutor()
+
     fun generate() {
+        val baseContextData   = BaseContextData()
         val intermediateFiles = Reflections("models", ResourcesScanner()).getResources(Pattern.compile(".*intermediate\\.json"))
 
+        // Prepare intermediate data
         val recentIntermediateFiles = intermediateFiles.map { filePath ->
             val filename = filePath.substring(filePath.lastIndexOf('/')).drop(1)
             IntermediateFile(
@@ -38,30 +42,33 @@ class KohesiveAwsCodeGen(val outputDirectory: String) {
             it.value.maxBy { it.date }
         }.values.filterNotNull().asSequence()
 
+        // Generate straight from intermediate data
         recentIntermediateFiles.map { it.filePath }.forEach { modelFile ->
             ModelLoaderUtils.getRequiredResourceAsStream(modelFile).use { stream ->
                 val intermediateModel: IntermediateModel = loadModel(stream)
 
                 val params = GeneratorTaskParams.create(intermediateModel, outputDirectory, outputDirectory)
 
-                val kohesiveGeneratorTasks = KohesiveGeneratorTasks(params)
-                val emitter = CodeEmitter(kohesiveGeneratorTasks, GeneratorTaskExecutor())
+                val kohesiveGeneratorTasks = KohesiveGeneratorTasks(params, baseContextData)
+                val emitter = CodeEmitter(kohesiveGeneratorTasks, generatorTaskExecutor)
                 emitter.emit()
             }
         }
+
+        // Generate from base context data
+        val emitter = CodeEmitter(listOf(BaseIacContextGeneratorTask.create(outputDirectory, baseContextData)), generatorTaskExecutor)
+        emitter.emit()
     }
 
 }
 
 fun IntermediateModel.getShortServiceName() = metadata.syncInterface.replace("Amazon", "").replace("AWS", "")
 
-class KohesiveGeneratorTasks(val params: GeneratorTaskParams) : BaseGeneratorTasks(params) {
-
-    private val baseDirectory = params.pathProvider.outputDirectory
+class KohesiveGeneratorTasks(val params: GeneratorTaskParams, val baseContextData: BaseContextData) : BaseGeneratorTasks(params) {
 
     override fun createTasks() = listOf(
-        DslContextGeneratorTask.create(params, model),
-        DeferredClientGeneratorTask.create(params, model)
+        DslContextGeneratorTask.create(params, model, baseContextData),
+        DeferredClientGeneratorTask.create(params, model, baseContextData)
     )
 
 }

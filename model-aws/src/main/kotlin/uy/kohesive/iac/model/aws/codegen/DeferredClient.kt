@@ -11,12 +11,16 @@ class DeferredClientGeneratorTask private constructor(writer: Writer, template: 
     : FreemarkerGeneratorTask(writer, template, data) {
 
     companion object {
-        fun create(taskParams: GeneratorTaskParams, model: IntermediateModel): DeferredClientGeneratorTask {
+        fun create(taskParams: GeneratorTaskParams, model: IntermediateModel, baseContextData: BaseContextData): DeferredClientGeneratorTask {
             val clientData = DeferredClientData(model)
+            val deferredClientClassName = "Deferred" + clientData.syncInterface
+
+            baseContextData.clientClasses.add(DeferredClientData.PackageName + "." + deferredClientClassName)
+
             return DeferredClientGeneratorTask(
                 CodeWriter(
                     taskParams.pathProvider.outputDirectory + "/" + DeferredClientData.PackagePath,
-                    "Deferred" + clientData.syncInterface,
+                    deferredClientClassName,
                     ".kt"
                 ),
                 TemplateDescriptor.DeferredClient.load(),

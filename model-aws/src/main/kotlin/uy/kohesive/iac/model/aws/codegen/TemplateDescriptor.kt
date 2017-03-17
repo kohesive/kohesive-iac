@@ -8,7 +8,8 @@ enum class TemplateDescriptor(
     val childTemplates: List<ChildTemplate> = emptyList()
 ) {
 
-    Context("/templates/context/Context.ftl"),
+    BaseIacContext("/templates/context/BaseIacContext.ftl"),
+    ServiceContext("/templates/context/ServiceContext.ftl"),
     DeferredClient("/templates/client/DeferredClient.ftl");
 
     fun load(): Template = TemplateLoader.getTemplate(this)
