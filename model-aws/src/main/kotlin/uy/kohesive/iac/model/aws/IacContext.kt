@@ -4,10 +4,12 @@ import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
+import uy.kohesive.iac.model.aws.clients.DeferredAmazonAutoScaling
+import uy.kohesive.iac.model.aws.clients.DeferredAmazonDynamoDB
+import uy.kohesive.iac.model.aws.clients.DeferredAmazonEC2
+import uy.kohesive.iac.model.aws.clients.DeferredAmazonIdentityManagement
 import uy.kohesive.iac.model.aws.contexts.*
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicInteger
 
 // @DslScope
 open class IacContext(
@@ -57,19 +59,5 @@ open class IacContext(
     val ParameterizedValue<String>.value: String get() = "{{kohesive:var:$name}}"
     val ParameterizedValue<Int>.value: Int get() = numericVarTracker.addOrGetNumericVariableRef(this)
     val ParameterizedValue<Long>.value: Long get() = numericVarTracker.addOrGetNumericVariableRef(this).toLong()
-
-    class NumericVariableTracker {
-        val numericToVarMap = ConcurrentHashMap<Int, ParameterizedValue<out Any>>()
-        val varToNumericMap = ConcurrentHashMap<ParameterizedValue<out Any>, Int>()
-        val lastUsed = AtomicInteger(Int.MIN_VALUE)
-
-        fun addOrGetNumericVariableRef(variable: ParameterizedValue<out Any>): Int {
-            val currentValue = varToNumericMap.computeIfAbsent(variable) {
-                lastUsed.incrementAndGet()
-            }
-            numericToVarMap.putIfAbsent(currentValue, variable)
-            return currentValue
-        }
-    }
 
 }

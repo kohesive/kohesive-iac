@@ -14,7 +14,11 @@ class DslContextGeneratorTask private constructor(writer: Writer, template: Temp
         fun create(taskParams: GeneratorTaskParams, model: IntermediateModel, baseContextData: BaseContextData): DslContextGeneratorTask {
             val contextData = ContextData(model)
 
-            baseContextData.enabledClassNames.add("${contextData.serviceName}Enabled")
+            baseContextData.contexts.add(GeneratedContextInfo(
+                enabledClassName = "${contextData.serviceName}Enabled",
+                contextClassName = "${contextData.serviceName}Context",
+                contextFieldName = "${contextData.serviceNameLC}Context"
+            ))
 
             return DslContextGeneratorTask(
                 CodeWriter(
@@ -33,15 +37,27 @@ class DslContextGeneratorTask private constructor(writer: Writer, template: Temp
 data class ContextData(val model: IntermediateModel) {
 
     companion object {
-        val PackageName = "uy.kohesive.iac.model.aws.contexts.generated"
+        val PackageName = "uy.kohesive.iac.model.aws.contexts"
         val PackagePath = PackageName.replace('.', '/')
+
+        fun getServiceName(model: IntermediateModel)     = model.getShortServiceName()
+        fun getClientFieldName(model: IntermediateModel) = (model.getShortServiceName().let {
+            if (it.all { it.isUpperCase() || it.isDigit() }) {
+                it.toLowerCase()
+            } else {
+                it
+            }
+        }).let { shortServiceNameLC ->
+            shortServiceNameLC.take(1).toLowerCase() + shortServiceNameLC.drop(1) + "Client"
+        }
     }
 
     val contextPackageName = ContextData.PackageName
 
     val metadata      = model.metadata
-    val serviceName   = model.getShortServiceName()
-    val serviceNameLC = serviceName.take(1).toLowerCase() + serviceName.drop(1)
+
+    val serviceName   = getServiceName(model)
+    val serviceNameLC = getClientFieldName(model)
     val syncInterface = model.metadata.syncInterface
 
 }

@@ -1,8 +1,9 @@
-package uy.kohesive.iac.model.aws
+package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.ec2.AbstractAmazonEC2
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.model.*
+import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.proxy.KohesiveReference
 import uy.kohesive.iac.model.aws.proxy.ReferenceParseException
 import uy.kohesive.iac.model.aws.proxy.makeProxy

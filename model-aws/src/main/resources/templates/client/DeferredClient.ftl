@@ -3,9 +3,7 @@ package ${targetClientPackageName}
 import ${awsClientPackageName}.Abstract${syncInterface}
 import ${awsClientPackageName}.${syncInterface}
 import ${awsClientPackageName}.model.*
-import uy.kohesive.iac.model.aws.proxy.KohesiveReference
-import uy.kohesive.iac.model.aws.proxy.ReferenceParseException
-import uy.kohesive.iac.model.aws.proxy.makeProxy
+import uy.kohesive.iac.model.aws.IacContext
 
 open class BaseDeferred${syncInterface}(val context: IacContext) : Abstract${syncInterface}(), ${syncInterface} {
 

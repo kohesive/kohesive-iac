@@ -11,13 +11,13 @@ class BaseIacContextGeneratorTask private constructor(writer: Writer, template: 
     companion object {
         fun create(outputDirectory: String, baseContextData: BaseContextData): BaseIacContextGeneratorTask {
 
-            baseContextData.clientClasses.sort()
-            baseContextData.enabledClassNames.sort()
+            baseContextData.clients.sortBy { it.awsInterfaceClassName }
+            baseContextData.contexts.sortBy { it.contextClassName }
 
             return BaseIacContextGeneratorTask(
                 CodeWriter(
-                    outputDirectory + "/" + ContextData.PackagePath,
-                    "BaseIacContext",
+                    outputDirectory + "/" + BaseContextData.PackagePath,
+                    "IacContext",
                     ".kt"
                 ),
                 TemplateDescriptor.BaseIacContext.load(),
@@ -29,7 +29,27 @@ class BaseIacContextGeneratorTask private constructor(writer: Writer, template: 
 }
 
 class BaseContextData {
-    val contextPackageName: String = ContextData.PackageName
-    val clientClasses     = ArrayList<String>()
-    val enabledClassNames = ArrayList<String>()
+
+    companion object {
+        val PackageName = "uy.kohesive.iac.model.aws"
+        val PackagePath = PackageName.replace('.', '/')
+    }
+
+    val contextPackageName: String = PackageName
+    val clients  = ArrayList<GeneratedClientInfo>()
+    val contexts = ArrayList<GeneratedContextInfo>()
 }
+
+data class GeneratedContextInfo(
+    val contextFieldName: String,
+    val enabledClassName: String,
+    val contextClassName: String
+)
+//data class
+
+data class GeneratedClientInfo(
+    val clientFieldName: String,
+    val deferredClientClassName: String,
+    val awsInterfaceClassName: String,
+    val awsInterfaceClassFq: String
+)
