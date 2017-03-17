@@ -12,11 +12,15 @@ interface ${serviceName}Identifiable : KohesiveIdentifiable {
 
 interface ${serviceName}Enabled : ${serviceName}Identifiable {
     val ${serviceNameLC}Client: ${syncInterface}
-    val ${serviceNameLC}Context: ${serviceName}
+    val ${serviceNameLC}Context: ${serviceName}Context
     fun <T> with${serviceName}Context(init: ${serviceName}Context.(${syncInterface}) -> T): T = ${serviceNameLC}Context.init(${serviceNameLC}Client)
 }
 
+open class Base${serviceName}Context(val protected context: IacContext) : ${serviceName}Enabled by context {
+
+}
+
 @DslScope
-class ${serviceName}Context(private val context: IacContext) : ${serviceName}Enabled by context {
+class ${serviceName}Context(context: IacContext) : Base${serviceName}Context(context) {
 
 }
