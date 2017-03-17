@@ -5,3 +5,12 @@ dependencies {
     compile group: 'cglib', name: 'cglib', version: version_cglib
     compile group: 'org.reflections', name: 'reflections', version: version_reflections
 }
+
+sourceSets {
+    main {
+        kotlin {
+            srcDir 'src/main/kotlin'
+            srcDir 'src/generated/kotlin'
+        }
+    }
+}

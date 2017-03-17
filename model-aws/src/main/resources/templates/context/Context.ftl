@@ -16,7 +16,7 @@ interface ${serviceName}Enabled : ${serviceName}Identifiable {
     fun <T> with${serviceName}Context(init: ${serviceName}Context.(${syncInterface}) -> T): T = ${serviceNameLC}Context.init(${serviceNameLC}Client)
 }
 
-open class Base${serviceName}Context(val protected context: IacContext) : ${serviceName}Enabled by context {
+open class Base${serviceName}Context(protected val context: IacContext) : ${serviceName}Enabled by context {
 
 }
 
