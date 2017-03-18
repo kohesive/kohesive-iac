@@ -5,8 +5,8 @@ import ${awsClientPackageName}.${syncInterface}
 import ${awsClientPackageName}.model.*
 import uy.kohesive.iac.model.aws.IacContext
 
-open class BaseDeferred${syncInterface}(val context: IacContext) : Abstract${syncInterface}(), ${syncInterface} {
+open class ${baseDeferredClientClassName}(val context: IacContext) : Abstract${syncInterface}(), ${syncInterface} {
 
 }
 
-class Deferred${syncInterface}(context: IacContext) : BaseDeferred${syncInterface}(context)
+class ${deferredClientClassName}(context: IacContext) : ${baseDeferredClientClassName}(context)

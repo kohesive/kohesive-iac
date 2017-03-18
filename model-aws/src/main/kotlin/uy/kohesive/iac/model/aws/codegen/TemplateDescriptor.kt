@@ -8,7 +8,7 @@ enum class TemplateDescriptor(
     val childTemplates: List<ChildTemplate> = emptyList()
 ) {
 
-    BaseIacContext("/templates/context/BaseIacContext.ftl"),
+    BaseIacContext("/templates/context/IacContext.ftl"),
     ServiceContext("/templates/context/ServiceContext.ftl"),
     DeferredClient("/templates/client/DeferredClient.ftl");
 

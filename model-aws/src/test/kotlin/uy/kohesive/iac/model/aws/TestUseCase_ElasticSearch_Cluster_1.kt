@@ -184,7 +184,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
             addVariables(keyNameParam, instanceTypeParam, sshLocationParam, clusterSizeParam, elasticsearchVersionParam)
             addMappings(awsInstantType2ArchMap, awsRegionArchi2AmiMap, esVer2ServiceWrapHash, esVer2AWSPluginVersion)
 
-            val esInstanceProfile = withIamContext {
+            val esInstanceProfile = withIdentityManagementContext {
                 val clusterDiscoveryRole = createRole("ElasticsearchDiscoveryRole") {
                     assumeRoleFromPrincipal = AssumeRolePrincipals.EC2
                 }
@@ -203,7 +203,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                 esInstanceProfile
             }
 
-            val securityGroupId = withEc2Context {
+            val securityGroupId = withEC2Context {
                 val groupId = createSecurityGroup("ElasticsearchSecurityGroup") {
                     description = "Enable Elasticsearch access"
                 }
@@ -228,7 +228,7 @@ class TestUseCase_ElasticSearch_Cluster_1 {
                     )
                 }
 
-                return@withEc2Context groupId
+                return@withEC2Context groupId
             }
 
             val (waitHandle, waitCondition) = withWaitConditionContext {

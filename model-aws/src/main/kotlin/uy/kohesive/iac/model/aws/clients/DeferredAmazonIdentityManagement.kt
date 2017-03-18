@@ -1,9 +1,10 @@
 package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.identitymanagement.model.*
+import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 
-class DeferredAmazonIdentityManagement(val context: uy.kohesive.iac.model.aws.IacContext) : com.amazonaws.services.identitymanagement.AbstractAmazonIdentityManagement(), com.amazonaws.services.identitymanagement.AmazonIdentityManagement {
+class DeferredAmazonIdentityManagement(context: IacContext) : BaseDeferredAmazonIdentityManagement(context) {
 
     override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult = with (context) {
         request.registerWithAutoName()

@@ -13,12 +13,14 @@ class DeferredClientGeneratorTask private constructor(writer: Writer, template: 
 
     companion object {
         fun create(taskParams: GeneratorTaskParams, model: IntermediateModel, baseContextData: BaseContextData): DeferredClientGeneratorTask {
-            val clientData = DeferredClientData(model)
+            val versionPostfix = VersionUtil.getExplicitServiceNameVersion(model.metadata.serviceName)?.toUpperCase() ?: ""
+            val clientData     = DeferredClientData(model, versionPostfix)
 
             val contextInfo = GeneratedClientInfo(
-                clientFieldName         = ContextData.getClientFieldName(model),
-                deferredClientClassName = "Deferred" + clientData.syncInterface,
-                awsInterfaceClassName   = model.metadata.syncInterface,
+                versioned               = versionPostfix.isNotEmpty(),
+                clientFieldName         = ContextData.getClientFieldName(model, versionPostfix),
+                deferredClientClassName = clientData.deferredClientClassName,
+                awsInterfaceClassName   = clientData.syncInterface,
                 awsInterfaceClassFq     = model.metadata.packageName + "." + model.metadata.syncInterface
             )
             baseContextData.clients.add(contextInfo)
@@ -37,7 +39,7 @@ class DeferredClientGeneratorTask private constructor(writer: Writer, template: 
 
 }
 
-data class DeferredClientData(val model: IntermediateModel) {
+data class DeferredClientData(val model: IntermediateModel, val versionPostfix: String = "") {
 
     companion object {
         val PackageName = "uy.kohesive.iac.model.aws.clients"
@@ -45,11 +47,14 @@ data class DeferredClientData(val model: IntermediateModel) {
     }
 
     val targetClientPackageName = DeferredClientData.PackageName
-    val awsClientPackageName = model.metadata.packageName
+    val awsClientPackageName    = model.metadata.packageName
 
     val metadata      = model.metadata
     val serviceName   = model.getShortServiceName()
     val serviceNameLC = serviceName.take(1).toLowerCase() + serviceName.drop(1)
     val syncInterface = model.metadata.syncInterface
+
+    val deferredClientClassName     = "Deferred" + syncInterface + versionPostfix
+    val baseDeferredClientClassName = "BaseDeferred" + syncInterface + versionPostfix
 
 }

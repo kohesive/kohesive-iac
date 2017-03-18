@@ -10,7 +10,6 @@ import com.amazonaws.codegen.utils.ModelLoaderUtils
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
 import java.io.InputStream
-import java.util.regex.Pattern
 
 fun main(args: Array<String>) {
     KohesiveAwsCodeGen("/Users/eliseyev/TMP/codegen/").generate()
@@ -24,23 +23,25 @@ data class IntermediateFile(
 
 class KohesiveAwsCodeGen(val outputDirectory: String) {
 
+    companion object {
+        val IntermediateFilenameRegexp = "(.*)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
+    }
+
     private val generatorTaskExecutor = GeneratorTaskExecutor()
 
     fun generate() {
         val baseContextData   = BaseContextData()
-        val intermediateFiles = Reflections("models", ResourcesScanner()).getResources(Pattern.compile(".*intermediate\\.json"))
+        val intermediateFiles = Reflections("models", ResourcesScanner()).getResources(IntermediateFilenameRegexp.toPattern())
 
         // Prepare intermediate data
-        val recentIntermediateFiles = intermediateFiles.map { filePath ->
+        val recentIntermediateFiles = intermediateFiles.filter { it.matches(IntermediateFilenameRegexp) }.map { filePath ->
             val filename = filePath.substring(filePath.lastIndexOf('/')).drop(1)
             IntermediateFile(
                 filePath    = filePath,
-                serviceKind = filename.substring(0, filename.indexOf('-')),
-                date        = filename.substring(filename.indexOf('-'), filename.lastIndexOf('-')).drop(1)
+                serviceKind = IntermediateFilenameRegexp.find(filename)?.groupValues?.get(1)!!,
+                date        = IntermediateFilenameRegexp.find(filename)?.groupValues?.get(2)!!
             )
-        }.groupBy { it.serviceKind }.mapValues {
-            it.value.maxBy { it.date }
-        }.values.filterNotNull().asSequence()
+        }.groupBy { it.serviceKind }.flatMap { it.value }.asSequence()
 
         // Generate straight from intermediate data
         recentIntermediateFiles.map { it.filePath }.forEach { modelFile ->
@@ -56,7 +57,7 @@ class KohesiveAwsCodeGen(val outputDirectory: String) {
         }
 
         // Generate from base context data
-        val emitter = CodeEmitter(listOf(BaseIacContextGeneratorTask.create(outputDirectory, baseContextData)), generatorTaskExecutor)
+        val emitter = CodeEmitter(listOf(IacContextGeneratorTask.create(outputDirectory, baseContextData)), generatorTaskExecutor)
         emitter.emit()
     }
 
@@ -67,7 +68,7 @@ fun IntermediateModel.getShortServiceName() = metadata.syncInterface.replace("Am
 class KohesiveGeneratorTasks(val params: GeneratorTaskParams, val baseContextData: BaseContextData) : BaseGeneratorTasks(params) {
 
     override fun createTasks() = listOf(
-        DslContextGeneratorTask.create(params, model, baseContextData),
+        ServiceContextGeneratorTask.create(params, model, baseContextData),
         DeferredClientGeneratorTask.create(params, model, baseContextData)
     )
 

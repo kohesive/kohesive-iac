@@ -1,7 +1,8 @@
 dependencies {
     compile project(':model-common')
     compile group: 'com.amazonaws', name: 'aws-java-sdk', version: version_awssdk
-    compile group: 'com.amazonaws', name: 'aws-java-sdk-code-generator', version: version_awssdk    
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-code-generator', version: version_awssdk
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-workdocs', version: version_awssdk
     compile group: 'cglib', name: 'cglib', version: version_cglib
     compile group: 'org.reflections', name: 'reflections', version: version_reflections
 }

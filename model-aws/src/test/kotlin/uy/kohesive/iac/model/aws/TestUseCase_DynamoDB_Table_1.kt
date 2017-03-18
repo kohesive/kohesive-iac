@@ -50,7 +50,7 @@ class TestUseCase_DynamoDB_Table_1 : TestCase() {
         val context = CloudFormationContext("test", "dynamodb-table-myDynamoDBTable") {
             addVariables(hashKeyNameParam, hashKeyTypeParam, readCapacityParam, writeCapacityParam)
 
-            withDynamoDbContext {
+            withDynamoDBContext {
                 val table = createTable("myDynamoDBTable") {
                     withKeySchema(KeySchemaElement(hashKeyNameParam.value, KeyType.HASH))
                     withAttributeDefinitions(AttributeDefinition(hashKeyNameParam.value, hashKeyTypeParam.value))
