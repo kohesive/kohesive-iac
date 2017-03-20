@@ -43,10 +43,18 @@ data class DeferredClientData(val params: KohesiveGenerateParams, val versionPos
     companion object {
         val PackageName = "uy.kohesive.iac.model.aws.clients"
         val PackagePath = PackageName.replace('.', '/')
+
+        val MethodsStopList = setOf("createOrUpdateTags")
     }
 
     val targetClientPackageName = DeferredClientData.PackageName
     val awsClientPackageName    = params.model.metadata.packageName
+
+    val creationMethods = params.model.operations.values.filter {
+        !MethodsStopList.contains(it.methodName) && it.methodName.startsWith("create")
+    }.map {
+        CreationMethod.fromOperation(params.model, it)
+    }
 
     val metadata      = params.model.metadata
     val serviceName   = params.model.getShortServiceName()
@@ -60,3 +68,4 @@ data class DeferredClientData(val params: KohesiveGenerateParams, val versionPos
         = !File(params.mainSourcesDir, "$PackagePath/$deferredClientClassName.kt").exists()
 
 }
+
