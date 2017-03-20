@@ -26,13 +26,24 @@ data class CreationMethod(
 
     val memberContainingCreatedEntity: String?,
     val createdEntityType: String?,
-    val requestAndEntityCommonMembers: List<String>
+    val requestAndEntityCommonMembers: List<String>,
+    val requestAndResponseCommonMembers: List<String>
 ) {
 
     companion object {
         fun fromOperation(model: IntermediateModel, operation: OperationModel): CreationMethod {
-            val returnShape  = operation.getReturnShape(model)
-            val requestShape = model.getShapeByC2jName(operation.input.variableType)
+            fun commonMemberNames(shapeOne: ShapeModel?, shapeTwo: ShapeModel?): List<String> {
+                if (shapeOne == null || shapeTwo == null) {
+                    return emptyList()
+                }
+
+                val shapeOneMembers = shapeOne.members?.map { MemberModelKey.fromMemberModel(it) }.orEmpty()
+                val shapeTwoMembers = shapeTwo.members?.map { MemberModelKey.fromMemberModel(it) }.orEmpty()
+                return shapeOneMembers.intersect(shapeTwoMembers).map { it.name }
+            }
+
+            val returnShape: ShapeModel?  = operation.getReturnShape(model)
+            val requestShape: ShapeModel? = model.getShapeByC2jName(operation.input.variableType)
 
             val emptyResult = returnShape?.members?.isEmpty() ?: true
 
@@ -40,33 +51,30 @@ data class CreationMethod(
                 member.c2jShape.isNotEmpty() && operation.methodName.contains(member.c2jShape)
             }?.name
 
-            // Let's find common properties in request and result entity
-            val requestAndEntityCommonMembers = memberContainingCreatedEntity?.let {
+            val entityShape = memberContainingCreatedEntity?.let {
                 returnShape.membersAsMap[it]
             }?.let { entityMember ->
                 model.getShapeByC2jName(entityMember.c2jShape)
-            }?.let { entityShape ->
-                val requestMembers = requestShape.members.map { MemberModelKey.fromMemberModel(it) }
-                val entityMembers  = entityShape.members.map { MemberModelKey.fromMemberModel(it) }
-                requestMembers.intersect(entityMembers)
-            }?.map { it.name }.orEmpty()
+            }
 
-            val some = CreationMethod(
+            val requestAndEntityCommonMembers   = entityShape?.let { commonMemberNames(it, requestShape) }.orEmpty()
+            val requestAndResponseCommonMembers = returnShape?.let { commonMemberNames(it, requestShape) }.orEmpty()
+
+            return CreationMethod(
                 methodName  = operation.methodName,
                 requestType = operation.input.variableType,
                 resultType  = operation.returnType?.returnType ?: "Unit",
 
                 emptyResult = emptyResult,
 
-                memberContainingCreatedEntity = memberContainingCreatedEntity,
-                requestAndEntityCommonMembers = requestAndEntityCommonMembers,
+                memberContainingCreatedEntity   = memberContainingCreatedEntity,
+                requestAndEntityCommonMembers   = requestAndEntityCommonMembers,
+                requestAndResponseCommonMembers = requestAndResponseCommonMembers,
 
                 createdEntityType = memberContainingCreatedEntity?.let {
                     returnShape.membersAsMap[it]
                 }?.c2jShape
             )
-
-            return some
         }
     }
 

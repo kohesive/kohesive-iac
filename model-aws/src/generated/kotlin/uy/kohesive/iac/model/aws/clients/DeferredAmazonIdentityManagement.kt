@@ -57,8 +57,8 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                     sourceName    = getNameStrict(request),
                     requestObject = request,
                     copyFromReq   = mapOf(
-                        CreateInstanceProfileRequest::getInstanceProfileName to InstanceProfile::getInstanceProfileName,
-                        CreateInstanceProfileRequest::getPath to InstanceProfile::getPath
+                        CreateInstanceProfileRequest::getPath to InstanceProfile::getPath,
+                        CreateInstanceProfileRequest::getInstanceProfileName to InstanceProfile::getInstanceProfileName
                     )
                 )
             )
@@ -85,7 +85,11 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
     override fun createOpenIDConnectProvider(request: CreateOpenIDConnectProviderRequest): CreateOpenIDConnectProviderResult {
         return with (context) {
             request.registerWithAutoName()
-            CreateOpenIDConnectProviderResult().registerWithSameNameAs(request) // TODO: check for wiring members to request
+            makeProxy<CreateOpenIDConnectProviderRequest, CreateOpenIDConnectProviderResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 
@@ -114,9 +118,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                 makeProxy<CreatePolicyVersionRequest, PolicyVersion>(
                     context       = this@with,
                     sourceName    = getNameStrict(request),
-                    requestObject = request,
-                    copyFromReq   = mapOf(
-                    )
+                    requestObject = request
                 )
             )
         }
@@ -143,7 +145,11 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
     override fun createSAMLProvider(request: CreateSAMLProviderRequest): CreateSAMLProviderResult {
         return with (context) {
             request.registerWithAutoName()
-            CreateSAMLProviderResult().registerWithSameNameAs(request) // TODO: check for wiring members to request
+            makeProxy<CreateSAMLProviderRequest, CreateSAMLProviderResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 
@@ -156,8 +162,8 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                     sourceName    = getNameStrict(request),
                     requestObject = request,
                     copyFromReq   = mapOf(
-                        CreateServiceSpecificCredentialRequest::getUserName to ServiceSpecificCredential::getUserName,
-                        CreateServiceSpecificCredentialRequest::getServiceName to ServiceSpecificCredential::getServiceName
+                        CreateServiceSpecificCredentialRequest::getServiceName to ServiceSpecificCredential::getServiceName,
+                        CreateServiceSpecificCredentialRequest::getUserName to ServiceSpecificCredential::getUserName
                     )
                 )
             )
@@ -188,9 +194,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                 makeProxy<CreateVirtualMFADeviceRequest, VirtualMFADevice>(
                     context       = this@with,
                     sourceName    = getNameStrict(request),
-                    requestObject = request,
-                    copyFromReq   = mapOf(
-                    )
+                    requestObject = request
                 )
             )
         }

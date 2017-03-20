@@ -19,16 +19,25 @@ open class ${baseDeferredClientClassName}(val context: IacContext) : Abstract${s
                 makeProxy<${method.requestType}, ${method.createdEntityType}>(
                     context       = this@with,
                     sourceName    = getNameStrict(request),
-                    requestObject = request,
+                    requestObject = request<#if method.requestAndEntityCommonMembers?size != 0>,
                     copyFromReq   = mapOf(
                         <#list method.requestAndEntityCommonMembers as member>
                         ${method.requestType}::${member} to ${method.createdEntityType}::${member}<#if member_has_next>,</#if>
                         </#list>
-                    )
+                    )</#if>
                 )
             )
             <#else>
-            ${method.resultType}().registerWithSameNameAs(request) // TODO: check for wiring members to request
+            makeProxy<${method.requestType}, ${method.resultType}>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request<#if method.requestAndResponseCommonMembers?size != 0>,
+                copyFromReq   = mapOf(
+                    <#list method.requestAndResponseCommonMembers as member>
+                    ${method.requestType}::${member} to ${method.resultType}::${member}<#if member_has_next>,</#if>
+                    </#list>
+                )</#if>
+            )
             </#if>
         }
     }
