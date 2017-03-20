@@ -20,7 +20,9 @@ open class Base${serviceName}Context(protected val context: IacContext) : ${serv
 
 }
 
+<#if generateSubContext>
 @DslScope
 class ${serviceName}Context(context: IacContext) : Base${serviceName}Context(context) {
 
 }
+</#if>

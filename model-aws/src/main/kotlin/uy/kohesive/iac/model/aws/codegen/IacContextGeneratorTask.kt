@@ -48,7 +48,6 @@ data class GeneratedContextInfo(
     val enabledClassName: String,
     val contextClassName: String
 )
-//data class
 
 data class GeneratedClientInfo(
     val versioned: Boolean,

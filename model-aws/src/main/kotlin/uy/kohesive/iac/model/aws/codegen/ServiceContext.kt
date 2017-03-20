@@ -2,18 +2,18 @@ package uy.kohesive.iac.model.aws.codegen
 
 import com.amazonaws.codegen.emitters.CodeWriter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
-import com.amazonaws.codegen.emitters.GeneratorTaskParams
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import freemarker.template.Template
+import java.io.File
 import java.io.Writer
 
 class ServiceContextGeneratorTask private constructor(writer: Writer, template: Template, data: ContextData)
     : FreemarkerGeneratorTask(writer, template, data) {
 
     companion object {
-        fun create(taskParams: GeneratorTaskParams, model: IntermediateModel, baseContextData: BaseContextData): ServiceContextGeneratorTask {
-            val versionPostfix = VersionUtil.getExplicitServiceNameVersion(model.metadata.serviceName)?.toUpperCase() ?: ""
-            val contextData    = ContextData(model, versionPostfix)
+        fun create(params: KohesiveGenerateParams, baseContextData: BaseContextData): ServiceContextGeneratorTask {
+            val versionPostfix = VersionUtil.getExplicitServiceNameVersion(params.model.metadata.serviceName)?.toUpperCase() ?: ""
+            val contextData    = ContextData(params, versionPostfix)
 
             baseContextData.contexts.add(GeneratedContextInfo(
                 enabledClassName = "${contextData.serviceName}Enabled",
@@ -23,7 +23,7 @@ class ServiceContextGeneratorTask private constructor(writer: Writer, template: 
 
             return ServiceContextGeneratorTask(
                 CodeWriter(
-                    taskParams.pathProvider.outputDirectory + "/" + ContextData.PackagePath,
+                    params.taskParams.pathProvider.outputDirectory + "/" + ContextData.PackagePath,
                     contextData.serviceName,
                     ".kt"
                 ),
@@ -35,7 +35,7 @@ class ServiceContextGeneratorTask private constructor(writer: Writer, template: 
 
 }
 
-data class ContextData(val model: IntermediateModel, val versionPostfix: String = "") {
+data class ContextData(val params: KohesiveGenerateParams, val versionPostfix: String = "") {
 
     companion object {
         val PackageName = "uy.kohesive.iac.model.aws.contexts"
@@ -61,10 +61,13 @@ data class ContextData(val model: IntermediateModel, val versionPostfix: String 
 
     val contextPackageName = ContextData.PackageName
 
-    val metadata      = model.metadata
+    val metadata      = params.model.metadata
 
-    val serviceName   = getServiceName(model, versionPostfix)
-    val serviceNameLC = getServiceNameLC(model, versionPostfix)
-    val syncInterface = model.metadata.syncInterface
+    val serviceName   = getServiceName(params.model, versionPostfix)
+    val serviceNameLC = getServiceNameLC(params.model, versionPostfix)
+    val syncInterface = params.model.metadata.syncInterface
+
+    val generateSubContext: Boolean
+        = !File(params.mainSourcesDir, "$PackagePath/$serviceName.kt").exists()
 
 }

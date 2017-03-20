@@ -9,10 +9,21 @@ import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import com.amazonaws.codegen.utils.ModelLoaderUtils
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
+import java.io.File
 import java.io.InputStream
 
 fun main(args: Array<String>) {
-    KohesiveAwsCodeGen("/Users/eliseyev/TMP/codegen/").generate()
+    KohesiveAwsCodeGen(
+        outputDirectory     = "/Users/eliseyev/TMP/codegen/",
+        mainSourceDirectory = "/Users/eliseyev/git/kohesive-iac/model-aws/src/main/kotlin/"
+    ).generate()
+}
+
+data class KohesiveGenerateParams(
+    val taskParams: GeneratorTaskParams,
+    val mainSourcesDir: File
+) {
+    val model: IntermediateModel get() = taskParams.model
 }
 
 data class IntermediateFile(
@@ -21,7 +32,10 @@ data class IntermediateFile(
     val date: String
 )
 
-class KohesiveAwsCodeGen(val outputDirectory: String) {
+class KohesiveAwsCodeGen(
+    val outputDirectory: String,
+    val mainSourceDirectory: String
+) {
 
     companion object {
         val IntermediateFilenameRegexp = "(.*)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
@@ -48,7 +62,10 @@ class KohesiveAwsCodeGen(val outputDirectory: String) {
             ModelLoaderUtils.getRequiredResourceAsStream(modelFile).use { stream ->
                 val intermediateModel: IntermediateModel = loadModel(stream)
 
-                val params = GeneratorTaskParams.create(intermediateModel, outputDirectory, outputDirectory)
+                val params = KohesiveGenerateParams(
+                    taskParams     = GeneratorTaskParams.create(intermediateModel, outputDirectory, outputDirectory),
+                    mainSourcesDir = File(mainSourceDirectory)
+                )
 
                 val kohesiveGeneratorTasks = KohesiveGeneratorTasks(params, baseContextData)
                 val emitter = CodeEmitter(kohesiveGeneratorTasks, generatorTaskExecutor)
@@ -65,11 +82,14 @@ class KohesiveAwsCodeGen(val outputDirectory: String) {
 
 fun IntermediateModel.getShortServiceName() = metadata.syncInterface.replace("Amazon", "").replace("AWS", "")
 
-class KohesiveGeneratorTasks(val params: GeneratorTaskParams, val baseContextData: BaseContextData) : BaseGeneratorTasks(params) {
+class KohesiveGeneratorTasks(
+    val params: KohesiveGenerateParams,
+    val baseContextData: BaseContextData
+) : BaseGeneratorTasks(params.taskParams) {
 
     override fun createTasks() = listOf(
-        ServiceContextGeneratorTask.create(params, model, baseContextData),
-        DeferredClientGeneratorTask.create(params, model, baseContextData)
+        ServiceContextGeneratorTask.create(params, baseContextData),
+        DeferredClientGeneratorTask.create(params, baseContextData)
     )
 
 }

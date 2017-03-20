@@ -9,4 +9,6 @@ open class ${baseDeferredClientClassName}(val context: IacContext) : Abstract${s
 
 }
 
+<#if generateSubClient>
 class ${deferredClientClassName}(context: IacContext) : ${baseDeferredClientClassName}(context)
+</#if>
