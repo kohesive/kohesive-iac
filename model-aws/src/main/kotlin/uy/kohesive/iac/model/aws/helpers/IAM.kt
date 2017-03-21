@@ -172,3 +172,17 @@ fun AttachRolePolicyRequest.getPolicyNameFromArn() = if (policyArn.isKohesiveRef
     // TODO: implement
     throw RuntimeException("Can't figure out policy name from ARN")
 }
+
+fun AttachGroupPolicyRequest.getPolicyNameFromArn() = if (policyArn.isKohesiveRef()) {
+    KohesiveReference.fromString(policyArn).targetId
+} else {
+    // TODO: implement
+    throw RuntimeException("Can't figure out policy name from ARN")
+}
+
+fun AttachUserPolicyRequest.getPolicyNameFromArn() = if (policyArn.isKohesiveRef()) {
+    KohesiveReference.fromString(policyArn).targetId
+} else {
+    // TODO: implement
+    throw RuntimeException("Can't figure out policy name from ARN")
+}

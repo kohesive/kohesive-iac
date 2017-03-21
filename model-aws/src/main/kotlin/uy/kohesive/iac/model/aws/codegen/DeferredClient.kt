@@ -51,7 +51,9 @@ data class DeferredClientData(val params: KohesiveGenerateParams, val versionPos
     val awsClientPackageName    = params.model.metadata.packageName
 
     val creationMethods = params.model.operations.values.filter {
-        !MethodsStopList.contains(it.methodName) && it.methodName.startsWith("create")
+        !MethodsStopList.contains(it.methodName) && (
+            it.methodName.startsWith("create") || it.methodName.startsWith("attach") || it.methodName.startsWith("add")
+        )
     }.map {
         CreationMethod.fromOperation(params.model, it)
     }

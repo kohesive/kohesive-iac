@@ -8,6 +8,48 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazonIdentityManagement(), AmazonIdentityManagement {
 
+    override fun addClientIDToOpenIDConnectProvider(request: AddClientIDToOpenIDConnectProviderRequest): AddClientIDToOpenIDConnectProviderResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddClientIDToOpenIDConnectProviderResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun addRoleToInstanceProfile(request: AddRoleToInstanceProfileRequest): AddRoleToInstanceProfileResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddRoleToInstanceProfileResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun addUserToGroup(request: AddUserToGroupRequest): AddUserToGroupResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddUserToGroupResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun attachGroupPolicy(request: AttachGroupPolicyRequest): AttachGroupPolicyResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AttachGroupPolicyResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AttachRolePolicyResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun attachUserPolicy(request: AttachUserPolicyRequest): AttachUserPolicyResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AttachUserPolicyResult().registerWithSameNameAs(request)
+        }
+    }
+
     override fun createAccessKey(request: CreateAccessKeyRequest): CreateAccessKeyResult {
         return with (context) {
             request.registerWithAutoName()

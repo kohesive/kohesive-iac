@@ -26,18 +26,27 @@ import kotlin.reflect.KFunction1
 
 object AutoNaming {
 
+    // TODO: can we automate this?
     private val requestClassesToDefiningPropertyGetters: Map<KClass<out AmazonWebServiceRequest>, KFunction1<*, String>> = mapOf(
         CreateRoleRequest::class                to CreateRoleRequest::getRoleName,
         CreatePolicyRequest::class              to CreatePolicyRequest::getPolicyName,
+        CreateUserRequest::class                to CreateUserRequest::getUserName,
         CreateInstanceProfileRequest::class     to CreateInstanceProfileRequest::getInstanceProfileName,
         CreateAutoScalingGroupRequest::class    to CreateAutoScalingGroupRequest::getAutoScalingGroupName,
         CreateLaunchConfigurationRequest::class to CreateLaunchConfigurationRequest::getLaunchConfigurationName,
         AddRoleToInstanceProfileRequest::class  to AddRoleToInstanceProfileRequest::getInstanceProfileName,
         AttachRolePolicyRequest::class          to AttachRolePolicyRequest::getPolicyNameFromArn,
+        AttachGroupPolicyRequest::class         to AttachGroupPolicyRequest::getPolicyNameFromArn,
+        AttachUserPolicyRequest::class          to AttachUserPolicyRequest::getPolicyNameFromArn,
         CreateSecurityGroupRequest::class       to CreateSecurityGroupRequest::getGroupName,
         CreateTableRequest::class               to CreateTableRequest::getTableName,
         CreateWaitConditionRequest::class       to CreateWaitConditionRequest::getName,
-        CreateWaitHandleRequest::class          to CreateWaitHandleRequest::getName
+        CreateWaitHandleRequest::class          to CreateWaitHandleRequest::getName,
+        AddUserToGroupRequest::class            to AddUserToGroupRequest::getGroupName,
+        CreateAccessKeyRequest::class           to CreateAccessKeyRequest::getUserName,
+        CreateAccountAliasRequest::class        to CreateAccountAliasRequest::getAccountAlias,
+        CreateGroupRequest::class               to CreateGroupRequest::getGroupName,
+        CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName
     )
 
     fun getName(request: AmazonWebServiceRequest): String? {
