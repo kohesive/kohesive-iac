@@ -4,6 +4,7 @@ import com.amazonaws.codegen.emitters.CodeWriter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import freemarker.template.Template
+import uy.kohesive.iac.model.aws.utils.firstLetterToLowerCase
 import java.io.File
 import java.io.Writer
 
@@ -41,6 +42,8 @@ data class ContextData(val params: KohesiveGenerateParams, val versionPostfix: S
         val PackageName = "uy.kohesive.iac.model.aws.contexts"
         val PackagePath = PackageName.replace('.', '/')
 
+        val MethodsStopList = setOf("createOrUpdateTags")
+
         fun getServiceName(model: IntermediateModel, versionPostfix: String) = model.getShortServiceName() + versionPostfix
 
         fun getClientFieldName(model: IntermediateModel, versionPostfix: String)
@@ -53,10 +56,18 @@ data class ContextData(val params: KohesiveGenerateParams, val versionPostfix: S
                 } else {
                     it
                 }
-            }).let { shortServiceNameLC ->
-                shortServiceNameLC.take(1).toLowerCase() + shortServiceNameLC.drop(1)
-            } + versionPostfix
+            }).firstLetterToLowerCase() + versionPostfix
         }
+    }
+
+    val creationMethods = params.model.operations.values.filter {
+        !DeferredClientData.MethodsStopList.contains(it.methodName) && (
+            it.methodName.startsWith("create")
+        )
+    }.map {
+        CreationMethod.fromOperation(params.model, it)
+    }.filter {
+        it.nameMember != null
     }
 
     val contextPackageName = ContextData.PackageName

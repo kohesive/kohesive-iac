@@ -4,18 +4,7 @@ import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.OperationModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
-
-data class MemberModelKey(
-    val name: String,
-    val type: String
-) {
-    companion object {
-        fun fromMemberModel(model: MemberModel) = MemberModelKey(
-            name = model.getterMethodName,
-            type = model.getterModel.returnType
-        )
-    }
-}
+import uy.kohesive.iac.model.aws.utils.firstLetterToLowerCase
 
 data class CreationMethod(
     val methodName: String,
@@ -25,9 +14,13 @@ data class CreationMethod(
     val emptyResult: Boolean,
 
     val memberContainingCreatedEntity: String?,
+    val memberContainingCreatedEntityLC: String?,
     val createdEntityType: String?,
     val requestAndEntityCommonMembers: List<String>,
-    val requestAndResponseCommonMembers: List<String>
+    val requestAndResponseCommonMembers: List<String>,
+
+    val nameMember: String?,
+    val nameMemberLC: String?
 ) {
 
     companion object {
@@ -42,46 +35,48 @@ data class CreationMethod(
                 return shapeOneMembers.intersect(shapeTwoMembers).map { it.name }
             }
 
-            val returnShape: ShapeModel?  = operation.getReturnShape(model)
-            val requestShape: ShapeModel? = model.shapes[operation.input.variableType]
+            val operationHelper = OperationHelper(operation, model)
 
-            val emptyResult = returnShape?.members?.isEmpty() ?: true
+            val requestAndEntityCommonMembers   = operationHelper.entityShape?.let { commonMemberNames(it, operationHelper.requestShape) }.orEmpty()
+            val requestAndResponseCommonMembers = operationHelper.returnShape?.let { commonMemberNames(it, operationHelper.requestShape) }.orEmpty()
 
-            val memberContainingCreatedEntity = returnShape?.members?.firstOrNull { member ->
-                member.c2jShape.isNotEmpty() && (
-                    operation.methodName.contains(member.c2jShape) || (operation.methodName + "Description").contains(member.c2jShape)
-                )
+            val nameMemberName = operationHelper.requestShape?.let { requestShape ->
+                requestShape.membersAsMap[requestShape.shapeName.replace("Create", "").replace("Request", "") + "Name"]
             }?.name
-
-            val entityShape = memberContainingCreatedEntity?.let {
-                returnShape.membersAsMap[it]
-            }?.let { entityMember ->
-                model.getShapeByC2jName(entityMember.c2jShape)
-            }
-
-            val requestAndEntityCommonMembers   = entityShape?.let { commonMemberNames(it, requestShape) }.orEmpty()
-            val requestAndResponseCommonMembers = returnShape?.let { commonMemberNames(it, requestShape) }.orEmpty()
 
             return CreationMethod(
                 methodName  = operation.methodName,
                 requestType = operation.input.variableType,
                 resultType  = operation.returnType?.returnType ?: "Unit",
 
-                emptyResult = emptyResult,
+                emptyResult = operationHelper.returnShape?.members?.isEmpty() ?: true,
 
-                memberContainingCreatedEntity   = memberContainingCreatedEntity,
+                memberContainingCreatedEntity   = operationHelper.memberContainingCreatedEntity,
+                memberContainingCreatedEntityLC = operationHelper.memberContainingCreatedEntity?.firstLetterToLowerCase(),
                 requestAndEntityCommonMembers   = requestAndEntityCommonMembers,
                 requestAndResponseCommonMembers = requestAndResponseCommonMembers,
 
-                createdEntityType = memberContainingCreatedEntity?.let {
-                    returnShape.membersAsMap[it]
-                }?.c2jShape
+                createdEntityType  = operationHelper.entityShape?.c2jName,
+
+                nameMember   = nameMemberName,
+                nameMemberLC = nameMemberName?.firstLetterToLowerCase()
             )
         }
+
     }
 
 }
 
-fun OperationModel.getReturnShape(model: IntermediateModel): ShapeModel? = returnType?.returnType?.let { returnType ->
-    model.shapes[returnType]
+data class MemberModelKey(
+    val name: String,
+    val type: String
+) {
+    companion object {
+        fun fromMemberModel(model: MemberModel) = MemberModelKey(
+            name = model.getterMethodName,
+            type = model.getterModel.returnType
+        )
+    }
 }
+
+
