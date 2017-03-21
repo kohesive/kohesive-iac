@@ -41,7 +41,7 @@ data class CreationMethod(
             val requestAndResponseCommonMembers = operationHelper.returnShape?.let { commonMemberNames(it, operationHelper.requestShape) }.orEmpty()
 
             val nameMemberName = operationHelper.requestShape?.let { requestShape ->
-                requestShape.membersAsMap[requestShape.shapeName.replace("Create", "").replace("Request", "") + "Name"]
+                requestShape.membersAsMap["Name"] ?: requestShape.membersAsMap[requestShape.shapeName.replace("Create", "").replace("Request", "") + "Name"]
             }?.name
 
             return CreationMethod(

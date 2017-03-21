@@ -1,6 +1,8 @@
 package uy.kohesive.iac.model.aws.contexts
 
 import com.amazonaws.services.ec2.AmazonEC2
+import com.amazonaws.services.ec2.model.CreateImageRequest
+import com.amazonaws.services.ec2.model.CreateImageResult
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 
@@ -16,4 +18,13 @@ interface EC2Enabled : EC2Identifiable {
 
 open class BaseEC2Context(protected val context: IacContext) : EC2Enabled by context {
 
+    fun createImage(name: String, init: CreateImageRequest.() -> Unit): CreateImageResult {
+        return ec2Client.createImage(CreateImageRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
+

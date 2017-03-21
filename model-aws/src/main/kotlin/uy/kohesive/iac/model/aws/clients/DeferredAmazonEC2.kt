@@ -35,7 +35,7 @@ class DeferredAmazonEC2(context: IacContext) : BaseDeferredAmazonEC2(context) {
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
             val requestName = getNameStrict(request)
-            if (request.minCount == null || request.minCount < 1 ||  request.minCount != request.maxCount) {
+            if (request.minCount == null || request.minCount < 1 || request.minCount != request.maxCount) {
                 throw IllegalArgumentException("minCount & maxCount must be not-null, equal and positive")
             }
 
