@@ -26,7 +26,7 @@ open class ${baseDeferredClientClassName}(val context: IacContext) : Abstract${s
                         </#list>
                     )</#if>
                 )
-            )
+            ).registerWithSameNameAs(request)
             <#else>
             makeProxy<${method.requestType}, ${method.resultType}>(
                 context       = this@with,

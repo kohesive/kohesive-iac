@@ -43,12 +43,14 @@ data class CreationMethod(
             }
 
             val returnShape: ShapeModel?  = operation.getReturnShape(model)
-            val requestShape: ShapeModel? = model.getShapeByC2jName(operation.input.variableType)
+            val requestShape: ShapeModel? = model.shapes[operation.input.variableType]
 
             val emptyResult = returnShape?.members?.isEmpty() ?: true
 
             val memberContainingCreatedEntity = returnShape?.members?.firstOrNull { member ->
-                member.c2jShape.isNotEmpty() && operation.methodName.contains(member.c2jShape)
+                member.c2jShape.isNotEmpty() && (
+                    operation.methodName.contains(member.c2jShape) || (operation.methodName + "Description").contains(member.c2jShape)
+                )
             }?.name
 
             val entityShape = memberContainingCreatedEntity?.let {

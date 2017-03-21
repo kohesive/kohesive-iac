@@ -40,7 +40,7 @@ class KohesiveAwsCodeGen(
     companion object {
         // TODO: uncomment
         //  val IntermediateFilenameRegexp = "(.*)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
-        val IntermediateFilenameRegexp = ".*(iam)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
+        val IntermediateFilenameRegexp = ".*(dynamodb)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
     }
 
     private val generatorTaskExecutor = GeneratorTaskExecutor()
