@@ -5,7 +5,7 @@ import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 @DslScope
-class IdentityManagementContext(private val context: IacContext) : IdentityManagementEnabled by context {
+class IdentityManagementContext(context: IacContext) : BaseIdentityManagementContext(context) {
 
     fun IdentityManagementContext.addRoleToInstanceProfile(init: AddRoleToInstanceProfileRequest.() -> Unit): Unit {
         identityManagementClient.addRoleToInstanceProfile(AddRoleToInstanceProfileRequest().apply { init() })

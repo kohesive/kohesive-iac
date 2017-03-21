@@ -5,7 +5,7 @@ import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 @DslScope
-class AutoScalingContext(private val context: IacContext): AutoScalingEnabled by context {
+class AutoScalingContext(context: IacContext): BaseAutoScalingContext(context) {
 
     fun createTag(key: String, value: String): Tag = Tag().withKey(key).withValue(value)
 

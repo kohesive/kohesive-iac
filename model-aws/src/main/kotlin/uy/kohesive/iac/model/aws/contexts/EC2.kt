@@ -1,14 +1,12 @@
 package uy.kohesive.iac.model.aws.contexts
 
-import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
 import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
 import uy.kohesive.iac.model.aws.IacContext
-import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 @DslScope
-class EC2Context(private val context: IacContext): EC2Enabled by context {
+class EC2Context(context: IacContext): BaseEC2Context(context) {
 
     /**
      * @return Security group ID

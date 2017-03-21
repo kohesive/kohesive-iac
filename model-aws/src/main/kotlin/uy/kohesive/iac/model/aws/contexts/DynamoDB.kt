@@ -6,7 +6,7 @@ import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.utils.DslScope
 
 @DslScope
-class DynamoDBContext(private val context: IacContext) : DynamoDBEnabled by context {
+class DynamoDBContext(context: IacContext) : BaseDynamoDBContext(context) {
 
     fun createTable(tableName: String, init: CreateTableRequest.() -> Unit): TableDescription {
         return dynamoDBClient.createTable(CreateTableRequest().apply {
