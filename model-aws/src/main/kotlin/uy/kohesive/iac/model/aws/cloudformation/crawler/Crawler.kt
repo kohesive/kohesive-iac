@@ -6,12 +6,14 @@ import org.jsoup.nodes.TextNode
 import uy.klutter.core.jdk.mustNotStartWith
 import java.io.File
 import java.net.SocketTimeoutException
+import java.net.URL
 
 fun main(args: Array<String>) {
     Crawler(
-        baseUri   = "/Users/eliseyev/Desktop/",
-        localMode = true
-    ).crawl()
+        baseUri   = "/Users/eliseyev/TMP/cf/",
+        localMode = true,
+        downloadFiles = true
+    ).crawl().forEach(::println)
 }
 
 data class ResourceUri(
@@ -22,28 +24,47 @@ data class ResourceUri(
 data class CloudFormationResource(
     val resourceType: String,
     val properties: List<ResourceProperty>
-)
+) {
+    override fun toString() = resourceType + "\n  " + properties.joinToString("\n  ")
+}
 
 data class ResourceProperty(
     val propertyName: String,
     val propertyType: String,
     val isRequired: Boolean,
     val propertyHref: String? = null
-)
+) {
 
-class Crawler(val baseUri: String = Crawler.BaseURI, val localMode: Boolean = false) {
+    override fun toString() = "${if (isRequired) "+" else "-"} $propertyName: $propertyType"
+}
+
+class Crawler(
+    val baseUri: String = Crawler.BaseURL,
+    val localMode: Boolean = false,
+    val downloadFiles: Boolean = false
+) {
 
     companion object {
-        val BaseURI = "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/"
+        val BaseURL = "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/"
     }
 
+    private val crawledResources = linkedMapOf<String, CloudFormationResource>()
+
     fun getJsoupDocument(uri: String) = if (localMode) {
+        if (downloadFiles) {
+            val targetFile = File(baseUri, uri)
+            if (!targetFile.exists()) {
+                Thread.sleep(500)
+                targetFile.writeText((URL(BaseURL + uri).readText()))
+                println("Done writing $uri")
+            }
+        }
         getJsoupDocumentFromFile(baseUri + uri)
     } else {
         getJsoupDocumentForUrl(baseUri + uri)
     }
 
-    fun crawl() {
+    fun crawl(): List<CloudFormationResource> {
         val resourcesListDoc = getJsoupDocument("aws-template-resource-type-ref.html")
 
         val resourceUris = resourcesListDoc.select(".highlights li a").map {
@@ -53,59 +74,79 @@ class Crawler(val baseUri: String = Crawler.BaseURI, val localMode: Boolean = fa
             )
         }
 
-        // TODO: delete take(1)
-        resourceUris.take(1).forEach { (resourceType, uri) ->
-            val resourceDoc = getJsoupDocument(uri)
+        resourceUris.forEach { (resourceType, uri) ->
+            try {
+                crawlResourceType(resourceType, uri)
+            } catch (t: Throwable) {
+                throw RuntimeException("Error while processing $uri", t)
+            }
+        }
 
-            val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
-                val variablesType = varListDiv.previousElementSibling().text()
-                if (setOf("Properties", "Parameters", "Members").contains(variablesType)) {
-                    varListDiv.select("dl dt").map { propertyDt ->
-                        val propertyName = propertyDt.text().trim()
+        return crawledResources.values.toList()
+    }
 
-                        var propertyType: String? = null
-                        var isRequired: Boolean? = null
+    private fun crawlResourceType(resourceType: String, uri: String): CloudFormationResource {
+        val resourceDoc = getJsoupDocument(uri)
 
-                        propertyDt.nextElementSibling().select("em").forEach { em ->
-                            em.text().let {
-                                val value = (em.nextSibling() as TextNode).text().trim().mustNotStartWith("::").mustNotStartWith(":").trim()
+        val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
+            val variablesType = varListDiv.previousElementSibling().text()
 
-                                if (em.text() == "Type") {
-                                    // TODO: beware of href here
-                                    propertyType = value
-                                } else if (em.text() == "Required") {
-                                    isRequired = "Yes" == value
+            if (setOf("Properties", "Parameters", "Members").contains(variablesType)) {
+                varListDiv.select("dl dt").map { propertyDt ->
+                    val propertyName = propertyDt.text().trim()
+
+                    var propertyType: String? = null
+                    var isRequired: Boolean? = null
+                    var typeHref: String? = null
+
+                    val propertyDd = propertyDt.nextElementSibling()
+                    propertyDd.select("em").forEach { em ->
+                        (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.trim()?.let { value ->
+                            if (em.text() == "Type") {
+                                val referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
+                                    typeHref = link.attr("href")
+                                    link.text().split(' ').lastOrNull()
+                                } ?: ""
+
+                                // Crawl the sub-property
+                                if (referencedObject.isNotEmpty() && typeHref != null) {
+                                    crawlResourceType(referencedObject, typeHref!!)
                                 }
+
+                                propertyType = (if (value.isEmpty()) value else value + " ") + referencedObject
+                            } else if (em.text() == "Required") {
+                                isRequired = "Yes" == value
                             }
                         }
-
-                        if (propertyType == null) {
-                            throw IllegalStateException("Can't parse property $propertyName type in $uri")
-                        }
-                        if (isRequired == null) {
-                            throw IllegalStateException("Can't parse whether $propertyName is required in $uri")
-                        }
-
-                        ResourceProperty(
-                            propertyName = propertyName,
-                            propertyType = propertyType!!,
-                            isRequired   = isRequired!!
-                            // TODO: complex type href
-                        )
                     }
-                } else {
-                    emptyList()
+
+                    if (propertyType == null) {
+                        throw IllegalStateException("Can't parse property $propertyName type in $uri")
+                    }
+                    if (isRequired == null) {
+                        throw IllegalStateException("Can't parse whether $propertyName is required in $uri")
+                    }
+
+                    ResourceProperty(
+                        propertyName = propertyName,
+                        propertyType = propertyType!!,
+                        isRequired   = isRequired!!,
+                        propertyHref = typeHref
+                    )
                 }
+            } else {
+                emptyList()
             }
+        }
 
-            val resource = CloudFormationResource(
-                resourceType = resourceType,
-                properties   = resourceProperties
-            )
-
-            // TODO: store?
-
-            println(resource)
+        return CloudFormationResource(
+            resourceType = resourceType,
+            properties   = resourceProperties
+        ).apply {
+            if (crawledResources.containsKey(resourceType)) {
+                println(" *** Resource with a key $resourceType already known")
+            }
+            crawledResources[resourceType] = this@apply
         }
     }
 
