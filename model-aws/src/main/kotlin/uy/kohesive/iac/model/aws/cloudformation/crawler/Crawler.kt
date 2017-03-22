@@ -22,6 +22,7 @@ data class ResourceUri(
 )
 
 data class CloudFormationResource(
+    val sourceURL: String,
     val resourceType: String,
     val properties: List<ResourceProperty>
 ) {
@@ -74,6 +75,7 @@ class Crawler(
             )
         }
 
+        // TODO: delete take
         resourceUris.forEach { (resourceType, uri) ->
             try {
                 crawlResourceType(resourceType, uri)
@@ -89,10 +91,14 @@ class Crawler(
         val resourceDoc = getJsoupDocument(uri)
 
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
-            val variablesType = varListDiv.previousElementSibling().text()
+            val previousElementSibling = varListDiv.previousElementSibling()
+            val variablesType = previousElementSibling.text()
 
             if (setOf("Properties", "Parameters", "Members").contains(variablesType)) {
-                varListDiv.select("dl dt").map { propertyDt ->
+                varListDiv.select("dl dt").filter {
+                    // To avoid nested .variablelist parsing
+                    it.parent().parent() == varListDiv
+                }.map { propertyDt ->
                     val propertyName = propertyDt.text().trim()
 
                     var propertyType: String? = null
@@ -105,7 +111,13 @@ class Crawler(
                             if (em.text() == "Type") {
                                 val referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
                                     typeHref = link.attr("href")
-                                    link.text().split(' ').lastOrNull()
+                                    link.text().split(' ').lastOrNull()?.let {
+                                        if (typeHref?.contains("properties") ?: false) {
+                                            resourceType + "::" + it
+                                        } else {
+                                            it
+                                        }
+                                    }
                                 } ?: ""
 
                                 // Crawl the sub-property
@@ -140,11 +152,16 @@ class Crawler(
         }
 
         return CloudFormationResource(
+            sourceURL    = BaseURL + uri,
             resourceType = resourceType,
             properties   = resourceProperties
         ).apply {
-            if (crawledResources.containsKey(resourceType)) {
-                println(" *** Resource with a key $resourceType already known")
+            crawledResources[resourceType]?.let { existingResource ->
+                if (existingResource.sourceURL != this@apply.sourceURL) {
+                    println(" *** Conflicting resource with key $resourceType:")
+                    println(" *** ${existingResource.sourceURL}")
+                    println(" *** ${this@apply.sourceURL}")
+                }
             }
             crawledResources[resourceType] = this@apply
         }
