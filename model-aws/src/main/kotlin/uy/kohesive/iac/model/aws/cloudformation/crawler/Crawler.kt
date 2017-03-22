@@ -3,6 +3,7 @@ package uy.kohesive.iac.model.aws.cloudformation.crawler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.TextNode
+import uy.klutter.core.jdk.mustNotEndWith
 import uy.klutter.core.jdk.mustNotStartWith
 import java.io.File
 import java.net.SocketTimeoutException
@@ -87,9 +88,21 @@ class Crawler(
         return crawledResources.values.toList()
     }
 
-    private fun crawlResourceType(resourceType: String, uri: String): CloudFormationResource {
-        val resourceDoc = getJsoupDocument(uri)
+    data class CrawlTask(
+        val resourceType: String,
+        val uri: String
+    )
 
+    private fun crawlResourceType(resourceType: String, uri: String): CloudFormationResource {
+        // Check for already crawled first
+        val alreadyCrawled = crawledResources[resourceType]
+        if (alreadyCrawled != null) {
+            return alreadyCrawled
+        }
+
+        val deferredTasks = ArrayList<CrawlTask>()
+
+        val resourceDoc = getJsoupDocument(uri)
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
             val previousElementSibling = varListDiv.previousElementSibling()
             val variablesType = previousElementSibling.text()
@@ -102,34 +115,57 @@ class Crawler(
                     val propertyName = propertyDt.text().trim()
 
                     var propertyType: String? = null
-                    var isRequired: Boolean? = null
-                    var typeHref: String? = null
+                    var isRequired: Boolean?  = null
+                    var typeHref: String?     = null
 
                     val propertyDd = propertyDt.nextElementSibling()
                     propertyDd.select("em").forEach { em ->
-                        (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.trim()?.let { value ->
+                        (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.mustNotEndWith('.')?.trim()?.let { value ->
                             if (em.text() == "Type") {
-                                val referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
+                                var referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
                                     typeHref = link.attr("href")
-                                    link.text().split(' ').lastOrNull()?.let {
-                                        if (typeHref?.contains("properties") ?: false) {
-                                            resourceType + "::" + it
-                                        } else {
-                                            it
+
+                                    if (typeHref == uri) {
+                                        resourceType // self-ref
+                                    } else {
+                                        link.text().split(' ').lastOrNull()?.let {
+                                            if (typeHref?.contains("properties") ?: false) {
+                                                resourceType + "::" + it
+                                            } else {
+                                                it
+                                            }
                                         }
                                     }
                                 } ?: ""
 
                                 // Crawl the sub-property
                                 if (referencedObject.isNotEmpty() && typeHref != null) {
-                                    crawlResourceType(referencedObject, typeHref!!)
+                                    if (typeHref == "aws-properties-dynamodb-gsi.html") {
+                                        referencedObject = referencedObject.replace("Indexes", "GlobalIndex")
+                                    } else if (typeHref == "aws-properties-dynamodb-lsi.html") {
+                                        referencedObject = referencedObject.replace("Indexes", "LocalIndex")
+                                    }
+
+                                    // Thanks go-cloudformation
+                                    if (propertyName == "Icmp" && typeHref == "aws-properties-ec2-networkaclentry-portrange.html") {
+                                        referencedObject = "AWS::EC2::NetworkAclEntry::Icmp"
+                                        typeHref         = "aws-properties-ec2-networkaclentry-icmp.html"
+                                    }
+
+                                    deferredTasks.add(CrawlTask(referencedObject, typeHref!!))
                                 }
 
-                                propertyType = (if (value.isEmpty()) value else value + " ") + referencedObject
+                                propertyType = ((if (value.isEmpty()) value else value + " ") + referencedObject).trim()
                             } else if (em.text() == "Required") {
-                                isRequired = "Yes" == value
+                                isRequired = "Yes" == value.trim()
                             }
                         }
+                    }
+
+                    // Bug
+                    if (propertyName == "PolicyName" && uri == "aws-properties-ec2-elb-LBCookieStickinessPolicy.html") {
+                        propertyType = "String"
+                        isRequired   = true
                     }
 
                     if (propertyType == null) {
@@ -164,6 +200,10 @@ class Crawler(
                 }
             }
             crawledResources[resourceType] = this@apply
+
+            deferredTasks.forEach {
+                crawlResourceType(it.resourceType, it.uri)
+            }
         }
     }
 
