@@ -5,6 +5,8 @@ dependencies {
     compile group: 'com.amazonaws', name: 'aws-java-sdk-workdocs', version: version_awssdk
     compile group: 'cglib', name: 'cglib', version: version_cglib
     compile group: 'org.reflections', name: 'reflections', version: version_reflections
+    compile group: 'org.jsoup', name: 'jsoup', version: version_jsoup
+    compile group: 'uy.klutter', name: 'klutter-core-jdk8', version: version_klutter
 }
 
 sourceSets {
