@@ -241,8 +241,9 @@ class DocumentationCrawler(
                             if (em.text() == "Type" || em.text() == "Type:") {
                                 typeHref = em.parent().select("a").firstOrNull()?.attr("href")
                                 val targetTypeName = typeHref?.let { uri ->
-                                    deferredUris.add(uri)
-                                    crawlResourceType(uri)
+                                    val sanitized = sanitizeLink(uri)
+                                    deferredUris.add(sanitized)
+                                    crawlResourceType(sanitized)
                                 }
 
                                 propertyType = if (targetTypeName == null) {

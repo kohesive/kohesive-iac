@@ -1,9 +1,5 @@
 package uy.kohesive.iac.model.aws.cloudformation.crawler
 
-// TODO: Figure out these types:
-// A JSON object consisting of a string keyvalue pair, such as:
-// A JSON policy document
-// A JSON object consisting of string keyvalue pairs, as shown in the following example:
 object TypeNormalizer {
 
     private val BuiltInConversions = mapOf(
@@ -32,6 +28,10 @@ object TypeNormalizer {
 
     fun normalizeType(propertyType: String): String {
         var normalizedValue = BuiltInConversions.getOrDefault(propertyType, propertyType).trim().replace("-", "")
+
+        if (normalizedValue.startsWith("A JSON")) {
+            normalizedValue = "JsonObject"
+        }
 
         if (normalizedValue.startsWith("Keyvalue pairs", ignoreCase = true)) {
             normalizedValue = "Map<String, String>"
