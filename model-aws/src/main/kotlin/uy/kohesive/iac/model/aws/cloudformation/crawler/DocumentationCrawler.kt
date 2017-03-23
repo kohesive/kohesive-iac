@@ -109,10 +109,6 @@ class DocumentationCrawler(
 
         val deferredTasks = ArrayList<CrawlTask>()
 
-        if (resourceType == "AWS::AutoScaling::LifecycleHook") {
-            println()
-        }
-
         val resourceDoc = getJsoupDocument(uri)
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
             // We go back to find an first h2 tag with a listing type (Syntax, Propeties, etc)
@@ -149,7 +145,16 @@ class DocumentationCrawler(
                                     if (typeHref == uri) {
                                         resourceType // self-ref
                                     } else {
-                                        link.text().split(' ').lastOrNull()?.let {
+                                        var objectLinkText = link.text()
+
+                                        if (objectLinkText == "EC2 Network Interface Attachment") {
+                                            objectLinkText = "AWS::EC2::NetworkInterface::AttachmentType"
+                                        }
+                                        if (objectLinkText == "Amazon SNS Subscription Property Type") {
+                                            objectLinkText = "AWS::SNS::SubscriptionProperty"
+                                        }
+
+                                        objectLinkText.mustNotEndWith(" Property Type").mustNotEndWith(" Type").split(' ').lastOrNull()?.let {
                                             if (typeHref?.contains("properties") ?: false) {
                                                 resourceType + "::" + it
                                             } else {
@@ -173,9 +178,11 @@ class DocumentationCrawler(
                                         typeHref         = "aws-properties-ec2-networkaclentry-icmp.html"
                                     }
 
+                                    // Add newly discovered type for later crawling
                                     deferredTasks.add(CrawlTask(referencedObject, typeHref!!))
                                 }
 
+                                // Handle nested types like 'List of *'
                                 propertyType = ((if (value.isEmpty()) value else value + " ") + referencedObject).trim()
                             } else if (em.text() == "Required") {
                                 isRequired = "Yes" == value.trim()
@@ -201,8 +208,9 @@ class DocumentationCrawler(
                         isRequired = false
                     }
 
-                    // Try syntax "JSON" (not a JSON really) parsing for property type
+                    // Validate
                     if (propertyType == null) {
+                        // Try syntax "JSON" (not a JSON really) parsing for property type
                         val programListing = resourceDoc.select(".programlisting")
                         propertyType = programListing.filter {
                             (it.parent().id() == "JSON" || it.previousElementSibling()?.text() == "JSON") && it.parent().toString().contains("syntax", ignoreCase = true)
@@ -219,6 +227,9 @@ class DocumentationCrawler(
                     if (isRequired == null) {
                         throw IllegalStateException("Can't parse whether $propertyName is required in $uri")
                     }
+
+                    // Normalize type
+                    propertyType = TypeNormalizer.normalizeType(propertyType!!)
 
                     ResourceProperty(
                         propertyName = propertyName,
@@ -250,6 +261,11 @@ class DocumentationCrawler(
                 crawlResourceType(it.resourceType, it.uri)
             }
         }
+    }
+
+    private fun typeLinkTextToObjectName(linkText: String): String {
+        // TODO: implement
+        return ""
     }
 
 }
