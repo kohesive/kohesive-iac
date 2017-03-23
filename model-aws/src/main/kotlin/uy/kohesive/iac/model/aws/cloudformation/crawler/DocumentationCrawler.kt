@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
         baseUri   = "/Users/eliseyev/TMP/cf/",
         localMode = true,
         downloadFiles = true
-    ).crawl().forEach(::println)
+    ).crawl().flatMap { it.properties.map { it.propertyType }.filterNot { it.contains("AWS::") } }.distinct().forEach { println(it) }
 }
 
 data class CrawlTask(
@@ -245,7 +245,11 @@ class DocumentationCrawler(
                                     crawlResourceType(uri)
                                 }
 
-                                propertyType = ((if (value.isEmpty()) value else value + " ") + targetTypeName).trim()
+                                propertyType = if (targetTypeName == null) {
+                                    value
+                                } else {
+                                    ((if (value.isEmpty()) value else value + " ") + targetTypeName).trim()
+                                }
                             } else if (em.text() == "Required") {
                                 isRequired = "Yes" == value.trim()
                             }
