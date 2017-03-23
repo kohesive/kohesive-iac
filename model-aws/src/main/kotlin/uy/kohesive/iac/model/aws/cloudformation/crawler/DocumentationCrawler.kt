@@ -10,14 +10,14 @@ import java.net.SocketTimeoutException
 import java.net.URL
 
 fun main(args: Array<String>) {
-    Crawler(
+    DocumentationCrawler(
         baseUri   = "/Users/eliseyev/TMP/cf/",
         localMode = true,
         downloadFiles = true
-    ).crawl().forEach(::println)
+    ).crawl()
 }
 
-data class ResourceUri(
+data class CrawlTask(
     val resourceType: String,
     val uri: String
 )
@@ -40,8 +40,8 @@ data class ResourceProperty(
     override fun toString() = "${if (isRequired) "+" else "-"} $propertyName: $propertyType"
 }
 
-class Crawler(
-    val baseUri: String = Crawler.BaseURL,
+class DocumentationCrawler(
+    val baseUri: String = DocumentationCrawler.BaseURL,
     val localMode: Boolean = false,
     val downloadFiles: Boolean = false
 ) {
@@ -67,10 +67,23 @@ class Crawler(
     }
 
     fun crawl(): List<CloudFormationResource> {
+        val resources = doCrawl()
+
+        // Validate
+        resources.filter { it.properties.isEmpty() }.forEach {
+            if (!it.resourceType.startsWith("AWS::CloudFormation")) {
+                throw IllegalStateException("${it.resourceType} properties list is empty")
+            }
+        }
+
+        return resources
+    }
+
+    private fun doCrawl(): List<CloudFormationResource> {
         val resourcesListDoc = getJsoupDocument("aws-template-resource-type-ref.html")
 
         val resourceUris = resourcesListDoc.select(".highlights li a").map {
-            ResourceUri(
+            CrawlTask(
                 resourceType = it.text(),
                 uri          = it.attr("href")
             )
@@ -87,11 +100,6 @@ class Crawler(
         return crawledResources.values.toList()
     }
 
-    data class CrawlTask(
-        val resourceType: String,
-        val uri: String
-    )
-
     private fun crawlResourceType(resourceType: String, uri: String): CloudFormationResource {
         // Check for already crawled first
         val alreadyCrawled = crawledResources[resourceType]
@@ -101,11 +109,24 @@ class Crawler(
 
         val deferredTasks = ArrayList<CrawlTask>()
 
+        if (resourceType == "AWS::AutoScaling::LifecycleHook") {
+            println()
+        }
+
         val resourceDoc = getJsoupDocument(uri)
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
-            val previousElementSibling = varListDiv.previousElementSibling()
-            val variablesType = previousElementSibling.text()
+            // We go back to find an first h2 tag with a listing type (Syntax, Propeties, etc)
+            var previousElementSibling = varListDiv.previousElementSibling()
+            var variablesType: String? = null
+            while (true) {
+                if (previousElementSibling.tagName() == "h2") {
+                    variablesType = previousElementSibling.text()
+                    break
+                }
+                previousElementSibling = previousElementSibling.previousElementSibling() ?: break
+            }
 
+            // Let's check if we're in a right listing
             if (setOf("Properties", "Parameters", "Members").contains(variablesType)) {
                 varListDiv.select("dl dt").filter {
                     // To avoid nested .variablelist parsing
@@ -117,6 +138,7 @@ class Crawler(
                     var isRequired: Boolean?  = null
                     var typeHref: String?     = null
 
+                    // Alright, we're in, let's parse things
                     val propertyDd = propertyDt.nextElementSibling()
                     propertyDd.select("em").forEach { em ->
                         (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.mustNotEndWith('.')?.trim()?.let { value ->
