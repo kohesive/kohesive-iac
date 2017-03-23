@@ -76,7 +76,6 @@ class Crawler(
             )
         }
 
-        // TODO: delete take
         resourceUris.forEach { (resourceType, uri) ->
             try {
                 crawlResourceType(resourceType, uri)
@@ -121,7 +120,7 @@ class Crawler(
                     val propertyDd = propertyDt.nextElementSibling()
                     propertyDd.select("em").forEach { em ->
                         (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.mustNotEndWith('.')?.trim()?.let { value ->
-                            if (em.text() == "Type") {
+                            if (em.text() == "Type" || em.text() == "Type:") {
                                 var referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
                                     typeHref = link.attr("href")
 
@@ -162,14 +161,38 @@ class Crawler(
                         }
                     }
 
-                    // Bug
+                    // Bugs in documentation
                     if (propertyName == "PolicyName" && uri == "aws-properties-ec2-elb-LBCookieStickinessPolicy.html") {
                         propertyType = "String"
                         isRequired   = true
                     }
+                    if (propertyName == "RetryOptions" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
+                        isRequired = true
+                    }
+                    if (propertyName == "S3Configuration" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
+                        isRequired = true
+                    }
+                    if (propertyName == "CIDRIP" && uri == "aws-resource-rds-security-group-ingress.html") {
+                        isRequired = true
+                    }
+                    if (propertyName == "Region" && uri == "aws-properties-route53-recordset.html") {
+                        isRequired = false
+                    }
 
+                    // Try syntax "JSON" (not a JSON really) parsing for property type
                     if (propertyType == null) {
-                        throw IllegalStateException("Can't parse property $propertyName type in $uri")
+                        val programListing = resourceDoc.select(".programlisting")
+                        propertyType = programListing.filter {
+                            (it.parent().id() == "JSON" || it.previousElementSibling()?.text() == "JSON") && it.parent().toString().contains("syntax", ignoreCase = true)
+                        }.map {
+                            it.select("code").firstOrNull()?.text()
+                        }.firstOrNull()?.let { syntaxJson ->
+                            CloudFormationExampleSyntaxParser.parse(syntaxJson)[propertyName]
+                        }
+
+                        if (propertyType == null) {
+                            throw IllegalStateException("Can't parse property $propertyName type in $uri")
+                        }
                     }
                     if (isRequired == null) {
                         throw IllegalStateException("Can't parse whether $propertyName is required in $uri")
