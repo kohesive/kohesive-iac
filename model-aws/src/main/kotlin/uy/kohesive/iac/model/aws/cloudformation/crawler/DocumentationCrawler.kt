@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.TextNode
 import uy.klutter.core.jdk.mustNotEndWith
 import uy.klutter.core.jdk.mustNotStartWith
+import uy.kohesive.iac.model.aws.utils.firstLetterToUpperCase
 import java.io.File
 import java.net.SocketTimeoutException
 import java.net.URL
@@ -14,7 +15,7 @@ fun main(args: Array<String>) {
         baseUri   = "/Users/eliseyev/TMP/cf/",
         localMode = true,
         downloadFiles = true
-    ).crawl()
+    ).crawl().forEach(::println)
 }
 
 data class CrawlTask(
@@ -48,9 +49,17 @@ class DocumentationCrawler(
 
     companion object {
         val BaseURL = "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/"
+
+        val ResourcesThatAreActuallyProperties = setOf(
+            "aws-resource-codepipeline-customactiontype-artifactdetails.html",
+            "aws-resource-codepipeline-customactiontype-settings.html",
+            "aws-property-redshift-clusterparametergroup-parameter.html",
+            "aws-resource-route53-hostedzone-hostedzonevpcs.html"
+        )
     }
 
     private val crawledResources = linkedMapOf<String, CloudFormationResource>()
+    private val hrefToTypeName = hashMapOf<String, String>()
 
     fun getJsoupDocument(uri: String) = if (localMode) {
         if (downloadFiles) {
@@ -90,8 +99,12 @@ class DocumentationCrawler(
         }
 
         resourceUris.forEach { (resourceType, uri) ->
+            hrefToTypeName.put(uri, resourceType)
+        }
+
+        resourceUris.forEach { (_, uri) ->
             try {
-                crawlResourceType(resourceType, uri)
+                crawlResource(uri)
             } catch (t: Throwable) {
                 throw RuntimeException("Error while processing $uri", t)
             }
@@ -100,16 +113,103 @@ class DocumentationCrawler(
         return crawledResources.values.toList()
     }
 
-    private fun crawlResourceType(resourceType: String, uri: String): CloudFormationResource {
+    fun crawlResourceType(uri: String): String {
+        try {
+            val alreadyCrawledTypeName = hrefToTypeName[uri]
+            if (alreadyCrawledTypeName != null) {
+                return alreadyCrawledTypeName
+            }
+
+            val resourceDoc = getJsoupDocument(uri)
+
+            // Let's figure out our resource type
+            return if (uri.contains("properties") || ResourcesThatAreActuallyProperties.contains(uri)) {
+                if (uri == "aws-properties-resource-tags.html") {
+                    "AWS::CloudFormation::ResourceTag" // reserved case
+                } else {
+                    // Let's check the hrefToTypeName first
+                    hrefToTypeName[uri] ?: resourceDoc.select("div#main-col-body p").firstOrNull()?.let { p ->
+                        var propertyName = if (p.text().startsWith("Describes the ")) {
+                            p.text().drop("Describes the ".length).let {
+                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
+                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+                            }
+                        } else if (p.text().startsWith("Describes ")) {
+                            p.text().drop("Describes ".length).let {
+                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
+                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+                            }
+                        } else if (p.text().startsWith("The ")) {
+                            p.text().drop("The ".length).let {
+                                it.substring(0, it.indexOf(" property")).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+                            }
+                        } else if (p.text().startsWith("A list of ")) {
+                            p.text().drop("A list of ".length).let {
+                                it.substring(0, it.indexOf(" for")).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+                            }
+                        } else {
+                            p.select("code").firstOrNull()?.text()
+                        }
+                        var parentHref = p.select("a").firstOrNull()?.attr("href")?.let { sanitizeLink(it) }
+
+                        // Bugs in CF documents
+                        if (uri == "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html") {
+                            propertyName = "Field"
+                        }
+                        if (uri == "aws-properties-dynamodb-projectionobject.html") {
+                            propertyName = "Projection"
+                            parentHref = "aws-resource-dynamodb-table.html"
+                        }
+                        if (uri == "aws-properties-beanstalk-configurationtemplate-sourceconfiguration.html") {
+                            propertyName = "SourceConfiguration"
+                            parentHref = "aws-resource-beanstalk-configurationtemplate.html"
+                        }
+                        if (uri == "aws-properties-iot-actions.html") {
+                            parentHref = "aws-properties-iot-topicrulepayload.html"
+                        }
+                        if (parentHref == null && uri.startsWith("aws-properties-iot") && p.text().contains("is a property of the Actions property")) {
+                            parentHref = "aws-properties-iot-actions.html"
+                        }
+                        if (uri == "aws-property-redshift-clusterparametergroup-parameter.html") {
+                            propertyName = "Parameter"
+                        }
+
+                        // Validate
+                        if (uri == parentHref) {
+                            // Known bug in CF documentation, when a link refs the same page instead of its parent
+                            // Let's fix it by removing the last segment:
+                            parentHref = uri.dropLast(".html".length).split('-').dropLast(1).joinToString("-") + ".html"
+                        }
+                        if (propertyName == null || parentHref == null) {
+                            throw IllegalStateException("Can't figure out property object name for $uri")
+                        }
+                        val fqName = hrefToTypeName[parentHref]?.let { parentName ->
+                            parentName + "::" + propertyName
+                        } ?: (
+                            crawlResourceType(parentHref) + "::" + propertyName
+                        )
+                        hrefToTypeName[uri] = fqName
+                        fqName
+                    } ?: throw IllegalStateException("Can't figure out property object name for $uri")
+                }
+            } else {
+                hrefToTypeName[uri] ?: throw IllegalStateException("Can't figure object name for $uri")
+            }
+        } catch (t: Throwable) {
+            throw RuntimeException("Error while crawling $uri resource name", t)
+        }
+    }
+
+    fun crawlResource(uri: String): CloudFormationResource {
         // Check for already crawled first
-        val alreadyCrawled = crawledResources[resourceType]
+        val alreadyCrawled = crawledResources[hrefToTypeName[uri]]
         if (alreadyCrawled != null) {
             return alreadyCrawled
         }
 
-        val deferredTasks = ArrayList<CrawlTask>()
+        val resourceDoc  = getJsoupDocument(uri)
+        val deferredUris = ArrayList<String>()
 
-        val resourceDoc = getJsoupDocument(uri)
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
             // We go back to find an first h2 tag with a listing type (Syntax, Propeties, etc)
             var previousElementSibling = varListDiv.previousElementSibling()
@@ -139,51 +239,13 @@ class DocumentationCrawler(
                     propertyDd.select("em").forEach { em ->
                         (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.mustNotEndWith('.')?.trim()?.let { value ->
                             if (em.text() == "Type" || em.text() == "Type:") {
-                                var referencedObject = em.parent().select("a").firstOrNull()?.let { link ->
-                                    typeHref = link.attr("href")
-
-                                    if (typeHref == uri) {
-                                        resourceType // self-ref
-                                    } else {
-                                        var objectLinkText = link.text()
-
-                                        if (objectLinkText == "EC2 Network Interface Attachment") {
-                                            objectLinkText = "AWS::EC2::NetworkInterface::AttachmentType"
-                                        }
-                                        if (objectLinkText == "Amazon SNS Subscription Property Type") {
-                                            objectLinkText = "AWS::SNS::SubscriptionProperty"
-                                        }
-
-                                        objectLinkText.mustNotEndWith(" Property Type").mustNotEndWith(" Type").split(' ').lastOrNull()?.let {
-                                            if (typeHref?.contains("properties") ?: false) {
-                                                resourceType + "::" + it
-                                            } else {
-                                                it
-                                            }
-                                        }
-                                    }
-                                } ?: ""
-
-                                // Crawl the sub-property
-                                if (referencedObject.isNotEmpty() && typeHref != null) {
-                                    if (typeHref == "aws-properties-dynamodb-gsi.html") {
-                                        referencedObject = referencedObject.replace("Indexes", "GlobalIndex")
-                                    } else if (typeHref == "aws-properties-dynamodb-lsi.html") {
-                                        referencedObject = referencedObject.replace("Indexes", "LocalIndex")
-                                    }
-
-                                    // Thanks go-cloudformation
-                                    if (propertyName == "Icmp" && typeHref == "aws-properties-ec2-networkaclentry-portrange.html") {
-                                        referencedObject = "AWS::EC2::NetworkAclEntry::Icmp"
-                                        typeHref         = "aws-properties-ec2-networkaclentry-icmp.html"
-                                    }
-
-                                    // Add newly discovered type for later crawling
-                                    deferredTasks.add(CrawlTask(referencedObject, typeHref!!))
+                                typeHref = em.parent().select("a").firstOrNull()?.attr("href")
+                                val targetTypeName = typeHref?.let { uri ->
+                                    deferredUris.add(uri)
+                                    crawlResourceType(uri)
                                 }
 
-                                // Handle nested types like 'List of *'
-                                propertyType = ((if (value.isEmpty()) value else value + " ") + referencedObject).trim()
+                                propertyType = ((if (value.isEmpty()) value else value + " ") + targetTypeName).trim()
                             } else if (em.text() == "Required") {
                                 isRequired = "Yes" == value.trim()
                             }
@@ -245,7 +307,7 @@ class DocumentationCrawler(
 
         return CloudFormationResource(
             sourceURL    = BaseURL + uri,
-            resourceType = resourceType,
+            resourceType = crawlResourceType(uri),
             properties   = resourceProperties
         ).apply {
             crawledResources[resourceType]?.let { existingResource ->
@@ -257,15 +319,18 @@ class DocumentationCrawler(
             }
             crawledResources[resourceType] = this@apply
 
-            deferredTasks.forEach {
-                crawlResourceType(it.resourceType, it.uri)
-            }
+            deferredUris.forEach { crawlResource(it) }
         }
     }
 
-    private fun typeLinkTextToObjectName(linkText: String): String {
-        // TODO: implement
-        return ""
+    private fun sanitizeLink(uri: String): String {
+        return uri.replace(BaseURL, "").let {
+            if (it.contains('#')) {
+                it.substring(0, it.indexOf('#'))
+            } else {
+                it
+            }
+        }
     }
 
 }
