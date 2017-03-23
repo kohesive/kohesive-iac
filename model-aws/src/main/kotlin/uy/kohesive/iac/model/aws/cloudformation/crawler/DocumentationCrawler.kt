@@ -12,8 +12,8 @@ import java.net.URL
 
 fun main(args: Array<String>) {
     DocumentationCrawler(
-        baseUri   = "/Users/eliseyev/TMP/cf/",
-        localMode = true,
+        baseUri       = "/Users/eliseyev/TMP/cf/",
+        localMode     = true,
         downloadFiles = true
     ).crawl().flatMap { it.properties.map { it.propertyType }.filterNot { it.contains("AWS::") } }.distinct().forEach { println(it) }
 }
@@ -56,6 +56,8 @@ class DocumentationCrawler(
             "aws-property-redshift-clusterparametergroup-parameter.html",
             "aws-resource-route53-hostedzone-hostedzonevpcs.html"
         )
+
+        val AWSDocsAccessThrottlingInterval = 500L
     }
 
     private val crawledResources = linkedMapOf<String, CloudFormationResource>()
@@ -65,9 +67,8 @@ class DocumentationCrawler(
         if (downloadFiles) {
             val targetFile = File(baseUri, uri)
             if (!targetFile.exists()) {
-                Thread.sleep(500)
+                Thread.sleep(AWSDocsAccessThrottlingInterval)
                 targetFile.writeText((URL(BaseURL + uri).readText()))
-                println("Done writing $uri")
             }
         }
         getJsoupDocumentFromFile(baseUri + uri)
@@ -150,7 +151,7 @@ class DocumentationCrawler(
                         } else {
                             p.select("code").firstOrNull()?.text()
                         }
-                        var parentHref = p.select("a").firstOrNull()?.attr("href")?.let { sanitizeLink(it) }
+                        var parentHref = p.select("a").firstOrNull()?.attr("href")?.sanitizeLink()
 
                         // Bugs in CF documents
                         if (uri == "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html") {
@@ -211,7 +212,7 @@ class DocumentationCrawler(
         val deferredUris = ArrayList<String>()
 
         val resourceProperties = resourceDoc.select(".variablelist").flatMap { varListDiv ->
-            // We go back to find an first h2 tag with a listing type (Syntax, Propeties, etc)
+            // We go back to find the first h2 tag with a listing type (Syntax, Properties, etc)
             var previousElementSibling = varListDiv.previousElementSibling()
             var variablesType: String? = null
             while (true) {
@@ -240,10 +241,9 @@ class DocumentationCrawler(
                         (em.nextSibling() as? TextNode)?.text()?.trim()?.mustNotStartWith("::")?.mustNotStartWith(":")?.mustNotEndWith('.')?.trim()?.let { value ->
                             if (em.text() == "Type" || em.text() == "Type:") {
                                 typeHref = em.parent().select("a").firstOrNull()?.attr("href")
-                                val targetTypeName = typeHref?.let { uri ->
-                                    val sanitized = sanitizeLink(uri)
-                                    deferredUris.add(sanitized)
-                                    crawlResourceType(sanitized)
+                                val targetTypeName = typeHref?.sanitizeLink()?.let { sanitizedUri ->
+                                    deferredUris.add(sanitizedUri)
+                                    crawlResourceType(sanitizedUri)
                                 }
 
                                 propertyType = if (targetTypeName == null) {
@@ -315,26 +315,16 @@ class DocumentationCrawler(
             resourceType = crawlResourceType(uri),
             properties   = resourceProperties
         ).apply {
-            crawledResources[resourceType]?.let { existingResource ->
-                if (existingResource.sourceURL != this@apply.sourceURL) {
-                    println(" *** Conflicting resource with key $resourceType:")
-                    println(" *** ${existingResource.sourceURL}")
-                    println(" *** ${this@apply.sourceURL}")
-                }
-            }
             crawledResources[resourceType] = this@apply
-
             deferredUris.forEach { crawlResource(it) }
         }
     }
 
-    private fun sanitizeLink(uri: String): String {
-        return uri.replace(BaseURL, "").let {
-            if (it.contains('#')) {
-                it.substring(0, it.indexOf('#'))
-            } else {
-                it
-            }
+    private fun String.sanitizeLink(): String = this.replace(BaseURL, "").let {
+        if (it.contains('#')) {
+            it.substring(0, it.indexOf('#'))
+        } else {
+            it
         }
     }
 
