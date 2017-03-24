@@ -160,7 +160,7 @@
     "required" : true
   }, {
     "propertyName" : "Placement",
-    "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::PlacementType",
+    "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::Placement",
     "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-placementtype.html",
     "required" : false
   }, {
@@ -250,7 +250,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-emr-cluster-jobflowinstancesconfig-placementtype.html",
-  "resourceType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::PlacementType",
+  "resourceType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::Placement",
   "properties" : [ {
     "propertyName" : "AvailabilityZone",
     "propertyType" : "String",

@@ -3,7 +3,7 @@
   "resourceType" : "AWS::OpsWorks::App",
   "properties" : [ {
     "propertyName" : "AppSource",
-    "propertyType" : "AWS::OpsWorks::Stack::SourceType",
+    "propertyType" : "AWS::OpsWorks::Stack::Source",
     "propertyHref" : "aws-properties-opsworks-stack-source.html",
     "required" : false
   }, {
@@ -42,7 +42,7 @@
     "required" : false
   }, {
     "propertyName" : "SslConfiguration",
-    "propertyType" : "AWS::OpsWorks::App::SslConfigurationType",
+    "propertyType" : "AWS::OpsWorks::App::SslConfiguration",
     "propertyHref" : "aws-properties-opsworks-app-sslconfiguration.html",
     "required" : false
   }, {
@@ -56,7 +56,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html",
-  "resourceType" : "AWS::OpsWorks::Stack::SourceType",
+  "resourceType" : "AWS::OpsWorks::Stack::Source",
   "properties" : [ {
     "propertyName" : "Password",
     "propertyType" : "String",
@@ -116,7 +116,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-app-sslconfiguration.html",
-  "resourceType" : "AWS::OpsWorks::App::SslConfigurationType",
+  "resourceType" : "AWS::OpsWorks::App::SslConfiguration",
   "properties" : [ {
     "propertyName" : "Certificate",
     "propertyType" : "String",
@@ -220,7 +220,7 @@
     "required" : false
   }, {
     "propertyName" : "TimeBasedAutoScaling",
-    "propertyType" : "AWS::OpsWorks::Instance::TimeBasedAutoScalingType",
+    "propertyType" : "AWS::OpsWorks::Instance::TimeBasedAutoScaling",
     "propertyHref" : "aws-properties-opsworks-instance-timebasedautoscaling.html",
     "required" : false
   }, {
@@ -279,7 +279,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-instance-timebasedautoscaling.html",
-  "resourceType" : "AWS::OpsWorks::Instance::TimeBasedAutoScalingType",
+  "resourceType" : "AWS::OpsWorks::Instance::TimeBasedAutoScaling",
   "properties" : [ {
     "propertyName" : "Friday",
     "propertyType" : "Map<String, String>",
@@ -334,7 +334,7 @@
     "required" : false
   }, {
     "propertyName" : "CustomRecipes",
-    "propertyType" : "AWS::OpsWorks::Layer::RecipesType",
+    "propertyType" : "AWS::OpsWorks::Layer::Recipe",
     "propertyHref" : "aws-properties-opsworks-layer-recipes.html",
     "required" : false
   }, {
@@ -356,7 +356,7 @@
     "required" : false
   }, {
     "propertyName" : "LoadBasedAutoScaling",
-    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling",
     "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling.html",
     "required" : false
   }, {
@@ -381,13 +381,13 @@
     "required" : true
   }, {
     "propertyName" : "VolumeConfigurations",
-    "propertyType" : "List<AWS::OpsWorks::Layer::VolumeConfigurationType>",
+    "propertyType" : "List<AWS::OpsWorks::Layer::VolumeConfiguration>",
     "propertyHref" : "aws-properties-opsworks-layer-volumeconfig.html",
     "required" : false
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-recipes.html",
-  "resourceType" : "AWS::OpsWorks::Layer::RecipesType",
+  "resourceType" : "AWS::OpsWorks::Layer::Recipe",
   "properties" : [ {
     "propertyName" : "Configure",
     "propertyType" : "List<String>",
@@ -432,10 +432,10 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling.html",
-  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType",
+  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling",
   "properties" : [ {
     "propertyName" : "DownScaling",
-    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling::AutoScalingThreshold",
     "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
     "required" : false
   }, {
@@ -444,13 +444,13 @@
     "required" : false
   }, {
     "propertyName" : "UpScaling",
-    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling::AutoScalingThreshold",
     "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
     "required" : false
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
-  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling::AutoScalingThreshold",
   "properties" : [ {
     "propertyName" : "CpuThreshold",
     "propertyType" : "Number",
@@ -478,7 +478,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-volumeconfig.html",
-  "resourceType" : "AWS::OpsWorks::Layer::VolumeConfigurationType",
+  "resourceType" : "AWS::OpsWorks::Layer::VolumeConfiguration",
   "properties" : [ {
     "propertyName" : "Iops",
     "propertyType" : "Number",
@@ -517,7 +517,7 @@
     "required" : false
   }, {
     "propertyName" : "ChefConfiguration",
-    "propertyType" : "AWS::OpsWorks::Stack::ChefConfigurationType",
+    "propertyType" : "AWS::OpsWorks::Stack::ChefConfiguration",
     "propertyHref" : "aws-properties-opsworks-stack-chefconfiguration.html",
     "required" : false
   }, {
@@ -535,7 +535,7 @@
     "required" : false
   }, {
     "propertyName" : "CustomCookbooksSource",
-    "propertyType" : "AWS::OpsWorks::Stack::SourceType",
+    "propertyType" : "AWS::OpsWorks::Stack::Source",
     "propertyHref" : "aws-properties-opsworks-stack-source.html",
     "required" : false
   }, {
@@ -611,7 +611,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-chefconfiguration.html",
-  "resourceType" : "AWS::OpsWorks::Stack::ChefConfigurationType",
+  "resourceType" : "AWS::OpsWorks::Stack::ChefConfiguration",
   "properties" : [ {
     "propertyName" : "BerkshelfVersion",
     "propertyType" : "String",

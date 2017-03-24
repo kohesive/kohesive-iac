@@ -175,16 +175,8 @@ class DocumentationCrawler(
                         var parentHref = p.select("a").firstOrNull()?.attr("href")?.sanitizeLink()
 
                         // Bugs in CF documents
-                        if (uri == "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html") {
-                            propertyName = "Field"
-                        }
                         if (uri == "aws-properties-dynamodb-projectionobject.html") {
-                            propertyName = "Projection"
                             parentHref = "aws-resource-dynamodb-table.html"
-                        }
-                        if (uri == "aws-properties-beanstalk-configurationtemplate-sourceconfiguration.html") {
-                            propertyName = "SourceConfiguration"
-                            parentHref = "aws-resource-beanstalk-configurationtemplate.html"
                         }
                         if (uri == "aws-properties-iot-actions.html") {
                             parentHref = "aws-properties-iot-topicrulepayload.html"
@@ -192,11 +184,13 @@ class DocumentationCrawler(
                         if (parentHref == null && uri.startsWith("aws-properties-iot") && p.text().contains("is a property of the Actions property")) {
                             parentHref = "aws-properties-iot-actions.html"
                         }
-                        if (uri == "aws-property-redshift-clusterparametergroup-parameter.html") {
-                            propertyName = "Parameter"
-                        }
 
-                        propertyName = propertyName?.mustNotEndWith("PropertyType")?.mustNotEndWith("Property")?.singularize()
+                        propertyName = propertyName
+                            ?.mustNotEndWith("PropertyType")
+                            ?.mustNotEndWith("Property")
+                            ?.mustNotEndWith("Type")
+                            ?.mustNotEndWith("Object")
+                            ?.singularize()
 
                         // Validate
                         if (uri == parentHref) {
