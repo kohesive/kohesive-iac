@@ -38,11 +38,9 @@ data class PropertyNameExtractor(
     val prefix: String,
     val stopWords: List<String>
 ) {
-    fun extract(text: String): String? = text.takeIf { text.startsWith(prefix + " ") }?.let { text ->
-        text.drop(prefix.length + 1).let { prefixLess ->
-            stopWords.map { prefixLess.indexOf(" " + it) }.filter { it > 0 }.min()?.let { indexEnd ->
-                prefixLess.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-            }
+    fun extract(text: String): String? = text.takeIf { text.startsWith(prefix + " ") }?.drop(prefix.length + 1)?.let { prefixLess ->
+        stopWords.map { prefixLess.indexOf(" " + it) }.filter { it > 0 }.min()?.let { indexEnd ->
+            prefixLess.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
         }
     }
 }
@@ -59,7 +57,6 @@ class DocumentationCrawler(
         val ResourcesThatAreActuallyProperties = setOf(
             "aws-resource-codepipeline-customactiontype-artifactdetails.html",
             "aws-resource-codepipeline-customactiontype-settings.html",
-            "aws-property-redshift-clusterparametergroup-parameter.html",
             "aws-resource-route53-hostedzone-hostedzonevpcs.html"
         )
 
@@ -160,7 +157,7 @@ class DocumentationCrawler(
             val resourceDoc = getJsoupDocument(uri)
 
             // Let's figure out our resource type
-            return if (uri.contains("properties") || ResourcesThatAreActuallyProperties.contains(uri)) {
+            return if (uri.contains("properties") || uri.contains("property") || ResourcesThatAreActuallyProperties.contains(uri)) {
                 if (uri == "aws-properties-resource-tags.html") {
                     "AWS::CloudFormation::ResourceTag" // reserved case
                 } else {
@@ -177,11 +174,9 @@ class DocumentationCrawler(
                         // Bugs in CF documents
                         if (uri == "aws-properties-dynamodb-projectionobject.html") {
                             parentHref = "aws-resource-dynamodb-table.html"
-                        }
-                        if (uri == "aws-properties-iot-actions.html") {
+                        } else if (uri == "aws-properties-iot-actions.html") {
                             parentHref = "aws-properties-iot-topicrulepayload.html"
-                        }
-                        if (parentHref == null && uri.startsWith("aws-properties-iot") && p.text().contains("is a property of the Actions property")) {
+                        } else if (parentHref == null && uri.startsWith("aws-properties-iot") && p.text().contains("is a property of the Actions property")) {
                             parentHref = "aws-properties-iot-actions.html"
                         }
 
