@@ -23,13 +23,13 @@
     "required" : false
   }, {
     "propertyName" : "SourceBundle",
-    "propertyType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundlePropertyType",
+    "propertyType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundle",
     "propertyHref" : "aws-properties-beanstalk-sourcebundle.html",
     "required" : true
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-sourcebundle.html",
-  "resourceType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundlePropertyType",
+  "resourceType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundle",
   "properties" : [ {
     "propertyName" : "S3Bucket",
     "propertyType" : "String",
@@ -56,7 +56,7 @@
     "required" : false
   }, {
     "propertyName" : "OptionSettings",
-    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType>",
+    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSetting>",
     "propertyHref" : "aws-properties-beanstalk-option-settings.html",
     "required" : false
   }, {
@@ -71,7 +71,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-option-settings.html",
-  "resourceType" : "AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType",
+  "resourceType" : "AWS::ElasticBeanstalk::Environment::OptionSetting",
   "properties" : [ {
     "propertyName" : "Namespace",
     "propertyType" : "String",
@@ -118,7 +118,7 @@
     "required" : false
   }, {
     "propertyName" : "OptionSettings",
-    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType>",
+    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSetting>",
     "propertyHref" : "aws-properties-beanstalk-option-settings.html",
     "required" : false
   }, {
@@ -136,7 +136,7 @@
     "required" : false
   }, {
     "propertyName" : "Tier",
-    "propertyType" : "AWS::ElasticBeanstalk::Environment::TierPropertyType",
+    "propertyType" : "AWS::ElasticBeanstalk::Environment::Tier",
     "propertyHref" : "aws-properties-beanstalk-environment-tier.html",
     "required" : false
   }, {
@@ -146,7 +146,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-environment-tier.html",
-  "resourceType" : "AWS::ElasticBeanstalk::Environment::TierPropertyType",
+  "resourceType" : "AWS::ElasticBeanstalk::Environment::Tier",
   "properties" : [ {
     "propertyName" : "Name",
     "propertyType" : "String",

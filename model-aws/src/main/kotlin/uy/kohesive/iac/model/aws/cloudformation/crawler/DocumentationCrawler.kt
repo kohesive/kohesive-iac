@@ -196,7 +196,7 @@ class DocumentationCrawler(
                             propertyName = "Parameter"
                         }
 
-                        propertyName = propertyName?.singularize()
+                        propertyName = propertyName?.mustNotEndWith("PropertyType")?.mustNotEndWith("Property")?.singularize()
 
                         // Validate
                         if (uri == parentHref) {

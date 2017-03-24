@@ -65,7 +65,7 @@
   "resourceType" : "AWS::Route53::HostedZone",
   "properties" : [ {
     "propertyName" : "HostedZoneConfig",
-    "propertyType" : "AWS::Route53::HostedZone::HostedZoneConfigProperty",
+    "propertyType" : "AWS::Route53::HostedZone::HostedZoneConfig",
     "propertyHref" : "aws-properties-route53-hostedzone-hostedzoneconfig.html",
     "required" : false
   }, {
@@ -85,7 +85,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-hostedzoneconfig.html",
-  "resourceType" : "AWS::Route53::HostedZone::HostedZoneConfigProperty",
+  "resourceType" : "AWS::Route53::HostedZone::HostedZoneConfig",
   "properties" : [ {
     "propertyName" : "Comment",
     "propertyType" : "String",
@@ -120,7 +120,7 @@
   "resourceType" : "AWS::Route53::RecordSet",
   "properties" : [ {
     "propertyName" : "AliasTarget",
-    "propertyType" : "AWS::Route53::RecordSet::AliasTargetProperty",
+    "propertyType" : "AWS::Route53::RecordSet::AliasTarget",
     "propertyHref" : "aws-properties-route53-aliastarget.html",
     "required" : false
   }, {
@@ -133,7 +133,7 @@
     "required" : false
   }, {
     "propertyName" : "GeoLocation",
-    "propertyType" : "AWS::Route53::RecordSet::GeoLocationProperty",
+    "propertyType" : "AWS::Route53::RecordSet::GeoLocation",
     "propertyHref" : "aws-properties-route53-recordset-geolocation.html",
     "required" : false
   }, {
@@ -179,7 +179,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html",
-  "resourceType" : "AWS::Route53::RecordSet::AliasTargetProperty",
+  "resourceType" : "AWS::Route53::RecordSet::AliasTarget",
   "properties" : [ {
     "propertyName" : "DNSName",
     "propertyType" : "String",
@@ -195,7 +195,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset-geolocation.html",
-  "resourceType" : "AWS::Route53::RecordSet::GeoLocationProperty",
+  "resourceType" : "AWS::Route53::RecordSet::GeoLocation",
   "properties" : [ {
     "propertyName" : "ContinentCode",
     "propertyType" : "String",

@@ -23,7 +23,7 @@
     "required" : true
   }, {
     "propertyName" : "Dimensions",
-    "propertyType" : "List<AWS::CloudWatch::Alarm::DimensionPropertyType>",
+    "propertyType" : "List<AWS::CloudWatch::Alarm::Dimension>",
     "propertyHref" : "aws-properties-cw-dimension.html",
     "required" : false
   }, {
@@ -65,7 +65,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-dimension.html",
-  "resourceType" : "AWS::CloudWatch::Alarm::DimensionPropertyType",
+  "resourceType" : "AWS::CloudWatch::Alarm::Dimension",
   "properties" : [ {
     "propertyName" : "Name",
     "propertyType" : "String",

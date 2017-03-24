@@ -46,7 +46,7 @@
     "required" : false
   }, {
     "propertyName" : "WebsiteConfiguration",
-    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfiguration",
     "propertyHref" : "aws-properties-s3-websiteconfiguration.html",
     "required" : false
   } ]
@@ -340,7 +340,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration.html",
-  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfiguration",
   "properties" : [ {
     "propertyName" : "ErrorDocument",
     "propertyType" : "String",
@@ -351,18 +351,18 @@
     "required" : true
   }, {
     "propertyName" : "RedirectAllRequestsTo",
-    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RedirectAllRequestsToProperty",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfiguration::RedirectAllRequestsTo",
     "propertyHref" : "aws-properties-s3-websiteconfiguration-redirectallrequeststo.html",
     "required" : false
   }, {
     "propertyName" : "RoutingRules",
-    "propertyType" : "List<AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty>",
+    "propertyType" : "List<AWS::S3::Bucket::WebsiteConfiguration::RoutingRule>",
     "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules.html",
     "required" : false
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-redirectallrequeststo.html",
-  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RedirectAllRequestsToProperty",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfiguration::RedirectAllRequestsTo",
   "properties" : [ {
     "propertyName" : "HostName",
     "propertyType" : "String",
@@ -374,21 +374,21 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules.html",
-  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfiguration::RoutingRule",
   "properties" : [ {
     "propertyName" : "RedirectRule",
-    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RedirectRuleProperty",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfiguration::RoutingRule::RedirectRule",
     "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules-redirectrule.html",
     "required" : true
   }, {
     "propertyName" : "RoutingRuleCondition",
-    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RoutingRuleConditionProperty",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfiguration::RoutingRule::RoutingRuleCondition",
     "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules-routingrulecondition.html",
     "required" : false
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules-redirectrule.html",
-  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RedirectRuleProperty",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfiguration::RoutingRule::RedirectRule",
   "properties" : [ {
     "propertyName" : "HostName",
     "propertyType" : "String",
@@ -412,7 +412,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules-routingrulecondition.html",
-  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RoutingRuleConditionProperty",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfiguration::RoutingRule::RoutingRuleCondition",
   "properties" : [ {
     "propertyName" : "HttpErrorCodeReturnedEquals",
     "propertyType" : "String",

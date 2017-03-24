@@ -55,13 +55,13 @@
     "required" : true
   }, {
     "propertyName" : "MetricTransformations",
-    "propertyType" : "List<AWS::Logs::MetricFilter::MetricTransformationProperty>",
+    "propertyType" : "List<AWS::Logs::MetricFilter::MetricTransformation>",
     "propertyHref" : "aws-properties-logs-metricfilter-metrictransformation.html",
     "required" : true
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-logs-metricfilter-metrictransformation.html",
-  "resourceType" : "AWS::Logs::MetricFilter::MetricTransformationProperty",
+  "resourceType" : "AWS::Logs::MetricFilter::MetricTransformation",
   "properties" : [ {
     "propertyName" : "MetricName",
     "propertyType" : "String",

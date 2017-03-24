@@ -57,7 +57,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::TagsPropertyType>",
+    "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::Tag>",
     "propertyHref" : "aws-properties-as-tags.html",
     "required" : false
   }, {
@@ -99,7 +99,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-tags.html",
-  "resourceType" : "AWS::AutoScaling::AutoScalingGroup::TagsPropertyType",
+  "resourceType" : "AWS::AutoScaling::AutoScalingGroup::Tag",
   "properties" : [ {
     "propertyName" : "Key",
     "propertyType" : "String",
@@ -122,7 +122,7 @@
     "required" : false
   }, {
     "propertyName" : "BlockDeviceMappings",
-    "propertyType" : "List<AWS::AutoScaling::LaunchConfiguration::MappingPropertyType>",
+    "propertyType" : "List<AWS::AutoScaling::LaunchConfiguration::Mapping>",
     "propertyHref" : "aws-properties-as-launchconfig-blockdev-mapping.html",
     "required" : false
   }, {
@@ -188,14 +188,14 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig-blockdev-mapping.html",
-  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType",
+  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::Mapping",
   "properties" : [ {
     "propertyName" : "DeviceName",
     "propertyType" : "String",
     "required" : true
   }, {
     "propertyName" : "Ebs",
-    "propertyType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
+    "propertyType" : "AWS::AutoScaling::LaunchConfiguration::Mapping::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
     "propertyHref" : "aws-properties-as-launchconfig-blockdev-template.html",
     "required" : false
   }, {
@@ -209,7 +209,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig-blockdev-template.html",
-  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
+  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::Mapping::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
   "properties" : [ {
     "propertyName" : "DeleteOnTermination",
     "propertyType" : "Boolean",

@@ -137,7 +137,7 @@
     "required" : false
   }, {
     "propertyName" : "BlockDeviceMappings",
-    "propertyType" : "List<AWS::EC2::Instance::MappingProperty>",
+    "propertyType" : "List<AWS::EC2::Instance::Mapping>",
     "propertyHref" : "aws-properties-ec2-blockdev-mapping.html",
     "required" : false
   }, {
@@ -191,7 +191,7 @@
     "required" : false
   }, {
     "propertyName" : "NetworkInterfaces",
-    "propertyType" : "List<AWS::EC2::Instance::EmbeddedPropertyType>",
+    "propertyType" : "List<AWS::EC2::Instance::Embedded>",
     "propertyHref" : "aws-properties-ec2-network-iface-embedded.html",
     "required" : false
   }, {
@@ -242,7 +242,7 @@
     "required" : false
   }, {
     "propertyName" : "Volumes",
-    "propertyType" : "List<AWS::EC2::Instance::MountPointPropertyType>",
+    "propertyType" : "List<AWS::EC2::Instance::MountPoint>",
     "propertyHref" : "aws-properties-ec2-mount-point.html",
     "required" : false
   }, {
@@ -252,14 +252,14 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-blockdev-mapping.html",
-  "resourceType" : "AWS::EC2::Instance::MappingProperty",
+  "resourceType" : "AWS::EC2::Instance::Mapping",
   "properties" : [ {
     "propertyName" : "DeviceName",
     "propertyType" : "String",
     "required" : true
   }, {
     "propertyName" : "Ebs",
-    "propertyType" : "AWS::EC2::Instance::MappingProperty::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
+    "propertyType" : "AWS::EC2::Instance::Mapping::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
     "propertyHref" : "aws-properties-ec2-blockdev-template.html",
     "required" : false
   }, {
@@ -273,7 +273,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-blockdev-template.html",
-  "resourceType" : "AWS::EC2::Instance::MappingProperty::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
+  "resourceType" : "AWS::EC2::Instance::Mapping::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
   "properties" : [ {
     "propertyName" : "DeleteOnTermination",
     "propertyType" : "Boolean",
@@ -309,7 +309,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-network-iface-embedded.html",
-  "resourceType" : "AWS::EC2::Instance::EmbeddedPropertyType",
+  "resourceType" : "AWS::EC2::Instance::Embedded",
   "properties" : [ {
     "propertyName" : "AssociatePublicIpAddress",
     "propertyType" : "Boolean",
@@ -400,7 +400,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-mount-point.html",
-  "resourceType" : "AWS::EC2::Instance::MountPointPropertyType",
+  "resourceType" : "AWS::EC2::Instance::MountPoint",
   "properties" : [ {
     "propertyName" : "Device",
     "propertyType" : "String",
@@ -643,12 +643,12 @@
     "required" : true
   }, {
     "propertyName" : "SecurityGroupEgress",
-    "propertyType" : "List<AWS::EC2::SecurityGroup::RulePropertyType>",
+    "propertyType" : "List<AWS::EC2::SecurityGroup::Rule>",
     "propertyHref" : "aws-properties-ec2-security-group-rule.html",
     "required" : false
   }, {
     "propertyName" : "SecurityGroupIngress",
-    "propertyType" : "List<AWS::EC2::SecurityGroup::RulePropertyType>",
+    "propertyType" : "List<AWS::EC2::SecurityGroup::Rule>",
     "propertyHref" : "aws-properties-ec2-security-group-rule.html",
     "required" : false
   }, {
@@ -663,7 +663,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-rule.html",
-  "resourceType" : "AWS::EC2::SecurityGroup::RulePropertyType",
+  "resourceType" : "AWS::EC2::SecurityGroup::Rule",
   "properties" : [ {
     "propertyName" : "CidrIp",
     "propertyType" : "String",

@@ -23,7 +23,7 @@
     "required" : false
   }, {
     "propertyName" : "Subscription",
-    "propertyType" : "List<AWS::SNS::Topic::SubscriptionPropertyType>",
+    "propertyType" : "List<AWS::SNS::Topic::Subscription>",
     "propertyHref" : "aws-properties-sns-subscription.html",
     "required" : false
   }, {
@@ -33,7 +33,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-subscription.html",
-  "resourceType" : "AWS::SNS::Topic::SubscriptionPropertyType",
+  "resourceType" : "AWS::SNS::Topic::Subscription",
   "properties" : [ {
     "propertyName" : "Endpoint",
     "propertyType" : "String",

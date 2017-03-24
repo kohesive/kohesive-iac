@@ -111,7 +111,7 @@
     "required" : false
   }, {
     "propertyName" : "Parameters",
-    "propertyType" : "AWS::CloudFormation::Stack::ParametersPropertyType",
+    "propertyType" : "AWS::CloudFormation::Stack::Parameter",
     "propertyHref" : "aws-properties-stack-parameters.html",
     "required" : false
   }, {
@@ -130,7 +130,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack-parameters.html",
-  "resourceType" : "AWS::CloudFormation::Stack::ParametersPropertyType",
+  "resourceType" : "AWS::CloudFormation::Stack::Parameter",
   "properties" : [ ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html",
