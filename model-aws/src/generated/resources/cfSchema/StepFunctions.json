@@ -1,0 +1,21 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-activity.html",
+  "resourceType" : "AWS::StepFunctions::Activity",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-stepfunctions-statemachine.html",
+  "resourceType" : "AWS::StepFunctions::StateMachine",
+  "properties" : [ {
+    "propertyName" : "DefinitionString",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

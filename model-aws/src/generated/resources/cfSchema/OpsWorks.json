@@ -1,0 +1,700 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-app.html",
+  "resourceType" : "AWS::OpsWorks::App",
+  "properties" : [ {
+    "propertyName" : "AppSource",
+    "propertyType" : "AWS::OpsWorks::Stack::SourceType",
+    "propertyHref" : "aws-properties-opsworks-stack-source.html",
+    "required" : false
+  }, {
+    "propertyName" : "Attributes",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DataSources",
+    "propertyType" : "List<AWS::OpsWorks::App::DataSource>",
+    "propertyHref" : "aws-properties-opsworks-app-datasource.html",
+    "required" : false
+  }, {
+    "propertyName" : "Domains",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "EnableSsl",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Environment",
+    "propertyType" : "List<AWS::OpsWorks::App::Environment>",
+    "propertyHref" : "aws-properties-opsworks-app-environment.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Shortname",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SslConfiguration",
+    "propertyType" : "AWS::OpsWorks::App::SslConfigurationType",
+    "propertyHref" : "aws-properties-opsworks-app-sslconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "StackId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-source.html",
+  "resourceType" : "AWS::OpsWorks::Stack::SourceType",
+  "properties" : [ {
+    "propertyName" : "Password",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Revision",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SshKey",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Url",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Username",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-app-datasource.html",
+  "resourceType" : "AWS::OpsWorks::App::DataSource",
+  "properties" : [ {
+    "propertyName" : "Arn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DatabaseName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-app-environment.html",
+  "resourceType" : "AWS::OpsWorks::App::Environment",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Secure",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-app-sslconfiguration.html",
+  "resourceType" : "AWS::OpsWorks::App::SslConfigurationType",
+  "properties" : [ {
+    "propertyName" : "Certificate",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Chain",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateKey",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-elbattachment.html",
+  "resourceType" : "AWS::OpsWorks::ElasticLoadBalancerAttachment",
+  "properties" : [ {
+    "propertyName" : "ElasticLoadBalancerName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LayerId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-instance.html",
+  "resourceType" : "AWS::OpsWorks::Instance",
+  "properties" : [ {
+    "propertyName" : "AgentVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AmiId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Architecture",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AutoScalingType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BlockDeviceMappings",
+    "propertyType" : "List<AWS::OpsWorks::Instance::BlockDeviceMapping>",
+    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping.html",
+    "required" : false
+  }, {
+    "propertyName" : "EbsOptimized",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ElasticIps",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Hostname",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstallUpdatesOnBoot",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LayerIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "Os",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RootDeviceType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SshKeyName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StackId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tenancy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TimeBasedAutoScaling",
+    "propertyType" : "AWS::OpsWorks::Instance::TimeBasedAutoScalingType",
+    "propertyHref" : "aws-properties-opsworks-instance-timebasedautoscaling.html",
+    "required" : false
+  }, {
+    "propertyName" : "VirtualizationType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Volumes",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-instance-blockdevicemapping.html",
+  "resourceType" : "AWS::OpsWorks::Instance::BlockDeviceMapping",
+  "properties" : [ {
+    "propertyName" : "DeviceName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Ebs",
+    "propertyType" : "AWS::OpsWorks::Instance::BlockDeviceMapping::EbsBlockDevice",
+    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping-ebsblockdevice.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoDevice",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VirtualName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-instance-blockdevicemapping-ebsblockdevice.html",
+  "resourceType" : "AWS::OpsWorks::Instance::BlockDeviceMapping::EbsBlockDevice",
+  "properties" : [ {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-instance-timebasedautoscaling.html",
+  "resourceType" : "AWS::OpsWorks::Instance::TimeBasedAutoScalingType",
+  "properties" : [ {
+    "propertyName" : "Friday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Monday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Saturday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Sunday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Thursday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Tuesday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Wednesday",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-layer.html",
+  "resourceType" : "AWS::OpsWorks::Layer",
+  "properties" : [ {
+    "propertyName" : "Attributes",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "AutoAssignElasticIps",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "AutoAssignPublicIps",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "CustomInstanceProfileArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CustomJson",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CustomRecipes",
+    "propertyType" : "AWS::OpsWorks::Layer::RecipesType",
+    "propertyHref" : "aws-properties-opsworks-layer-recipes.html",
+    "required" : false
+  }, {
+    "propertyName" : "CustomSecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "EnableAutoHealing",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "InstallUpdatesOnBoot",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "LifecycleEventConfiguration",
+    "propertyType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration",
+    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "LoadBasedAutoScaling",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType",
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Packages",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Shortname",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StackId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VolumeConfigurations",
+    "propertyType" : "List<AWS::OpsWorks::Layer::VolumeConfigurationType>",
+    "propertyHref" : "aws-properties-opsworks-layer-volumeconfig.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-recipes.html",
+  "resourceType" : "AWS::OpsWorks::Layer::RecipesType",
+  "properties" : [ {
+    "propertyName" : "Configure",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Deploy",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Setup",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Shutdown",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Undeploy",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-lifecycleeventconfiguration.html",
+  "resourceType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration",
+  "properties" : [ {
+    "propertyName" : "ShutdownEventConfiguration",
+    "propertyType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration::ShutdownEventConfiguration",
+    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html",
+  "resourceType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration::ShutdownEventConfiguration",
+  "properties" : [ {
+    "propertyName" : "DelayUntilElbConnectionsDrained",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ExecutionTimeout",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling.html",
+  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType",
+  "properties" : [ {
+    "propertyName" : "DownScaling",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
+    "required" : false
+  }, {
+    "propertyName" : "Enable",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "UpScaling",
+    "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
+  "resourceType" : "AWS::OpsWorks::Layer::LoadBasedAutoScalingType::AutoScalingThresholdsType",
+  "properties" : [ {
+    "propertyName" : "CpuThreshold",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "IgnoreMetricsTime",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "LoadThreshold",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MemoryThreshold",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ThresholdsWaitTime",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-volumeconfig.html",
+  "resourceType" : "AWS::OpsWorks::Layer::VolumeConfigurationType",
+  "properties" : [ {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MountPoint",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NumberOfDisks",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "RaidLevel",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Size",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-stack.html",
+  "resourceType" : "AWS::OpsWorks::Stack",
+  "properties" : [ {
+    "propertyName" : "AgentVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Attributes",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ChefConfiguration",
+    "propertyType" : "AWS::OpsWorks::Stack::ChefConfigurationType",
+    "propertyHref" : "aws-properties-opsworks-stack-chefconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "CloneAppIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ClonePermissions",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ConfigurationManager",
+    "propertyType" : "AWS::OpsWorks::Stack::StackConfigurationManager",
+    "propertyHref" : "aws-properties-opsworks-stack-stackconfigmanager.html",
+    "required" : false
+  }, {
+    "propertyName" : "CustomCookbooksSource",
+    "propertyType" : "AWS::OpsWorks::Stack::SourceType",
+    "propertyHref" : "aws-properties-opsworks-stack-source.html",
+    "required" : false
+  }, {
+    "propertyName" : "CustomJson",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultAvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultInstanceProfileArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DefaultOs",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultRootDeviceType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultSshKeyName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultSubnetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EcsClusterArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ElasticIps",
+    "propertyType" : "List<AWS::OpsWorks::Stack::ElasticIp>",
+    "propertyHref" : "aws-properties-opsworks-stack-elasticip.html",
+    "required" : false
+  }, {
+    "propertyName" : "HostnameTheme",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RdsDbInstances",
+    "propertyType" : "List<AWS::OpsWorks::Stack::RdsDbInstance>",
+    "propertyHref" : "aws-properties-opsworks-stack-rdsdbinstance.html",
+    "required" : false
+  }, {
+    "propertyName" : "ServiceRoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceStackId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "UseCustomCookbooks",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "UseOpsworksSecurityGroups",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-chefconfiguration.html",
+  "resourceType" : "AWS::OpsWorks::Stack::ChefConfigurationType",
+  "properties" : [ {
+    "propertyName" : "BerkshelfVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ManageBerkshelf",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-stackconfigmanager.html",
+  "resourceType" : "AWS::OpsWorks::Stack::StackConfigurationManager",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-elasticip.html",
+  "resourceType" : "AWS::OpsWorks::Stack::ElasticIp",
+  "properties" : [ {
+    "propertyName" : "Ip",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-stack-rdsdbinstance.html",
+  "resourceType" : "AWS::OpsWorks::Stack::RdsDbInstance",
+  "properties" : [ {
+    "propertyName" : "DbPassword",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DbUser",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RdsDbInstanceArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-userprofile.html",
+  "resourceType" : "AWS::OpsWorks::UserProfile",
+  "properties" : [ {
+    "propertyName" : "AllowSelfManagement",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IamUserArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SshPublicKey",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opsworks-volume.html",
+  "resourceType" : "AWS::OpsWorks::Volume",
+  "properties" : [ {
+    "propertyName" : "Ec2VolumeId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MountPoint",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StackId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

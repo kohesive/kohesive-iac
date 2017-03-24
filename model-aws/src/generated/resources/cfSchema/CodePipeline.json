@@ -1,0 +1,274 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype.html",
+  "resourceType" : "AWS::CodePipeline::CustomActionType",
+  "properties" : [ {
+    "propertyName" : "Category",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ConfigurationProperties",
+    "propertyType" : "List<AWS::CodePipeline::CustomActionType::ConfigurationProperty>",
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-configurationproperties.html",
+    "required" : false
+  }, {
+    "propertyName" : "InputArtifactDetails",
+    "propertyType" : "AWS::CodePipeline::CustomActionType::ArtifactDetail",
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html",
+    "required" : true
+  }, {
+    "propertyName" : "OutputArtifactDetails",
+    "propertyType" : "AWS::CodePipeline::CustomActionType::ArtifactDetail",
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html",
+    "required" : true
+  }, {
+    "propertyName" : "Provider",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Settings",
+    "propertyType" : "AWS::CodePipeline::CustomActionType::Setting",
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-settings.html",
+    "required" : false
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype-configurationproperties.html",
+  "resourceType" : "AWS::CodePipeline::CustomActionType::ConfigurationProperty",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Key",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Queryable",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Required",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "Secret",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype-artifactdetails.html",
+  "resourceType" : "AWS::CodePipeline::CustomActionType::ArtifactDetail",
+  "properties" : [ {
+    "propertyName" : "MaximumCount",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "MinimumCount",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-customactiontype-settings.html",
+  "resourceType" : "AWS::CodePipeline::CustomActionType::Setting",
+  "properties" : [ {
+    "propertyName" : "EntityUrlTemplate",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ExecutionUrlTemplate",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RevisionUrlTemplate",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ThirdPartyConfigurationUrl",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codepipeline-pipeline.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline",
+  "properties" : [ {
+    "propertyName" : "ArtifactStore",
+    "propertyType" : "AWS::CodePipeline::Pipeline::ArtifactStore",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore.html",
+    "required" : true
+  }, {
+    "propertyName" : "DisableInboundStageTransitions",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::DisableInboundStageTransition>",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-disableinboundstagetransitions.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RestartExecutionOnUpdate",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Stages",
+    "propertyType" : "AWS::CodePipeline::Pipeline::Stage",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::ArtifactStore",
+  "properties" : [ {
+    "propertyName" : "EncryptionKey",
+    "propertyType" : "AWS::CodePipeline::Pipeline::ArtifactStore::EncryptionKey",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html",
+    "required" : false
+  }, {
+    "propertyName" : "Location",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::ArtifactStore::EncryptionKey",
+  "properties" : [ {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-disableinboundstagetransitions.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::DisableInboundStageTransition",
+  "properties" : [ {
+    "propertyName" : "Reason",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StageName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage",
+  "properties" : [ {
+    "propertyName" : "Actions",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action>",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions.html",
+    "required" : true
+  }, {
+    "propertyName" : "Blockers",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Blocker>",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-blockers.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages-actions.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage::Action",
+  "properties" : [ {
+    "propertyName" : "ActionTypeId",
+    "propertyType" : "AWS::CodePipeline::Pipeline::Stage::Action::ActionTypeId",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-actiontypeid.html",
+    "required" : true
+  }, {
+    "propertyName" : "Configuration",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InputArtifacts",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action::InputArtifact>",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-inputartifacts.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OutputArtifacts",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action::OutputArtifact>",
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-outputartifacts.html",
+    "required" : false
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RunOrder",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages-actions-actiontypeid.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage::Action::ActionTypeId",
+  "properties" : [ {
+    "propertyName" : "Category",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Owner",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Provider",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages-actions-inputartifacts.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage::Action::InputArtifact",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages-actions-outputartifacts.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage::Action::OutputArtifact",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-stages-blockers.html",
+  "resourceType" : "AWS::CodePipeline::Pipeline::Stage::Blocker",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

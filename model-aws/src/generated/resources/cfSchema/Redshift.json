@@ -1,0 +1,174 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-cluster.html",
+  "resourceType" : "AWS::Redshift::Cluster",
+  "properties" : [ {
+    "propertyName" : "AllowVersionUpgrade",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AutomatedSnapshotRetentionPeriod",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterParameterGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterSecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ClusterVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ElasticIp",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Encrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HsmClientCertificateIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HsmConfigurationIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KmsKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MasterUsername",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MasterUserPassword",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NodeType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NumberOfNodes",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "OwnerAccount",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredMaintenanceWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PubliclyAccessible",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotClusterIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VpcSecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-clusterparametergroup.html",
+  "resourceType" : "AWS::Redshift::ClusterParameterGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ParameterGroupFamily",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "AWS::Redshift::ClusterParameterGroup::Parameter",
+    "propertyHref" : "aws-property-redshift-clusterparametergroup-parameter.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-property-redshift-clusterparametergroup-parameter.html",
+  "resourceType" : "AWS::Redshift::ClusterParameterGroup::Parameter",
+  "properties" : [ {
+    "propertyName" : "ParameterName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ParameterValue",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-clustersecuritygroup.html",
+  "resourceType" : "AWS::Redshift::ClusterSecurityGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-clustersecuritygroupingress.html",
+  "resourceType" : "AWS::Redshift::ClusterSecurityGroupIngress",
+  "properties" : [ {
+    "propertyName" : "ClusterSecurityGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "CIDRIP",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupOwnerId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-redshift-clustersubnetgroup.html",
+  "resourceType" : "AWS::Redshift::ClusterSubnetGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+} ]

@@ -1,0 +1,176 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-application.html",
+  "resourceType" : "AWS::CodeDeploy::Application",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentconfig.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentConfig",
+  "properties" : [ {
+    "propertyName" : "DeploymentConfigName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MinimumHealthyHosts",
+    "propertyType" : "AWS::CodeDeploy::DeploymentConfig::MinimumHealthyHost",
+    "propertyHref" : "aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentConfig::MinimumHealthyHost",
+  "properties" : [ {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codedeploy-deploymentgroup.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "AutoScalingGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Deployment",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Deployment",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment.html",
+    "required" : false
+  }, {
+    "propertyName" : "DeploymentConfigName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DeploymentGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Ec2TagFilters",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Ec2TagFilter",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-ec2tagfilters.html",
+    "required" : false
+  }, {
+    "propertyName" : "OnPremisesInstanceTagFilters",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::OnPremisesInstanceTagFilter",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-onpremisesinstancetagfilters.html",
+    "required" : false
+  }, {
+    "propertyName" : "ServiceRoleArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::Deployment",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IgnoreApplicationStopFailures",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Revision",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::Revision",
+  "properties" : [ {
+    "propertyName" : "GitHubLocation",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision::GitHubLocation",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html",
+    "required" : false
+  }, {
+    "propertyName" : "RevisionType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "S3Location",
+    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision::S3Location",
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::Revision::GitHubLocation",
+  "properties" : [ {
+    "propertyName" : "CommitId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Repository",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::Revision::S3Location",
+  "properties" : [ {
+    "propertyName" : "Bucket",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "BundleType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ETag",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-ec2tagfilters.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::Ec2TagFilter",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-onpremisesinstancetagfilters.html",
+  "resourceType" : "AWS::CodeDeploy::DeploymentGroup::OnPremisesInstanceTagFilter",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

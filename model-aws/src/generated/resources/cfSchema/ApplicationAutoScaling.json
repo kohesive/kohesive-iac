@@ -1,0 +1,103 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalabletarget.html",
+  "resourceType" : "AWS::ApplicationAutoScaling::ScalableTarget",
+  "properties" : [ {
+    "propertyName" : "MaxCapacity",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "MinCapacity",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "ResourceId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ScalableDimension",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ServiceNamespace",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-applicationautoscaling-scalingpolicy.html",
+  "resourceType" : "AWS::ApplicationAutoScaling::ScalingPolicy",
+  "properties" : [ {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ResourceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ScalableDimension",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ServiceNamespace",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ScalingTargetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StepScalingPolicyConfiguration",
+    "propertyType" : "AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration",
+    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html",
+  "resourceType" : "AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration",
+  "properties" : [ {
+    "propertyName" : "AdjustmentType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Cooldown",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MetricAggregationType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MinAdjustmentMagnitude",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "StepAdjustments",
+    "propertyType" : "List<AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration::StepAdjustment>",
+    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-stepadjustment.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-stepadjustment.html",
+  "resourceType" : "AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration::StepAdjustment",
+  "properties" : [ {
+    "propertyName" : "MetricIntervalLowerBound",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MetricIntervalUpperBound",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ScalingAdjustment",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+} ]

@@ -1,0 +1,119 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-datapipeline-pipeline.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline",
+  "properties" : [ {
+    "propertyName" : "Activate",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ParameterObjects",
+    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects.html",
+    "required" : false
+  }, {
+    "propertyName" : "ParameterValues",
+    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterValue",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parametervalues.html",
+    "required" : false
+  }, {
+    "propertyName" : "PipelineObjects",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::PipelineObject>",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects.html",
+    "required" : true
+  }, {
+    "propertyName" : "PipelineTags",
+    "propertyType" : "AWS::DataPipeline::Pipeline::PipelineTag",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelinetags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-parameterobjects.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::ParameterObject",
+  "properties" : [ {
+    "propertyName" : "Attributes",
+    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject::Attribute",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects-attributes.html",
+    "required" : true
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-parameterobjects-attributes.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::ParameterObject::Attribute",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StringValue",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-parametervalues.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::ParameterValue",
+  "properties" : [ {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StringValue",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-pipelineobjects.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::PipelineObject",
+  "properties" : [ {
+    "propertyName" : "Fields",
+    "propertyType" : "AWS::DataPipeline::Pipeline::PipelineObject::Field",
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html",
+    "required" : true
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-pipelineobjects-fields.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::PipelineObject::Field",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RefValue",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StringValue",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-pipelinetags.html",
+  "resourceType" : "AWS::DataPipeline::Pipeline::PipelineTag",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

@@ -1,0 +1,42 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codecommit-repository.html",
+  "resourceType" : "AWS::CodeCommit::Repository",
+  "properties" : [ {
+    "propertyName" : "RepositoryDescription",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RepositoryName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Triggers",
+    "propertyType" : "List<AWS::CodeCommit::Repository::Trigger>",
+    "propertyHref" : "aws-properties-codecommit-repository-triggers.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codecommit-repository-triggers.html",
+  "resourceType" : "AWS::CodeCommit::Repository::Trigger",
+  "properties" : [ {
+    "propertyName" : "Branches",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "CustomData",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Events",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

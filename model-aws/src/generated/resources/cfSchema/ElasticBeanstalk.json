@@ -1,0 +1,163 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk.html",
+  "resourceType" : "AWS::ElasticBeanstalk::Application",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-version.html",
+  "resourceType" : "AWS::ElasticBeanstalk::ApplicationVersion",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceBundle",
+    "propertyType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundlePropertyType",
+    "propertyHref" : "aws-properties-beanstalk-sourcebundle.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-sourcebundle.html",
+  "resourceType" : "AWS::ElasticBeanstalk::ApplicationVersion::SourceBundlePropertyType",
+  "properties" : [ {
+    "propertyName" : "S3Bucket",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3Key",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-beanstalk-configurationtemplate.html",
+  "resourceType" : "AWS::ElasticBeanstalk::ConfigurationTemplate",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EnvironmentId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "OptionSettings",
+    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType>",
+    "propertyHref" : "aws-properties-beanstalk-option-settings.html",
+    "required" : false
+  }, {
+    "propertyName" : "SolutionStackName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceConfiguration",
+    "propertyType" : "AWS::ElasticBeanstalk::ConfigurationTemplate::SourceConfiguration",
+    "propertyHref" : "aws-properties-beanstalk-configurationtemplate-sourceconfiguration.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-option-settings.html",
+  "resourceType" : "AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType",
+  "properties" : [ {
+    "propertyName" : "Namespace",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OptionName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-configurationtemplate-sourceconfiguration.html",
+  "resourceType" : "AWS::ElasticBeanstalk::ConfigurationTemplate::SourceConfiguration",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TemplateName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-environment.html",
+  "resourceType" : "AWS::ElasticBeanstalk::Environment",
+  "properties" : [ {
+    "propertyName" : "ApplicationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "CNAMEPrefix",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EnvironmentName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "OptionSettings",
+    "propertyType" : "List<AWS::ElasticBeanstalk::Environment::OptionSettingsPropertyType>",
+    "propertyHref" : "aws-properties-beanstalk-option-settings.html",
+    "required" : false
+  }, {
+    "propertyName" : "SolutionStackName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "TemplateName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tier",
+    "propertyType" : "AWS::ElasticBeanstalk::Environment::TierPropertyType",
+    "propertyHref" : "aws-properties-beanstalk-environment-tier.html",
+    "required" : false
+  }, {
+    "propertyName" : "VersionLabel",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-beanstalk-environment-tier.html",
+  "resourceType" : "AWS::ElasticBeanstalk::Environment::TierPropertyType",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

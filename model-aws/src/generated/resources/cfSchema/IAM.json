@@ -1,0 +1,193 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html",
+  "resourceType" : "AWS::IAM::AccessKey",
+  "properties" : [ {
+    "propertyName" : "Serial",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Status",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "UserName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html",
+  "resourceType" : "AWS::IAM::Group",
+  "properties" : [ {
+    "propertyName" : "GroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ManagedPolicyArns",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Policies",
+    "propertyType" : "List<AWS::IAM::Role::Policy>",
+    "propertyHref" : "aws-properties-iam-policy.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html",
+  "resourceType" : "AWS::IAM::Role::Policy",
+  "properties" : [ {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html",
+  "resourceType" : "AWS::IAM::InstanceProfile",
+  "properties" : [ {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Roles",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html",
+  "resourceType" : "AWS::IAM::ManagedPolicy",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Groups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Roles",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Users",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html",
+  "resourceType" : "AWS::IAM::Policy",
+  "properties" : [ {
+    "propertyName" : "Groups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Roles",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Users",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html",
+  "resourceType" : "AWS::IAM::Role",
+  "properties" : [ {
+    "propertyName" : "AssumeRolePolicyDocument",
+    "propertyType" : "JsonObject",
+    "required" : true
+  }, {
+    "propertyName" : "ManagedPolicyArns",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Policies",
+    "propertyType" : "List<AWS::IAM::Role::Policy>",
+    "propertyHref" : "aws-properties-iam-policy.html",
+    "required" : false
+  }, {
+    "propertyName" : "RoleName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html",
+  "resourceType" : "AWS::IAM::User",
+  "properties" : [ {
+    "propertyName" : "Groups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "LoginProfile",
+    "propertyType" : "AWS::IAM::User::LoginProfile",
+    "propertyHref" : "aws-properties-iam-user-loginprofile.html",
+    "required" : false
+  }, {
+    "propertyName" : "ManagedPolicyArns",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Policies",
+    "propertyType" : "List<AWS::IAM::Role::Policy>",
+    "propertyHref" : "aws-properties-iam-policy.html",
+    "required" : false
+  }, {
+    "propertyName" : "UserName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user-loginprofile.html",
+  "resourceType" : "AWS::IAM::User::LoginProfile",
+  "properties" : [ {
+    "propertyName" : "Password",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PasswordResetRequired",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html",
+  "resourceType" : "AWS::IAM::UserToGroupAddition",
+  "properties" : [ {
+    "propertyName" : "GroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Users",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+} ]

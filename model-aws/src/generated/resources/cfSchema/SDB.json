@@ -1,0 +1,9 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-simpledb.html",
+  "resourceType" : "AWS::SDB::Domain",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

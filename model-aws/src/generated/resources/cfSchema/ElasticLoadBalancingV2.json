@@ -1,0 +1,243 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listener.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::Listener",
+  "properties" : [ {
+    "propertyName" : "Certificates",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::Listener::Certificate>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-certificates.html",
+    "required" : false
+  }, {
+    "propertyName" : "DefaultActions",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::Listener::DefaultAction>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-defaultactions.html",
+    "required" : true
+  }, {
+    "propertyName" : "LoadBalancerArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SslPolicy",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-listener-certificates.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::Listener::Certificate",
+  "properties" : [ {
+    "propertyName" : "CertificateArn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-listener-defaultactions.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::Listener::DefaultAction",
+  "properties" : [ {
+    "propertyName" : "TargetGroupArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::ListenerRule",
+  "properties" : [ {
+    "propertyName" : "Actions",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::ListenerRule::Action>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-actions.html",
+    "required" : true
+  }, {
+    "propertyName" : "Conditions",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::ListenerRule::Condition>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-conditions.html",
+    "required" : true
+  }, {
+    "propertyName" : "ListenerArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Priority",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-listenerrule-actions.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::ListenerRule::Action",
+  "properties" : [ {
+    "propertyName" : "TargetGroupArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-listenerrule-conditions.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::ListenerRule::Condition",
+  "properties" : [ {
+    "propertyName" : "Field",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Values",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-loadbalancer.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::LoadBalancer",
+  "properties" : [ {
+    "propertyName" : "LoadBalancerAttributes",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::LoadBalancer::LoadBalancerAttribute>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Scheme",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Subnets",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::LoadBalancer::LoadBalancerAttribute",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-targetgroup.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::TargetGroup",
+  "properties" : [ {
+    "propertyName" : "HealthCheckIntervalSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckPath",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckPort",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckProtocol",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckTimeoutSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "HealthyThresholdCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Matcher",
+    "propertyType" : "AWS::ElasticLoadBalancingV2::TargetGroup::Matcher",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-matcher.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "TargetGroupAttributes",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::TargetGroup::TargetGroupAttribute>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetgroupattributes.html",
+    "required" : false
+  }, {
+    "propertyName" : "TargetGroupFullName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Targets",
+    "propertyType" : "List<AWS::ElasticLoadBalancingV2::TargetGroup::TargetDescription>",
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetdescription.html",
+    "required" : false
+  }, {
+    "propertyName" : "UnhealthyThresholdCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-targetgroup-matcher.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::TargetGroup::Matcher",
+  "properties" : [ {
+    "propertyName" : "HttpCode",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-targetgroup-targetgroupattributes.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::TargetGroup::TargetGroupAttribute",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-targetgroup-targetdescription.html",
+  "resourceType" : "AWS::ElasticLoadBalancingV2::TargetGroup::TargetDescription",
+  "properties" : [ {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+} ]

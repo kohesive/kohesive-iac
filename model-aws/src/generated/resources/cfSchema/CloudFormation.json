@@ -1,0 +1,155 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html",
+  "resourceType" : "AWS::CloudFormation::ResourceTag",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-authentication.html",
+  "resourceType" : "AWS::CloudFormation::Authentication",
+  "properties" : [ {
+    "propertyName" : "accessKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "buckets",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "password",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "secretKey",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "uris",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "username",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "roleName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cfn-customresource.html",
+  "resourceType" : "AWS::CloudFormation::CustomResource",
+  "properties" : [ {
+    "propertyName" : "ServiceToken",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-init.html",
+  "resourceType" : "AWS::CloudFormation::Init",
+  "properties" : [ ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudformation-interface.html",
+  "resourceType" : "AWS::CloudFormation::Interface",
+  "properties" : [ {
+    "propertyName" : "ParameterGroups",
+    "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup",
+    "propertyHref" : "aws-properties-cloudformation-interface-parametergroup.html",
+    "required" : false
+  }, {
+    "propertyName" : "ParameterLabels",
+    "propertyType" : "AWS::CloudFormation::Interface::ParameterLabel",
+    "propertyHref" : "aws-properties-cloudformation-interface-parameterlabel.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html",
+  "resourceType" : "AWS::CloudFormation::Interface::ParameterGroup",
+  "properties" : [ {
+    "propertyName" : "Label",
+    "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup::Label",
+    "propertyHref" : "aws-properties-cloudformation-interface-label.html",
+    "required" : false
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-label.html",
+  "resourceType" : "AWS::CloudFormation::Interface::ParameterGroup::Label",
+  "properties" : [ {
+    "propertyName" : "default",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parameterlabel.html",
+  "resourceType" : "AWS::CloudFormation::Interface::ParameterLabel",
+  "properties" : [ {
+    "propertyName" : "ParameterLogicalID",
+    "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup::Label",
+    "propertyHref" : "aws-properties-cloudformation-interface-label.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html",
+  "resourceType" : "AWS::CloudFormation::Stack",
+  "properties" : [ {
+    "propertyName" : "NotificationARNs",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "AWS::CloudFormation::Stack::ParametersPropertyType",
+    "propertyHref" : "aws-properties-stack-parameters.html",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "TemplateURL",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TimeoutInMinutes",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack-parameters.html",
+  "resourceType" : "AWS::CloudFormation::Stack::ParametersPropertyType",
+  "properties" : [ ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitcondition.html",
+  "resourceType" : "AWS::CloudFormation::WaitCondition",
+  "properties" : [ {
+    "propertyName" : "Count",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Handle",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Timeout",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitconditionhandle.html",
+  "resourceType" : "AWS::CloudFormation::WaitConditionHandle",
+  "properties" : [ ]
+} ]

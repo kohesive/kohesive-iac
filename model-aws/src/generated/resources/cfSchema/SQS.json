@@ -1,0 +1,58 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html",
+  "resourceType" : "AWS::SQS::Queue",
+  "properties" : [ {
+    "propertyName" : "DelaySeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MaximumMessageSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MessageRetentionPeriod",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "QueueName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ReceiveMessageWaitTimeSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "RedrivePolicy",
+    "propertyType" : "AWS::SQS::Queue::RedrivePolicy",
+    "propertyHref" : "aws-properties-sqs-queues-redrivepolicy.html",
+    "required" : false
+  }, {
+    "propertyName" : "VisibilityTimeout",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues-redrivepolicy.html",
+  "resourceType" : "AWS::SQS::Queue::RedrivePolicy",
+  "properties" : [ {
+    "propertyName" : "deadLetterTargetArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "maxReceiveCount",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html",
+  "resourceType" : "AWS::SQS::QueuePolicy",
+  "properties" : [ {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Queues",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+} ]

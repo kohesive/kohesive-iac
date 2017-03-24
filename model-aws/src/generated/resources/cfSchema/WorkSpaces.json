@@ -1,0 +1,29 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-workspaces-workspace.html",
+  "resourceType" : "AWS::WorkSpaces::Workspace",
+  "properties" : [ {
+    "propertyName" : "BundleId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DirectoryId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "UserName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RootVolumeEncryptionEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "UserVolumeEncryptionEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeEncryptionKey",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

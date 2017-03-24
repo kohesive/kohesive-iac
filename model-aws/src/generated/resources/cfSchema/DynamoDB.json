@@ -1,0 +1,136 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html",
+  "resourceType" : "AWS::DynamoDB::Table",
+  "properties" : [ {
+    "propertyName" : "AttributeDefinitions",
+    "propertyType" : "List<AWS::DynamoDB::Table::AttributeDefinition>",
+    "propertyHref" : "aws-properties-dynamodb-attributedef.html",
+    "required" : true
+  }, {
+    "propertyName" : "GlobalSecondaryIndexes",
+    "propertyType" : "List<AWS::DynamoDB::Table::GlobalSecondaryIndex>",
+    "propertyHref" : "aws-properties-dynamodb-gsi.html",
+    "required" : false
+  }, {
+    "propertyName" : "KeySchema",
+    "propertyType" : "List<AWS::DynamoDB::Table::KeySchema>",
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
+    "required" : true
+  }, {
+    "propertyName" : "LocalSecondaryIndexes",
+    "propertyType" : "List<AWS::DynamoDB::Table::LocalSecondaryIndex>",
+    "propertyHref" : "aws-properties-dynamodb-lsi.html",
+    "required" : false
+  }, {
+    "propertyName" : "ProvisionedThroughput",
+    "propertyType" : "AWS::DynamoDB::Table::ProvisionedThroughput",
+    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html",
+    "required" : true
+  }, {
+    "propertyName" : "StreamSpecification",
+    "propertyType" : "AWS::DynamoDB::Table::StreamSpecification",
+    "propertyHref" : "aws-properties-dynamodb-streamspecification.html",
+    "required" : false
+  }, {
+    "propertyName" : "TableName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-attributedef.html",
+  "resourceType" : "AWS::DynamoDB::Table::AttributeDefinition",
+  "properties" : [ {
+    "propertyName" : "AttributeName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "AttributeType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-gsi.html",
+  "resourceType" : "AWS::DynamoDB::Table::GlobalSecondaryIndex",
+  "properties" : [ {
+    "propertyName" : "IndexName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KeySchema",
+    "propertyType" : "AWS::DynamoDB::Table::KeySchema",
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
+    "required" : true
+  }, {
+    "propertyName" : "Projection",
+    "propertyType" : "AWS::DynamoDB::Table::Projection",
+    "propertyHref" : "aws-properties-dynamodb-projectionobject.html",
+    "required" : true
+  }, {
+    "propertyName" : "ProvisionedThroughput",
+    "propertyType" : "AWS::DynamoDB::Table::ProvisionedThroughput",
+    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-keyschema.html",
+  "resourceType" : "AWS::DynamoDB::Table::KeySchema",
+  "properties" : [ {
+    "propertyName" : "AttributeName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KeyType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-projectionobject.html",
+  "resourceType" : "AWS::DynamoDB::Table::Projection",
+  "properties" : [ {
+    "propertyName" : "NonKeyAttributes",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ProjectionType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html",
+  "resourceType" : "AWS::DynamoDB::Table::ProvisionedThroughput",
+  "properties" : [ {
+    "propertyName" : "ReadCapacityUnits",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "WriteCapacityUnits",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-lsi.html",
+  "resourceType" : "AWS::DynamoDB::Table::LocalSecondaryIndex",
+  "properties" : [ {
+    "propertyName" : "IndexName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KeySchema",
+    "propertyType" : "AWS::DynamoDB::Table::KeySchema",
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
+    "required" : true
+  }, {
+    "propertyName" : "Projection",
+    "propertyType" : "AWS::DynamoDB::Table::Projection",
+    "propertyHref" : "aws-properties-dynamodb-projectionobject.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-streamspecification.html",
+  "resourceType" : "AWS::DynamoDB::Table::StreamSpecification",
+  "properties" : [ {
+    "propertyName" : "StreamViewType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

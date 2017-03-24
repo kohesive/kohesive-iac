@@ -1,0 +1,136 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-alias.html",
+  "resourceType" : "AWS::GameLift::Alias",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoutingStrategy",
+    "propertyType" : "AWS::GameLift::Alias::RoutingStrategy",
+    "propertyHref" : "aws-properties-gamelift-alias-routingstrategy.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-alias-routingstrategy.html",
+  "resourceType" : "AWS::GameLift::Alias::RoutingStrategy",
+  "properties" : [ {
+    "propertyName" : "FleetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Message",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-build.html",
+  "resourceType" : "AWS::GameLift::Build",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StorageLocation",
+    "propertyType" : "AWS::GameLift::Build::StorageLocation",
+    "propertyHref" : "aws-properties-gamelift-build-storagelocation.html",
+    "required" : false
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-build-storagelocation.html",
+  "resourceType" : "AWS::GameLift::Build::StorageLocation",
+  "properties" : [ {
+    "propertyName" : "Bucket",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-gamelift-fleet.html",
+  "resourceType" : "AWS::GameLift::Fleet",
+  "properties" : [ {
+    "propertyName" : "BuildId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DesiredEC2Instances",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "EC2InboundPermissions",
+    "propertyType" : "List<AWS::GameLift::Fleet::EC2InboundPermission>",
+    "propertyHref" : "aws-properties-gamelift-fleet-ec2inboundpermission.html",
+    "required" : false
+  }, {
+    "propertyName" : "EC2InstanceType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LogPaths",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "MaxSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MinSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ServerLaunchParameters",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ServerLaunchPath",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-fleet-ec2inboundpermission.html",
+  "resourceType" : "AWS::GameLift::Fleet::EC2InboundPermission",
+  "properties" : [ {
+    "propertyName" : "FromPort",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "IpRange",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ToPort",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+} ]

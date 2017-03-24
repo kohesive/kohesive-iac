@@ -1,0 +1,50 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudtrail-trail.html",
+  "resourceType" : "AWS::CloudTrail::Trail",
+  "properties" : [ {
+    "propertyName" : "CloudWatchLogsLogGroupArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CloudWatchLogsRoleArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EnableLogFileValidation",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IncludeGlobalServiceEvents",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IsLogging",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "IsMultiRegionTrail",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "KMSKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "S3BucketName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3KeyPrefix",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnsTopicName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+} ]

@@ -1,0 +1,46 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-filesystem.html",
+  "resourceType" : "AWS::EFS::FileSystem",
+  "properties" : [ {
+    "propertyName" : "FileSystemTags",
+    "propertyType" : "AWS::EFS::FileSystem::FileSystemTag",
+    "propertyHref" : "aws-properties-efs-filesystem-filesystemtags.html",
+    "required" : false
+  }, {
+    "propertyName" : "PerformanceMode",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-efs-filesystem-filesystemtags.html",
+  "resourceType" : "AWS::EFS::FileSystem::FileSystemTag",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-efs-mounttarget.html",
+  "resourceType" : "AWS::EFS::MountTarget",
+  "properties" : [ {
+    "propertyName" : "FileSystemId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IpAddress",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

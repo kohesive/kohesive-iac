@@ -1,0 +1,218 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer",
+  "properties" : [ {
+    "propertyName" : "AccessLoggingPolicy",
+    "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::AccessLoggingPolicy",
+    "propertyHref" : "aws-properties-ec2-elb-accessloggingpolicy.html",
+    "required" : false
+  }, {
+    "propertyName" : "AppCookieStickinessPolicy",
+    "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::AppCookieStickinessPolicyType>",
+    "propertyHref" : "aws-properties-ec2-elb-AppCookieStickinessPolicy.html",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZones",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ConnectionDrainingPolicy",
+    "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionDrainingPolicy",
+    "propertyHref" : "aws-properties-ec2-elb-connectiondrainingpolicy.html",
+    "required" : false
+  }, {
+    "propertyName" : "ConnectionSettings",
+    "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionSetting",
+    "propertyHref" : "aws-properties-ec2-elb-connectionsettings.html",
+    "required" : false
+  }, {
+    "propertyName" : "CrossZone",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheck",
+    "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::HealthCheckType",
+    "propertyHref" : "aws-properties-ec2-elb-health-check.html",
+    "required" : false
+  }, {
+    "propertyName" : "Instances",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "LBCookieStickinessPolicy",
+    "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::LBCookieStickinessPolicyType>",
+    "propertyHref" : "aws-properties-ec2-elb-LBCookieStickinessPolicy.html",
+    "required" : false
+  }, {
+    "propertyName" : "LoadBalancerName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Listeners",
+    "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::ListenerPropertyType>",
+    "propertyHref" : "aws-properties-ec2-elb-listener.html",
+    "required" : true
+  }, {
+    "propertyName" : "Policies",
+    "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::PolicyType>",
+    "propertyHref" : "aws-properties-ec2-elb-policy.html",
+    "required" : false
+  }, {
+    "propertyName" : "Scheme",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Subnets",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::AccessLoggingPolicy",
+  "properties" : [ {
+    "propertyName" : "EmitInterval",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "S3BucketName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3BucketPrefix",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-AppCookieStickinessPolicy.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::AppCookieStickinessPolicyType",
+  "properties" : [ {
+    "propertyName" : "CookieName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-connectiondrainingpolicy.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionDrainingPolicy",
+  "properties" : [ {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "Timeout",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-connectionsettings.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionSetting",
+  "properties" : [ {
+    "propertyName" : "IdleTimeout",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-health-check.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::HealthCheckType",
+  "properties" : [ {
+    "propertyName" : "HealthyThreshold",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Interval",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Target",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Timeout",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "UnhealthyThreshold",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-LBCookieStickinessPolicy.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::LBCookieStickinessPolicyType",
+  "properties" : [ {
+    "propertyName" : "CookieExpirationPeriod",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-listener.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::ListenerPropertyType",
+  "properties" : [ {
+    "propertyName" : "InstancePort",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceProtocol",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LoadBalancerPort",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyNames",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SSLCertificateId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-policy.html",
+  "resourceType" : "AWS::ElasticLoadBalancing::LoadBalancer::PolicyType",
+  "properties" : [ {
+    "propertyName" : "Attributes",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "InstancePorts",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "LoadBalancerPorts",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

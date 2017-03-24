@@ -1,0 +1,1337 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-customer-gateway.html",
+  "resourceType" : "AWS::EC2::CustomerGateway",
+  "properties" : [ {
+    "propertyName" : "BgpAsn",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "IpAddress",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-dhcp-options.html",
+  "resourceType" : "AWS::EC2::DHCPOptions",
+  "properties" : [ {
+    "propertyName" : "DomainName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DomainNameServers",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "NetbiosNameServers",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "NetbiosNodeType",
+    "propertyType" : "List<Number>",
+    "required" : false
+  }, {
+    "propertyName" : "NtpServers",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip.html",
+  "resourceType" : "AWS::EC2::EIP",
+  "properties" : [ {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Domain",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-eip-association.html",
+  "resourceType" : "AWS::EC2::EIPAssociation",
+  "properties" : [ {
+    "propertyName" : "AllocationId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EIP",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-flowlog.html",
+  "resourceType" : "AWS::EC2::FlowLog",
+  "properties" : [ {
+    "propertyName" : "DeliverLogsPermissionArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ResourceId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ResourceType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TrafficType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-host.html",
+  "resourceType" : "AWS::EC2::Host",
+  "properties" : [ {
+    "propertyName" : "AutoPlacement",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html",
+  "resourceType" : "AWS::EC2::Instance",
+  "properties" : [ {
+    "propertyName" : "Affinity",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BlockDeviceMappings",
+    "propertyType" : "List<AWS::EC2::Instance::MappingProperty>",
+    "propertyHref" : "aws-properties-ec2-blockdev-mapping.html",
+    "required" : false
+  }, {
+    "propertyName" : "DisableApiTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "EbsOptimized",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HostId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IamInstanceProfile",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ImageId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceInitiatedShutdownBehavior",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6AddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6Addresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::Ipv6Address>",
+    "propertyHref" : "aws-properties-ec2-networkinterface-ipv6addresses.html",
+    "required" : false
+  }, {
+    "propertyName" : "KernelId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KeyName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Monitoring",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaces",
+    "propertyType" : "List<AWS::EC2::Instance::EmbeddedPropertyType>",
+    "propertyHref" : "aws-properties-ec2-network-iface-embedded.html",
+    "required" : false
+  }, {
+    "propertyName" : "PlacementGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RamdiskId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SourceDestCheck",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "SsmAssociations",
+    "propertyType" : "List<AWS::EC2::Instance::SsmAssociation>",
+    "propertyHref" : "aws-properties-ec2-instance-ssmassociations.html",
+    "required" : false
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "Tenancy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "UserData",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Volumes",
+    "propertyType" : "List<AWS::EC2::Instance::MountPointPropertyType>",
+    "propertyHref" : "aws-properties-ec2-mount-point.html",
+    "required" : false
+  }, {
+    "propertyName" : "AdditionalInfo",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-blockdev-mapping.html",
+  "resourceType" : "AWS::EC2::Instance::MappingProperty",
+  "properties" : [ {
+    "propertyName" : "DeviceName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Ebs",
+    "propertyType" : "AWS::EC2::Instance::MappingProperty::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
+    "propertyHref" : "aws-properties-ec2-blockdev-template.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoDevice",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "VirtualName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-blockdev-template.html",
+  "resourceType" : "AWS::EC2::Instance::MappingProperty::AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbedded",
+  "properties" : [ {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Encrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeSize",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkinterface-ipv6addresses.html",
+  "resourceType" : "AWS::EC2::NetworkInterface::Ipv6Address",
+  "properties" : [ {
+    "propertyName" : "Ipv6Address",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-network-iface-embedded.html",
+  "resourceType" : "AWS::EC2::Instance::EmbeddedPropertyType",
+  "properties" : [ {
+    "propertyName" : "AssociatePublicIpAddress",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DeviceIndex",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "GroupSet",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6AddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6Addresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::Ipv6Address>",
+    "propertyHref" : "aws-properties-ec2-networkinterface-ipv6addresses.html",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::PrivateIPSpecification>",
+    "propertyHref" : "aws-properties-ec2-network-interface-privateipspec.html",
+    "required" : false
+  }, {
+    "propertyName" : "SecondaryPrivateIpAddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-network-interface-privateipspec.html",
+  "resourceType" : "AWS::EC2::NetworkInterface::PrivateIPSpecification",
+  "properties" : [ {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Primary",
+    "propertyType" : "Boolean",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-ssmassociations.html",
+  "resourceType" : "AWS::EC2::Instance::SsmAssociation",
+  "properties" : [ {
+    "propertyName" : "AssociationParameters",
+    "propertyType" : "List<AWS::EC2::Instance::SsmAssociation::AssociationParameter>",
+    "propertyHref" : "aws-properties-ec2-instance-ssmassociations-associationparameters.html",
+    "required" : false
+  }, {
+    "propertyName" : "DocumentName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance-ssmassociations-associationparameters.html",
+  "resourceType" : "AWS::EC2::Instance::SsmAssociation::AssociationParameter",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-mount-point.html",
+  "resourceType" : "AWS::EC2::Instance::MountPointPropertyType",
+  "properties" : [ {
+    "propertyName" : "Device",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VolumeId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-internet-gateway.html",
+  "resourceType" : "AWS::EC2::InternetGateway",
+  "properties" : [ {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-natgateway.html",
+  "resourceType" : "AWS::EC2::NatGateway",
+  "properties" : [ {
+    "propertyName" : "AllocationId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-acl.html",
+  "resourceType" : "AWS::EC2::NetworkAcl",
+  "properties" : [ {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-acl-entry.html",
+  "resourceType" : "AWS::EC2::NetworkAclEntry",
+  "properties" : [ {
+    "propertyName" : "CidrBlock",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Egress",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Icmp",
+    "propertyType" : "AWS::EC2::NetworkAclEntry::Icmp",
+    "propertyHref" : "aws-properties-ec2-networkaclentry-icmp.html",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6CidrBlock",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkAclId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PortRange",
+    "propertyType" : "AWS::EC2::NetworkAclEntry::PortRange",
+    "propertyHref" : "aws-properties-ec2-networkaclentry-portrange.html",
+    "required" : false
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "RuleAction",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RuleNumber",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkaclentry-icmp.html",
+  "resourceType" : "AWS::EC2::NetworkAclEntry::Icmp",
+  "properties" : [ {
+    "propertyName" : "Code",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-networkaclentry-portrange.html",
+  "resourceType" : "AWS::EC2::NetworkAclEntry::PortRange",
+  "properties" : [ {
+    "propertyName" : "From",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "To",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface.html",
+  "resourceType" : "AWS::EC2::NetworkInterface",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "GroupSet",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6AddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6Addresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::Ipv6Address>",
+    "propertyHref" : "aws-properties-ec2-networkinterface-ipv6addresses.html",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::PrivateIPSpecification>",
+    "propertyHref" : "aws-properties-ec2-network-interface-privateipspec.html",
+    "required" : false
+  }, {
+    "propertyName" : "SecondaryPrivateIpAddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SourceDestCheck",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-network-interface-attachment.html",
+  "resourceType" : "AWS::EC2::NetworkInterfaceAttachment",
+  "properties" : [ {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DeviceIndex",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NetworkInterfaceId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-placementgroup.html",
+  "resourceType" : "AWS::EC2::PlacementGroup",
+  "properties" : [ {
+    "propertyName" : "Strategy",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route.html",
+  "resourceType" : "AWS::EC2::Route",
+  "properties" : [ {
+    "propertyName" : "DestinationCidrBlock",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationIpv6CidrBlock",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "GatewayId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NatGatewayId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RouteTableId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VpcPeeringConnectionId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-route-table.html",
+  "resourceType" : "AWS::EC2::RouteTable",
+  "properties" : [ {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html",
+  "resourceType" : "AWS::EC2::SecurityGroup",
+  "properties" : [ {
+    "propertyName" : "GroupDescription",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SecurityGroupEgress",
+    "propertyType" : "List<AWS::EC2::SecurityGroup::RulePropertyType>",
+    "propertyHref" : "aws-properties-ec2-security-group-rule.html",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroupIngress",
+    "propertyType" : "List<AWS::EC2::SecurityGroup::RulePropertyType>",
+    "propertyHref" : "aws-properties-ec2-security-group-rule.html",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-rule.html",
+  "resourceType" : "AWS::EC2::SecurityGroup::RulePropertyType",
+  "properties" : [ {
+    "propertyName" : "CidrIp",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationPrefixListId (SecurityGroupEgress only)",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationSecurityGroupId (SecurityGroupEgress only)",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FromPort",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "IpProtocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceSecurityGroupId (SecurityGroupIngress only)",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceSecurityGroupName (SecurityGroupIngress only)",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceSecurityGroupOwnerId (SecurityGroupIngress only)",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ToPort",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-security-group-egress.html",
+  "resourceType" : "AWS::EC2::SecurityGroupEgress",
+  "properties" : [ {
+    "propertyName" : "CidrIp",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CidrIpv6",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationPrefixListId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DestinationSecurityGroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FromPort",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "GroupId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IpProtocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ToPort",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group-ingress.html",
+  "resourceType" : "AWS::EC2::SecurityGroupIngress",
+  "properties" : [ {
+    "propertyName" : "CidrIp",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CidrIpv6",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FromPort",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "GroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "GroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IpProtocol",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceSecurityGroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceSecurityGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceSecurityGroupOwnerId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ToPort",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-spotfleet.html",
+  "resourceType" : "AWS::EC2::SpotFleet",
+  "properties" : [ {
+    "propertyName" : "SpotFleetRequestConfigData",
+    "propertyType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum",
+  "properties" : [ {
+    "propertyName" : "AllocationStrategy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ExcessCapacityTerminationPolicy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IamFleetRole",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LaunchSpecifications",
+    "propertyType" : "List<AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification>",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications.html",
+    "required" : true
+  }, {
+    "propertyName" : "SpotPrice",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TargetCapacity",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "TerminateInstancesWithExpiration",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ValidFrom",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ValidUntil",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification",
+  "properties" : [ {
+    "propertyName" : "BlockDeviceMappings",
+    "propertyType" : "List<AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::BlockDeviceMapping>",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-blockdevicemappings.html",
+    "required" : false
+  }, {
+    "propertyName" : "EbsOptimized",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IamInstanceProfile",
+    "propertyType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::IamInstanceProfile",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-iaminstanceprofile.html",
+    "required" : false
+  }, {
+    "propertyName" : "ImageId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KernelId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KeyName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Monitoring",
+    "propertyType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::Monitoring",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-monitoring.html",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaces",
+    "propertyType" : "List<AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::NetworkInterface>",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-networkinterfaces.html",
+    "required" : false
+  }, {
+    "propertyName" : "Placement",
+    "propertyType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::Placement",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-placement.html",
+    "required" : false
+  }, {
+    "propertyName" : "RamdiskId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::SecurityGroup>",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-securitygroups.html",
+    "required" : false
+  }, {
+    "propertyName" : "SpotPrice",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "UserData",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "WeightedCapacity",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-blockdevicemappings.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::BlockDeviceMapping",
+  "properties" : [ {
+    "propertyName" : "DeviceName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Ebs",
+    "propertyType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::BlockDeviceMapping::Eb",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-blockdevicemappings-ebs.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoDevice",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "VirtualName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-blockdevicemappings-ebs.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::BlockDeviceMapping::Eb",
+  "properties" : [ {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Encrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-iaminstanceprofile.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::IamInstanceProfile",
+  "properties" : [ {
+    "propertyName" : "Arn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-monitoring.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::Monitoring",
+  "properties" : [ {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-networkinterfaces.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::NetworkInterface",
+  "properties" : [ {
+    "propertyName" : "AssociatePublicIpAddress",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DeviceIndex",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Groups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6AddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Ipv6Addresses",
+    "propertyType" : "List<AWS::EC2::NetworkInterface::Ipv6Address>",
+    "propertyHref" : "aws-properties-ec2-networkinterface-ipv6addresses.html",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkInterfaceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddresses",
+    "propertyType" : "List<AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::NetworkInterface::PrivateIpAddress>",
+    "propertyHref" : "aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-networkinterfaces-privateipaddresses.html",
+    "required" : false
+  }, {
+    "propertyName" : "SecondaryPrivateIpAddressCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-networkinterfaces-privateipaddresses.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::NetworkInterface::PrivateIpAddress",
+  "properties" : [ {
+    "propertyName" : "Primary",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "PrivateIpAddress",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-placement.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::Placement",
+  "properties" : [ {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "GroupName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-spotfleet-spotfleetrequestconfigdata-launchspecifications-securitygroups.html",
+  "resourceType" : "AWS::EC2::SpotFleet::SpotFleetRequestConfigDatum::LaunchSpecification::SecurityGroup",
+  "properties" : [ {
+    "propertyName" : "GroupId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet.html",
+  "resourceType" : "AWS::EC2::Subnet",
+  "properties" : [ {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CidrBlock",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MapPublicIpOnLaunch",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnetcidrblock.html",
+  "resourceType" : "AWS::EC2::SubnetCidrBlock",
+  "properties" : [ {
+    "propertyName" : "Ipv6CidrBlock",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet-network-acl-assoc.html",
+  "resourceType" : "AWS::EC2::SubnetNetworkAclAssociation",
+  "properties" : [ {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NetworkAclId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-subnet-route-table-assoc.html",
+  "resourceType" : "AWS::EC2::SubnetRouteTableAssociation",
+  "properties" : [ {
+    "propertyName" : "RouteTableId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volume.html",
+  "resourceType" : "AWS::EC2::Volume",
+  "properties" : [ {
+    "propertyName" : "AutoEnableIO",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Encrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "KmsKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Size",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-ebs-volumeattachment.html",
+  "resourceType" : "AWS::EC2::VolumeAttachment",
+  "properties" : [ {
+    "propertyName" : "Device",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VolumeId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc.html",
+  "resourceType" : "AWS::EC2::VPC",
+  "properties" : [ {
+    "propertyName" : "CidrBlock",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EnableDnsSupport",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "EnableDnsHostnames",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceTenancy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpccidrblock.html",
+  "resourceType" : "AWS::EC2::VPCCidrBlock",
+  "properties" : [ {
+    "propertyName" : "AmazonProvidedIpv6CidrBlock",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc-dhcp-options-assoc.html",
+  "resourceType" : "AWS::EC2::VPCDHCPOptionsAssociation",
+  "properties" : [ {
+    "propertyName" : "DhcpOptionsId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpcendpoint.html",
+  "resourceType" : "AWS::EC2::VPCEndpoint",
+  "properties" : [ {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RouteTableIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ServiceName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc-gateway-attachment.html",
+  "resourceType" : "AWS::EC2::VPCGatewayAttachment",
+  "properties" : [ {
+    "propertyName" : "InternetGatewayId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VpnGatewayId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpcpeeringconnection.html",
+  "resourceType" : "AWS::EC2::VPCPeeringConnection",
+  "properties" : [ {
+    "propertyName" : "PeerVpcId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpn-connection.html",
+  "resourceType" : "AWS::EC2::VPNConnection",
+  "properties" : [ {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "CustomerGatewayId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StaticRoutesOnly",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpnGatewayId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpn-connection-route.html",
+  "resourceType" : "AWS::EC2::VPNConnectionRoute",
+  "properties" : [ {
+    "propertyName" : "DestinationCidrBlock",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VpnConnectionId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpn-gateway.html",
+  "resourceType" : "AWS::EC2::VPNGateway",
+  "properties" : [ {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpn-gatewayrouteprop.html",
+  "resourceType" : "AWS::EC2::VPNGatewayRoutePropagation",
+  "properties" : [ {
+    "propertyName" : "RouteTableIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "VpnGatewayId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

@@ -1,0 +1,54 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-events-rule.html",
+  "resourceType" : "AWS::Events::Rule",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EventPattern",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ScheduleExpression",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "State",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Targets",
+    "propertyType" : "List<AWS::Events::Rule::Target>",
+    "propertyHref" : "aws-properties-events-rule-target.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-events-rule-target.html",
+  "resourceType" : "AWS::Events::Rule::Target",
+  "properties" : [ {
+    "propertyName" : "Arn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Input",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InputPath",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

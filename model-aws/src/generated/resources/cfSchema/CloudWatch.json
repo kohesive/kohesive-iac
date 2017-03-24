@@ -1,0 +1,78 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-alarm.html",
+  "resourceType" : "AWS::CloudWatch::Alarm",
+  "properties" : [ {
+    "propertyName" : "ActionsEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AlarmActions",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "AlarmDescription",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AlarmName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ComparisonOperator",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Dimensions",
+    "propertyType" : "List<AWS::CloudWatch::Alarm::DimensionPropertyType>",
+    "propertyHref" : "aws-properties-cw-dimension.html",
+    "required" : false
+  }, {
+    "propertyName" : "EvaluationPeriods",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "InsufficientDataActions",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "MetricName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Namespace",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OKActions",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Period",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Statistic",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Threshold",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Unit",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cw-dimension.html",
+  "resourceType" : "AWS::CloudWatch::Alarm::DimensionPropertyType",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

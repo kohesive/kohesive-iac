@@ -1,0 +1,225 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kinesisfirehose-deliverystream.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream",
+  "properties" : [ {
+    "propertyName" : "DeliveryStreamName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ElasticsearchDestinationConfiguration",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "RedshiftDestinationConfiguration",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "S3DestinationConfiguration",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration",
+  "properties" : [ {
+    "propertyName" : "BufferingHints",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::BufferingHint",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration-bufferinghints.html",
+    "required" : true
+  }, {
+    "propertyName" : "CloudWatchLoggingOptions",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
+    "required" : false
+  }, {
+    "propertyName" : "DomainARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IndexName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IndexRotationPeriod",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RetryOptions",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3BackupMode",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3Configuration",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TypeName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration-bufferinghints.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::BufferingHint",
+  "properties" : [ {
+    "propertyName" : "IntervalInSeconds",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "SizeInMBs",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
+  "properties" : [ {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LogStreamName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration-retryoptions.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::RetryOption",
+  "properties" : [ {
+    "propertyName" : "DurationInSeconds",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration",
+  "properties" : [ {
+    "propertyName" : "BucketARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "BufferingHints",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::BufferingHint",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-bufferinghints.html",
+    "required" : true
+  }, {
+    "propertyName" : "CloudWatchLoggingOptions",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
+    "required" : false
+  }, {
+    "propertyName" : "CompressionFormat",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EncryptionConfiguration",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "Prefix",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-bufferinghints.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::BufferingHint",
+  "properties" : [ {
+    "propertyName" : "IntervalInSeconds",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "SizeInMBs",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration",
+  "properties" : [ {
+    "propertyName" : "KMSEncryptionConfig",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration::KMSEncryptionConfig",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration-kmsencryptionconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoEncryptionConfig",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration-kmsencryptionconfig.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration::KMSEncryptionConfig",
+  "properties" : [ {
+    "propertyName" : "AWSKMSKeyARN",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration",
+  "properties" : [ {
+    "propertyName" : "CloudWatchLoggingOptions",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterJDBCURL",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "CopyCommand",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration::CopyCommand",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration-copycommand.html",
+    "required" : true
+  }, {
+    "propertyName" : "Password",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3Configuration",
+    "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration",
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html",
+    "required" : true
+  }, {
+    "propertyName" : "Username",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration-copycommand.html",
+  "resourceType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration::CopyCommand",
+  "properties" : [ {
+    "propertyName" : "CopyOptions",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DataTableColumns",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DataTableName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

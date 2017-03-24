@@ -6,17 +6,10 @@ import org.jsoup.nodes.TextNode
 import uy.klutter.core.jdk.mustNotEndWith
 import uy.klutter.core.jdk.mustNotStartWith
 import uy.kohesive.iac.model.aws.utils.firstLetterToUpperCase
+import uy.kohesive.iac.model.aws.utils.singularize
 import java.io.File
 import java.net.SocketTimeoutException
 import java.net.URL
-
-fun main(args: Array<String>) {
-    DocumentationCrawler(
-        baseUri       = "/Users/eliseyev/TMP/cf/",
-        localMode     = true,
-        downloadFiles = true
-    ).crawl().flatMap { it.properties.map { it.propertyType }.filterNot { it.contains("AWS::") } }.distinct().forEach { println(it) }
-}
 
 data class CrawlTask(
     val resourceType: String,
@@ -42,13 +35,13 @@ data class ResourceProperty(
 }
 
 class DocumentationCrawler(
-    val baseUri: String = DocumentationCrawler.BaseURL,
+    val baseUri: String = DocumentationCrawler.CFDocsURL,
     val localMode: Boolean = false,
     val downloadFiles: Boolean = false
 ) {
 
     companion object {
-        val BaseURL = "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/"
+        val CFDocsURL = "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/"
 
         val ResourcesThatAreActuallyProperties = setOf(
             "aws-resource-codepipeline-customactiontype-artifactdetails.html",
@@ -68,7 +61,7 @@ class DocumentationCrawler(
             val targetFile = File(baseUri, uri)
             if (!targetFile.exists()) {
                 Thread.sleep(AWSDocsAccessThrottlingInterval)
-                targetFile.writeText((URL(BaseURL + uri).readText()))
+                targetFile.writeText((URL(CFDocsURL + uri).readText()))
             }
         }
         getJsoupDocumentFromFile(baseUri + uri)
@@ -114,6 +107,27 @@ class DocumentationCrawler(
         return crawledResources.values.toList()
     }
 
+    // How smart is this, huh?
+    private fun figureOutPropertyTypeFromHrefAndHeader(uri: String, header: String?): String? {
+        if (header == null) {
+            return null
+        }
+
+        val lastUrlWord = uri.dropLast(".html".length).split('-').last()
+
+        val splitHeader = header.split(' ')
+        var subHeader = ""
+        for (i in splitHeader.indices.reversed()) {
+            subHeader = splitHeader[i] + subHeader
+
+            if (subHeader.contains(lastUrlWord, ignoreCase = true)) {
+                return subHeader
+            }
+        }
+
+        return null
+    }
+
     fun crawlResourceType(uri: String): String {
         try {
             val alreadyCrawledTypeName = hrefToTypeName[uri]
@@ -128,10 +142,17 @@ class DocumentationCrawler(
                 if (uri == "aws-properties-resource-tags.html") {
                     "AWS::CloudFormation::ResourceTag" // reserved case
                 } else {
+                    val header = resourceDoc.select("h1.topictitle")?.firstOrNull()?.text()
+
                     // Let's check the hrefToTypeName first
                     hrefToTypeName[uri] ?: resourceDoc.select("div#main-col-body p").firstOrNull()?.let { p ->
-                        var propertyName = if (p.text().startsWith("Describes the ")) {
+                        var propertyName = figureOutPropertyTypeFromHrefAndHeader(uri, header) ?: if (p.text().startsWith("Describes the ")) {
                             p.text().drop("Describes the ".length).let {
+                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
+                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+                            }
+                        } else if (p.text().startsWith("Describes a ")) {
+                            p.text().drop("Describes a ".length).let {
                                 val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
                                 it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
                             }
@@ -174,6 +195,8 @@ class DocumentationCrawler(
                         if (uri == "aws-property-redshift-clusterparametergroup-parameter.html") {
                             propertyName = "Parameter"
                         }
+
+                        propertyName = propertyName?.singularize()
 
                         // Validate
                         if (uri == parentHref) {
@@ -242,8 +265,12 @@ class DocumentationCrawler(
                             if (em.text() == "Type" || em.text() == "Type:") {
                                 typeHref = em.parent().select("a").firstOrNull()?.attr("href")
                                 val targetTypeName = typeHref?.sanitizeLink()?.let { sanitizedUri ->
-                                    deferredUris.add(sanitizedUri)
-                                    crawlResourceType(sanitizedUri)
+                                    if (uri != sanitizedUri) { // Prevent self-linking
+                                        deferredUris.add(sanitizedUri)
+                                        crawlResourceType(sanitizedUri)
+                                    } else {
+                                        hrefToTypeName[uri]
+                                    }
                                 }
 
                                 propertyType = if (targetTypeName == null) {
@@ -311,7 +338,7 @@ class DocumentationCrawler(
         }
 
         return CloudFormationResource(
-            sourceURL    = BaseURL + uri,
+            sourceURL    = CFDocsURL + uri,
             resourceType = crawlResourceType(uri),
             properties   = resourceProperties
         ).apply {
@@ -320,7 +347,7 @@ class DocumentationCrawler(
         }
     }
 
-    private fun String.sanitizeLink(): String = this.replace(BaseURL, "").let {
+    private fun String.sanitizeLink(): String = this.replace(CFDocsURL, "").let {
         if (it.contains('#')) {
             it.substring(0, it.indexOf('#'))
         } else {

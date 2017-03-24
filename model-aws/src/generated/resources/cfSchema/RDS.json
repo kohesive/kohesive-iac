@@ -1,0 +1,443 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html",
+  "resourceType" : "AWS::RDS::DBCluster",
+  "properties" : [ {
+    "propertyName" : "AvailabilityZones",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BackupRetentionPeriod",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "DatabaseName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBClusterParameterGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Engine",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EngineVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KmsKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MasterUsername",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MasterUserPassword",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredBackupWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredMaintenanceWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StorageEncrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcSecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbclusterparametergroup.html",
+  "resourceType" : "AWS::RDS::DBClusterParameterGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Family",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "JsonObject",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html",
+  "resourceType" : "AWS::RDS::DBInstance",
+  "properties" : [ {
+    "propertyName" : "AllocatedStorage",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AllowMajorVersionUpgrade",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AutoMinorVersionUpgrade",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BackupRetentionPeriod",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CharacterSetName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CopyTagsToSnapshot",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DBClusterIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBInstanceClass",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DBInstanceIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBParameterGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBSecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "DBSnapshotIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Domain",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DomainIAMRoleName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Engine",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EngineVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "KmsKeyId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LicenseModel",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MasterUsername",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MasterUserPassword",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MonitoringInterval",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MonitoringRoleArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MultiAZ",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "OptionGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredBackupWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredMaintenanceWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PubliclyAccessible",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "SourceDBInstanceIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StorageEncrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "StorageType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "Timezone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VPCSecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbparametergroup.html",
+  "resourceType" : "AWS::RDS::DBParameterGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Family",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "JsonObject",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-security-group.html",
+  "resourceType" : "AWS::RDS::DBSecurityGroup",
+  "properties" : [ {
+    "propertyName" : "EC2VpcId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DBSecurityGroupIngress",
+    "propertyType" : "List<AWS::RDS::DBSecurityGroup::Rule>",
+    "propertyHref" : "aws-properties-rds-security-group-rule.html",
+    "required" : true
+  }, {
+    "propertyName" : "GroupDescription",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-security-group-rule.html",
+  "resourceType" : "AWS::RDS::DBSecurityGroup::Rule",
+  "properties" : [ {
+    "propertyName" : "CIDRIP",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupOwnerId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-security-group-ingress.html",
+  "resourceType" : "AWS::RDS::DBSecurityGroupIngress",
+  "properties" : [ {
+    "propertyName" : "CIDRIP",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DBSecurityGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EC2SecurityGroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EC2SecurityGroupOwnerId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbsubnet-group.html",
+  "resourceType" : "AWS::RDS::DBSubnetGroup",
+  "properties" : [ {
+    "propertyName" : "DBSubnetGroupDescription",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-eventsubscription.html",
+  "resourceType" : "AWS::RDS::EventSubscription",
+  "properties" : [ {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "EventCategories",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SnsTopicArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SourceType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-optiongroup.html",
+  "resourceType" : "AWS::RDS::OptionGroup",
+  "properties" : [ {
+    "propertyName" : "EngineName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MajorEngineVersion",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OptionGroupDescription",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OptionConfigurations",
+    "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration",
+    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations.html",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-optiongroup-optionconfigurations.html",
+  "resourceType" : "AWS::RDS::OptionGroup::OptionConfiguration",
+  "properties" : [ {
+    "propertyName" : "DBSecurityGroupMemberships",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "OptionName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "OptionSettings",
+    "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration::OptionSetting",
+    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations-optionsettings.html",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VpcSecurityGroupMemberships",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-optiongroup-optionconfigurations-optionsettings.html",
+  "resourceType" : "AWS::RDS::OptionGroup::OptionConfiguration::OptionSetting",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

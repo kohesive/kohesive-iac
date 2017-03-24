@@ -1,0 +1,33 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-alias.html",
+  "resourceType" : "AWS::KMS::Alias",
+  "properties" : [ {
+    "propertyName" : "AliasName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TargetKeyId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-kms-key.html",
+  "resourceType" : "AWS::KMS::Key",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "EnableKeyRotation",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "KeyPolicy",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

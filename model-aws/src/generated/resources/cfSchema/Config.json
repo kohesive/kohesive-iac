@@ -1,0 +1,146 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configrule.html",
+  "resourceType" : "AWS::Config::ConfigRule",
+  "properties" : [ {
+    "propertyName" : "ConfigRuleName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InputParameters",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MaximumExecutionFrequency",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Scope",
+    "propertyType" : "AWS::Config::ConfigRule::Scope",
+    "propertyHref" : "aws-properties-config-configrule-scope.html",
+    "required" : false
+  }, {
+    "propertyName" : "Source",
+    "propertyType" : "AWS::Config::ConfigRule::Source",
+    "propertyHref" : "aws-properties-config-configrule-source.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-scope.html",
+  "resourceType" : "AWS::Config::ConfigRule::Scope",
+  "properties" : [ {
+    "propertyName" : "ComplianceResourceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ComplianceResourceTypes",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "TagKey",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TagValue",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source.html",
+  "resourceType" : "AWS::Config::ConfigRule::Source",
+  "properties" : [ {
+    "propertyName" : "Owner",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceDetails",
+    "propertyType" : "List<AWS::Config::ConfigRule::Source::SourceDetail>",
+    "propertyHref" : "aws-properties-config-configrule-source-sourcedetails.html",
+    "required" : false
+  }, {
+    "propertyName" : "SourceIdentifier",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-source-sourcedetails.html",
+  "resourceType" : "AWS::Config::ConfigRule::Source::SourceDetail",
+  "properties" : [ {
+    "propertyName" : "EventSource",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MessageType",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-configurationrecorder.html",
+  "resourceType" : "AWS::Config::ConfigurationRecorder",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RecordingGroup",
+    "propertyType" : "AWS::Config::ConfigurationRecorder::RecordingGroup",
+    "propertyHref" : "aws-properties-config-configurationrecorder-recordinggroup.html",
+    "required" : false
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configurationrecorder-recordinggroup.html",
+  "resourceType" : "AWS::Config::ConfigurationRecorder::RecordingGroup",
+  "properties" : [ {
+    "propertyName" : "AllSupported",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IncludeGlobalResourceTypes",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ResourceTypes",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-config-deliverychannel.html",
+  "resourceType" : "AWS::Config::DeliveryChannel",
+  "properties" : [ {
+    "propertyName" : "ConfigSnapshotDeliveryProperties",
+    "propertyType" : "AWS::Config::DeliveryChannel::ConfigSnapshotDeliveryProperty",
+    "propertyHref" : "aws-properties-config-deliverychannel-configsnapshotdeliveryproperties.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "S3BucketName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "S3KeyPrefix",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnsTopicARN",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-deliverychannel-configsnapshotdeliveryproperties.html",
+  "resourceType" : "AWS::Config::DeliveryChannel::ConfigSnapshotDeliveryProperty",
+  "properties" : [ {
+    "propertyName" : "DeliveryFrequency",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

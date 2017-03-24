@@ -1,0 +1,98 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-destination.html",
+  "resourceType" : "AWS::Logs::Destination",
+  "properties" : [ {
+    "propertyName" : "DestinationName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DestinationPolicy",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TargetArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html",
+  "resourceType" : "AWS::Logs::LogGroup",
+  "properties" : [ {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RetentionInDays",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-logstream.html",
+  "resourceType" : "AWS::Logs::LogStream",
+  "properties" : [ {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LogStreamName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-metricfilter.html",
+  "resourceType" : "AWS::Logs::MetricFilter",
+  "properties" : [ {
+    "propertyName" : "FilterPattern",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricTransformations",
+    "propertyType" : "List<AWS::Logs::MetricFilter::MetricTransformationProperty>",
+    "propertyHref" : "aws-properties-logs-metricfilter-metrictransformation.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-logs-metricfilter-metrictransformation.html",
+  "resourceType" : "AWS::Logs::MetricFilter::MetricTransformationProperty",
+  "properties" : [ {
+    "propertyName" : "MetricName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricNamespace",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricValue",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-subscriptionfilter.html",
+  "resourceType" : "AWS::Logs::SubscriptionFilter",
+  "properties" : [ {
+    "propertyName" : "DestinationArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "FilterPattern",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LogGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

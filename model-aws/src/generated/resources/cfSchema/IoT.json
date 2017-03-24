@@ -1,0 +1,362 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-certificate.html",
+  "resourceType" : "AWS::IoT::Certificate",
+  "properties" : [ {
+    "propertyName" : "CertificateSigningRequest",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Status",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-policy.html",
+  "resourceType" : "AWS::IoT::Policy",
+  "properties" : [ {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-policyprincipalattachment.html",
+  "resourceType" : "AWS::IoT::PolicyPrincipalAttachment",
+  "properties" : [ {
+    "propertyName" : "PolicyName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Principal",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-thing.html",
+  "resourceType" : "AWS::IoT::Thing",
+  "properties" : [ {
+    "propertyName" : "AttributePayload",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "ThingName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-thingprincipalattachment.html",
+  "resourceType" : "AWS::IoT::ThingPrincipalAttachment",
+  "properties" : [ {
+    "propertyName" : "Principal",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ThingName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iot-topicrule.html",
+  "resourceType" : "AWS::IoT::TopicRule",
+  "properties" : [ {
+    "propertyName" : "RuleName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TopicRulePayload",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload",
+    "propertyHref" : "aws-properties-iot-topicrulepayload.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-topicrulepayload.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload",
+  "properties" : [ {
+    "propertyName" : "Actions",
+    "propertyType" : "List<AWS::IoT::TopicRule::TopicRulePayload::Action>",
+    "propertyHref" : "aws-properties-iot-actions.html",
+    "required" : true
+  }, {
+    "propertyName" : "AwsIotSqlVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RuleDisabled",
+    "propertyType" : "Boolean",
+    "required" : true
+  }, {
+    "propertyName" : "Sql",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-actions.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action",
+  "properties" : [ {
+    "propertyName" : "CloudwatchAlarm",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::CloudwatchAlarmAction",
+    "propertyHref" : "aws-properties-iot-cloudwatchalarm.html",
+    "required" : false
+  }, {
+    "propertyName" : "CloudwatchMetric",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::CloudwatchMetricAction",
+    "propertyHref" : "aws-properties-iot-cloudwatchmetric.html",
+    "required" : false
+  }, {
+    "propertyName" : "DynamoDB",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::DynamoDBAction",
+    "propertyHref" : "aws-properties-iot-dynamodb.html",
+    "required" : false
+  }, {
+    "propertyName" : "Elasticsearch",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::ElasticsearchAction",
+    "propertyHref" : "aws-properties-iot-elasticsearch.html",
+    "required" : false
+  }, {
+    "propertyName" : "Firehose",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::FirehoseAction",
+    "propertyHref" : "aws-properties-iot-firehose.html",
+    "required" : false
+  }, {
+    "propertyName" : "Kinesis",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::KinesisAction",
+    "propertyHref" : "aws-properties-iot-kinesis.html",
+    "required" : false
+  }, {
+    "propertyName" : "Lambda",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::LambdaAction",
+    "propertyHref" : "aws-properties-iot-lambda.html",
+    "required" : false
+  }, {
+    "propertyName" : "Republish",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::RepublishAction",
+    "propertyHref" : "aws-properties-iot-republish.html",
+    "required" : false
+  }, {
+    "propertyName" : "S3",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::S3Action",
+    "propertyHref" : "aws-properties-iot-s3.html",
+    "required" : false
+  }, {
+    "propertyName" : "Sns",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::SnsAction",
+    "propertyHref" : "aws-properties-iot-sns.html",
+    "required" : false
+  }, {
+    "propertyName" : "Sqs",
+    "propertyType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::SqsAction",
+    "propertyHref" : "aws-properties-iot-sqs.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-cloudwatchalarm.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::CloudwatchAlarmAction",
+  "properties" : [ {
+    "propertyName" : "AlarmName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StateReason",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StateValue",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-cloudwatchmetric.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::CloudwatchMetricAction",
+  "properties" : [ {
+    "propertyName" : "MetricName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricNamespace",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricTimestamp",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MetricUnit",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricValue",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-dynamodb.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::DynamoDBAction",
+  "properties" : [ {
+    "propertyName" : "HashKeyField",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "HashKeyValue",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PayloadField",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RangeKeyField",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RangeKeyValue",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TableName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-elasticsearch.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::ElasticsearchAction",
+  "properties" : [ {
+    "propertyName" : "Endpoint",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Index",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-firehose.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::FirehoseAction",
+  "properties" : [ {
+    "propertyName" : "DeliveryStreamName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Separator",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-kinesis.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::KinesisAction",
+  "properties" : [ {
+    "propertyName" : "PartitionKey",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StreamName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-lambda.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::LambdaAction",
+  "properties" : [ {
+    "propertyName" : "FunctionArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-republish.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::RepublishAction",
+  "properties" : [ {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Topic",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-s3.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::S3Action",
+  "properties" : [ {
+    "propertyName" : "BucketName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-sns.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::SnsAction",
+  "properties" : [ {
+    "propertyName" : "MessageFormat",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TargetArn",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-sqs.html",
+  "resourceType" : "AWS::IoT::TopicRule::TopicRulePayload::Action::SqsAction",
+  "properties" : [ {
+    "propertyName" : "QueueUrl",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "UseBase64",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+} ]

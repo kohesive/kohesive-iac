@@ -1,0 +1,329 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-cluster.html",
+  "resourceType" : "AWS::ECS::Cluster",
+  "properties" : [ {
+    "propertyName" : "ClusterName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html",
+  "resourceType" : "AWS::ECS::Service",
+  "properties" : [ {
+    "propertyName" : "Cluster",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DeploymentConfiguration",
+    "propertyType" : "AWS::ECS::Service::DeploymentConfiguration",
+    "propertyHref" : "aws-properties-ecs-service-deploymentconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "DesiredCount",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "LoadBalancers",
+    "propertyType" : "List<AWS::ECS::Service::LoadBalancer>",
+    "propertyHref" : "aws-properties-ecs-service-loadbalancers.html",
+    "required" : false
+  }, {
+    "propertyName" : "Role",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TaskDefinition",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-deploymentconfiguration.html",
+  "resourceType" : "AWS::ECS::Service::DeploymentConfiguration",
+  "properties" : [ {
+    "propertyName" : "MaximumPercent",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MinimumHealthyPercent",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-service-loadbalancers.html",
+  "resourceType" : "AWS::ECS::Service::LoadBalancer",
+  "properties" : [ {
+    "propertyName" : "ContainerName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ContainerPort",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "LoadBalancerName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TargetGroupArn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html",
+  "resourceType" : "AWS::ECS::TaskDefinition",
+  "properties" : [ {
+    "propertyName" : "ContainerDefinitions",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions.html",
+    "required" : true
+  }, {
+    "propertyName" : "Family",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NetworkMode",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TaskRoleArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Volumes",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::Volume>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-volumes.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition",
+  "properties" : [ {
+    "propertyName" : "Command",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Cpu",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "DisableNetworking",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DnsSearchDomains",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "DnsServers",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "DockerLabels",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "DockerSecurityOptions",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "EntryPoint",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Environment",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::Environment>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-environment.html",
+    "required" : false
+  }, {
+    "propertyName" : "Essential",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ExtraHosts",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::HostEntry>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-hostentry.html",
+    "required" : false
+  }, {
+    "propertyName" : "Hostname",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Image",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Links",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "LogConfiguration",
+    "propertyType" : "AWS::ECS::TaskDefinition::ContainerDefinition::LogConfiguration",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-logconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "Memory",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MemoryReservation",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MountPoints",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::MountPoint>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-mountpoints.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PortMappings",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::PortMapping>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-portmappings.html",
+    "required" : false
+  }, {
+    "propertyName" : "Privileged",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ReadonlyRootFilesystem",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Ulimits",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::Ulimit>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-ulimit.html",
+    "required" : false
+  }, {
+    "propertyName" : "User",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumesFrom",
+    "propertyType" : "List<AWS::ECS::TaskDefinition::ContainerDefinition::VolumesFrom>",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-containerdefinitions-volumesfrom.html",
+    "required" : false
+  }, {
+    "propertyName" : "WorkingDirectory",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-environment.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::Environment",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-hostentry.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::HostEntry",
+  "properties" : [ {
+    "propertyName" : "Hostname",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IpAddress",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-logconfiguration.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::LogConfiguration",
+  "properties" : [ {
+    "propertyName" : "LogDriver",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Options",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-mountpoints.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::MountPoint",
+  "properties" : [ {
+    "propertyName" : "ContainerPath",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceVolume",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ReadOnly",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-portmappings.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::PortMapping",
+  "properties" : [ {
+    "propertyName" : "ContainerPort",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "HostPort",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-ulimit.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::Ulimit",
+  "properties" : [ {
+    "propertyName" : "HardLimit",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SoftLimit",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-containerdefinitions-volumesfrom.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::ContainerDefinition::VolumesFrom",
+  "properties" : [ {
+    "propertyName" : "SourceContainer",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ReadOnly",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-volumes.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::Volume",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Host",
+    "propertyType" : "AWS::ECS::TaskDefinition::Volume::Host",
+    "propertyHref" : "aws-properties-ecs-taskdefinition-volumes-host.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ecs-taskdefinition-volumes-host.html",
+  "resourceType" : "AWS::ECS::TaskDefinition::Volume::Host",
+  "properties" : [ {
+    "propertyName" : "SourcePath",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

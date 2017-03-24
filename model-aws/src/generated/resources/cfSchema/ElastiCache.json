@@ -1,0 +1,276 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-cache-cluster.html",
+  "resourceType" : "AWS::ElastiCache::CacheCluster",
+  "properties" : [ {
+    "propertyName" : "AutoMinorVersionUpgrade",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AZMode",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CacheNodeType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "CacheParameterGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CacheSecurityGroupNames",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "CacheSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClusterName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Engine",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EngineVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NotificationTopicArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NumCacheNodes",
+    "propertyType" : "Number",
+    "required" : true
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredAvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredAvailabilityZones",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredMaintenanceWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotArns",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotRetentionLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VpcSecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-parameter-group.html",
+  "resourceType" : "AWS::ElastiCache::ParameterGroup",
+  "properties" : [ {
+    "propertyName" : "CacheParameterGroupFamily",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Properties",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticache-replicationgroup.html",
+  "resourceType" : "AWS::ElastiCache::ReplicationGroup",
+  "properties" : [ {
+    "propertyName" : "AutomaticFailoverEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AutoMinorVersionUpgrade",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheNodeType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CacheParameterGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CacheSecurityGroupNames",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "CacheSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Engine",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EngineVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NodeGroupConfiguration",
+    "propertyType" : "List<AWS::ElastiCache::ReplicationGroup::NodeGroupConfiguration>",
+    "propertyHref" : "aws-properties-elasticache-replicationgroup-nodegroupconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "NotificationTopicArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NumCacheClusters",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "NumNodeGroups",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredCacheClusterAZs",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "PreferredMaintenanceWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PrimaryClusterId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ReplicasPerNodeGroup",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ReplicationGroupDescription",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ReplicationGroupId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotArns",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotRetentionLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshottingClusterId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotWindow",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-replicationgroup-nodegroupconfiguration.html",
+  "resourceType" : "AWS::ElastiCache::ReplicationGroup::NodeGroupConfiguration",
+  "properties" : [ {
+    "propertyName" : "PrimaryAvailabilityZone",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ReplicaAvailabilityZones",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "ReplicaCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Slots",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-security-group.html",
+  "resourceType" : "AWS::ElastiCache::SecurityGroup",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-security-group-ingress.html",
+  "resourceType" : "AWS::ElastiCache::SecurityGroupIngress",
+  "properties" : [ {
+    "propertyName" : "CacheSecurityGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EC2SecurityGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EC2SecurityGroupOwnerId",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-subnetgroup.html",
+  "resourceType" : "AWS::ElastiCache::SubnetGroup",
+  "properties" : [ {
+    "propertyName" : "CacheSubnetGroupName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+} ]

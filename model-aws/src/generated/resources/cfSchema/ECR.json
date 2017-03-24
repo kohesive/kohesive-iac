@@ -1,0 +1,13 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecr-repository.html",
+  "resourceType" : "AWS::ECR::Repository",
+  "properties" : [ {
+    "propertyName" : "RepositoryName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RepositoryPolicyText",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+} ]

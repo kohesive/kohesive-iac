@@ -1,0 +1,359 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-group.html",
+  "resourceType" : "AWS::AutoScaling::AutoScalingGroup",
+  "properties" : [ {
+    "propertyName" : "AvailabilityZones",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Cooldown",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DesiredCapacity",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckGracePeriod",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LaunchConfigurationName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LoadBalancerNames",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "MaxSize",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "MetricsCollection",
+    "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::MetricsCollection>",
+    "propertyHref" : "aws-properties-as-metricscollection.html",
+    "required" : false
+  }, {
+    "propertyName" : "MinSize",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NotificationConfigurations",
+    "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::NotificationConfiguration>",
+    "propertyHref" : "aws-properties-as-notificationconfigurations.html",
+    "required" : false
+  }, {
+    "propertyName" : "PlacementGroup",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::TagsPropertyType>",
+    "propertyHref" : "aws-properties-as-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "TargetGroupARNs",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "TerminationPolicies",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "VPCZoneIdentifier",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-metricscollection.html",
+  "resourceType" : "AWS::AutoScaling::AutoScalingGroup::MetricsCollection",
+  "properties" : [ {
+    "propertyName" : "Granularity",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Metrics",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-notificationconfigurations.html",
+  "resourceType" : "AWS::AutoScaling::AutoScalingGroup::NotificationConfiguration",
+  "properties" : [ {
+    "propertyName" : "NotificationTypes",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "TopicARN",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-tags.html",
+  "resourceType" : "AWS::AutoScaling::AutoScalingGroup::TagsPropertyType",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PropagateAtLaunch",
+    "propertyType" : "Boolean",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig.html",
+  "resourceType" : "AWS::AutoScaling::LaunchConfiguration",
+  "properties" : [ {
+    "propertyName" : "AssociatePublicIpAddress",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "BlockDeviceMappings",
+    "propertyType" : "List<AWS::AutoScaling::LaunchConfiguration::MappingPropertyType>",
+    "propertyHref" : "aws-properties-as-launchconfig-blockdev-mapping.html",
+    "required" : false
+  }, {
+    "propertyName" : "ClassicLinkVPCId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClassicLinkVPCSecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "EbsOptimized",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "IamInstanceProfile",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ImageId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "InstanceId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceMonitoring",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KernelId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KeyName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "PlacementTenancy",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RamDiskId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SecurityGroups",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SpotPrice",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "UserData",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig-blockdev-mapping.html",
+  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType",
+  "properties" : [ {
+    "propertyName" : "DeviceName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Ebs",
+    "propertyType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
+    "propertyHref" : "aws-properties-as-launchconfig-blockdev-template.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoDevice",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "VirtualName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-launchconfig-blockdev-template.html",
+  "resourceType" : "AWS::AutoScaling::LaunchConfiguration::MappingPropertyType::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
+  "properties" : [ {
+    "propertyName" : "DeleteOnTermination",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Encrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-as-lifecyclehook.html",
+  "resourceType" : "AWS::AutoScaling::LifecycleHook",
+  "properties" : [ {
+    "propertyName" : "AutoScalingGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DefaultResult",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HeartbeatTimeout",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "LifecycleTransition",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "NotificationMetadata",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NotificationTargetARN",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RoleARN",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-as-policy.html",
+  "resourceType" : "AWS::AutoScaling::ScalingPolicy",
+  "properties" : [ {
+    "propertyName" : "AdjustmentType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "AutoScalingGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Cooldown",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EstimatedInstanceWarmup",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MetricAggregationType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MinAdjustmentMagnitude",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "PolicyType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ScalingAdjustment",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "StepAdjustments",
+    "propertyType" : "List<AWS::AutoScaling::ScalingPolicy::StepAdjustment>",
+    "propertyHref" : "aws-properties-autoscaling-scalingpolicy-stepadjustments.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-scalingpolicy-stepadjustments.html",
+  "resourceType" : "AWS::AutoScaling::ScalingPolicy::StepAdjustment",
+  "properties" : [ {
+    "propertyName" : "MetricIntervalLowerBound",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MetricIntervalUpperBound",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ScalingAdjustment",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-as-scheduledaction.html",
+  "resourceType" : "AWS::AutoScaling::ScheduledAction",
+  "properties" : [ {
+    "propertyName" : "AutoScalingGroupName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DesiredCapacity",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "EndTime",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MaxSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "MinSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Recurrence",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StartTime",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+} ]

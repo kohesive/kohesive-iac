@@ -1,0 +1,122 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html",
+  "resourceType" : "AWS::CodeBuild::Project",
+  "properties" : [ {
+    "propertyName" : "Artifacts",
+    "propertyType" : "AWS::CodeBuild::Project::Artifact",
+    "propertyHref" : "aws-properties-codebuild-project-artifacts.html",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EncryptionKey",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Environment",
+    "propertyType" : "AWS::CodeBuild::Project::Environment",
+    "propertyHref" : "aws-properties-codebuild-project-environment.html",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ServiceRole",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Source",
+    "propertyType" : "AWS::CodeBuild::Project::Source",
+    "propertyHref" : "aws-properties-codebuild-project-source.html",
+    "required" : true
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "TimeoutInMinutes",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-artifacts.html",
+  "resourceType" : "AWS::CodeBuild::Project::Artifact",
+  "properties" : [ {
+    "propertyName" : "Location",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NamespaceType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Packaging",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Path",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment.html",
+  "resourceType" : "AWS::CodeBuild::Project::Environment",
+  "properties" : [ {
+    "propertyName" : "ComputeType",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EnvironmentVariables",
+    "propertyType" : "List<AWS::CodeBuild::Project::Environment::EnvironmentVariable>",
+    "propertyHref" : "aws-properties-codebuild-project-environment-environmentvariables.html",
+    "required" : false
+  }, {
+    "propertyName" : "Image",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-environment-environmentvariables.html",
+  "resourceType" : "AWS::CodeBuild::Project::Environment::EnvironmentVariable",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codebuild-project-source.html",
+  "resourceType" : "AWS::CodeBuild::Project::Source",
+  "properties" : [ {
+    "propertyName" : "BuildSpec",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Location",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

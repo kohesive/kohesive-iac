@@ -1,0 +1,437 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html",
+  "resourceType" : "AWS::S3::Bucket",
+  "properties" : [ {
+    "propertyName" : "AccessControl",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BucketName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CorsConfiguration",
+    "propertyType" : "AWS::S3::Bucket::CorsConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-cors.html",
+    "required" : false
+  }, {
+    "propertyName" : "LifecycleConfiguration",
+    "propertyType" : "AWS::S3::Bucket::LifecycleConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "LoggingConfiguration",
+    "propertyType" : "AWS::S3::Bucket::LoggingConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-loggingconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "NotificationConfiguration",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "ReplicationConfiguration",
+    "propertyType" : "AWS::S3::Bucket::ReplicationConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-replicationconfiguration.html",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  }, {
+    "propertyName" : "VersioningConfiguration",
+    "propertyType" : "AWS::S3::Bucket::VersioningConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-versioningconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "WebsiteConfiguration",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty",
+    "propertyHref" : "aws-properties-s3-websiteconfiguration.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-cors.html",
+  "resourceType" : "AWS::S3::Bucket::CorsConfiguration",
+  "properties" : [ {
+    "propertyName" : "CorsRules",
+    "propertyType" : "AWS::S3::Bucket::CorsConfiguration::CrossoriginAccessRule",
+    "propertyHref" : "aws-properties-s3-bucket-cors-corsrule.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-cors-corsrule.html",
+  "resourceType" : "AWS::S3::Bucket::CorsConfiguration::Cross-originAccessRule",
+  "properties" : [ {
+    "propertyName" : "AllowedHeaders",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "AllowedMethods",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "AllowedOrigins",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "ExposedHeaders",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MaxAge",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig.html",
+  "resourceType" : "AWS::S3::Bucket::LifecycleConfiguration",
+  "properties" : [ {
+    "propertyName" : "Rules",
+    "propertyType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig-rule.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig-rule.html",
+  "resourceType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule",
+  "properties" : [ {
+    "propertyName" : "ExpirationDate",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ExpirationInDays",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "NoncurrentVersionExpirationInDays",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "NoncurrentVersionTransition (deprecated)",
+    "propertyType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule::NoncurrentVersionTransition",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig-rule-noncurrentversiontransition.html",
+    "required" : false
+  }, {
+    "propertyName" : "NoncurrentVersionTransitions",
+    "propertyType" : "List<AWS::S3::Bucket::LifecycleConfiguration::Rule::NoncurrentVersionTransition>",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig-rule-noncurrentversiontransition.html",
+    "required" : false
+  }, {
+    "propertyName" : "Prefix",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Status",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Transition (deprecated)",
+    "propertyType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule::Transition",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig-rule-transition.html",
+    "required" : false
+  }, {
+    "propertyName" : "Transitions",
+    "propertyType" : "List<AWS::S3::Bucket::LifecycleConfiguration::Rule::Transition>",
+    "propertyHref" : "aws-properties-s3-bucket-lifecycleconfig-rule-transition.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig-rule-noncurrentversiontransition.html",
+  "resourceType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule::NoncurrentVersionTransition",
+  "properties" : [ {
+    "propertyName" : "StorageClass",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TransitionInDays",
+    "propertyType" : "Number",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-lifecycleconfig-rule-transition.html",
+  "resourceType" : "AWS::S3::Bucket::LifecycleConfiguration::Rule::Transition",
+  "properties" : [ {
+    "propertyName" : "StorageClass",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "TransitionDate",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TransitionInDays",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-loggingconfig.html",
+  "resourceType" : "AWS::S3::Bucket::LoggingConfiguration",
+  "properties" : [ {
+    "propertyName" : "DestinationBucketName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LogFilePrefix",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration",
+  "properties" : [ {
+    "propertyName" : "LambdaConfigurations",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfig-lambdaconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "QueueConfigurations",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::QueueConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfig-queueconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "TopicConfigurations",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::TopicConfiguration",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfig-topicconfig.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig-lambdaconfig.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration",
+  "properties" : [ {
+    "propertyName" : "Event",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Filter",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfiguration-config-filter.html",
+    "required" : false
+  }, {
+    "propertyName" : "Function",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfiguration-config-filter.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter",
+  "properties" : [ {
+    "propertyName" : "S3Key",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter::S3Key",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfiguration-config-filter-s3key.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfiguration-config-filter-s3key.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter::S3Key",
+  "properties" : [ {
+    "propertyName" : "Rules",
+    "propertyType" : "List<AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter::S3Key::Rule>",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfiguration-config-filter-s3key-rules.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfiguration-config-filter-s3key-rules.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter::S3Key::Rule",
+  "properties" : [ {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig-queueconfig.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::QueueConfiguration",
+  "properties" : [ {
+    "propertyName" : "Event",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Filter",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfiguration-config-filter.html",
+    "required" : false
+  }, {
+    "propertyName" : "Queue",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-notificationconfig-topicconfig.html",
+  "resourceType" : "AWS::S3::Bucket::NotificationConfiguration::TopicConfiguration",
+  "properties" : [ {
+    "propertyName" : "Event",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Filter",
+    "propertyType" : "AWS::S3::Bucket::NotificationConfiguration::LambdaConfiguration::Filter",
+    "propertyHref" : "aws-properties-s3-bucket-notificationconfiguration-config-filter.html",
+    "required" : false
+  }, {
+    "propertyName" : "Topic",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-replicationconfiguration.html",
+  "resourceType" : "AWS::S3::Bucket::ReplicationConfiguration",
+  "properties" : [ {
+    "propertyName" : "Role",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Rules",
+    "propertyType" : "List<AWS::S3::Bucket::ReplicationConfiguration::Rule>",
+    "propertyHref" : "aws-properties-s3-bucket-replicationconfiguration-rules.html",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-replicationconfiguration-rules.html",
+  "resourceType" : "AWS::S3::Bucket::ReplicationConfiguration::Rule",
+  "properties" : [ {
+    "propertyName" : "Destination",
+    "propertyType" : "AWS::S3::Bucket::ReplicationConfiguration::Rule::Destination",
+    "propertyHref" : "aws-properties-s3-bucket-replicationconfiguration-rules-destination.html",
+    "required" : true
+  }, {
+    "propertyName" : "Id",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Prefix",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Status",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-replicationconfiguration-rules-destination.html",
+  "resourceType" : "AWS::S3::Bucket::ReplicationConfiguration::Rule::Destination",
+  "properties" : [ {
+    "propertyName" : "Bucket",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StorageClass",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket-versioningconfig.html",
+  "resourceType" : "AWS::S3::Bucket::VersioningConfiguration",
+  "properties" : [ {
+    "propertyName" : "Status",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration.html",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty",
+  "properties" : [ {
+    "propertyName" : "ErrorDocument",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IndexDocument",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RedirectAllRequestsTo",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RedirectAllRequestsToProperty",
+    "propertyHref" : "aws-properties-s3-websiteconfiguration-redirectallrequeststo.html",
+    "required" : false
+  }, {
+    "propertyName" : "RoutingRules",
+    "propertyType" : "List<AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty>",
+    "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-redirectallrequeststo.html",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RedirectAllRequestsToProperty",
+  "properties" : [ {
+    "propertyName" : "HostName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules.html",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty",
+  "properties" : [ {
+    "propertyName" : "RedirectRule",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RedirectRuleProperty",
+    "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules-redirectrule.html",
+    "required" : true
+  }, {
+    "propertyName" : "RoutingRuleCondition",
+    "propertyType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RoutingRuleConditionProperty",
+    "propertyHref" : "aws-properties-s3-websiteconfiguration-routingrules-routingrulecondition.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules-redirectrule.html",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RedirectRuleProperty",
+  "properties" : [ {
+    "propertyName" : "HostName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HttpRedirectCode",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Protocol",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ReplaceKeyPrefixWith",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ReplaceKeyWith",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-websiteconfiguration-routingrules-routingrulecondition.html",
+  "resourceType" : "AWS::S3::Bucket::WebsiteConfigurationProperty::RoutingRulesProperty::RoutingRuleConditionProperty",
+  "properties" : [ {
+    "propertyName" : "HttpErrorCodeReturnedEquals",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "KeyPrefixEquals",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html",
+  "resourceType" : "AWS::S3::BucketPolicy",
+  "properties" : [ {
+    "propertyName" : "Bucket",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PolicyDocument",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

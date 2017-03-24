@@ -1,0 +1,97 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html",
+  "resourceType" : "AWS::Elasticsearch::Domain",
+  "properties" : [ {
+    "propertyName" : "AccessPolicies",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AdvancedOptions",
+    "propertyType" : "JsonObject",
+    "required" : false
+  }, {
+    "propertyName" : "DomainName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "EBSOptions",
+    "propertyType" : "AWS::Elasticsearch::Domain::EBSOption",
+    "propertyHref" : "aws-properties-elasticsearch-domain-ebsoptions.html",
+    "required" : false
+  }, {
+    "propertyName" : "ElasticsearchClusterConfig",
+    "propertyType" : "AWS::Elasticsearch::Domain::ElasticsearchClusterConfig",
+    "propertyHref" : "aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "ElasticsearchVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SnapshotOptions",
+    "propertyType" : "AWS::Elasticsearch::Domain::SnapshotOption",
+    "propertyHref" : "aws-properties-elasticsearch-domain-snapshotoptions.html",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html",
+  "resourceType" : "AWS::Elasticsearch::Domain::EBSOption",
+  "properties" : [ {
+    "propertyName" : "EBSEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Iops",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VolumeType",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html",
+  "resourceType" : "AWS::Elasticsearch::Domain::ElasticsearchClusterConfig",
+  "properties" : [ {
+    "propertyName" : "DedicatedMasterCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "DedicatedMasterEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DedicatedMasterType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceCount",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "InstanceType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ZoneAwarenessEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-snapshotoptions.html",
+  "resourceType" : "AWS::Elasticsearch::Domain::SnapshotOption",
+  "properties" : [ {
+    "propertyName" : "AutomatedSnapshotStartHour",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+} ]

@@ -1,0 +1,176 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html",
+  "resourceType" : "AWS::Lambda::EventSourceMapping",
+  "properties" : [ {
+    "propertyName" : "BatchSize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "EventSourceArn",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "FunctionName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StartingPosition",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-alias.html",
+  "resourceType" : "AWS::Lambda::Alias",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FunctionName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "FunctionVersion",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html",
+  "resourceType" : "AWS::Lambda::Function",
+  "properties" : [ {
+    "propertyName" : "Code",
+    "propertyType" : "AWS::Lambda::Function::Code",
+    "propertyHref" : "aws-properties-lambda-function-code.html",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Environment",
+    "propertyType" : "AWS::Lambda::Function::Environment",
+    "propertyHref" : "aws-properties-lambda-function-environment.html",
+    "required" : false
+  }, {
+    "propertyName" : "FunctionName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Handler",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "KmsKeyArn",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MemorySize",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Role",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Runtime",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Timeout",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "VpcConfig",
+    "propertyType" : "AWS::Lambda::Function::VPCConfig",
+    "propertyHref" : "aws-properties-lambda-function-vpcconfig.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html",
+  "resourceType" : "AWS::Lambda::Function::Code",
+  "properties" : [ {
+    "propertyName" : "S3Bucket",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "S3Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "S3ObjectVersion",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ZipFile",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-environment.html",
+  "resourceType" : "AWS::Lambda::Function::Environment",
+  "properties" : [ {
+    "propertyName" : "Variables",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-vpcconfig.html",
+  "resourceType" : "AWS::Lambda::Function::VPCConfig",
+  "properties" : [ {
+    "propertyName" : "SecurityGroupIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  }, {
+    "propertyName" : "SubnetIds",
+    "propertyType" : "List<String>",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html",
+  "resourceType" : "AWS::Lambda::Permission",
+  "properties" : [ {
+    "propertyName" : "Action",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "FunctionName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Principal",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "SourceAccount",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SourceArn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-version.html",
+  "resourceType" : "AWS::Lambda::Version",
+  "properties" : [ {
+    "propertyName" : "CodeSha256",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FunctionName",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

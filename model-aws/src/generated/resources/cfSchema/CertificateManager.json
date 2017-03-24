@@ -1,0 +1,35 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-certificatemanager-certificate.html",
+  "resourceType" : "AWS::CertificateManager::Certificate",
+  "properties" : [ {
+    "propertyName" : "DomainName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "DomainValidationOptions",
+    "propertyType" : "List<AWS::CertificateManager::Certificate::DomainValidationOption>",
+    "propertyHref" : "aws-properties-certificatemanager-certificate-domainvalidationoption.html",
+    "required" : false
+  }, {
+    "propertyName" : "SubjectAlternativeNames",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "Tags",
+    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyHref" : "aws-properties-resource-tags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-certificatemanager-certificate-domainvalidationoption.html",
+  "resourceType" : "AWS::CertificateManager::Certificate::DomainValidationOption",
+  "properties" : [ {
+    "propertyName" : "DomainName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ValidationDomain",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+} ]

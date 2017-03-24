@@ -1,0 +1,612 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-account.html",
+  "resourceType" : "AWS::ApiGateway::Account",
+  "properties" : [ {
+    "propertyName" : "CloudWatchRoleArn",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-apikey.html",
+  "resourceType" : "AWS::ApiGateway::ApiKey",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Enabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StageKeys",
+    "propertyType" : "List<AWS::ApiGateway::ApiKey::StageKey>",
+    "propertyHref" : "aws-properties-apitgateway-apikey-stagekey.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-apikey-stagekey.html",
+  "resourceType" : "AWS::ApiGateway::ApiKey::StageKey",
+  "properties" : [ {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StageName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-authorizer.html",
+  "resourceType" : "AWS::ApiGateway::Authorizer",
+  "properties" : [ {
+    "propertyName" : "AuthorizerCredentials",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AuthorizerResultTtlInSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "AuthorizerUri",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IdentitySource",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "IdentityValidationExpression",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ProviderARNs",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-basepathmapping.html",
+  "resourceType" : "AWS::ApiGateway::BasePathMapping",
+  "properties" : [ {
+    "propertyName" : "BasePath",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DomainName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Stage",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-clientcertificate.html",
+  "resourceType" : "AWS::ApiGateway::ClientCertificate",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html",
+  "resourceType" : "AWS::ApiGateway::Deployment",
+  "properties" : [ {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StageDescription",
+    "propertyType" : "AWS::ApiGateway::Deployment::StageDescription",
+    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription.html",
+    "required" : false
+  }, {
+    "propertyName" : "StageName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-deployment-stagedescription.html",
+  "resourceType" : "AWS::ApiGateway::Deployment::StageDescription",
+  "properties" : [ {
+    "propertyName" : "CacheClusterEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheClusterSize",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CacheDataEncrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheTtlInSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "CachingEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ClientCertificateId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DataTraceEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LoggingLevel",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MethodSettings",
+    "propertyType" : "AWS::ApiGateway::Deployment::StageDescription::MethodSetting",
+    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription-methodsetting.html",
+    "required" : false
+  }, {
+    "propertyName" : "MetricsEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "StageName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ThrottlingBurstLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ThrottlingRateLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Variables",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-deployment-stagedescription-methodsetting.html",
+  "resourceType" : "AWS::ApiGateway::Deployment::StageDescription::MethodSetting",
+  "properties" : [ {
+    "propertyName" : "CacheDataEncrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheTtlInSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "CachingEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DataTraceEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HttpMethod",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "LoggingLevel",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MetricsEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ResourcePath",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ThrottlingBurstLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ThrottlingRateLimit",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-method.html",
+  "resourceType" : "AWS::ApiGateway::Method",
+  "properties" : [ {
+    "propertyName" : "ApiKeyRequired",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "AuthorizationType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "AuthorizerId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HttpMethod",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Integration",
+    "propertyType" : "AWS::ApiGateway::Method::Integration",
+    "propertyHref" : "aws-properties-apitgateway-method-integration.html",
+    "required" : false
+  }, {
+    "propertyName" : "MethodResponses",
+    "propertyType" : "List<AWS::ApiGateway::Method::MethodResponse>",
+    "propertyHref" : "aws-properties-apitgateway-method-methodresponse.html",
+    "required" : false
+  }, {
+    "propertyName" : "RequestModels",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "RequestParameters",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "ResourceId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration.html",
+  "resourceType" : "AWS::ApiGateway::Method::Integration",
+  "properties" : [ {
+    "propertyName" : "CacheKeyParameters",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "CacheNamespace",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Credentials",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IntegrationHttpMethod",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IntegrationResponses",
+    "propertyType" : "List<AWS::ApiGateway::Method::Integration::IntegrationResponse>",
+    "propertyHref" : "aws-properties-apitgateway-method-integration-integrationresponse.html",
+    "required" : false
+  }, {
+    "propertyName" : "PassthroughBehavior",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RequestParameters",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "RequestTemplates",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Uri",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-integration-integrationresponse.html",
+  "resourceType" : "AWS::ApiGateway::Method::Integration::IntegrationResponse",
+  "properties" : [ {
+    "propertyName" : "ResponseParameters",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "ResponseTemplates",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "SelectionPattern",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "StatusCode",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-method-methodresponse.html",
+  "resourceType" : "AWS::ApiGateway::Method::MethodResponse",
+  "properties" : [ {
+    "propertyName" : "ResponseModels",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "ResponseParameters",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  }, {
+    "propertyName" : "StatusCode",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-model.html",
+  "resourceType" : "AWS::ApiGateway::Model",
+  "properties" : [ {
+    "propertyName" : "ContentType",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Schema",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-resource.html",
+  "resourceType" : "AWS::ApiGateway::Resource",
+  "properties" : [ {
+    "propertyName" : "ParentId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "PathPart",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html",
+  "resourceType" : "AWS::ApiGateway::RestApi",
+  "properties" : [ {
+    "propertyName" : "Body",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "BodyS3Location",
+    "propertyType" : "AWS::ApiGateway::RestApi::S3Location",
+    "propertyHref" : "aws-properties-apitgateway-restapi-bodys3location.html",
+    "required" : false
+  }, {
+    "propertyName" : "CloneFrom",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "FailOnWarnings",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Parameters",
+    "propertyType" : "List<String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-restapi-bodys3location.html",
+  "resourceType" : "AWS::ApiGateway::RestApi::S3Location",
+  "properties" : [ {
+    "propertyName" : "Bucket",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ETag",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Version",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-stage.html",
+  "resourceType" : "AWS::ApiGateway::Stage",
+  "properties" : [ {
+    "propertyName" : "CacheClusterEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheClusterSize",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ClientCertificateId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "DeploymentId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MethodSettings",
+    "propertyType" : "AWS::ApiGateway::Stage::MethodSetting",
+    "propertyHref" : "aws-properties-apitgateway-stage-methodsetting.html",
+    "required" : false
+  }, {
+    "propertyName" : "RestApiId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "StageName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Variables",
+    "propertyType" : "Map<String, String>",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-stage-methodsetting.html",
+  "resourceType" : "AWS::ApiGateway::Stage::MethodSetting",
+  "properties" : [ {
+    "propertyName" : "CacheDataEncrypted",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "CacheTtlInSeconds",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "CachingEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "DataTraceEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HttpMethod",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "LoggingLevel",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "MetricsEnabled",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "ResourcePath",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "ThrottlingBurstLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ThrottlingRateLimit",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-usageplan.html",
+  "resourceType" : "AWS::ApiGateway::UsagePlan",
+  "properties" : [ {
+    "propertyName" : "ApiStages",
+    "propertyType" : "List<AWS::ApiGateway::UsagePlan::ApiStage>",
+    "propertyHref" : "aws-properties-apigateway-usageplan-apistage.html",
+    "required" : false
+  }, {
+    "propertyName" : "Description",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Quota",
+    "propertyType" : "AWS::ApiGateway::UsagePlan::QuotaSetting",
+    "propertyHref" : "aws-properties-apigateway-usageplan-quotasettings.html",
+    "required" : false
+  }, {
+    "propertyName" : "Throttle",
+    "propertyType" : "AWS::ApiGateway::UsagePlan::ThrottleSetting",
+    "propertyHref" : "aws-properties-apigateway-usageplan-throttlesettings.html",
+    "required" : false
+  }, {
+    "propertyName" : "UsagePlanName",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-usageplan-apistage.html",
+  "resourceType" : "AWS::ApiGateway::UsagePlan::ApiStage",
+  "properties" : [ {
+    "propertyName" : "ApiId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Stage",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-usageplan-quotasettings.html",
+  "resourceType" : "AWS::ApiGateway::UsagePlan::QuotaSetting",
+  "properties" : [ {
+    "propertyName" : "Limit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Offset",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "Period",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apigateway-usageplan-throttlesettings.html",
+  "resourceType" : "AWS::ApiGateway::UsagePlan::ThrottleSetting",
+  "properties" : [ {
+    "propertyName" : "BurstLimit",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "RateLimit",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+} ]

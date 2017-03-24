@@ -1,0 +1,233 @@
+[ {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-healthcheck.html",
+  "resourceType" : "AWS::Route53::HealthCheck",
+  "properties" : [ {
+    "propertyName" : "HealthCheckConfig",
+    "propertyType" : "AWS::Route53::HealthCheck::HealthCheckConfig",
+    "propertyHref" : "aws-properties-route53-healthcheck-healthcheckconfig.html",
+    "required" : true
+  }, {
+    "propertyName" : "HealthCheckTags",
+    "propertyType" : "List<AWS::Route53::HealthCheck::HealthCheckTag>",
+    "propertyHref" : "aws-properties-route53-healthcheck-healthchecktags.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html",
+  "resourceType" : "AWS::Route53::HealthCheck::HealthCheckConfig",
+  "properties" : [ {
+    "propertyName" : "FailureThreshold",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "FullyQualifiedDomainName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "IPAddress",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Port",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "RequestInterval",
+    "propertyType" : "Number",
+    "required" : false
+  }, {
+    "propertyName" : "ResourcePath",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SearchString",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthchecktags.html",
+  "resourceType" : "AWS::Route53::HealthCheck::HealthCheckTag",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone.html",
+  "resourceType" : "AWS::Route53::HostedZone",
+  "properties" : [ {
+    "propertyName" : "HostedZoneConfig",
+    "propertyType" : "AWS::Route53::HostedZone::HostedZoneConfigProperty",
+    "propertyHref" : "aws-properties-route53-hostedzone-hostedzoneconfig.html",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneTags",
+    "propertyType" : "List<AWS::Route53::HostedZone::HostedZoneTag>",
+    "propertyHref" : "aws-properties-route53-hostedzone-hostedzonetags.html",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VPCs",
+    "propertyType" : "List<AWS::Route53::HostedZone::HostedZoneVPC>",
+    "propertyHref" : "aws-resource-route53-hostedzone-hostedzonevpcs.html",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-hostedzoneconfig.html",
+  "resourceType" : "AWS::Route53::HostedZone::HostedZoneConfigProperty",
+  "properties" : [ {
+    "propertyName" : "Comment",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-hostedzonetags.html",
+  "resourceType" : "AWS::Route53::HostedZone::HostedZoneTag",
+  "properties" : [ {
+    "propertyName" : "Key",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Value",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-route53-hostedzone-hostedzonevpcs.html",
+  "resourceType" : "AWS::Route53::HostedZone::HostedZoneVPC",
+  "properties" : [ {
+    "propertyName" : "VPCId",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "VPCRegion",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html",
+  "resourceType" : "AWS::Route53::RecordSet",
+  "properties" : [ {
+    "propertyName" : "AliasTarget",
+    "propertyType" : "AWS::Route53::RecordSet::AliasTargetProperty",
+    "propertyHref" : "aws-properties-route53-aliastarget.html",
+    "required" : false
+  }, {
+    "propertyName" : "Comment",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Failover",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "GeoLocation",
+    "propertyType" : "AWS::Route53::RecordSet::GeoLocationProperty",
+    "propertyHref" : "aws-properties-route53-recordset-geolocation.html",
+    "required" : false
+  }, {
+    "propertyName" : "HealthCheckId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Name",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Region",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "ResourceRecords",
+    "propertyType" : "List<String>",
+    "required" : false
+  }, {
+    "propertyName" : "SetIdentifier",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "TTL",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "Type",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "Weight",
+    "propertyType" : "Number",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-aliastarget.html",
+  "resourceType" : "AWS::Route53::RecordSet::AliasTargetProperty",
+  "properties" : [ {
+    "propertyName" : "DNSName",
+    "propertyType" : "String",
+    "required" : true
+  }, {
+    "propertyName" : "EvaluateTargetHealth",
+    "propertyType" : "Boolean",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneId",
+    "propertyType" : "String",
+    "required" : true
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset-geolocation.html",
+  "resourceType" : "AWS::Route53::RecordSet::GeoLocationProperty",
+  "properties" : [ {
+    "propertyName" : "ContinentCode",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "CountryCode",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "SubdivisionCode",
+    "propertyType" : "String",
+    "required" : false
+  } ]
+}, {
+  "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordsetgroup.html",
+  "resourceType" : "AWS::Route53::RecordSetGroup",
+  "properties" : [ {
+    "propertyName" : "Comment",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneId",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "HostedZoneName",
+    "propertyType" : "String",
+    "required" : false
+  }, {
+    "propertyName" : "RecordSets",
+    "propertyType" : "List<AWS::Route53::RecordSet>",
+    "propertyHref" : "aws-properties-route53-recordset.html",
+    "required" : true
+  } ]
+} ]
