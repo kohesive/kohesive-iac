@@ -34,6 +34,19 @@ data class ResourceProperty(
     override fun toString() = "${if (isRequired) "+" else "-"} $propertyName: $propertyType"
 }
 
+data class PropertyNameExtractor(
+    val prefix: String,
+    val stopWords: List<String>
+) {
+    fun extract(text: String): String? = text.takeIf { text.startsWith(prefix + " ") }?.let { text ->
+        text.drop(prefix.length + 1).let { prefixLess ->
+            stopWords.map { prefixLess.indexOf(" " + it) }.filter { it > 0 }.min()?.let { indexEnd ->
+                prefixLess.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
+            }
+        }
+    }
+}
+
 class DocumentationCrawler(
     val baseUri: String = DocumentationCrawler.CFDocsURL,
     val localMode: Boolean = false,
@@ -51,6 +64,18 @@ class DocumentationCrawler(
         )
 
         val AWSDocsAccessThrottlingInterval = 500L
+
+        val PropertyNameExtractors = listOf(
+            PropertyNameExtractor("Describes the", listOf("of", "for")),
+            PropertyNameExtractor("Describes a", listOf("of", "for")),
+            PropertyNameExtractor("Describes", listOf("of", "for")),
+            PropertyNameExtractor("The", listOf("property")),
+            PropertyNameExtractor("A list of", listOf("for"))
+        )
+
+        private fun extractPropertyName(text: String): String? = PropertyNameExtractors
+            .asSequence().map { it.extract(text) }.firstOrNull { it != null }
+
     }
 
     private val crawledResources = linkedMapOf<String, CloudFormationResource>()
@@ -84,8 +109,7 @@ class DocumentationCrawler(
 
     private fun doCrawl(): List<CloudFormationResource> {
         val resourcesListDoc = getJsoupDocument("aws-template-resource-type-ref.html")
-
-        val resourceUris = resourcesListDoc.select(".highlights li a").map {
+        val resourceUris     = resourcesListDoc.select(".highlights li a").map {
             CrawlTask(
                 resourceType = it.text(),
                 uri          = it.attr("href")
@@ -95,7 +119,6 @@ class DocumentationCrawler(
         resourceUris.forEach { (resourceType, uri) ->
             hrefToTypeName.put(uri, resourceType)
         }
-
         resourceUris.forEach { (_, uri) ->
             try {
                 crawlResource(uri)
@@ -114,7 +137,6 @@ class DocumentationCrawler(
         }
 
         val lastUrlWord = uri.dropLast(".html".length).split('-').last()
-
         val splitHeader = header.split(' ')
         var subHeader = ""
         for (i in splitHeader.indices.reversed()) {
@@ -146,32 +168,10 @@ class DocumentationCrawler(
 
                     // Let's check the hrefToTypeName first
                     hrefToTypeName[uri] ?: resourceDoc.select("div#main-col-body p").firstOrNull()?.let { p ->
-                        var propertyName = figureOutPropertyTypeFromHrefAndHeader(uri, header) ?: if (p.text().startsWith("Describes the ")) {
-                            p.text().drop("Describes the ".length).let {
-                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
-                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-                            }
-                        } else if (p.text().startsWith("Describes a ")) {
-                            p.text().drop("Describes a ".length).let {
-                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
-                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-                            }
-                        } else if (p.text().startsWith("Describes ")) {
-                            p.text().drop("Describes ".length).let {
-                                val indexEnd = listOf(it.indexOf(" of"), it.indexOf(" for")).filter { it > 0 }.min()!!
-                                it.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-                            }
-                        } else if (p.text().startsWith("The ")) {
-                            p.text().drop("The ".length).let {
-                                it.substring(0, it.indexOf(" property")).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-                            }
-                        } else if (p.text().startsWith("A list of ")) {
-                            p.text().drop("A list of ".length).let {
-                                it.substring(0, it.indexOf(" for")).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-                            }
-                        } else {
+                        var propertyName = figureOutPropertyTypeFromHrefAndHeader(uri, header) ?:
+                            extractPropertyName(p.text()) ?:
                             p.select("code").firstOrNull()?.text()
-                        }
+
                         var parentHref = p.select("a").firstOrNull()?.attr("href")?.sanitizeLink()
 
                         // Bugs in CF documents
