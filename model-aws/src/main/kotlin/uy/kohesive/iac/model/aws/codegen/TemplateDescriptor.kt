@@ -1,6 +1,5 @@
 package uy.kohesive.iac.model.aws.codegen
 
-import com.amazonaws.codegen.model.config.templates.ChildTemplate
 import freemarker.template.Template
 
 enum class TemplateDescriptor(
@@ -11,13 +10,18 @@ enum class TemplateDescriptor(
     BaseIacContext("/templates/context/IacContext.ftl"),
     ServiceContext("/templates/context/ServiceContext.ftl"),
     DeferredClient("/templates/client/DeferredClient.ftl"),
-    CloudFormationModel("/templates/cfModel/CfModel.ftl");
+    CloudFormationModel("/templates/cfModel/CfModel.ftl", listOf(
+        ChildTemplate(
+            templateLocation  = "/macros/cfModel/ModelClass.ftl",
+            importAsNamespace = "CFModelClassMacro"
+        )
+    ));
 
     fun load(): Template = TemplateLoader.getTemplate(this)
 
 }
 
 data class ChildTemplate(
-    val location: String,
+    val templateLocation: String,
     val importAsNamespace: String
 )
