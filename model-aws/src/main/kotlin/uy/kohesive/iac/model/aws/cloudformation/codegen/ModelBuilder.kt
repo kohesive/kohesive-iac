@@ -5,6 +5,7 @@ import uy.kohesive.iac.model.aws.cloudformation.crawler.ResourceProperty
 
 data class AmazonCFServiceModel(
     val packageName: String,
+    val serviceName: String,
     val classes: List<AmazonCFClass>
 )
 
@@ -31,25 +32,44 @@ data class AmazonCFClassProperty(
     val optional: Boolean
 )
 
-fun CloudFormationResource.toAmazonClass() = resourceType.split("::").drop(2).joinToString(".").let { className ->
+fun CloudFormationResource.toAmazonClass() = resourceType.cfAWSTypeToClassName().let { className ->
     AmazonCFClass(
         simpleName = className.split('.').last(),
         name       = className,
         awsType    = resourceType,
-        properties = properties.map { it.toAmazonClassProperty(className) }
+        properties = properties.map { it.toAmazonClassProperty(resourceType) }
     )
 }
 
-fun ResourceProperty.toAmazonClassProperty(containingClassName: String) = AmazonCFClassProperty(
+fun ResourceProperty.toAmazonClassProperty(containingAwsType: String) = AmazonCFClassProperty(
     name     = propertyName,
-    type     = propertyType.convertAwsTypeReference(containingClassName),
+    type     = propertyType.convertTypeReference(containingAwsType),
     optional = !required
 )
 
-fun String.convertAwsTypeReference(containingClassName: String): String {
-    // TODO: implement
-    return this
+fun String.convertTypeReference(containingAwsType: String): String {
+    if (!contains("AWS::")) {
+        return this.replace("Number", "String").replace("JsonObject", "String")
+    }
+    val sourceNamespace = containingAwsType.split("::").take(2).joinToString("::")
+    if (startsWith("AWS::")) {
+        return cfAWSTypeToClassName(dropNamespace = startsWith(sourceNamespace))
+    }
+    if (startsWith("List<AWS::")) {
+        val listTypeParameter = drop("List<".length).dropLast(1)
+        return "List<${ listTypeParameter.cfAWSTypeToClassName(dropNamespace = startsWith(sourceNamespace)) }>"
+    }
+    throw IllegalArgumentException("Illegal type: $this")
 }
+
+fun String.cfAWSTypeToClassName(dropNamespace: Boolean = true)
+    = split("::").drop(if (dropNamespace) 2 else 1).mapIndexed { index, classPart ->
+        if (index > if (dropNamespace) 0 else 1) {
+            classPart + "Property"
+        } else {
+            classPart
+        }
+    }.joinToString(".")
 
 class ModelBuilder(val resources: List<CloudFormationResource>) {
 

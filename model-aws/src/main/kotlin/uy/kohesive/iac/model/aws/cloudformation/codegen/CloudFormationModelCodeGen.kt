@@ -40,8 +40,7 @@ class CloudFormationModelCodeGen(
     fun generate() {
         File(inputDir).listFiles { _, name ->
             name.endsWith(".json", ignoreCase = true)
-        // TODO: delete take(1)
-        }.take(1).forEach { file ->
+        }.forEach { file ->
             val model = AmazonServiceCFModel(
                 serviceName = file.nameWithoutExtension,
                 resources   = JSON.readValue<List<CloudFormationResource>>(file)
@@ -73,6 +72,7 @@ class AmazonServiceCFModelGenerateTask private constructor(writer: Writer, templ
                 TemplateDescriptor.CloudFormationModel.load(),
                 AmazonCFServiceModel(
                     packageName = packageName,
+                    serviceName = cfModel.serviceName,
                     classes     = ModelBuilder(cfModel.resources).build()
                 )
             )
