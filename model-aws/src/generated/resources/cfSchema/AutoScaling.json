@@ -40,8 +40,8 @@
   }, {
     "propertyName" : "MetricsCollection",
     "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::MetricsCollection>",
-    "propertyHref" : "aws-properties-as-metricscollection.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-as-metricscollection.html"
   }, {
     "propertyName" : "MinSize",
     "propertyType" : "String",
@@ -49,8 +49,8 @@
   }, {
     "propertyName" : "NotificationConfigurations",
     "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::NotificationConfiguration>",
-    "propertyHref" : "aws-properties-as-notificationconfigurations.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-as-notificationconfigurations.html"
   }, {
     "propertyName" : "PlacementGroup",
     "propertyType" : "String",
@@ -58,8 +58,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::AutoScaling::AutoScalingGroup::Tag>",
-    "propertyHref" : "aws-properties-as-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-as-tags.html"
   }, {
     "propertyName" : "TargetGroupARNs",
     "propertyType" : "List<String>",
@@ -123,8 +123,8 @@
   }, {
     "propertyName" : "BlockDeviceMappings",
     "propertyType" : "List<AWS::AutoScaling::LaunchConfiguration::Mapping>",
-    "propertyHref" : "aws-properties-as-launchconfig-blockdev-mapping.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-as-launchconfig-blockdev-mapping.html"
   }, {
     "propertyName" : "ClassicLinkVPCId",
     "propertyType" : "String",
@@ -196,8 +196,8 @@
   }, {
     "propertyName" : "Ebs",
     "propertyType" : "AWS::AutoScaling::LaunchConfiguration::Mapping::AutoScalingEBSBlockDeviceTypeIsAnEmbedded",
-    "propertyHref" : "aws-properties-as-launchconfig-blockdev-template.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-as-launchconfig-blockdev-template.html"
   }, {
     "propertyName" : "NoDevice",
     "propertyType" : "Boolean",
@@ -305,8 +305,8 @@
   }, {
     "propertyName" : "StepAdjustments",
     "propertyType" : "List<AWS::AutoScaling::ScalingPolicy::StepAdjustment>",
-    "propertyHref" : "aws-properties-autoscaling-scalingpolicy-stepadjustments.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-autoscaling-scalingpolicy-stepadjustments.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-autoscaling-scalingpolicy-stepadjustments.html",

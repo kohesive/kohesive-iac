@@ -56,8 +56,8 @@
   }, {
     "propertyName" : "StepScalingPolicyConfiguration",
     "propertyType" : "AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration",
-    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration.html",
@@ -81,8 +81,8 @@
   }, {
     "propertyName" : "StepAdjustments",
     "propertyType" : "List<AWS::ApplicationAutoScaling::ScalingPolicy::StepScalingPolicyConfiguration::StepAdjustment>",
-    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-stepadjustment.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-stepadjustment.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-applicationautoscaling-scalingpolicy-stepscalingpolicyconfiguration-stepadjustment.html",

@@ -4,13 +4,13 @@
   "properties" : [ {
     "propertyName" : "AccessLoggingPolicy",
     "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::AccessLoggingPolicy",
-    "propertyHref" : "aws-properties-ec2-elb-accessloggingpolicy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-accessloggingpolicy.html"
   }, {
     "propertyName" : "AppCookieStickinessPolicy",
     "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::AppCookieStickinessPolicy>",
-    "propertyHref" : "aws-properties-ec2-elb-AppCookieStickinessPolicy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-AppCookieStickinessPolicy.html"
   }, {
     "propertyName" : "AvailabilityZones",
     "propertyType" : "List<String>",
@@ -18,13 +18,13 @@
   }, {
     "propertyName" : "ConnectionDrainingPolicy",
     "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionDrainingPolicy",
-    "propertyHref" : "aws-properties-ec2-elb-connectiondrainingpolicy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-connectiondrainingpolicy.html"
   }, {
     "propertyName" : "ConnectionSettings",
     "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::ConnectionSetting",
-    "propertyHref" : "aws-properties-ec2-elb-connectionsettings.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-connectionsettings.html"
   }, {
     "propertyName" : "CrossZone",
     "propertyType" : "Boolean",
@@ -32,8 +32,8 @@
   }, {
     "propertyName" : "HealthCheck",
     "propertyType" : "AWS::ElasticLoadBalancing::LoadBalancer::HealthCheck",
-    "propertyHref" : "aws-properties-ec2-elb-health-check.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-health-check.html"
   }, {
     "propertyName" : "Instances",
     "propertyType" : "List<String>",
@@ -41,8 +41,8 @@
   }, {
     "propertyName" : "LBCookieStickinessPolicy",
     "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::LBCookieStickinessPolicy>",
-    "propertyHref" : "aws-properties-ec2-elb-LBCookieStickinessPolicy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-LBCookieStickinessPolicy.html"
   }, {
     "propertyName" : "LoadBalancerName",
     "propertyType" : "String",
@@ -50,13 +50,13 @@
   }, {
     "propertyName" : "Listeners",
     "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::Listener>",
-    "propertyHref" : "aws-properties-ec2-elb-listener.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-ec2-elb-listener.html"
   }, {
     "propertyName" : "Policies",
     "propertyType" : "List<AWS::ElasticLoadBalancing::LoadBalancer::Policy>",
-    "propertyHref" : "aws-properties-ec2-elb-policy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ec2-elb-policy.html"
   }, {
     "propertyName" : "Scheme",
     "propertyType" : "String",
@@ -72,8 +72,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-elb-accessloggingpolicy.html",

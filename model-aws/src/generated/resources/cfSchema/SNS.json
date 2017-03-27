@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "Subscription",
     "propertyType" : "List<AWS::SNS::Topic::Subscription>",
-    "propertyHref" : "aws-properties-sns-subscription.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-sns-subscription.html"
   }, {
     "propertyName" : "TopicName",
     "propertyType" : "String",

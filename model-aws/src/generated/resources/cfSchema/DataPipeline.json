@@ -16,23 +16,23 @@
   }, {
     "propertyName" : "ParameterObjects",
     "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects.html"
   }, {
     "propertyName" : "ParameterValues",
     "propertyType" : "AWS::DataPipeline::Pipeline::ParameterValue",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-parametervalues.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parametervalues.html"
   }, {
     "propertyName" : "PipelineObjects",
     "propertyType" : "List<AWS::DataPipeline::Pipeline::PipelineObject>",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects.html"
   }, {
     "propertyName" : "PipelineTags",
     "propertyType" : "AWS::DataPipeline::Pipeline::PipelineTag",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelinetags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelinetags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-datapipeline-pipeline-parameterobjects.html",
@@ -40,8 +40,8 @@
   "properties" : [ {
     "propertyName" : "Attributes",
     "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject::Attribute",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects-attributes.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects-attributes.html"
   }, {
     "propertyName" : "Id",
     "propertyType" : "String",
@@ -77,8 +77,8 @@
   "properties" : [ {
     "propertyName" : "Fields",
     "propertyType" : "AWS::DataPipeline::Pipeline::PipelineObject::Field",
-    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html"
   }, {
     "propertyName" : "Id",
     "propertyType" : "String",

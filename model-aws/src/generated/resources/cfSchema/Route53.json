@@ -4,13 +4,13 @@
   "properties" : [ {
     "propertyName" : "HealthCheckConfig",
     "propertyType" : "AWS::Route53::HealthCheck::HealthCheckConfig",
-    "propertyHref" : "aws-properties-route53-healthcheck-healthcheckconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-route53-healthcheck-healthcheckconfig.html"
   }, {
     "propertyName" : "HealthCheckTags",
     "propertyType" : "List<AWS::Route53::HealthCheck::HealthCheckTag>",
-    "propertyHref" : "aws-properties-route53-healthcheck-healthchecktags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-route53-healthcheck-healthchecktags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-healthcheck-healthcheckconfig.html",
@@ -66,13 +66,13 @@
   "properties" : [ {
     "propertyName" : "HostedZoneConfig",
     "propertyType" : "AWS::Route53::HostedZone::HostedZoneConfig",
-    "propertyHref" : "aws-properties-route53-hostedzone-hostedzoneconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-route53-hostedzone-hostedzoneconfig.html"
   }, {
     "propertyName" : "HostedZoneTags",
     "propertyType" : "List<AWS::Route53::HostedZone::HostedZoneTag>",
-    "propertyHref" : "aws-properties-route53-hostedzone-hostedzonetags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-route53-hostedzone-hostedzonetags.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -80,8 +80,8 @@
   }, {
     "propertyName" : "VPCs",
     "propertyType" : "List<AWS::Route53::HostedZone::HostedZoneVPC>",
-    "propertyHref" : "aws-resource-route53-hostedzone-hostedzonevpcs.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-resource-route53-hostedzone-hostedzonevpcs.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-hostedzone-hostedzoneconfig.html",
@@ -121,8 +121,8 @@
   "properties" : [ {
     "propertyName" : "AliasTarget",
     "propertyType" : "AWS::Route53::RecordSet::AliasTarget",
-    "propertyHref" : "aws-properties-route53-aliastarget.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-route53-aliastarget.html"
   }, {
     "propertyName" : "Comment",
     "propertyType" : "String",
@@ -134,8 +134,8 @@
   }, {
     "propertyName" : "GeoLocation",
     "propertyType" : "AWS::Route53::RecordSet::GeoLocation",
-    "propertyHref" : "aws-properties-route53-recordset-geolocation.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-route53-recordset-geolocation.html"
   }, {
     "propertyName" : "HealthCheckId",
     "propertyType" : "String",
@@ -227,7 +227,7 @@
   }, {
     "propertyName" : "RecordSets",
     "propertyType" : "List<AWS::Route53::RecordSet>",
-    "propertyHref" : "aws-properties-route53-recordset.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-route53-recordset.html"
   } ]
 } ]

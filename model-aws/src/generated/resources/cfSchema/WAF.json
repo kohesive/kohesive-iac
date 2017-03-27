@@ -4,8 +4,8 @@
   "properties" : [ {
     "propertyName" : "ByteMatchTuples",
     "propertyType" : "List<AWS::WAF::ByteMatchSet::ByteMatchTuple>",
-    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -17,8 +17,8 @@
   "properties" : [ {
     "propertyName" : "FieldToMatch",
     "propertyType" : "AWS::WAF::ByteMatchSet::ByteMatchTuple::FieldToMatch",
-    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples-fieldtomatch.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples-fieldtomatch.html"
   }, {
     "propertyName" : "PositionalConstraint",
     "propertyType" : "String",
@@ -54,8 +54,8 @@
   "properties" : [ {
     "propertyName" : "IPSetDescriptors",
     "propertyType" : "List<AWS::WAF::IPSet::IPSetDescriptor>",
-    "propertyHref" : "aws-properties-waf-ipset-ipsetdescriptors.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-ipset-ipsetdescriptors.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -87,8 +87,8 @@
   }, {
     "propertyName" : "Predicates",
     "propertyType" : "List<AWS::WAF::Rule::Predicate>",
-    "propertyHref" : "aws-properties-waf-rule-predicates.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-rule-predicates.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waf-rule-predicates.html",
@@ -116,8 +116,8 @@
   }, {
     "propertyName" : "SizeConstraints",
     "propertyType" : "List<AWS::WAF::SizeConstraintSet::SizeConstraint>",
-    "propertyHref" : "aws-properties-waf-sizeconstraintset-sizeconstraint.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-sizeconstraintset-sizeconstraint.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waf-sizeconstraintset-sizeconstraint.html",
@@ -129,8 +129,8 @@
   }, {
     "propertyName" : "FieldToMatch",
     "propertyType" : "AWS::WAF::SizeConstraintSet::SizeConstraint::FieldToMatch",
-    "propertyHref" : "aws-properties-waf-sizeconstraintset-sizeconstraint-fieldtomatch.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-sizeconstraintset-sizeconstraint-fieldtomatch.html"
   }, {
     "propertyName" : "Size",
     "propertyType" : "Number",
@@ -162,8 +162,8 @@
   }, {
     "propertyName" : "SqlInjectionMatchTuples",
     "propertyType" : "List<AWS::WAF::SqlInjectionMatchSet::SqlInjectionMatchTuple>",
-    "propertyHref" : "aws-properties-waf-sqlinjectionmatchset-sqlinjectionmatchtuples.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-sqlinjectionmatchset-sqlinjectionmatchtuples.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waf-sqlinjectionmatchset-sqlinjectionmatchtuples.html",
@@ -171,8 +171,8 @@
   "properties" : [ {
     "propertyName" : "FieldToMatch",
     "propertyType" : "AWS::WAF::ByteMatchSet::ByteMatchTuple::FieldToMatch",
-    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples-fieldtomatch.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-bytematchset-bytematchtuples-fieldtomatch.html"
   }, {
     "propertyName" : "TextTransformation",
     "propertyType" : "String",
@@ -184,8 +184,8 @@
   "properties" : [ {
     "propertyName" : "DefaultAction",
     "propertyType" : "AWS::WAF::WebACL::Action",
-    "propertyHref" : "aws-properties-waf-webacl-action.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-webacl-action.html"
   }, {
     "propertyName" : "MetricName",
     "propertyType" : "String",
@@ -197,8 +197,8 @@
   }, {
     "propertyName" : "Rules",
     "propertyType" : "List<AWS::WAF::WebACL::Rule>",
-    "propertyHref" : "aws-properties-waf-webacl-rules.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-webacl-rules.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waf-webacl-action.html",
@@ -214,8 +214,8 @@
   "properties" : [ {
     "propertyName" : "Action",
     "propertyType" : "AWS::WAF::WebACL::Action",
-    "propertyHref" : "aws-properties-waf-webacl-action.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-webacl-action.html"
   }, {
     "propertyName" : "Priority",
     "propertyType" : "Number",
@@ -235,8 +235,8 @@
   }, {
     "propertyName" : "XssMatchTuples",
     "propertyType" : "List<AWS::WAF::XssMatchSet::XssMatchTuple>",
-    "propertyHref" : "aws-properties-waf-xssmatchset-xssmatchtuple.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-waf-xssmatchset-xssmatchtuple.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waf-xssmatchset-xssmatchtuple.html",
@@ -244,8 +244,8 @@
   "properties" : [ {
     "propertyName" : "FieldToMatch",
     "propertyType" : "AWS::WAF::XssMatchSet::XssMatchTuple::FieldToMatch",
-    "propertyHref" : "aws-properties-waf-xssmatchset-xssmatchtuple-fieldtomatch.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-waf-xssmatchset-xssmatchtuple-fieldtomatch.html"
   }, {
     "propertyName" : "TextTransformation",
     "propertyType" : "String",

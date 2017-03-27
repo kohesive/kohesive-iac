@@ -44,7 +44,7 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 } ]

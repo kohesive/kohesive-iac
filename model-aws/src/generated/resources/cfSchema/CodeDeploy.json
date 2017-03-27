@@ -16,8 +16,8 @@
   }, {
     "propertyName" : "MinimumHealthyHosts",
     "propertyType" : "AWS::CodeDeploy::DeploymentConfig::MinimumHealthyHost",
-    "propertyHref" : "aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.html",
@@ -45,8 +45,8 @@
   }, {
     "propertyName" : "Deployment",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Deployment",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment.html"
   }, {
     "propertyName" : "DeploymentConfigName",
     "propertyType" : "String",
@@ -58,13 +58,13 @@
   }, {
     "propertyName" : "Ec2TagFilters",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Ec2TagFilter",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-ec2tagfilters.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-ec2tagfilters.html"
   }, {
     "propertyName" : "OnPremisesInstanceTagFilters",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::OnPremisesInstanceTagFilter",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-onpremisesinstancetagfilters.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-onpremisesinstancetagfilters.html"
   }, {
     "propertyName" : "ServiceRoleArn",
     "propertyType" : "String",
@@ -84,8 +84,8 @@
   }, {
     "propertyName" : "Revision",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision.html",
@@ -93,8 +93,8 @@
   "properties" : [ {
     "propertyName" : "GitHubLocation",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision::GitHubLocation",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html"
   }, {
     "propertyName" : "RevisionType",
     "propertyType" : "String",
@@ -102,8 +102,8 @@
   }, {
     "propertyName" : "S3Location",
     "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Revision::S3Location",
-    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codedeploy-deploymentgroup-deployment-revision-s3location.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codedeploy-deploymentgroup-deployment-revision-githublocation.html",

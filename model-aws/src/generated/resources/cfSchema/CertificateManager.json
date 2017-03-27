@@ -8,8 +8,8 @@
   }, {
     "propertyName" : "DomainValidationOptions",
     "propertyType" : "List<AWS::CertificateManager::Certificate::DomainValidationOption>",
-    "propertyHref" : "aws-properties-certificatemanager-certificate-domainvalidationoption.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-certificatemanager-certificate-domainvalidationoption.html"
   }, {
     "propertyName" : "SubjectAlternativeNames",
     "propertyType" : "List<String>",
@@ -17,8 +17,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-certificatemanager-certificate-domainvalidationoption.html",

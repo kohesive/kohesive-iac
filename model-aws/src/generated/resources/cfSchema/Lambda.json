@@ -48,8 +48,8 @@
   "properties" : [ {
     "propertyName" : "Code",
     "propertyType" : "AWS::Lambda::Function::Code",
-    "propertyHref" : "aws-properties-lambda-function-code.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-lambda-function-code.html"
   }, {
     "propertyName" : "Description",
     "propertyType" : "String",
@@ -57,8 +57,8 @@
   }, {
     "propertyName" : "Environment",
     "propertyType" : "AWS::Lambda::Function::Environment",
-    "propertyHref" : "aws-properties-lambda-function-environment.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-lambda-function-environment.html"
   }, {
     "propertyName" : "FunctionName",
     "propertyType" : "String",
@@ -90,8 +90,8 @@
   }, {
     "propertyName" : "VpcConfig",
     "propertyType" : "AWS::Lambda::Function::VPCConfig",
-    "propertyHref" : "aws-properties-lambda-function-vpcconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-lambda-function-vpcconfig.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-code.html",

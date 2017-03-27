@@ -8,18 +8,18 @@
   }, {
     "propertyName" : "ConfigurationProperties",
     "propertyType" : "List<AWS::CodePipeline::CustomActionType::ConfigurationProperty>",
-    "propertyHref" : "aws-resource-codepipeline-customactiontype-configurationproperties.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-configurationproperties.html"
   }, {
     "propertyName" : "InputArtifactDetails",
     "propertyType" : "AWS::CodePipeline::CustomActionType::ArtifactDetail",
-    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html"
   }, {
     "propertyName" : "OutputArtifactDetails",
     "propertyType" : "AWS::CodePipeline::CustomActionType::ArtifactDetail",
-    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-artifactdetails.html"
   }, {
     "propertyName" : "Provider",
     "propertyType" : "String",
@@ -27,8 +27,8 @@
   }, {
     "propertyName" : "Settings",
     "propertyType" : "AWS::CodePipeline::CustomActionType::Setting",
-    "propertyHref" : "aws-resource-codepipeline-customactiontype-settings.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-resource-codepipeline-customactiontype-settings.html"
   }, {
     "propertyName" : "Version",
     "propertyType" : "String",
@@ -104,13 +104,13 @@
   "properties" : [ {
     "propertyName" : "ArtifactStore",
     "propertyType" : "AWS::CodePipeline::Pipeline::ArtifactStore",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore.html"
   }, {
     "propertyName" : "DisableInboundStageTransitions",
     "propertyType" : "List<AWS::CodePipeline::Pipeline::DisableInboundStageTransition>",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-disableinboundstagetransitions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-disableinboundstagetransitions.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -126,8 +126,8 @@
   }, {
     "propertyName" : "Stages",
     "propertyType" : "AWS::CodePipeline::Pipeline::Stage",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codepipeline-pipeline-artifactstore.html",
@@ -135,8 +135,8 @@
   "properties" : [ {
     "propertyName" : "EncryptionKey",
     "propertyType" : "AWS::CodePipeline::Pipeline::ArtifactStore::EncryptionKey",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-artifactstore-encryptionkey.html"
   }, {
     "propertyName" : "Location",
     "propertyType" : "String",
@@ -176,13 +176,13 @@
   "properties" : [ {
     "propertyName" : "Actions",
     "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action>",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions.html"
   }, {
     "propertyName" : "Blockers",
     "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Blocker>",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-blockers.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-blockers.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -194,8 +194,8 @@
   "properties" : [ {
     "propertyName" : "ActionTypeId",
     "propertyType" : "AWS::CodePipeline::Pipeline::Stage::Action::ActionTypeId",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-actiontypeid.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-actiontypeid.html"
   }, {
     "propertyName" : "Configuration",
     "propertyType" : "String",
@@ -203,8 +203,8 @@
   }, {
     "propertyName" : "InputArtifacts",
     "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action::InputArtifact>",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-inputartifacts.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-inputartifacts.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -212,8 +212,8 @@
   }, {
     "propertyName" : "OutputArtifacts",
     "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage::Action::OutputArtifact>",
-    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-outputartifacts.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-outputartifacts.html"
   }, {
     "propertyName" : "RoleArn",
     "propertyType" : "String",

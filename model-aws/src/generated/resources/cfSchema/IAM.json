@@ -32,8 +32,8 @@
   }, {
     "propertyName" : "Policies",
     "propertyType" : "List<AWS::IAM::Role::Policy>",
-    "propertyHref" : "aws-properties-iam-policy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-iam-policy.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html",
@@ -129,8 +129,8 @@
   }, {
     "propertyName" : "Policies",
     "propertyType" : "List<AWS::IAM::Role::Policy>",
-    "propertyHref" : "aws-properties-iam-policy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-iam-policy.html"
   }, {
     "propertyName" : "RoleName",
     "propertyType" : "String",
@@ -146,8 +146,8 @@
   }, {
     "propertyName" : "LoginProfile",
     "propertyType" : "AWS::IAM::User::LoginProfile",
-    "propertyHref" : "aws-properties-iam-user-loginprofile.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-iam-user-loginprofile.html"
   }, {
     "propertyName" : "ManagedPolicyArns",
     "propertyType" : "List<String>",
@@ -159,8 +159,8 @@
   }, {
     "propertyName" : "Policies",
     "propertyType" : "List<AWS::IAM::Role::Policy>",
-    "propertyHref" : "aws-properties-iam-policy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-iam-policy.html"
   }, {
     "propertyName" : "UserName",
     "propertyType" : "String",

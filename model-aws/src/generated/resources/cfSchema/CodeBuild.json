@@ -4,8 +4,8 @@
   "properties" : [ {
     "propertyName" : "Artifacts",
     "propertyType" : "AWS::CodeBuild::Project::Artifact",
-    "propertyHref" : "aws-properties-codebuild-project-artifacts.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codebuild-project-artifacts.html"
   }, {
     "propertyName" : "Description",
     "propertyType" : "String",
@@ -17,8 +17,8 @@
   }, {
     "propertyName" : "Environment",
     "propertyType" : "AWS::CodeBuild::Project::Environment",
-    "propertyHref" : "aws-properties-codebuild-project-environment.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codebuild-project-environment.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -30,13 +30,13 @@
   }, {
     "propertyName" : "Source",
     "propertyType" : "AWS::CodeBuild::Project::Source",
-    "propertyHref" : "aws-properties-codebuild-project-source.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-codebuild-project-source.html"
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "TimeoutInMinutes",
     "propertyType" : "Number",
@@ -80,8 +80,8 @@
   }, {
     "propertyName" : "EnvironmentVariables",
     "propertyType" : "List<AWS::CodeBuild::Project::Environment::EnvironmentVariable>",
-    "propertyHref" : "aws-properties-codebuild-project-environment-environmentvariables.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codebuild-project-environment-environmentvariables.html"
   }, {
     "propertyName" : "Image",
     "propertyType" : "String",

@@ -8,23 +8,23 @@
   }, {
     "propertyName" : "Applications",
     "propertyType" : "List<AWS::EMR::Cluster::Application>",
-    "propertyHref" : "aws-properties-emr-cluster-application.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-application.html"
   }, {
     "propertyName" : "BootstrapActions",
     "propertyType" : "List<AWS::EMR::Cluster::BootstrapActionConfig>",
-    "propertyHref" : "aws-properties-emr-cluster-bootstrapactionconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-bootstrapactionconfig.html"
   }, {
     "propertyName" : "Configurations",
     "propertyType" : "List<AWS::EMR::Cluster::Configuration>",
-    "propertyHref" : "aws-properties-emr-cluster-configuration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-configuration.html"
   }, {
     "propertyName" : "Instances",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig",
-    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig.html"
   }, {
     "propertyName" : "JobFlowRole",
     "propertyType" : "String",
@@ -48,8 +48,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "VisibleToAllUsers",
     "propertyType" : "Boolean",
@@ -85,8 +85,8 @@
   }, {
     "propertyName" : "ScriptBootstrapAction",
     "propertyType" : "AWS::EMR::Cluster::BootstrapActionConfig::ScriptBootstrapActionConfig",
-    "propertyHref" : "aws-properties-emr-cluster-bootstrapactionconfig-scriptbootstrapactionconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-cluster-bootstrapactionconfig-scriptbootstrapactionconfig.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-emr-cluster-bootstrapactionconfig-scriptbootstrapactionconfig.html",
@@ -114,8 +114,8 @@
   }, {
     "propertyName" : "Configurations",
     "propertyType" : "List<AWS::EMR::Cluster::Configuration>",
-    "propertyHref" : "aws-properties-emr-cluster-configuration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-configuration.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-emr-cluster-jobflowinstancesconfig.html",
@@ -131,8 +131,8 @@
   }, {
     "propertyName" : "CoreInstanceGroup",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig",
-    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-instancegroupconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-instancegroupconfig.html"
   }, {
     "propertyName" : "Ec2KeyName",
     "propertyType" : "String",
@@ -156,13 +156,13 @@
   }, {
     "propertyName" : "MasterInstanceGroup",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig",
-    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-instancegroupconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-instancegroupconfig.html"
   }, {
     "propertyName" : "Placement",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::Placement",
-    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-placementtype.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-jobflowinstancesconfig-placementtype.html"
   }, {
     "propertyName" : "ServiceAccessSecurityGroup",
     "propertyType" : "String",
@@ -182,13 +182,13 @@
   }, {
     "propertyName" : "Configurations",
     "propertyType" : "List<AWS::EMR::Cluster::Configuration>",
-    "propertyHref" : "aws-properties-emr-cluster-configuration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-configuration.html"
   }, {
     "propertyName" : "EbsConfiguration",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig::EbsConfiguration",
-    "propertyHref" : "aws-properties-emr-ebsconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-ebsconfiguration.html"
   }, {
     "propertyName" : "InstanceCount",
     "propertyType" : "Number",
@@ -212,8 +212,8 @@
   "properties" : [ {
     "propertyName" : "EbsBlockDeviceConfigs",
     "propertyType" : "List<AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig::EbsConfiguration::EbsBlockDeviceConfig>",
-    "propertyHref" : "aws-properties-emr-ebsconfiguration-ebsblockdeviceconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-ebsconfiguration-ebsblockdeviceconfig.html"
   }, {
     "propertyName" : "EbsOptimized",
     "propertyType" : "Boolean",
@@ -225,8 +225,8 @@
   "properties" : [ {
     "propertyName" : "VolumeSpecification",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig::EbsConfiguration::VolumeSpecification",
-    "propertyHref" : "aws-properties-emr-ebsconfiguration-ebsblockdeviceconfig-volumespecification.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-ebsconfiguration-ebsblockdeviceconfig-volumespecification.html"
   }, {
     "propertyName" : "VolumesPerInstance",
     "propertyType" : "Number",
@@ -266,13 +266,13 @@
   }, {
     "propertyName" : "Configurations",
     "propertyType" : "List<AWS::EMR::Cluster::Configuration>",
-    "propertyHref" : "aws-properties-emr-cluster-configuration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-cluster-configuration.html"
   }, {
     "propertyName" : "EbsConfiguration",
     "propertyType" : "AWS::EMR::Cluster::JobFlowInstancesConfig::InstanceGroupConfig::EbsConfiguration",
-    "propertyHref" : "aws-properties-emr-ebsconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-ebsconfiguration.html"
   }, {
     "propertyName" : "InstanceCount",
     "propertyType" : "Number",
@@ -308,8 +308,8 @@
   }, {
     "propertyName" : "HadoopJarStep",
     "propertyType" : "AWS::EMR::Step::HadoopJarStepConfig",
-    "propertyHref" : "aws-properties-emr-step-hadoopjarstepconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-emr-step-hadoopjarstepconfig.html"
   }, {
     "propertyName" : "JobFlowId",
     "propertyType" : "String",
@@ -337,8 +337,8 @@
   }, {
     "propertyName" : "StepProperties",
     "propertyType" : "List<AWS::EMR::Step::HadoopJarStepConfig::KeyValue>",
-    "propertyHref" : "aws-properties-emr-step-hadoopjarstepconfig-keyvalue.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-emr-step-hadoopjarstepconfig-keyvalue.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-emr-step-hadoopjarstepconfig-keyvalue.html",

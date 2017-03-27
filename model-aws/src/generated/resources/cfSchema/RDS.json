@@ -64,8 +64,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "VpcSecurityGroupIds",
     "propertyType" : "List<String>",
@@ -89,8 +89,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html",
@@ -238,8 +238,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "Timezone",
     "propertyType" : "String",
@@ -267,8 +267,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-security-group.html",
@@ -280,8 +280,8 @@
   }, {
     "propertyName" : "DBSecurityGroupIngress",
     "propertyType" : "List<AWS::RDS::DBSecurityGroup::Rule>",
-    "propertyHref" : "aws-properties-rds-security-group-rule.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-rds-security-group-rule.html"
   }, {
     "propertyName" : "GroupDescription",
     "propertyType" : "String",
@@ -289,8 +289,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-security-group-rule.html",
@@ -350,8 +350,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-eventsubscription.html",
@@ -395,13 +395,13 @@
   }, {
     "propertyName" : "OptionConfigurations",
     "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration",
-    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations.html"
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-optiongroup-optionconfigurations.html",
@@ -417,8 +417,8 @@
   }, {
     "propertyName" : "OptionSettings",
     "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration::OptionSetting",
-    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations-optionsettings.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations-optionsettings.html"
   }, {
     "propertyName" : "Port",
     "propertyType" : "Number",

@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "VpcSettings",
     "propertyType" : "AWS::DirectoryService::MicrosoftAD::VpcSetting",
-    "propertyHref" : "aws-properties-directoryservice-microsoftad-vpcsettings.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-directoryservice-microsoftad-vpcsettings.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-microsoftad-vpcsettings.html",
@@ -73,8 +73,8 @@
   }, {
     "propertyName" : "VpcSettings",
     "propertyType" : "AWS::DirectoryService::SimpleAD::VpcSetting",
-    "propertyHref" : "aws-properties-directoryservice-simplead-vpcsettings.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-directoryservice-simplead-vpcsettings.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-directoryservice-simplead-vpcsettings.html",

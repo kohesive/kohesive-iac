@@ -10,7 +10,8 @@ enum class TemplateDescriptor(
 
     BaseIacContext("/templates/context/IacContext.ftl"),
     ServiceContext("/templates/context/ServiceContext.ftl"),
-    DeferredClient("/templates/client/DeferredClient.ftl");
+    DeferredClient("/templates/client/DeferredClient.ftl"),
+    CloudFormationModel("/templates/cfModel/CfModel.ftl");
 
     fun load(): Template = TemplateLoader.getTemplate(this)
 

@@ -27,11 +27,11 @@ data class CloudFormationResource(
 data class ResourceProperty(
     val propertyName: String,
     val propertyType: String,
-    val isRequired: Boolean,
+    val required: Boolean,
     val propertyHref: String? = null
 ) {
 
-    override fun toString() = "${if (isRequired) "+" else "-"} $propertyName: $propertyType"
+    override fun toString() = "${if (required) "+" else "-"} $propertyName: $propertyType"
 }
 
 data class PropertyNameExtractor(
@@ -277,17 +277,13 @@ class DocumentationCrawler(
                     if (propertyName == "PolicyName" && uri == "aws-properties-ec2-elb-LBCookieStickinessPolicy.html") {
                         propertyType = "String"
                         isRequired   = true
-                    }
-                    if (propertyName == "RetryOptions" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
+                    } else if (propertyName == "RetryOptions" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
                         isRequired = true
-                    }
-                    if (propertyName == "S3Configuration" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
+                    } else if (propertyName == "S3Configuration" && uri == "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html") {
                         isRequired = true
-                    }
-                    if (propertyName == "CIDRIP" && uri == "aws-resource-rds-security-group-ingress.html") {
+                    } else if (propertyName == "CIDRIP" && uri == "aws-resource-rds-security-group-ingress.html") {
                         isRequired = true
-                    }
-                    if (propertyName == "Region" && uri == "aws-properties-route53-recordset.html") {
+                    } else if (propertyName == "Region" && uri == "aws-properties-route53-recordset.html") {
                         isRequired = false
                     }
 
@@ -317,7 +313,7 @@ class DocumentationCrawler(
                     ResourceProperty(
                         propertyName = propertyName,
                         propertyType = propertyType!!,
-                        isRequired   = isRequired!!,
+                        required = isRequired!!,
                         propertyHref = typeHref
                     )
                 }
@@ -336,7 +332,7 @@ class DocumentationCrawler(
         }
     }
 
-    private fun String.sanitizeLink(): String = this.replace(CFDocsURL, "").let {
+    private fun String.sanitizeLink(): String = replace(CFDocsURL, "").let {
         if (it.contains('#')) {
             it.substring(0, it.indexOf('#'))
         } else {

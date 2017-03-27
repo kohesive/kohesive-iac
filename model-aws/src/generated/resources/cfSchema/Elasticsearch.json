@@ -16,13 +16,13 @@
   }, {
     "propertyName" : "EBSOptions",
     "propertyType" : "AWS::Elasticsearch::Domain::EBSOption",
-    "propertyHref" : "aws-properties-elasticsearch-domain-ebsoptions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticsearch-domain-ebsoptions.html"
   }, {
     "propertyName" : "ElasticsearchClusterConfig",
     "propertyType" : "AWS::Elasticsearch::Domain::ElasticsearchClusterConfig",
-    "propertyHref" : "aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticsearch-domain-elasticsearchclusterconfig.html"
   }, {
     "propertyName" : "ElasticsearchVersion",
     "propertyType" : "String",
@@ -30,13 +30,13 @@
   }, {
     "propertyName" : "SnapshotOptions",
     "propertyType" : "AWS::Elasticsearch::Domain::SnapshotOption",
-    "propertyHref" : "aws-properties-elasticsearch-domain-snapshotoptions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticsearch-domain-snapshotoptions.html"
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticsearch-domain-ebsoptions.html",

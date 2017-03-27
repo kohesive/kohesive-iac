@@ -8,18 +8,18 @@
   }, {
     "propertyName" : "ElasticsearchDestinationConfiguration",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html"
   }, {
     "propertyName" : "RedshiftDestinationConfiguration",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration.html"
   }, {
     "propertyName" : "S3DestinationConfiguration",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration.html",
@@ -27,13 +27,13 @@
   "properties" : [ {
     "propertyName" : "BufferingHints",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::BufferingHint",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration-bufferinghints.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-elasticsearchdestinationconfiguration-bufferinghints.html"
   }, {
     "propertyName" : "CloudWatchLoggingOptions",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html"
   }, {
     "propertyName" : "DomainARN",
     "propertyType" : "String",
@@ -113,13 +113,13 @@
   }, {
     "propertyName" : "BufferingHints",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::BufferingHint",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-bufferinghints.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-bufferinghints.html"
   }, {
     "propertyName" : "CloudWatchLoggingOptions",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html"
   }, {
     "propertyName" : "CompressionFormat",
     "propertyType" : "String",
@@ -127,8 +127,8 @@
   }, {
     "propertyName" : "EncryptionConfiguration",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration.html"
   }, {
     "propertyName" : "Prefix",
     "propertyType" : "String",
@@ -156,8 +156,8 @@
   "properties" : [ {
     "propertyName" : "KMSEncryptionConfig",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration::EncryptionConfiguration::KMSEncryptionConfig",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration-kmsencryptionconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration-encryptionconfiguration-kmsencryptionconfig.html"
   }, {
     "propertyName" : "NoEncryptionConfig",
     "propertyType" : "String",
@@ -177,8 +177,8 @@
   "properties" : [ {
     "propertyName" : "CloudWatchLoggingOptions",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::ElasticsearchDestinationConfiguration::CloudWatchLoggingOption",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-destination-cloudwatchloggingoptions.html"
   }, {
     "propertyName" : "ClusterJDBCURL",
     "propertyType" : "String",
@@ -186,8 +186,8 @@
   }, {
     "propertyName" : "CopyCommand",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::RedshiftDestinationConfiguration::CopyCommand",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration-copycommand.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-redshiftdestinationconfiguration-copycommand.html"
   }, {
     "propertyName" : "Password",
     "propertyType" : "String",
@@ -199,8 +199,8 @@
   }, {
     "propertyName" : "S3Configuration",
     "propertyType" : "AWS::KinesisFirehose::DeliveryStream::S3DestinationConfiguration",
-    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-kinesisfirehose-kinesisdeliverystream-s3destinationconfiguration.html"
   }, {
     "propertyName" : "Username",
     "propertyType" : "String",

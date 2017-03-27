@@ -28,8 +28,8 @@
   }, {
     "propertyName" : "Targets",
     "propertyType" : "List<AWS::Events::Rule::Target>",
-    "propertyHref" : "aws-properties-events-rule-target.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-events-rule-target.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-events-rule-target.html",

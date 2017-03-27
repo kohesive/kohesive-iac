@@ -4,13 +4,13 @@
   "properties" : [ {
     "propertyName" : "Certificates",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::Listener::Certificate>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-certificates.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-certificates.html"
   }, {
     "propertyName" : "DefaultActions",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::Listener::DefaultAction>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-defaultactions.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listener-defaultactions.html"
   }, {
     "propertyName" : "LoadBalancerArn",
     "propertyType" : "String",
@@ -54,13 +54,13 @@
   "properties" : [ {
     "propertyName" : "Actions",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::ListenerRule::Action>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-actions.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-actions.html"
   }, {
     "propertyName" : "Conditions",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::ListenerRule::Condition>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-conditions.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-listenerrule-conditions.html"
   }, {
     "propertyName" : "ListenerArn",
     "propertyType" : "String",
@@ -100,8 +100,8 @@
   "properties" : [ {
     "propertyName" : "LoadBalancerAttributes",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::LoadBalancer::LoadBalancerAttribute>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -121,8 +121,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.html",
@@ -166,8 +166,8 @@
   }, {
     "propertyName" : "Matcher",
     "propertyType" : "AWS::ElasticLoadBalancingV2::TargetGroup::Matcher",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-matcher.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-matcher.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -183,13 +183,13 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "TargetGroupAttributes",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::TargetGroup::TargetGroupAttribute>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetgroupattributes.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetgroupattributes.html"
   }, {
     "propertyName" : "TargetGroupFullName",
     "propertyType" : "String",
@@ -197,8 +197,8 @@
   }, {
     "propertyName" : "Targets",
     "propertyType" : "List<AWS::ElasticLoadBalancingV2::TargetGroup::TargetDescription>",
-    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetdescription.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticloadbalancingv2-targetgroup-targetdescription.html"
   }, {
     "propertyName" : "UnhealthyThresholdCount",
     "propertyType" : "Number",

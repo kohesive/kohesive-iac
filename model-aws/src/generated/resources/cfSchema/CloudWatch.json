@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "Dimensions",
     "propertyType" : "List<AWS::CloudWatch::Alarm::Dimension>",
-    "propertyHref" : "aws-properties-cw-dimension.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cw-dimension.html"
   }, {
     "propertyName" : "EvaluationPeriods",
     "propertyType" : "Number",

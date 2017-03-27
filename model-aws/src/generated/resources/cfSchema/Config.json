@@ -20,13 +20,13 @@
   }, {
     "propertyName" : "Scope",
     "propertyType" : "AWS::Config::ConfigRule::Scope",
-    "propertyHref" : "aws-properties-config-configrule-scope.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-config-configrule-scope.html"
   }, {
     "propertyName" : "Source",
     "propertyType" : "AWS::Config::ConfigRule::Source",
-    "propertyHref" : "aws-properties-config-configrule-source.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-config-configrule-source.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-config-configrule-scope.html",
@@ -58,8 +58,8 @@
   }, {
     "propertyName" : "SourceDetails",
     "propertyType" : "List<AWS::Config::ConfigRule::Source::SourceDetail>",
-    "propertyHref" : "aws-properties-config-configrule-source-sourcedetails.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-config-configrule-source-sourcedetails.html"
   }, {
     "propertyName" : "SourceIdentifier",
     "propertyType" : "String",
@@ -87,8 +87,8 @@
   }, {
     "propertyName" : "RecordingGroup",
     "propertyType" : "AWS::Config::ConfigurationRecorder::RecordingGroup",
-    "propertyHref" : "aws-properties-config-configurationrecorder-recordinggroup.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-config-configurationrecorder-recordinggroup.html"
   }, {
     "propertyName" : "RoleARN",
     "propertyType" : "String",
@@ -116,8 +116,8 @@
   "properties" : [ {
     "propertyName" : "ConfigSnapshotDeliveryProperties",
     "propertyType" : "AWS::Config::DeliveryChannel::ConfigSnapshotDeliveryProperty",
-    "propertyHref" : "aws-properties-config-deliverychannel-configsnapshotdeliveryproperties.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-config-deliverychannel-configsnapshotdeliveryproperties.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",

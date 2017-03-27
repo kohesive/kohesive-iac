@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "StageKeys",
     "propertyType" : "List<AWS::ApiGateway::ApiKey::StageKey>",
-    "propertyHref" : "aws-properties-apitgateway-apikey-stagekey.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-apikey-stagekey.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-apitgateway-apikey-stagekey.html",
@@ -121,8 +121,8 @@
   }, {
     "propertyName" : "StageDescription",
     "propertyType" : "AWS::ApiGateway::Deployment::StageDescription",
-    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription.html"
   }, {
     "propertyName" : "StageName",
     "propertyType" : "String",
@@ -170,8 +170,8 @@
   }, {
     "propertyName" : "MethodSettings",
     "propertyType" : "AWS::ApiGateway::Deployment::StageDescription::MethodSetting",
-    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription-methodsetting.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription-methodsetting.html"
   }, {
     "propertyName" : "MetricsEnabled",
     "propertyType" : "Boolean",
@@ -259,13 +259,13 @@
   }, {
     "propertyName" : "Integration",
     "propertyType" : "AWS::ApiGateway::Method::Integration",
-    "propertyHref" : "aws-properties-apitgateway-method-integration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-method-integration.html"
   }, {
     "propertyName" : "MethodResponses",
     "propertyType" : "List<AWS::ApiGateway::Method::MethodResponse>",
-    "propertyHref" : "aws-properties-apitgateway-method-methodresponse.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-method-methodresponse.html"
   }, {
     "propertyName" : "RequestModels",
     "propertyType" : "Map<String, String>",
@@ -305,8 +305,8 @@
   }, {
     "propertyName" : "IntegrationResponses",
     "propertyType" : "List<AWS::ApiGateway::Method::Integration::IntegrationResponse>",
-    "propertyHref" : "aws-properties-apitgateway-method-integration-integrationresponse.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-method-integration-integrationresponse.html"
   }, {
     "propertyName" : "PassthroughBehavior",
     "propertyType" : "String",
@@ -414,8 +414,8 @@
   }, {
     "propertyName" : "BodyS3Location",
     "propertyType" : "AWS::ApiGateway::RestApi::S3Location",
-    "propertyHref" : "aws-properties-apitgateway-restapi-bodys3location.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-restapi-bodys3location.html"
   }, {
     "propertyName" : "CloneFrom",
     "propertyType" : "String",
@@ -483,8 +483,8 @@
   }, {
     "propertyName" : "MethodSettings",
     "propertyType" : "AWS::ApiGateway::Stage::MethodSetting",
-    "propertyHref" : "aws-properties-apitgateway-stage-methodsetting.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apitgateway-stage-methodsetting.html"
   }, {
     "propertyName" : "RestApiId",
     "propertyType" : "String",
@@ -548,8 +548,8 @@
   "properties" : [ {
     "propertyName" : "ApiStages",
     "propertyType" : "List<AWS::ApiGateway::UsagePlan::ApiStage>",
-    "propertyHref" : "aws-properties-apigateway-usageplan-apistage.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apigateway-usageplan-apistage.html"
   }, {
     "propertyName" : "Description",
     "propertyType" : "String",
@@ -557,13 +557,13 @@
   }, {
     "propertyName" : "Quota",
     "propertyType" : "AWS::ApiGateway::UsagePlan::QuotaSetting",
-    "propertyHref" : "aws-properties-apigateway-usageplan-quotasettings.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apigateway-usageplan-quotasettings.html"
   }, {
     "propertyName" : "Throttle",
     "propertyType" : "AWS::ApiGateway::UsagePlan::ThrottleSetting",
-    "propertyHref" : "aws-properties-apigateway-usageplan-throttlesettings.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-apigateway-usageplan-throttlesettings.html"
   }, {
     "propertyName" : "UsagePlanName",
     "propertyType" : "String",

@@ -4,8 +4,8 @@
   "properties" : [ {
     "propertyName" : "FileSystemTags",
     "propertyType" : "AWS::EFS::FileSystem::FileSystemTag",
-    "propertyHref" : "aws-properties-efs-filesystem-filesystemtags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-efs-filesystem-filesystemtags.html"
   }, {
     "propertyName" : "PerformanceMode",
     "propertyType" : "String",

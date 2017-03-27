@@ -4,8 +4,8 @@
   "properties" : [ {
     "propertyName" : "DistributionConfig",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig",
-    "propertyHref" : "aws-properties-cloudfront-distributionconfig.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-distributionconfig.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distributionconfig.html",
@@ -17,8 +17,8 @@
   }, {
     "propertyName" : "CacheBehaviors",
     "propertyType" : "List<AWS::CloudFront::Distribution::DistributionConfig::CacheBehavior>",
-    "propertyHref" : "aws-properties-cloudfront-cachebehavior.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-cachebehavior.html"
   }, {
     "propertyName" : "Comment",
     "propertyType" : "String",
@@ -26,13 +26,13 @@
   }, {
     "propertyName" : "CustomErrorResponses",
     "propertyType" : "List<AWS::CloudFront::Distribution::DistributionConfig::CustomErrorResponse>",
-    "propertyHref" : "aws-properties-cloudfront-distributionconfig-customerrorresponse.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-distributionconfig-customerrorresponse.html"
   }, {
     "propertyName" : "DefaultCacheBehavior",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior",
-    "propertyHref" : "aws-properties-cloudfront-defaultcachebehavior.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-defaultcachebehavior.html"
   }, {
     "propertyName" : "DefaultRootObject",
     "propertyType" : "String",
@@ -48,13 +48,13 @@
   }, {
     "propertyName" : "Logging",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::Logging",
-    "propertyHref" : "aws-properties-cloudfront-logging.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-logging.html"
   }, {
     "propertyName" : "Origins",
     "propertyType" : "List<AWS::CloudFront::Distribution::DistributionConfig::Origin>",
-    "propertyHref" : "aws-properties-cloudfront-origin.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-origin.html"
   }, {
     "propertyName" : "PriceClass",
     "propertyType" : "String",
@@ -62,13 +62,13 @@
   }, {
     "propertyName" : "Restrictions",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::Restriction",
-    "propertyHref" : "aws-properties-cloudfront-distributionconfig-restrictions.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-distributionconfig-restrictions.html"
   }, {
     "propertyName" : "ViewerCertificate",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::ViewerCertificate",
-    "propertyHref" : "aws-properties-cloudfront-distributionconfig-viewercertificate.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-distributionconfig-viewercertificate.html"
   }, {
     "propertyName" : "WebACLId",
     "propertyType" : "String",
@@ -96,8 +96,8 @@
   }, {
     "propertyName" : "ForwardedValues",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue",
-    "propertyHref" : "aws-properties-cloudfront-forwardedvalues.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-forwardedvalues.html"
   }, {
     "propertyName" : "MaxTTL",
     "propertyType" : "Number",
@@ -133,8 +133,8 @@
   "properties" : [ {
     "propertyName" : "Cookies",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue::Cooky",
-    "propertyHref" : "aws-properties-cloudfront-forwardedvalues-cookies.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-forwardedvalues-cookies.html"
   }, {
     "propertyName" : "Headers",
     "propertyType" : "List<String>",
@@ -202,8 +202,8 @@
   }, {
     "propertyName" : "ForwardedValues",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue",
-    "propertyHref" : "aws-properties-cloudfront-forwardedvalues.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-forwardedvalues.html"
   }, {
     "propertyName" : "MaxTTL",
     "propertyType" : "Number",
@@ -251,8 +251,8 @@
   "properties" : [ {
     "propertyName" : "CustomOriginConfig",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::Origin::CustomOrigin",
-    "propertyHref" : "aws-properties-cloudfront-customorigin.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-customorigin.html"
   }, {
     "propertyName" : "DomainName",
     "propertyType" : "String",
@@ -264,8 +264,8 @@
   }, {
     "propertyName" : "OriginCustomHeaders",
     "propertyType" : "List<AWS::CloudFront::Distribution::DistributionConfig::Origin::OriginCustomHeader>",
-    "propertyHref" : "aws-properties-cloudfront-origin-origincustomheader.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-origin-origincustomheader.html"
   }, {
     "propertyName" : "OriginPath",
     "propertyType" : "String",
@@ -273,8 +273,8 @@
   }, {
     "propertyName" : "S3OriginConfig",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::Origin::S3Origin",
-    "propertyHref" : "aws-properties-cloudfront-s3origin.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudfront-s3origin.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-customorigin.html",
@@ -322,8 +322,8 @@
   "properties" : [ {
     "propertyName" : "GeoRestriction",
     "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::Restriction::GeoRestriction",
-    "propertyHref" : "aws-properties-cloudfront-distributionconfig-restrictions-georestriction.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-cloudfront-distributionconfig-restrictions-georestriction.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distributionconfig-restrictions-georestriction.html",

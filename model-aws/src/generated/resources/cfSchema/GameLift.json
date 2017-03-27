@@ -12,8 +12,8 @@
   }, {
     "propertyName" : "RoutingStrategy",
     "propertyType" : "AWS::GameLift::Alias::RoutingStrategy",
-    "propertyHref" : "aws-properties-gamelift-alias-routingstrategy.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-gamelift-alias-routingstrategy.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-gamelift-alias-routingstrategy.html",
@@ -41,8 +41,8 @@
   }, {
     "propertyName" : "StorageLocation",
     "propertyType" : "AWS::GameLift::Build::StorageLocation",
-    "propertyHref" : "aws-properties-gamelift-build-storagelocation.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-gamelift-build-storagelocation.html"
   }, {
     "propertyName" : "Version",
     "propertyType" : "String",
@@ -82,8 +82,8 @@
   }, {
     "propertyName" : "EC2InboundPermissions",
     "propertyType" : "List<AWS::GameLift::Fleet::EC2InboundPermission>",
-    "propertyHref" : "aws-properties-gamelift-fleet-ec2inboundpermission.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-gamelift-fleet-ec2inboundpermission.html"
   }, {
     "propertyName" : "EC2InstanceType",
     "propertyType" : "String",

@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "Targets",
     "propertyType" : "List<AWS::SSM::Association::Target>",
-    "propertyHref" : "aws-properties-ssm-association-targets.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-ssm-association-targets.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ssm-association-targets.html",

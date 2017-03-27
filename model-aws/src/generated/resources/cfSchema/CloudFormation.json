@@ -64,13 +64,13 @@
   "properties" : [ {
     "propertyName" : "ParameterGroups",
     "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup",
-    "propertyHref" : "aws-properties-cloudformation-interface-parametergroup.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudformation-interface-parametergroup.html"
   }, {
     "propertyName" : "ParameterLabels",
     "propertyType" : "AWS::CloudFormation::Interface::ParameterLabel",
-    "propertyHref" : "aws-properties-cloudformation-interface-parameterlabel.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudformation-interface-parameterlabel.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudformation-interface-parametergroup.html",
@@ -78,8 +78,8 @@
   "properties" : [ {
     "propertyName" : "Label",
     "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup::Label",
-    "propertyHref" : "aws-properties-cloudformation-interface-label.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudformation-interface-label.html"
   }, {
     "propertyName" : "Parameters",
     "propertyType" : "List<String>",
@@ -99,8 +99,8 @@
   "properties" : [ {
     "propertyName" : "ParameterLogicalID",
     "propertyType" : "AWS::CloudFormation::Interface::ParameterGroup::Label",
-    "propertyHref" : "aws-properties-cloudformation-interface-label.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-cloudformation-interface-label.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html",
@@ -112,13 +112,13 @@
   }, {
     "propertyName" : "Parameters",
     "propertyType" : "AWS::CloudFormation::Stack::Parameter",
-    "propertyHref" : "aws-properties-stack-parameters.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-stack-parameters.html"
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "TemplateURL",
     "propertyType" : "String",

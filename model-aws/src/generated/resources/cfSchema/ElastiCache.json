@@ -80,8 +80,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   }, {
     "propertyName" : "VpcSecurityGroupIds",
     "propertyType" : "List<String>",
@@ -141,8 +141,8 @@
   }, {
     "propertyName" : "NodeGroupConfiguration",
     "propertyType" : "List<AWS::ElastiCache::ReplicationGroup::NodeGroupConfiguration>",
-    "propertyHref" : "aws-properties-elasticache-replicationgroup-nodegroupconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-elasticache-replicationgroup-nodegroupconfiguration.html"
   }, {
     "propertyName" : "NotificationTopicArn",
     "propertyType" : "String",
@@ -210,8 +210,8 @@
   }, {
     "propertyName" : "Tags",
     "propertyType" : "AWS::CloudFormation::ResourceTag",
-    "propertyHref" : "aws-properties-resource-tags.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-resource-tags.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-elasticache-replicationgroup-nodegroupconfiguration.html",

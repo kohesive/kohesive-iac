@@ -4,8 +4,8 @@
   "properties" : [ {
     "propertyName" : "AppSource",
     "propertyType" : "AWS::OpsWorks::Stack::Source",
-    "propertyHref" : "aws-properties-opsworks-stack-source.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-source.html"
   }, {
     "propertyName" : "Attributes",
     "propertyType" : "List<String>",
@@ -17,8 +17,8 @@
   }, {
     "propertyName" : "DataSources",
     "propertyType" : "List<AWS::OpsWorks::App::DataSource>",
-    "propertyHref" : "aws-properties-opsworks-app-datasource.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-app-datasource.html"
   }, {
     "propertyName" : "Domains",
     "propertyType" : "List<String>",
@@ -30,8 +30,8 @@
   }, {
     "propertyName" : "Environment",
     "propertyType" : "List<AWS::OpsWorks::App::Environment>",
-    "propertyHref" : "aws-properties-opsworks-app-environment.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-app-environment.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -43,8 +43,8 @@
   }, {
     "propertyName" : "SslConfiguration",
     "propertyType" : "AWS::OpsWorks::App::SslConfiguration",
-    "propertyHref" : "aws-properties-opsworks-app-sslconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-app-sslconfiguration.html"
   }, {
     "propertyName" : "StackId",
     "propertyType" : "String",
@@ -168,8 +168,8 @@
   }, {
     "propertyName" : "BlockDeviceMappings",
     "propertyType" : "List<AWS::OpsWorks::Instance::BlockDeviceMapping>",
-    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping.html"
   }, {
     "propertyName" : "EbsOptimized",
     "propertyType" : "Boolean",
@@ -221,8 +221,8 @@
   }, {
     "propertyName" : "TimeBasedAutoScaling",
     "propertyType" : "AWS::OpsWorks::Instance::TimeBasedAutoScaling",
-    "propertyHref" : "aws-properties-opsworks-instance-timebasedautoscaling.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-instance-timebasedautoscaling.html"
   }, {
     "propertyName" : "VirtualizationType",
     "propertyType" : "String",
@@ -242,8 +242,8 @@
   }, {
     "propertyName" : "Ebs",
     "propertyType" : "AWS::OpsWorks::Instance::BlockDeviceMapping::EbsBlockDevice",
-    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping-ebsblockdevice.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-instance-blockdevicemapping-ebsblockdevice.html"
   }, {
     "propertyName" : "NoDevice",
     "propertyType" : "String",
@@ -335,8 +335,8 @@
   }, {
     "propertyName" : "CustomRecipes",
     "propertyType" : "AWS::OpsWorks::Layer::Recipe",
-    "propertyHref" : "aws-properties-opsworks-layer-recipes.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-recipes.html"
   }, {
     "propertyName" : "CustomSecurityGroupIds",
     "propertyType" : "List<String>",
@@ -352,13 +352,13 @@
   }, {
     "propertyName" : "LifecycleEventConfiguration",
     "propertyType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration",
-    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration.html"
   }, {
     "propertyName" : "LoadBasedAutoScaling",
     "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling",
-    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling.html"
   }, {
     "propertyName" : "Name",
     "propertyType" : "String",
@@ -382,8 +382,8 @@
   }, {
     "propertyName" : "VolumeConfigurations",
     "propertyType" : "List<AWS::OpsWorks::Layer::VolumeConfiguration>",
-    "propertyHref" : "aws-properties-opsworks-layer-volumeconfig.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-volumeconfig.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-recipes.html",
@@ -415,8 +415,8 @@
   "properties" : [ {
     "propertyName" : "ShutdownEventConfiguration",
     "propertyType" : "AWS::OpsWorks::Layer::LifeCycleConfiguration::ShutdownEventConfiguration",
-    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-lifecycleeventconfiguration-shutdowneventconfiguration.html",
@@ -436,8 +436,8 @@
   "properties" : [ {
     "propertyName" : "DownScaling",
     "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling::AutoScalingThreshold",
-    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html"
   }, {
     "propertyName" : "Enable",
     "propertyType" : "Boolean",
@@ -445,8 +445,8 @@
   }, {
     "propertyName" : "UpScaling",
     "propertyType" : "AWS::OpsWorks::Layer::LoadBasedAutoScaling::AutoScalingThreshold",
-    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opsworks-layer-loadbasedautoscaling-autoscalingthresholds.html",
@@ -518,8 +518,8 @@
   }, {
     "propertyName" : "ChefConfiguration",
     "propertyType" : "AWS::OpsWorks::Stack::ChefConfiguration",
-    "propertyHref" : "aws-properties-opsworks-stack-chefconfiguration.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-chefconfiguration.html"
   }, {
     "propertyName" : "CloneAppIds",
     "propertyType" : "List<String>",
@@ -531,13 +531,13 @@
   }, {
     "propertyName" : "ConfigurationManager",
     "propertyType" : "AWS::OpsWorks::Stack::StackConfigurationManager",
-    "propertyHref" : "aws-properties-opsworks-stack-stackconfigmanager.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-stackconfigmanager.html"
   }, {
     "propertyName" : "CustomCookbooksSource",
     "propertyType" : "AWS::OpsWorks::Stack::Source",
-    "propertyHref" : "aws-properties-opsworks-stack-source.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-source.html"
   }, {
     "propertyName" : "CustomJson",
     "propertyType" : "String",
@@ -573,8 +573,8 @@
   }, {
     "propertyName" : "ElasticIps",
     "propertyType" : "List<AWS::OpsWorks::Stack::ElasticIp>",
-    "propertyHref" : "aws-properties-opsworks-stack-elasticip.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-elasticip.html"
   }, {
     "propertyName" : "HostnameTheme",
     "propertyType" : "String",
@@ -586,8 +586,8 @@
   }, {
     "propertyName" : "RdsDbInstances",
     "propertyType" : "List<AWS::OpsWorks::Stack::RdsDbInstance>",
-    "propertyHref" : "aws-properties-opsworks-stack-rdsdbinstance.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-opsworks-stack-rdsdbinstance.html"
   }, {
     "propertyName" : "ServiceRoleArn",
     "propertyType" : "String",

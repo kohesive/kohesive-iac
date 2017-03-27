@@ -4,33 +4,33 @@
   "properties" : [ {
     "propertyName" : "AttributeDefinitions",
     "propertyType" : "List<AWS::DynamoDB::Table::AttributeDefinition>",
-    "propertyHref" : "aws-properties-dynamodb-attributedef.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-attributedef.html"
   }, {
     "propertyName" : "GlobalSecondaryIndexes",
     "propertyType" : "List<AWS::DynamoDB::Table::GlobalSecondaryIndex>",
-    "propertyHref" : "aws-properties-dynamodb-gsi.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-dynamodb-gsi.html"
   }, {
     "propertyName" : "KeySchema",
     "propertyType" : "List<AWS::DynamoDB::Table::KeySchema>",
-    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html"
   }, {
     "propertyName" : "LocalSecondaryIndexes",
     "propertyType" : "List<AWS::DynamoDB::Table::LocalSecondaryIndex>",
-    "propertyHref" : "aws-properties-dynamodb-lsi.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-dynamodb-lsi.html"
   }, {
     "propertyName" : "ProvisionedThroughput",
     "propertyType" : "AWS::DynamoDB::Table::ProvisionedThroughput",
-    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html"
   }, {
     "propertyName" : "StreamSpecification",
     "propertyType" : "AWS::DynamoDB::Table::StreamSpecification",
-    "propertyHref" : "aws-properties-dynamodb-streamspecification.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-dynamodb-streamspecification.html"
   }, {
     "propertyName" : "TableName",
     "propertyType" : "String",
@@ -58,18 +58,18 @@
   }, {
     "propertyName" : "KeySchema",
     "propertyType" : "AWS::DynamoDB::Table::KeySchema",
-    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html"
   }, {
     "propertyName" : "Projection",
     "propertyType" : "AWS::DynamoDB::Table::Projection",
-    "propertyHref" : "aws-properties-dynamodb-projectionobject.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-projectionobject.html"
   }, {
     "propertyName" : "ProvisionedThroughput",
     "propertyType" : "AWS::DynamoDB::Table::ProvisionedThroughput",
-    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-provisionedthroughput.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-keyschema.html",
@@ -117,13 +117,13 @@
   }, {
     "propertyName" : "KeySchema",
     "propertyType" : "AWS::DynamoDB::Table::KeySchema",
-    "propertyHref" : "aws-properties-dynamodb-keyschema.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-keyschema.html"
   }, {
     "propertyName" : "Projection",
     "propertyType" : "AWS::DynamoDB::Table::Projection",
-    "propertyHref" : "aws-properties-dynamodb-projectionobject.html",
-    "required" : true
+    "required" : true,
+    "propertyHref" : "aws-properties-dynamodb-projectionobject.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-streamspecification.html",

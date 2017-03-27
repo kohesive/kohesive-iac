@@ -24,8 +24,8 @@
   }, {
     "propertyName" : "RedrivePolicy",
     "propertyType" : "AWS::SQS::Queue::RedrivePolicy",
-    "propertyHref" : "aws-properties-sqs-queues-redrivepolicy.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-sqs-queues-redrivepolicy.html"
   }, {
     "propertyName" : "VisibilityTimeout",
     "propertyType" : "Number",

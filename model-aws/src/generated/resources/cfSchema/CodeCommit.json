@@ -12,8 +12,8 @@
   }, {
     "propertyName" : "Triggers",
     "propertyType" : "List<AWS::CodeCommit::Repository::Trigger>",
-    "propertyHref" : "aws-properties-codecommit-repository-triggers.html",
-    "required" : false
+    "required" : false,
+    "propertyHref" : "aws-properties-codecommit-repository-triggers.html"
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-codecommit-repository-triggers.html",
