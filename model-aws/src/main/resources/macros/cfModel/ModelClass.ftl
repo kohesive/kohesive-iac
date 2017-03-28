@@ -19,13 +19,13 @@
 </#macro>
 
 <#macro content classModel level=1>
-<@indent level /><#if classModel.properties?size != 0>data </#if>class ${classModel.simpleName}(
+<@indent level /><#if classModel.properties?size == 0>class ${classModel.simpleName}<#if classModel.isRootClass()> : ResourceProperties </#if><#else>data class ${classModel.simpleName}(
 <#list classModel.properties as property>
-<@indent level+1 />val ${property.name}: ${property.type}<#if property.optional>?</#if><#if property_has_next>,</#if>
+<@indent level+1 />val ${property.name}: ${property.type}<#if property.optional>? = null</#if><#if property_has_next>,</#if>
 </#list>
 <@indent level />) <#if classModel.isRootClass()>: ResourceProperties </#if><#if classModel.innerClasses?size != 0>{
 
   <#list classModel.innerClasses as innerClass><@content innerClass level+1/></#list>
-<@indent level />}</#if>
+<@indent level />}</#if></#if>
 
 </#macro>
