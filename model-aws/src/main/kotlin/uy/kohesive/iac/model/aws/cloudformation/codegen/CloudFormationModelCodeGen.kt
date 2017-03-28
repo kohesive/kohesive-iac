@@ -22,7 +22,6 @@ fun main(args: Array<String>) {
     ).generate()
 }
 
-// TODO: annotation to hold AWS CF type name
 class CloudFormationModelCodeGen(
     val inputDir: String,
     val outputDir: String,
@@ -54,6 +53,9 @@ class CloudFormationModelCodeGen(
             val emitter = CodeEmitter(listOf(generateTask), generatorTaskExecutor)
             emitter.emit()
         }
+
+        generatorTaskExecutor.waitForCompletion()
+        generatorTaskExecutor.shutdown()
     }
 
 }

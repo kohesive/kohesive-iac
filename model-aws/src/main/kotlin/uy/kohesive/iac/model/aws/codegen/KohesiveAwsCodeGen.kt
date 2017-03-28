@@ -38,9 +38,7 @@ class KohesiveAwsCodeGen(
 ) {
 
     companion object {
-        // TODO: uncomment
-        //  val IntermediateFilenameRegexp = "(.*)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
-        val IntermediateFilenameRegexp = ".*(ec2)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
+        val IntermediateFilenameRegexp = "(.*)-(\\d{4}-\\d{2}-\\d{2})-intermediate\\.json".toRegex()
     }
 
     private val generatorTaskExecutor = GeneratorTaskExecutor()
@@ -78,6 +76,9 @@ class KohesiveAwsCodeGen(
         // Generate from base context data
         val emitter = CodeEmitter(listOf(IacContextGeneratorTask.create(outputDirectory, baseContextData)), generatorTaskExecutor)
         emitter.emit()
+
+        generatorTaskExecutor.waitForCompletion()
+        generatorTaskExecutor.shutdown()
     }
 
 }

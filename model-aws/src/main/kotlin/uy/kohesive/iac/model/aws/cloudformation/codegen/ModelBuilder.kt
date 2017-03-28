@@ -49,7 +49,10 @@ fun ResourceProperty.toAmazonClassProperty(containingAwsType: String) = AmazonCF
 
 fun String.convertTypeReference(containingAwsType: String): String {
     if (!contains("AWS::")) {
-        return this.replace("Number", "String").replace("JsonObject", "String")
+        return this
+            .replace("Number", "String")
+            .replace("Boolean", "String")
+            .replace("JsonObject", "Any")
     }
     val sourceNamespace = containingAwsType.split("::").take(2).joinToString("::")
     if (startsWith("AWS::")) {

@@ -233,11 +233,12 @@ class DocumentationCrawler(
                             if (em.text() == "Type" || em.text() == "Type:") {
                                 typeHref = em.parent().select("a").firstOrNull()?.attr("href")
                                 val targetTypeName = typeHref?.sanitizeLink()?.let { sanitizedUri ->
-                                    if (uri != sanitizedUri) { // Prevent self-linking
+                                    // Prevent self-linking
+                                    if (uri == sanitizedUri) {
+                                        hrefToTypeName[uri]
+                                    } else {
                                         deferredUris.add(sanitizedUri)
                                         crawlResourceType(sanitizedUri)
-                                    } else {
-                                        hrefToTypeName[uri]
                                     }
                                 }
 
@@ -287,8 +288,6 @@ class DocumentationCrawler(
                             }
                         }
                     }
-
-
 
                     // Normalize type
                     propertyType = TypeNormalizer.normalizeType(propertyType)

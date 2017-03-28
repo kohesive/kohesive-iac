@@ -111,6 +111,14 @@ data class Parameter(
 
 interface ResourceProperties
 
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class CloudFormationType(val value: String)
+
+@Target(AnnotationTarget.CLASS)
+@Retention(AnnotationRetention.SOURCE)
+annotation class CloudFormationTypes
+
 data class Resource(
     var Type: String,
     var Properties: ResourceProperties? = null,
