@@ -21,7 +21,8 @@ object TypeNormalizer {
     private val PrimitiveTypes = setOf(
         "String",
         "Boolean",
-        "Number"
+        "Number",
+        "JsonObject"
     )
 
     val BuiltinConversionTargets = BuiltInConversions.values.toSet()

@@ -111,9 +111,8 @@
     "required" : false
   }, {
     "propertyName" : "Parameters",
-    "propertyType" : "AWS::CloudFormation::Stack::Parameter",
-    "required" : false,
-    "propertyHref" : "aws-properties-stack-parameters.html"
+    "propertyType" : "JsonObject",
+    "required" : false
   }, {
     "propertyName" : "Tags",
     "propertyType" : "List<AWS::CloudFormation::ResourceTag>",

@@ -264,6 +264,9 @@ class DocumentationCrawler(
                         isRequired = true
                     } else if (propertyName == "Region" && uri == "aws-properties-route53-recordset.html") {
                         isRequired = false
+                    } else if (propertyName == "Parameters" && uri == "aws-properties-stack.html") {
+                        propertyType = "JsonObject"
+                        typeHref     = null
                     }
 
                     // Parse syntax block
@@ -284,6 +287,8 @@ class DocumentationCrawler(
                             }
                         }
                     }
+
+
 
                     // Normalize type
                     propertyType = TypeNormalizer.normalizeType(propertyType)
