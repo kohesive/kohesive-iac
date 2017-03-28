@@ -5,45 +5,10 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.TextNode
 import uy.klutter.core.jdk.mustNotEndWith
 import uy.klutter.core.jdk.mustNotStartWith
-import uy.kohesive.iac.model.aws.utils.firstLetterToUpperCase
 import uy.kohesive.iac.model.aws.utils.singularize
 import java.io.File
 import java.net.SocketTimeoutException
 import java.net.URL
-
-data class CrawlTask(
-    val resourceType: String,
-    val uri: String
-)
-
-data class CloudFormationResource(
-    val sourceURL: String,
-    val resourceType: String,
-    val properties: List<ResourceProperty>
-) {
-    override fun toString() = resourceType + "\n  " + properties.joinToString("\n  ")
-}
-
-data class ResourceProperty(
-    val propertyName: String,
-    val propertyType: String,
-    val required: Boolean,
-    val propertyHref: String? = null
-) {
-
-    override fun toString() = "${if (required) "+" else "-"} $propertyName: $propertyType"
-}
-
-data class PropertyNameExtractor(
-    val prefix: String,
-    val stopWords: List<String>
-) {
-    fun extract(text: String): String? = text.takeIf { text.startsWith(prefix + " ") }?.drop(prefix.length + 1)?.let { prefixLess ->
-        stopWords.map { prefixLess.indexOf(" " + it) }.filter { it > 0 }.min()?.let { indexEnd ->
-            prefixLess.substring(0, indexEnd).split(' ').map(String::firstLetterToUpperCase).joinToString("").trim()
-        }
-    }
-}
 
 class DocumentationCrawler(
     val baseUri: String = DocumentationCrawler.CFDocsURL,
@@ -76,7 +41,7 @@ class DocumentationCrawler(
     }
 
     private val crawledResources = linkedMapOf<String, CloudFormationResource>()
-    private val hrefToTypeName = hashMapOf<String, String>()
+    private val hrefToTypeName   = hashMapOf<String, String>()
 
     fun getJsoupDocument(uri: String) = if (localMode) {
         if (downloadFiles) {
@@ -98,6 +63,15 @@ class DocumentationCrawler(
         resources.filter { it.properties.isEmpty() }.forEach {
             if (!it.resourceType.startsWith("AWS::CloudFormation")) {
                 throw IllegalStateException("${it.resourceType} properties list is empty")
+            }
+        }
+        fun Char.isAllowedInType() = this == ':' || this == '<' || this == '>' || isJavaIdentifierPart()
+        resources.forEach { (sourceURL, resourceType, properties) ->
+            properties.forEach { (propertyName, propertyType) ->
+                if (propertyName.any { !it.isJavaIdentifierPart() }
+                    || propertyType.takeIf { !TypeNormalizer.BuiltinConversionTargets.contains(it) }?.any { !it.isAllowedInType() } ?: false) {
+                    throw IllegalStateException("Invalid property type/name: $resourceType.$propertyName: $propertyType\n$sourceURL")
+                }
             }
         }
 
@@ -159,6 +133,7 @@ class DocumentationCrawler(
             // Let's figure out our resource type
             return if (uri.contains("properties") || uri.contains("property") || ResourcesThatAreActuallyProperties.contains(uri)) {
                 if (uri == "aws-properties-resource-tags.html") {
+                    hrefToTypeName[uri] = "AWS::CloudFormation::ResourceTag"
                     "AWS::CloudFormation::ResourceTag" // reserved case
                 } else {
                     val header = resourceDoc.select("h1.topictitle")?.firstOrNull()?.text()
@@ -185,6 +160,7 @@ class DocumentationCrawler(
                             ?.mustNotEndWith("Property")
                             ?.mustNotEndWith("Type")
                             ?.mustNotEndWith("Object")
+                            ?.replace("-", "")
                             ?.singularize()
 
                         // Validate
@@ -220,6 +196,9 @@ class DocumentationCrawler(
             return alreadyCrawled
         }
 
+        val alreadyCrawledTypeName = hrefToTypeName[uri] ?: throw IllegalStateException("$uri type wasn't crawled before")
+        val isTopLevel = alreadyCrawledTypeName.split("::").size == 3
+
         val resourceDoc  = getJsoupDocument(uri)
         val deferredUris = ArrayList<String>()
 
@@ -241,7 +220,7 @@ class DocumentationCrawler(
                     // To avoid nested .variablelist parsing
                     it.parent().parent() == varListDiv
                 }.map { propertyDt ->
-                    val propertyName = propertyDt.text().trim()
+                    val propertyName = propertyDt.text().trim().split(' ').first()
 
                     var propertyType: String? = null
                     var isRequired: Boolean?  = null
@@ -287,33 +266,33 @@ class DocumentationCrawler(
                         isRequired = false
                     }
 
-                    // Validate
-                    if (propertyType == null) {
+                    // Parse syntax block
+                    resourceDoc.select(".programlisting").filter {
+                        (it.parent().id() == "JSON" || it.previousElementSibling()?.text() == "JSON") && it.parent().toString().contains("syntax", ignoreCase = true)
+                    }.map {
+                        it.select("code").firstOrNull()?.text()?.replace(", ...", "")
+                    }.firstOrNull()?.let { syntaxJson ->
+                        CloudFormationExampleSyntaxParser.parse(syntaxJson, rootResource = isTopLevel)?.get(propertyName)
+                    }?.let { syntaxBlockType ->
                         // Try syntax "JSON" (not a JSON really) parsing for property type
-                        val programListing = resourceDoc.select(".programlisting")
-                        propertyType = programListing.filter {
-                            (it.parent().id() == "JSON" || it.previousElementSibling()?.text() == "JSON") && it.parent().toString().contains("syntax", ignoreCase = true)
-                        }.map {
-                            it.select("code").firstOrNull()?.text()
-                        }.firstOrNull()?.let { syntaxJson ->
-                            CloudFormationExampleSyntaxParser.parse(syntaxJson)[propertyName]
-                        }
-
                         if (propertyType == null) {
-                            throw IllegalStateException("Can't parse property $propertyName type in $uri")
+                            propertyType = syntaxBlockType
+                        } else {
+                            // Syntax block may give a hint that property is of an array/list type
+                            if (syntaxBlockType.startsWith("[") && (propertyType?.startsWith("AWS::") ?: false)) {
+                                propertyType = "List of $propertyType"
+                            }
                         }
-                    }
-                    if (isRequired == null) {
-                        throw IllegalStateException("Can't parse whether $propertyName is required in $uri")
                     }
 
                     // Normalize type
-                    propertyType = TypeNormalizer.normalizeType(propertyType!!)
+                    propertyType = TypeNormalizer.normalizeType(propertyType)
 
+                    // Construct and validate
                     ResourceProperty(
                         propertyName = propertyName,
-                        propertyType = propertyType!!,
-                        required = isRequired!!,
+                        propertyType = propertyType ?: throw IllegalStateException("Can't parse property $propertyName type in $uri"),
+                        required     = isRequired ?: throw IllegalStateException("Can't parse whether $propertyName is required in $uri"),
                         propertyHref = typeHref
                     )
                 }

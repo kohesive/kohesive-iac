@@ -116,7 +116,7 @@
     "propertyHref" : "aws-properties-stack-parameters.html"
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {

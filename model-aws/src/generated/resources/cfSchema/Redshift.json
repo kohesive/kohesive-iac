@@ -115,7 +115,7 @@
     "required" : true
   }, {
     "propertyName" : "Parameters",
-    "propertyType" : "AWS::Redshift::ClusterParameterGroup::Parameter",
+    "propertyType" : "List<AWS::Redshift::ClusterParameterGroup::Parameter>",
     "required" : false,
     "propertyHref" : "aws-property-redshift-clusterparametergroup-parameter.html"
   } ]

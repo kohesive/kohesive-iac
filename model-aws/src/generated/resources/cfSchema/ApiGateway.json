@@ -169,7 +169,7 @@
     "required" : false
   }, {
     "propertyName" : "MethodSettings",
-    "propertyType" : "AWS::ApiGateway::Deployment::StageDescription::MethodSetting",
+    "propertyType" : "List<AWS::ApiGateway::Deployment::StageDescription::MethodSetting>",
     "required" : false,
     "propertyHref" : "aws-properties-apitgateway-deployment-stagedescription-methodsetting.html"
   }, {
@@ -482,7 +482,7 @@
     "required" : false
   }, {
     "propertyName" : "MethodSettings",
-    "propertyType" : "AWS::ApiGateway::Stage::MethodSetting",
+    "propertyType" : "List<AWS::ApiGateway::Stage::MethodSetting>",
     "required" : false,
     "propertyHref" : "aws-properties-apitgateway-stage-methodsetting.html"
   }, {

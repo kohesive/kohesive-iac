@@ -132,7 +132,7 @@
   "resourceType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue",
   "properties" : [ {
     "propertyName" : "Cookies",
-    "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue::Cooky",
+    "propertyType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue::Cookie",
     "required" : false,
     "propertyHref" : "aws-properties-cloudfront-forwardedvalues-cookies.html"
   }, {
@@ -150,7 +150,7 @@
   } ]
 }, {
   "sourceURL" : "http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-forwardedvalues-cookies.html",
-  "resourceType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue::Cooky",
+  "resourceType" : "AWS::CloudFront::Distribution::DistributionConfig::DefaultCacheBehavior::ForwardedValue::Cookie",
   "properties" : [ {
     "propertyName" : "Forward",
     "propertyType" : "String",

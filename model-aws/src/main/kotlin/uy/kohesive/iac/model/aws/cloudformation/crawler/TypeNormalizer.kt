@@ -24,9 +24,15 @@ object TypeNormalizer {
         "Number"
     )
 
+    val BuiltinConversionTargets = BuiltInConversions.values.toSet()
+
     private val listPrefixes = listOf("A list of ", "List of ", "list of ", "Array of ")
 
-    fun normalizeType(propertyType: String): String {
+    fun normalizeType(propertyType: String?): String? {
+        if (propertyType == null) {
+            return null
+        }
+
         var normalizedValue = BuiltInConversions.getOrDefault(propertyType, propertyType).trim().replace("-", "")
 
         if (normalizedValue.startsWith("A JSON")) {
@@ -43,7 +49,7 @@ object TypeNormalizer {
             normalizedValue = "Number"
         } else {
             listPrefixes.firstOrNull { listPrefix ->
-                normalizedValue.startsWith(listPrefix)
+                normalizedValue.startsWith(listPrefix, ignoreCase = true)
             }?.let { listPrefix ->
                 var listParameter = normalizedValue.drop(listPrefix.length)
                 if (!listParameter.startsWith("AWS::") && !PrimitiveTypes.contains(listParameter)) {

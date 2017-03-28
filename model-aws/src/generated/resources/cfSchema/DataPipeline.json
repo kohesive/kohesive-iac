@@ -15,12 +15,12 @@
     "required" : true
   }, {
     "propertyName" : "ParameterObjects",
-    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::ParameterObject>",
     "required" : false,
     "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects.html"
   }, {
     "propertyName" : "ParameterValues",
-    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterValue",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::ParameterValue>",
     "required" : false,
     "propertyHref" : "aws-properties-datapipeline-pipeline-parametervalues.html"
   }, {
@@ -30,7 +30,7 @@
     "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects.html"
   }, {
     "propertyName" : "PipelineTags",
-    "propertyType" : "AWS::DataPipeline::Pipeline::PipelineTag",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::PipelineTag>",
     "required" : false,
     "propertyHref" : "aws-properties-datapipeline-pipeline-pipelinetags.html"
   } ]
@@ -39,7 +39,7 @@
   "resourceType" : "AWS::DataPipeline::Pipeline::ParameterObject",
   "properties" : [ {
     "propertyName" : "Attributes",
-    "propertyType" : "AWS::DataPipeline::Pipeline::ParameterObject::Attribute",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::ParameterObject::Attribute>",
     "required" : true,
     "propertyHref" : "aws-properties-datapipeline-pipeline-parameterobjects-attributes.html"
   }, {
@@ -76,7 +76,7 @@
   "resourceType" : "AWS::DataPipeline::Pipeline::PipelineObject",
   "properties" : [ {
     "propertyName" : "Fields",
-    "propertyType" : "AWS::DataPipeline::Pipeline::PipelineObject::Field",
+    "propertyType" : "List<AWS::DataPipeline::Pipeline::PipelineObject::Field>",
     "required" : true,
     "propertyHref" : "aws-properties-datapipeline-pipeline-pipelineobjects-fields.html"
   }, {

@@ -3,7 +3,7 @@
   "resourceType" : "AWS::EFS::FileSystem",
   "properties" : [ {
     "propertyName" : "FileSystemTags",
-    "propertyType" : "AWS::EFS::FileSystem::FileSystemTag",
+    "propertyType" : "List<AWS::EFS::FileSystem::FileSystemTag>",
     "required" : false,
     "propertyHref" : "aws-properties-efs-filesystem-filesystemtags.html"
   }, {

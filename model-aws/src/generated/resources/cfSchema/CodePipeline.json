@@ -125,7 +125,7 @@
     "required" : true
   }, {
     "propertyName" : "Stages",
-    "propertyType" : "AWS::CodePipeline::Pipeline::Stage",
+    "propertyType" : "List<AWS::CodePipeline::Pipeline::Stage>",
     "required" : true,
     "propertyHref" : "aws-properties-codepipeline-pipeline-stages.html"
   } ]

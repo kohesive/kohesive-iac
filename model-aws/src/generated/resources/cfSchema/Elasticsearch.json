@@ -34,7 +34,7 @@
     "propertyHref" : "aws-properties-elasticsearch-domain-snapshotoptions.html"
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]

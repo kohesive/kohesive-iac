@@ -57,12 +57,12 @@
     "required" : false
   }, {
     "propertyName" : "Ec2TagFilters",
-    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::Ec2TagFilter",
+    "propertyType" : "List<AWS::CodeDeploy::DeploymentGroup::Ec2TagFilter>",
     "required" : false,
     "propertyHref" : "aws-properties-codedeploy-deploymentgroup-ec2tagfilters.html"
   }, {
     "propertyName" : "OnPremisesInstanceTagFilters",
-    "propertyType" : "AWS::CodeDeploy::DeploymentGroup::OnPremisesInstanceTagFilter",
+    "propertyType" : "List<AWS::CodeDeploy::DeploymentGroup::OnPremisesInstanceTagFilter>",
     "required" : false,
     "propertyHref" : "aws-properties-codedeploy-deploymentgroup-onpremisesinstancetagfilters.html"
   }, {

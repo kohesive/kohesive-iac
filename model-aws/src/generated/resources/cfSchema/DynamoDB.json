@@ -57,7 +57,7 @@
     "required" : true
   }, {
     "propertyName" : "KeySchema",
-    "propertyType" : "AWS::DynamoDB::Table::KeySchema",
+    "propertyType" : "List<AWS::DynamoDB::Table::KeySchema>",
     "required" : true,
     "propertyHref" : "aws-properties-dynamodb-keyschema.html"
   }, {
@@ -116,7 +116,7 @@
     "required" : true
   }, {
     "propertyName" : "KeySchema",
-    "propertyType" : "AWS::DynamoDB::Table::KeySchema",
+    "propertyType" : "List<AWS::DynamoDB::Table::KeySchema>",
     "required" : true,
     "propertyHref" : "aws-properties-dynamodb-keyschema.html"
   }, {

@@ -34,7 +34,7 @@
     "propertyHref" : "aws-properties-codebuild-project-source.html"
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {

@@ -237,7 +237,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -394,12 +394,12 @@
     "required" : true
   }, {
     "propertyName" : "OptionConfigurations",
-    "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration",
+    "propertyType" : "List<AWS::RDS::OptionGroup::OptionConfiguration>",
     "required" : true,
     "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations.html"
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -416,7 +416,7 @@
     "required" : true
   }, {
     "propertyName" : "OptionSettings",
-    "propertyType" : "AWS::RDS::OptionGroup::OptionConfiguration::OptionSetting",
+    "propertyType" : "List<AWS::RDS::OptionGroup::OptionConfiguration::OptionSetting>",
     "required" : false,
     "propertyHref" : "aws-properties-rds-optiongroup-optionconfigurations-optionsettings.html"
   }, {

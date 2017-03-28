@@ -11,7 +11,7 @@
     "required" : true
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -44,7 +44,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -229,7 +229,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -415,7 +415,7 @@
   "resourceType" : "AWS::EC2::InternetGateway",
   "properties" : [ {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -436,7 +436,7 @@
   "resourceType" : "AWS::EC2::NetworkAcl",
   "properties" : [ {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -553,7 +553,7 @@
     "required" : true
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -630,7 +630,7 @@
     "required" : true
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -653,7 +653,7 @@
     "propertyHref" : "aws-properties-ec2-security-group-rule.html"
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -669,11 +669,11 @@
     "propertyType" : "String",
     "required" : false
   }, {
-    "propertyName" : "DestinationPrefixListId (SecurityGroupEgress only)",
+    "propertyName" : "DestinationPrefixListId",
     "propertyType" : "String",
     "required" : false
   }, {
-    "propertyName" : "DestinationSecurityGroupId (SecurityGroupEgress only)",
+    "propertyName" : "DestinationSecurityGroupId",
     "propertyType" : "String",
     "required" : false
   }, {
@@ -685,15 +685,15 @@
     "propertyType" : "String",
     "required" : true
   }, {
-    "propertyName" : "SourceSecurityGroupId (SecurityGroupIngress only)",
+    "propertyName" : "SourceSecurityGroupId",
     "propertyType" : "String",
     "required" : false
   }, {
-    "propertyName" : "SourceSecurityGroupName (SecurityGroupIngress only)",
+    "propertyName" : "SourceSecurityGroupName",
     "propertyType" : "String",
     "required" : false
   }, {
-    "propertyName" : "SourceSecurityGroupOwnerId (SecurityGroupIngress only)",
+    "propertyName" : "SourceSecurityGroupOwnerId",
     "propertyType" : "String",
     "required" : false
   }, {
@@ -1069,7 +1069,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -1146,7 +1146,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -1191,7 +1191,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
@@ -1264,7 +1264,7 @@
     "required" : true
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -1289,7 +1289,7 @@
     "required" : false
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   }, {
@@ -1318,7 +1318,7 @@
     "required" : true
   }, {
     "propertyName" : "Tags",
-    "propertyType" : "AWS::CloudFormation::ResourceTag",
+    "propertyType" : "List<AWS::CloudFormation::ResourceTag>",
     "required" : false,
     "propertyHref" : "aws-properties-resource-tags.html"
   } ]
