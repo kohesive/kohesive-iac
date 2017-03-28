@@ -562,6 +562,7 @@ public class Inflector {
         inflect.addSingularize("([^aeiouy]|qu)ies$", "$1y");
         inflect.addSingularize("(s)eries$", "$1eries");
         inflect.addSingularize("(m)ovies$", "$1ovie");
+        inflect.addSingularize("(cook)ies$", "$1ie");
         inflect.addSingularize("(x|ch|ss|sh)es$", "$1");
         inflect.addSingularize("([m|l])ice$", "$1ouse");
         inflect.addSingularize("(bus)es$", "$1");
