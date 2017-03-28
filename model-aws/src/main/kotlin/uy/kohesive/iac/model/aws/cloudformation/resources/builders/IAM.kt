@@ -1,17 +1,17 @@
-package uy.kohesive.iac.model.aws.cloudformation.resources
+package uy.kohesive.iac.model.aws.cloudformation.resources.builders
 
 import com.amazonaws.AmazonWebServiceRequest
 import com.amazonaws.services.identitymanagement.model.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
+import uy.kohesive.iac.model.aws.cloudformation.resources.IAM
 
 class IamInstanceProfilePropertiesBuilder : ResourcePropertiesBuilder<CreateInstanceProfileRequest> {
     override val requestClazz = CreateInstanceProfileRequest::class
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateInstanceProfileRequest).let {
-            IamInstanceProfileProperties(
+            IAM.InstanceProfile(
                 Path  = request.path ?: "/",
                 Roles = relatedObjects.filterIsInstance(AddRoleToInstanceProfileRequest::class.java).map {
                     it.roleName
@@ -25,7 +25,7 @@ class IamPolicyResourcePropertiesBuilder : ResourcePropertiesBuilder<CreatePolic
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreatePolicyRequest).let {
-            IamPolicyResourceProperties(
+            IAM.Policy(
                 PolicyName     = request.policyName,
                 PolicyDocument = jacksonObjectMapper().readTree(request.policyDocument),
                 Roles          = relatedObjects.filterIsInstance(AttachRolePolicyRequest::class.java).map {
@@ -40,25 +40,9 @@ class IamRoleResourcePropertiesBuilder : ResourcePropertiesBuilder<CreateRoleReq
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateRoleRequest).let {
-            IamRoleResourceProperties(
+            IAM.Role(
                 AssumeRolePolicyDocument = jacksonObjectMapper().readTree(request.assumeRolePolicyDocument),
                 Path = request.path
             )
         }
 }
-
-data class IamRoleResourceProperties(
-    val AssumeRolePolicyDocument: Any?,
-    val Path: String?
-) : ResourceProperties
-
-data class IamPolicyResourceProperties(
-    val PolicyName: String,
-    val PolicyDocument: Any,
-    val Roles: List<Any>?
-) : ResourceProperties
-
-data class IamInstanceProfileProperties(
-    val Path: String,
-    val Roles: List<Any>?
-) : ResourceProperties

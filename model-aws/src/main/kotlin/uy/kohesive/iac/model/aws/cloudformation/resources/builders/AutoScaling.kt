@@ -1,10 +1,10 @@
-package uy.kohesive.iac.model.aws.cloudformation.resources
+package uy.kohesive.iac.model.aws.cloudformation.resources.builders
 
 import com.amazonaws.AmazonWebServiceRequest
 import com.amazonaws.services.autoscaling.model.CreateAutoScalingGroupRequest
 import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationRequest
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
+import uy.kohesive.iac.model.aws.cloudformation.resources.AutoScaling
 
 class LaunchConfigurationPropertiesBuilder : ResourcePropertiesBuilder<CreateLaunchConfigurationRequest> {
 
@@ -12,7 +12,7 @@ class LaunchConfigurationPropertiesBuilder : ResourcePropertiesBuilder<CreateLau
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateLaunchConfigurationRequest).let {
-            AutoScalingLaunchConfigurationProperties(
+            AutoScaling.LaunchConfiguration(
                 ImageId            = request.imageId,
                 InstanceType       = request.instanceType,
                 SecurityGroups     = request.securityGroups,
@@ -28,43 +28,19 @@ class AutoScalingGroupPropertiesBuilder : ResourcePropertiesBuilder<CreateAutoSc
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateAutoScalingGroupRequest).let {
-            AutoScalingGroupProperties(
+            AutoScaling.AutoScalingGroup(
                 AvailabilityZones       = request.availabilityZones,
                 LaunchConfigurationName = request.launchConfigurationName,
                 DesiredCapacity         = request.desiredCapacity?.toString(),
-                MaxSize                 = request.maxSize?.toString(),
-                MinSize                 = request.minSize?.toString(),
+                MaxSize                 = request.maxSize.toString(),
+                MinSize                 = request.minSize.toString(),
                 Tags                    = request.tags.map { tag ->
-                    AutoScalingGroupTag(
-                        Key   = tag.key,
-                        Value = tag.value,
-                        PropagateAtLaunch = tag.isPropagateAtLaunch?.toString()
+                    AutoScaling.AutoScalingGroup.TagProperty(
+                            Key   = tag.key,
+                            Value = tag.value,
+                            PropagateAtLaunch = tag.isPropagateAtLaunch.toString()
                     )
                 }
             )
         }
 }
-
-data class AutoScalingLaunchConfigurationProperties(
-    val ImageId: String?,
-    val InstanceType: String?,
-    val SecurityGroups: List<String>?,
-    val KeyName: String?,
-    val IamInstanceProfile: String?,
-    val UserData: String?
-) : ResourceProperties
-
-data class AutoScalingGroupProperties(
-    val AvailabilityZones: List<String>?,
-    val LaunchConfigurationName: String?,
-    val MinSize: String?,
-    val MaxSize: String?,
-    val DesiredCapacity: String?,
-    val Tags: List<AutoScalingGroupTag>?
-) : ResourceProperties
-
-data class AutoScalingGroupTag(
-    val Key: String?,
-    val Value: String?,
-    val PropagateAtLaunch: String?
-)

@@ -1,8 +1,8 @@
-package uy.kohesive.iac.model.aws.cloudformation.resources
+package uy.kohesive.iac.model.aws.cloudformation.resources.builders
 
 import com.amazonaws.AmazonWebServiceRequest
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
+import uy.kohesive.iac.model.aws.cloudformation.resources.CloudFormation
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
 
 class WaitConditionPropertiesBuilder : ResourcePropertiesBuilder<CreateWaitConditionRequest> {
@@ -11,16 +11,10 @@ class WaitConditionPropertiesBuilder : ResourcePropertiesBuilder<CreateWaitCondi
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateWaitConditionRequest).let {
-            WaitConditionResourceProperties(
+            CloudFormation.WaitCondition(
                 Handle  = it.handle,
                 Timeout = it.timeout.toString(),
                 Count   = it.count?.toString()
             )
         }
 }
-
-data class WaitConditionResourceProperties(
-    val Handle: String,
-    val Timeout: String,
-    val Count: String?
-) : ResourceProperties

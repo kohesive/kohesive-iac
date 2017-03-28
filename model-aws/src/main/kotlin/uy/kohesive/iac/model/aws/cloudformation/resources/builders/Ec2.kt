@@ -1,12 +1,12 @@
-package uy.kohesive.iac.model.aws.cloudformation.resources
+package uy.kohesive.iac.model.aws.cloudformation.resources.builders
 
 import com.amazonaws.AmazonWebServiceRequest
 import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
 import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
 import com.amazonaws.services.ec2.model.IpPermission
 import com.amazonaws.services.ec2.model.IpRange
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
+import uy.kohesive.iac.model.aws.cloudformation.resources.EC2
 
 class Ec2SecurityGroupPropertiesBuilder : ResourcePropertiesBuilder<CreateSecurityGroupRequest> {
 
@@ -14,7 +14,7 @@ class Ec2SecurityGroupPropertiesBuilder : ResourcePropertiesBuilder<CreateSecuri
 
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
         (request as CreateSecurityGroupRequest).let {
-            Ec2SecurityGroupResourceProperties(
+            EC2.SecurityGroup(
                 GroupDescription     = it.description,
                 SecurityGroupIngress = relatedObjects.filterIsInstance<AuthorizeSecurityGroupIngressRequest>().flatMap { request ->
                     (listOf(request.ipPermissionFromBody()) + request.ipPermissions).filterNotNull()
@@ -23,7 +23,7 @@ class Ec2SecurityGroupPropertiesBuilder : ResourcePropertiesBuilder<CreateSecuri
                         rule to it
                     }
                 }.map { ruleToCidrPair ->
-                    SecurityGroupIngress(
+                    EC2.SecurityGroup.RuleProperty(
                         CidrIp     = ruleToCidrPair.second,
                         IpProtocol = ruleToCidrPair.first.ipProtocol,
                         FromPort   = ruleToCidrPair.first.fromPort?.toString(),
@@ -34,8 +34,8 @@ class Ec2SecurityGroupPropertiesBuilder : ResourcePropertiesBuilder<CreateSecuri
         }
 }
 
-private fun AuthorizeSecurityGroupIngressRequest.ipPermissionFromBody(): IpPermission? {
-    return if (ipPermissions.isEmpty()) {
+private fun AuthorizeSecurityGroupIngressRequest.ipPermissionFromBody()
+    = if (ipPermissions.isEmpty()) {
         IpPermission()
             .withIpv4Ranges(this.cidrIp?.let { IpRange().withCidrIp(it) })
             .withToPort(this.toPort)
@@ -44,16 +44,3 @@ private fun AuthorizeSecurityGroupIngressRequest.ipPermissionFromBody(): IpPermi
     } else {
         null
     }
-}
-
-data class Ec2SecurityGroupResourceProperties(
-    val GroupDescription: String?,
-    val SecurityGroupIngress: List<SecurityGroupIngress>?
-) : ResourceProperties
-
-data class SecurityGroupIngress(
-    val IpProtocol: String?,
-    val FromPort: String?,
-    val ToPort: String?,
-    val CidrIp: String?
-)
