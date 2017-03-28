@@ -40,7 +40,7 @@
   "resourceType" : "AWS::IAM::Role::Policy",
   "properties" : [ {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "PolicyName",
@@ -76,7 +76,7 @@
     "required" : false
   }, {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "Roles",
@@ -96,7 +96,7 @@
     "required" : false
   }, {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "PolicyName",

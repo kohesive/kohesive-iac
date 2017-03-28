@@ -11,7 +11,7 @@
     "required" : false
   }, {
     "propertyName" : "InputParameters",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "MaximumExecutionFrequency",

@@ -7,7 +7,7 @@
     "required" : false
   }, {
     "propertyName" : "EventPattern",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "Name",

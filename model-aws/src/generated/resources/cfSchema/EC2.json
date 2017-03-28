@@ -1224,7 +1224,7 @@
   "resourceType" : "AWS::EC2::VPCEndpoint",
   "properties" : [ {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "RouteTableIds",

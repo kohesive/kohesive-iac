@@ -27,7 +27,7 @@
     "required" : false
   }, {
     "propertyName" : "KeyPolicy",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   } ]
 } ]

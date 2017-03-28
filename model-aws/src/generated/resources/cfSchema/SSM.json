@@ -44,7 +44,7 @@
   "resourceType" : "AWS::SSM::Document",
   "properties" : [ {
     "propertyName" : "Content",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "DocumentType",

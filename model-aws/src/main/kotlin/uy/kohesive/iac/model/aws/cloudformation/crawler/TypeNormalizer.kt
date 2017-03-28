@@ -15,7 +15,7 @@ object TypeNormalizer {
         "List<key-value pairs>"         to "Map<String, String>",
         "an empty map: {}"              to "Map<String, String>",
         "String-to-string map"          to "Map<String, String>",
-        "JSON object"                   to "String"
+        "JSON object"                   to "JsonObject"
     )
 
     private val PrimitiveTypes = setOf(

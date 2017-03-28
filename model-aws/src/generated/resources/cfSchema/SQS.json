@@ -48,7 +48,7 @@
   "resourceType" : "AWS::SQS::QueuePolicy",
   "properties" : [ {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "Queues",

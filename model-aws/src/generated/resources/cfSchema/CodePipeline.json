@@ -198,7 +198,7 @@
     "propertyHref" : "aws-properties-codepipeline-pipeline-stages-actions-actiontypeid.html"
   }, {
     "propertyName" : "Configuration",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "InputArtifacts",

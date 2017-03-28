@@ -385,7 +385,7 @@
     "required" : true
   }, {
     "propertyName" : "Schema",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   } ]
 }, {
@@ -409,7 +409,7 @@
   "resourceType" : "AWS::ApiGateway::RestApi",
   "properties" : [ {
     "propertyName" : "Body",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "BodyS3Location",

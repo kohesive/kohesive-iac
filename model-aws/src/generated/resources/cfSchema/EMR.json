@@ -3,7 +3,7 @@
   "resourceType" : "AWS::EMR::Cluster",
   "properties" : [ {
     "propertyName" : "AdditionalInfo",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "Applications",

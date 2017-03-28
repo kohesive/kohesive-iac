@@ -330,7 +330,7 @@
     "required" : false
   }, {
     "propertyName" : "CustomJson",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "CustomRecipes",
@@ -540,7 +540,7 @@
     "propertyHref" : "aws-properties-opsworks-stack-source.html"
   }, {
     "propertyName" : "CustomJson",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "DefaultAvailabilityZone",

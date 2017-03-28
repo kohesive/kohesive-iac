@@ -3,7 +3,7 @@
   "resourceType" : "AWS::Elasticsearch::Domain",
   "properties" : [ {
     "propertyName" : "AccessPolicies",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   }, {
     "propertyName" : "AdvancedOptions",

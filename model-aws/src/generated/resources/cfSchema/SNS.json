@@ -48,7 +48,7 @@
   "resourceType" : "AWS::SNS::TopicPolicy",
   "properties" : [ {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "Topics",

@@ -431,7 +431,7 @@
     "required" : true
   }, {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   } ]
 } ]

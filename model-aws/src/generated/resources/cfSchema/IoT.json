@@ -15,7 +15,7 @@
   "resourceType" : "AWS::IoT::Policy",
   "properties" : [ {
     "propertyName" : "PolicyDocument",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : true
   }, {
     "propertyName" : "PolicyName",

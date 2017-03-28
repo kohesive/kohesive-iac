@@ -7,7 +7,7 @@
     "required" : false
   }, {
     "propertyName" : "RepositoryPolicyText",
-    "propertyType" : "String",
+    "propertyType" : "JsonObject",
     "required" : false
   } ]
 } ]
