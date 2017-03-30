@@ -4,9 +4,8 @@ import com.amazonaws.services.cloudtrail.AWSCloudTrailClientBuilder
 import com.amazonaws.services.cloudtrail.model.Event
 import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 
@@ -19,11 +18,13 @@ fun main(args: Array<String>) {
         if (listOf("Create", "Put", "Attach", "Run").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()
 
-            try {
+            val awsModel = try {
                 awsModelProvider.getModel(serviceName, event.apiVersion)
             } catch (t: Throwable) {
-                throw RuntimeException("Error while processing $event", t)
+                throw RuntimeException("Can't obtain an AWS model for $event", t)
             }
+
+            AWSApiCallBuilder(awsModel, event).build()
         }
     }
 }
@@ -38,19 +39,19 @@ class EventsProcessor {
 
     fun process(eventsDir: File, processor: (CloudTrailEvent) -> Unit) {
         eventsDir.listFiles { _, name -> name.endsWith(".json") }.forEach { jsonFile ->
-            JSON.readTree(jsonFile).let { jsonTree ->
-                processor(parseEvent(jsonTree, jsonFile.nameWithoutExtension))
+            JSON.readValue<Map<String, Any>>(jsonFile).let { jsonMap ->
+                processor(parseEvent(jsonMap, jsonFile.nameWithoutExtension))
             }
         }
     }
 
-    private fun parseEvent(jsonTree: JsonNode, eventId: String): CloudTrailEvent =
+    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent =
         CloudTrailEvent(
             eventId     = eventId,
-            eventSource = jsonTree.get("eventSource").asText(),
-            eventName   = jsonTree.get("eventName").asText(),
-            apiVersion  = jsonTree.get("apiVersion")?.asText(),
-            request     = jsonTree.get("requestParameters") as? ObjectNode
+            eventSource = jsonMap["eventSource"] as String,
+            eventName   = jsonMap["eventName"] as String,
+            apiVersion  = jsonMap["apiVersion"] as? String,
+            request     = jsonMap["requestParameters"] as? Map<String, Any>
         )
 
 }

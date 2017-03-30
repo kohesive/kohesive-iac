@@ -18,15 +18,14 @@ class AWSModelProvider {
 
     // Service name -> version -> file
     private val serviceShortNameToVersions: Map<String, Map<String, String>> by lazy {
-        val map = intermediateFiles.map { filePath ->
+        intermediateFiles.map { filePath ->
             IntermediateFilenameRegexp.find(filePath.takeLastWhile { it != '/' })?.groupValues?.let {
                 val serviceName = it[1]
                 val apiVersion  = it[2].replace("-", "")
 
                 serviceName to (apiVersion to filePath)
             }
-        }
-        map.filterNotNull().groupBy { it.first }.mapValues {
+        }.filterNotNull().groupBy { it.first }.mapValues {
             it.value.map { it.second }.toMap()
         }
     }

@@ -15,7 +15,8 @@ enum class TemplateDescriptor(
             templateLocation  = "/macros/cfModel/ModelClass.ftl",
             importAsNamespace = "CFModelClassMacro"
         )
-    ));
+    )),
+    RequestBuilder("/templates/cloudTrail/RequestBuilder.ftl");
 
     fun load(): Template = TemplateLoader.getTemplate(this)
 

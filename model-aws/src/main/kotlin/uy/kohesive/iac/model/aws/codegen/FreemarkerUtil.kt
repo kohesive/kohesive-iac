@@ -9,8 +9,8 @@ object TemplateLoader {
     fun getTemplate(freemarkerTemplate: TemplateDescriptor): Template {
         val fmConfig = newFreeMarkerConfig()
 
-        freemarkerTemplate.childTemplates.forEach { childTemplate ->
-            fmConfig.addAutoImport(childTemplate.importAsNamespace, childTemplate.templateLocation)
+        freemarkerTemplate.childTemplates.forEach { (templateLocation, importAsNamespace) ->
+            fmConfig.addAutoImport(importAsNamespace, templateLocation)
         }
 
         return fmConfig.getTemplate(freemarkerTemplate.location)
