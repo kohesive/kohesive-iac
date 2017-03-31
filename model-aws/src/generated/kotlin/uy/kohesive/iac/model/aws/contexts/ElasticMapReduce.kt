@@ -18,6 +18,14 @@ interface ElasticMapReduceEnabled : ElasticMapReduceIdentifiable {
 
 open class BaseElasticMapReduceContext(protected val context: IacContext) : ElasticMapReduceEnabled by context {
 
+    fun createSecurityConfiguration(name: String, init: CreateSecurityConfigurationRequest.() -> Unit): CreateSecurityConfigurationResult {
+        return elasticMapReduceClient.createSecurityConfiguration(CreateSecurityConfigurationRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

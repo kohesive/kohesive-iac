@@ -18,6 +18,7 @@ interface CertificateManagerEnabled : CertificateManagerIdentifiable {
 
 open class BaseCertificateManagerContext(protected val context: IacContext) : CertificateManagerEnabled by context {
 
+
 }
 
 @DslScope

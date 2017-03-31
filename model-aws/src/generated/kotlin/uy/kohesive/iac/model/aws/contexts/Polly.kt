@@ -18,6 +18,7 @@ interface PollyEnabled : PollyIdentifiable {
 
 open class BasePollyContext(protected val context: IacContext) : PollyEnabled by context {
 
+
 }
 
 @DslScope

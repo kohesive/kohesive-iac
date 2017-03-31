@@ -18,6 +18,14 @@ interface ShieldEnabled : ShieldIdentifiable {
 
 open class BaseShieldContext(protected val context: IacContext) : ShieldEnabled by context {
 
+    fun createProtection(name: String, init: CreateProtectionRequest.() -> Unit): CreateProtectionResult {
+        return shieldClient.createProtection(CreateProtectionRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

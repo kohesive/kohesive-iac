@@ -18,6 +18,7 @@ interface ImportExportEnabled : ImportExportIdentifiable {
 
 open class BaseImportExportContext(protected val context: IacContext) : ImportExportEnabled by context {
 
+
 }
 
 @DslScope

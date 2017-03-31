@@ -18,6 +18,7 @@ interface IotDataEnabled : IotDataIdentifiable {
 
 open class BaseIotDataContext(protected val context: IacContext) : IotDataEnabled by context {
 
+
 }
 
 @DslScope

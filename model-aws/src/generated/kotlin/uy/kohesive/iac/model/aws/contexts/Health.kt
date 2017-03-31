@@ -18,6 +18,7 @@ interface HealthEnabled : HealthIdentifiable {
 
 open class BaseHealthContext(protected val context: IacContext) : HealthEnabled by context {
 
+
 }
 
 @DslScope

@@ -18,6 +18,7 @@ interface SimpleEmailServiceEnabled : SimpleEmailServiceIdentifiable {
 
 open class BaseSimpleEmailServiceContext(protected val context: IacContext) : SimpleEmailServiceEnabled by context {
 
+
 }
 
 @DslScope

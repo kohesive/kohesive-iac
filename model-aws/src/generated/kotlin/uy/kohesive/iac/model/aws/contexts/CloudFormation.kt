@@ -18,6 +18,21 @@ interface CloudFormationEnabled : CloudFormationIdentifiable {
 
 open class BaseCloudFormationContext(protected val context: IacContext) : CloudFormationEnabled by context {
 
+    fun createChangeSet(changeSetName: String, init: CreateChangeSetRequest.() -> Unit): CreateChangeSetResult {
+        return cloudFormationClient.createChangeSet(CreateChangeSetRequest().apply {
+            withChangeSetName(changeSetName)
+            init()
+        })
+    }
+
+    fun createStack(stackName: String, init: CreateStackRequest.() -> Unit): CreateStackResult {
+        return cloudFormationClient.createStack(CreateStackRequest().apply {
+            withStackName(stackName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

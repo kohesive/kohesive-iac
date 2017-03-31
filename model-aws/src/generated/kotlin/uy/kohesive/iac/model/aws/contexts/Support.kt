@@ -18,6 +18,7 @@ interface SupportEnabled : SupportIdentifiable {
 
 open class BaseSupportContext(protected val context: IacContext) : SupportEnabled by context {
 
+
 }
 
 @DslScope

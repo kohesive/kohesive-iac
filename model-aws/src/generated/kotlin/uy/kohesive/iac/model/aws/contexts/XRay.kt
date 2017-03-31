@@ -18,6 +18,7 @@ interface XRayEnabled : XRayIdentifiable {
 
 open class BaseXRayContext(protected val context: IacContext) : XRayEnabled by context {
 
+
 }
 
 @DslScope

@@ -18,6 +18,7 @@ interface RekognitionEnabled : RekognitionIdentifiable {
 
 open class BaseRekognitionContext(protected val context: IacContext) : RekognitionEnabled by context {
 
+
 }
 
 @DslScope

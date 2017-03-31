@@ -18,6 +18,14 @@ interface GlacierEnabled : GlacierIdentifiable {
 
 open class BaseGlacierContext(protected val context: IacContext) : GlacierEnabled by context {
 
+    fun createVault(vaultName: String, init: CreateVaultRequest.() -> Unit): CreateVaultResult {
+        return glacierClient.createVault(CreateVaultRequest().apply {
+            withVaultName(vaultName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

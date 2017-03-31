@@ -18,6 +18,21 @@ interface ECSEnabled : ECSIdentifiable {
 
 open class BaseECSContext(protected val context: IacContext) : ECSEnabled by context {
 
+    fun createCluster(clusterName: String, init: CreateClusterRequest.() -> Unit): Cluster {
+        return ecsClient.createCluster(CreateClusterRequest().apply {
+            withClusterName(clusterName)
+            init()
+        }).cluster
+    }
+
+    fun createService(serviceName: String, init: CreateServiceRequest.() -> Unit): Service {
+        return ecsClient.createService(CreateServiceRequest().apply {
+            withServiceName(serviceName)
+            init()
+        }).service
+    }
+
+
 }
 
 @DslScope

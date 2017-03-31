@@ -1,7 +1,10 @@
 package uy.kohesive.iac.model.aws.contexts
 
 import com.amazonaws.services.batch.AWSBatch
-import com.amazonaws.services.batch.model.*
+import com.amazonaws.services.batch.model.CreateComputeEnvironmentRequest
+import com.amazonaws.services.batch.model.CreateComputeEnvironmentResult
+import com.amazonaws.services.batch.model.CreateJobQueueRequest
+import com.amazonaws.services.batch.model.CreateJobQueueResult
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.utils.DslScope
@@ -17,6 +20,21 @@ interface BatchEnabled : BatchIdentifiable {
 }
 
 open class BaseBatchContext(protected val context: IacContext) : BatchEnabled by context {
+
+    fun createComputeEnvironment(computeEnvironmentName: String, init: CreateComputeEnvironmentRequest.() -> Unit): CreateComputeEnvironmentResult {
+        return batchClient.createComputeEnvironment(CreateComputeEnvironmentRequest().apply {
+            withComputeEnvironmentName(computeEnvironmentName)
+            init()
+        })
+    }
+
+    fun createJobQueue(jobQueueName: String, init: CreateJobQueueRequest.() -> Unit): CreateJobQueueResult {
+        return batchClient.createJobQueue(CreateJobQueueRequest().apply {
+            withJobQueueName(jobQueueName)
+            init()
+        })
+    }
+
 
 }
 

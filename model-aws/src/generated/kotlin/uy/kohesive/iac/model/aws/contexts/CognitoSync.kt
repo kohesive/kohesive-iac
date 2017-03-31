@@ -18,6 +18,7 @@ interface CognitoSyncEnabled : CognitoSyncIdentifiable {
 
 open class BaseCognitoSyncContext(protected val context: IacContext) : CognitoSyncEnabled by context {
 
+
 }
 
 @DslScope

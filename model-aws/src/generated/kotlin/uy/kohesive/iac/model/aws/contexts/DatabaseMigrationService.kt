@@ -18,6 +18,7 @@ interface DatabaseMigrationServiceEnabled : DatabaseMigrationServiceIdentifiable
 
 open class BaseDatabaseMigrationServiceContext(protected val context: IacContext) : DatabaseMigrationServiceEnabled by context {
 
+
 }
 
 @DslScope

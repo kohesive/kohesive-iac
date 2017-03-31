@@ -18,6 +18,14 @@ interface CognitoIdentityProviderEnabled : CognitoIdentityProviderIdentifiable {
 
 open class BaseCognitoIdentityProviderContext(protected val context: IacContext) : CognitoIdentityProviderEnabled by context {
 
+    fun createGroup(groupName: String, init: CreateGroupRequest.() -> Unit): CreateGroupResult {
+        return cognitoIdentityProviderClient.createGroup(CreateGroupRequest().apply {
+            withGroupName(groupName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

@@ -18,6 +18,14 @@ interface ServiceCatalogEnabled : ServiceCatalogIdentifiable {
 
 open class BaseServiceCatalogContext(protected val context: IacContext) : ServiceCatalogEnabled by context {
 
+    fun createProduct(name: String, init: CreateProductRequest.() -> Unit): CreateProductResult {
+        return serviceCatalogClient.createProduct(CreateProductRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

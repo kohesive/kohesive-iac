@@ -18,6 +18,14 @@ interface MTurkEnabled : MTurkIdentifiable {
 
 open class BaseMTurkContext(protected val context: IacContext) : MTurkEnabled by context {
 
+    fun createQualificationType(name: String, init: CreateQualificationTypeRequest.() -> Unit): QualificationType {
+        return mTurkClient.createQualificationType(CreateQualificationTypeRequest().apply {
+            withName(name)
+            init()
+        }).qualificationType
+    }
+
+
 }
 
 @DslScope

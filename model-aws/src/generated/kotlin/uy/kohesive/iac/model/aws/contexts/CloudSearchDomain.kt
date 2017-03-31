@@ -18,6 +18,7 @@ interface CloudSearchDomainEnabled : CloudSearchDomainIdentifiable {
 
 open class BaseCloudSearchDomainContext(protected val context: IacContext) : CloudSearchDomainEnabled by context {
 
+
 }
 
 @DslScope

@@ -18,6 +18,7 @@ interface SimpleWorkflowEnabled : SimpleWorkflowIdentifiable {
 
 open class BaseSimpleWorkflowContext(protected val context: IacContext) : SimpleWorkflowEnabled by context {
 
+
 }
 
 @DslScope

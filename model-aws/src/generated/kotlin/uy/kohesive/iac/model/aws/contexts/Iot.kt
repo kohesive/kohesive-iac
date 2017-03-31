@@ -18,6 +18,28 @@ interface IotEnabled : IotIdentifiable {
 
 open class BaseIotContext(protected val context: IacContext) : IotEnabled by context {
 
+    fun createPolicy(policyName: String, init: CreatePolicyRequest.() -> Unit): CreatePolicyResult {
+        return iotClient.createPolicy(CreatePolicyRequest().apply {
+            withPolicyName(policyName)
+            init()
+        })
+    }
+
+    fun createThing(thingName: String, init: CreateThingRequest.() -> Unit): CreateThingResult {
+        return iotClient.createThing(CreateThingRequest().apply {
+            withThingName(thingName)
+            init()
+        })
+    }
+
+    fun createThingType(thingTypeName: String, init: CreateThingTypeRequest.() -> Unit): CreateThingTypeResult {
+        return iotClient.createThingType(CreateThingTypeRequest().apply {
+            withThingTypeName(thingTypeName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

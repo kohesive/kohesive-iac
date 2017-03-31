@@ -18,6 +18,7 @@ interface CostAndUsageReportEnabled : CostAndUsageReportIdentifiable {
 
 open class BaseCostAndUsageReportContext(protected val context: IacContext) : CostAndUsageReportEnabled by context {
 
+
 }
 
 @DslScope

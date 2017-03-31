@@ -18,6 +18,7 @@ interface ConfigEnabled : ConfigIdentifiable {
 
 open class BaseConfigContext(protected val context: IacContext) : ConfigEnabled by context {
 
+
 }
 
 @DslScope

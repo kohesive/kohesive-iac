@@ -18,6 +18,7 @@ interface WorkspacesEnabled : WorkspacesIdentifiable {
 
 open class BaseWorkspacesContext(protected val context: IacContext) : WorkspacesEnabled by context {
 
+
 }
 
 @DslScope

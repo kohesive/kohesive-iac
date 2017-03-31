@@ -18,6 +18,21 @@ interface KMSEnabled : KMSIdentifiable {
 
 open class BaseKMSContext(protected val context: IacContext) : KMSEnabled by context {
 
+    fun createAlias(aliasName: String, init: CreateAliasRequest.() -> Unit): CreateAliasResult {
+        return kmsClient.createAlias(CreateAliasRequest().apply {
+            withAliasName(aliasName)
+            init()
+        })
+    }
+
+    fun createGrant(name: String, init: CreateGrantRequest.() -> Unit): CreateGrantResult {
+        return kmsClient.createGrant(CreateGrantRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

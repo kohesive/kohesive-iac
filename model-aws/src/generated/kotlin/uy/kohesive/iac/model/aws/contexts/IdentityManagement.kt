@@ -4,6 +4,7 @@ import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.identitymanagement.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
+import uy.kohesive.iac.model.aws.utils.DslScope
 
 interface IdentityManagementIdentifiable : KohesiveIdentifiable {
 
@@ -43,6 +44,13 @@ open class BaseIdentityManagementContext(protected val context: IacContext) : Id
             withRoleName(roleName)
             init()
         }).role
+    }
+
+    fun createSAMLProvider(name: String, init: CreateSAMLProviderRequest.() -> Unit): CreateSAMLProviderResult {
+        return identityManagementClient.createSAMLProvider(CreateSAMLProviderRequest().apply {
+            withName(name)
+            init()
+        })
     }
 
     fun createUser(userName: String, init: CreateUserRequest.() -> Unit): User {

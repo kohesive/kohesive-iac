@@ -18,6 +18,7 @@ interface SnowballEnabled : SnowballIdentifiable {
 
 open class BaseSnowballContext(protected val context: IacContext) : SnowballEnabled by context {
 
+
 }
 
 @DslScope

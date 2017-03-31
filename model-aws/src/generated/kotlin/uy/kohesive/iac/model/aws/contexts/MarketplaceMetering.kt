@@ -18,6 +18,7 @@ interface MarketplaceMeteringEnabled : MarketplaceMeteringIdentifiable {
 
 open class BaseMarketplaceMeteringContext(protected val context: IacContext) : MarketplaceMeteringEnabled by context {
 
+
 }
 
 @DslScope

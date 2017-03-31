@@ -18,6 +18,7 @@ interface CodePipelineEnabled : CodePipelineIdentifiable {
 
 open class BaseCodePipelineContext(protected val context: IacContext) : CodePipelineEnabled by context {
 
+
 }
 
 @DslScope

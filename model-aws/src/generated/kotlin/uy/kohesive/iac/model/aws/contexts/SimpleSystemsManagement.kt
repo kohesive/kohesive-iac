@@ -18,6 +18,35 @@ interface SimpleSystemsManagementEnabled : SimpleSystemsManagementIdentifiable {
 
 open class BaseSimpleSystemsManagementContext(protected val context: IacContext) : SimpleSystemsManagementEnabled by context {
 
+    fun createAssociation(name: String, init: CreateAssociationRequest.() -> Unit): AssociationDescription {
+        return simpleSystemsManagementClient.createAssociation(CreateAssociationRequest().apply {
+            withName(name)
+            init()
+        }).associationDescription
+    }
+
+    fun createDocument(name: String, init: CreateDocumentRequest.() -> Unit): DocumentDescription {
+        return simpleSystemsManagementClient.createDocument(CreateDocumentRequest().apply {
+            withName(name)
+            init()
+        }).documentDescription
+    }
+
+    fun createMaintenanceWindow(name: String, init: CreateMaintenanceWindowRequest.() -> Unit): CreateMaintenanceWindowResult {
+        return simpleSystemsManagementClient.createMaintenanceWindow(CreateMaintenanceWindowRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+    fun createPatchBaseline(name: String, init: CreatePatchBaselineRequest.() -> Unit): CreatePatchBaselineResult {
+        return simpleSystemsManagementClient.createPatchBaseline(CreatePatchBaselineRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

@@ -18,6 +18,7 @@ interface LexRuntimeEnabled : LexRuntimeIdentifiable {
 
 open class BaseLexRuntimeContext(protected val context: IacContext) : LexRuntimeEnabled by context {
 
+
 }
 
 @DslScope

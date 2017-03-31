@@ -18,6 +18,28 @@ interface Route53Enabled : Route53Identifiable {
 
 open class BaseRoute53Context(protected val context: IacContext) : Route53Enabled by context {
 
+    fun createHostedZone(name: String, init: CreateHostedZoneRequest.() -> Unit): HostedZone {
+        return route53Client.createHostedZone(CreateHostedZoneRequest().apply {
+            withName(name)
+            init()
+        }).hostedZone
+    }
+
+    fun createTrafficPolicy(name: String, init: CreateTrafficPolicyRequest.() -> Unit): TrafficPolicy {
+        return route53Client.createTrafficPolicy(CreateTrafficPolicyRequest().apply {
+            withName(name)
+            init()
+        }).trafficPolicy
+    }
+
+    fun createTrafficPolicyInstance(name: String, init: CreateTrafficPolicyInstanceRequest.() -> Unit): TrafficPolicyInstance {
+        return route53Client.createTrafficPolicyInstance(CreateTrafficPolicyInstanceRequest().apply {
+            withName(name)
+            init()
+        }).trafficPolicyInstance
+    }
+
+
 }
 
 @DslScope

@@ -18,6 +18,14 @@ interface CloudSearchEnabled : CloudSearchIdentifiable {
 
 open class BaseCloudSearchContext(protected val context: IacContext) : CloudSearchEnabled by context {
 
+    fun createDomain(domainName: String, init: CreateDomainRequest.() -> Unit): CreateDomainResult {
+        return cloudSearchClient.createDomain(CreateDomainRequest().apply {
+            withDomainName(domainName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

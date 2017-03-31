@@ -18,6 +18,7 @@ interface DynamoDBStreamsEnabled : DynamoDBStreamsIdentifiable {
 
 open class BaseDynamoDBStreamsContext(protected val context: IacContext) : DynamoDBStreamsEnabled by context {
 
+
 }
 
 @DslScope

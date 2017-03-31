@@ -18,6 +18,42 @@ interface RDSEnabled : RDSIdentifiable {
 
 open class BaseRDSContext(protected val context: IacContext) : RDSEnabled by context {
 
+    fun createDBClusterParameterGroup(dBClusterParameterGroupName: String, init: CreateDBClusterParameterGroupRequest.() -> Unit): DBClusterParameterGroup {
+        return rdsClient.createDBClusterParameterGroup(CreateDBClusterParameterGroupRequest().apply {
+            withDBClusterParameterGroupName(dBClusterParameterGroupName)
+            init()
+        })
+    }
+
+    fun createDBParameterGroup(dBParameterGroupName: String, init: CreateDBParameterGroupRequest.() -> Unit): DBParameterGroup {
+        return rdsClient.createDBParameterGroup(CreateDBParameterGroupRequest().apply {
+            withDBParameterGroupName(dBParameterGroupName)
+            init()
+        })
+    }
+
+    fun createDBSecurityGroup(dBSecurityGroupName: String, init: CreateDBSecurityGroupRequest.() -> Unit): DBSecurityGroup {
+        return rdsClient.createDBSecurityGroup(CreateDBSecurityGroupRequest().apply {
+            withDBSecurityGroupName(dBSecurityGroupName)
+            init()
+        })
+    }
+
+    fun createDBSubnetGroup(dBSubnetGroupName: String, init: CreateDBSubnetGroupRequest.() -> Unit): DBSubnetGroup {
+        return rdsClient.createDBSubnetGroup(CreateDBSubnetGroupRequest().apply {
+            withDBSubnetGroupName(dBSubnetGroupName)
+            init()
+        })
+    }
+
+    fun createOptionGroup(optionGroupName: String, init: CreateOptionGroupRequest.() -> Unit): OptionGroup {
+        return rdsClient.createOptionGroup(CreateOptionGroupRequest().apply {
+            withOptionGroupName(optionGroupName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

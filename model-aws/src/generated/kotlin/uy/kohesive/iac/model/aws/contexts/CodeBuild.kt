@@ -18,6 +18,14 @@ interface CodeBuildEnabled : CodeBuildIdentifiable {
 
 open class BaseCodeBuildContext(protected val context: IacContext) : CodeBuildEnabled by context {
 
+    fun createProject(name: String, init: CreateProjectRequest.() -> Unit): Project {
+        return codeBuildClient.createProject(CreateProjectRequest().apply {
+            withName(name)
+            init()
+        }).project
+    }
+
+
 }
 
 @DslScope

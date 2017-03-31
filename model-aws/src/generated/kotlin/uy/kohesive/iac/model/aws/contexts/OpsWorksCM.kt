@@ -18,6 +18,14 @@ interface OpsWorksCMEnabled : OpsWorksCMIdentifiable {
 
 open class BaseOpsWorksCMContext(protected val context: IacContext) : OpsWorksCMEnabled by context {
 
+    fun createServer(serverName: String, init: CreateServerRequest.() -> Unit): Server {
+        return opsWorksCMClient.createServer(CreateServerRequest().apply {
+            withServerName(serverName)
+            init()
+        }).server
+    }
+
+
 }
 
 @DslScope

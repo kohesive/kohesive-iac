@@ -18,6 +18,35 @@ interface ElastiCacheEnabled : ElastiCacheIdentifiable {
 
 open class BaseElastiCacheContext(protected val context: IacContext) : ElastiCacheEnabled by context {
 
+    fun createCacheParameterGroup(cacheParameterGroupName: String, init: CreateCacheParameterGroupRequest.() -> Unit): CacheParameterGroup {
+        return elastiCacheClient.createCacheParameterGroup(CreateCacheParameterGroupRequest().apply {
+            withCacheParameterGroupName(cacheParameterGroupName)
+            init()
+        })
+    }
+
+    fun createCacheSecurityGroup(cacheSecurityGroupName: String, init: CreateCacheSecurityGroupRequest.() -> Unit): CacheSecurityGroup {
+        return elastiCacheClient.createCacheSecurityGroup(CreateCacheSecurityGroupRequest().apply {
+            withCacheSecurityGroupName(cacheSecurityGroupName)
+            init()
+        })
+    }
+
+    fun createCacheSubnetGroup(cacheSubnetGroupName: String, init: CreateCacheSubnetGroupRequest.() -> Unit): CacheSubnetGroup {
+        return elastiCacheClient.createCacheSubnetGroup(CreateCacheSubnetGroupRequest().apply {
+            withCacheSubnetGroupName(cacheSubnetGroupName)
+            init()
+        })
+    }
+
+    fun createSnapshot(snapshotName: String, init: CreateSnapshotRequest.() -> Unit): Snapshot {
+        return elastiCacheClient.createSnapshot(CreateSnapshotRequest().apply {
+            withSnapshotName(snapshotName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

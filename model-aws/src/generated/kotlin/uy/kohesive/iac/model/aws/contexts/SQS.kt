@@ -18,6 +18,14 @@ interface SQSEnabled : SQSIdentifiable {
 
 open class BaseSQSContext(protected val context: IacContext) : SQSEnabled by context {
 
+    fun createQueue(queueName: String, init: CreateQueueRequest.() -> Unit): CreateQueueResult {
+        return sqsClient.createQueue(CreateQueueRequest().apply {
+            withQueueName(queueName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

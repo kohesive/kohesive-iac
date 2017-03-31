@@ -18,6 +18,14 @@ interface ElasticLoadBalancingEnabled : ElasticLoadBalancingIdentifiable {
 
 open class BaseElasticLoadBalancingContext(protected val context: IacContext) : ElasticLoadBalancingEnabled by context {
 
+    fun createLoadBalancer(loadBalancerName: String, init: CreateLoadBalancerRequest.() -> Unit): CreateLoadBalancerResult {
+        return elasticLoadBalancingClient.createLoadBalancer(CreateLoadBalancerRequest().apply {
+            withLoadBalancerName(loadBalancerName)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

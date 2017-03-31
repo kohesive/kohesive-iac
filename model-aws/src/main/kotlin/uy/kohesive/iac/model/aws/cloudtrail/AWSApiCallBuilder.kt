@@ -1,6 +1,5 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
-import com.amazonaws.codegen.emitters.CodeEmitter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
@@ -10,10 +9,26 @@ import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.StringWriter
 import java.io.Writer
 
+//data class RequestMapNode(
+//    val
+//)
+
+val DEBUG = HashSet<String>()
+
 class AWSApiCallBuilder(
     val awsModel: IntermediateModel,
     val event: CloudTrailEvent
 ) {
+
+    private fun doStuff(map: Map<String, Any>, shapeModel: ShapeModel, awsModel: IntermediateModel) {
+        val some = shapeModel.membersAsMap.keys.map(String::toLowerCase).toSet() + shapeModel.members?.map { it.http?.unmarshallLocationName?.orEmpty() }?.filterNotNull()?.map(String::toLowerCase)?.orEmpty()?.toSet().orEmpty()
+
+        map.forEach { fieldName, fieldValue ->
+            if (!some.contains(fieldName.toLowerCase())) {
+                DEBUG.add("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+            }
+        }
+    }
 
     fun build(): String {
         val generatorTaskExecutor = GeneratorTaskExecutor()
@@ -23,12 +38,17 @@ class AWSApiCallBuilder(
             requestMap = event.request.orEmpty()
         )
 
-        val stringWriter = StringWriter()
-        val emitter      = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
-        emitter.emit()
+        val op = awsModel.getOperation(event.eventName)
 
-        generatorTaskExecutor.waitForCompletion()
-        generatorTaskExecutor.shutdown()
+        // TODO?
+        doStuff(apiCallData.requestMap, apiCallData.shape, awsModel)
+
+        val stringWriter = StringWriter()
+//        val emitter      = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
+//        emitter.emit()
+//
+//        generatorTaskExecutor.waitForCompletion()
+//        generatorTaskExecutor.shutdown()
 
         return stringWriter.buffer.toString()
     }

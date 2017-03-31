@@ -18,6 +18,7 @@ interface ElasticFileSystemEnabled : ElasticFileSystemIdentifiable {
 
 open class BaseElasticFileSystemContext(protected val context: IacContext) : ElasticFileSystemEnabled by context {
 
+
 }
 
 @DslScope

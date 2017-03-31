@@ -18,6 +18,42 @@ interface GameLiftEnabled : GameLiftIdentifiable {
 
 open class BaseGameLiftContext(protected val context: IacContext) : GameLiftEnabled by context {
 
+    fun createAlias(name: String, init: CreateAliasRequest.() -> Unit): Alias {
+        return gameLiftClient.createAlias(CreateAliasRequest().apply {
+            withName(name)
+            init()
+        }).alias
+    }
+
+    fun createBuild(name: String, init: CreateBuildRequest.() -> Unit): Build {
+        return gameLiftClient.createBuild(CreateBuildRequest().apply {
+            withName(name)
+            init()
+        }).build
+    }
+
+    fun createFleet(name: String, init: CreateFleetRequest.() -> Unit): CreateFleetResult {
+        return gameLiftClient.createFleet(CreateFleetRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+    fun createGameSession(name: String, init: CreateGameSessionRequest.() -> Unit): GameSession {
+        return gameLiftClient.createGameSession(CreateGameSessionRequest().apply {
+            withName(name)
+            init()
+        }).gameSession
+    }
+
+    fun createGameSessionQueue(name: String, init: CreateGameSessionQueueRequest.() -> Unit): GameSessionQueue {
+        return gameLiftClient.createGameSessionQueue(CreateGameSessionQueueRequest().apply {
+            withName(name)
+            init()
+        }).gameSessionQueue
+    }
+
+
 }
 
 @DslScope

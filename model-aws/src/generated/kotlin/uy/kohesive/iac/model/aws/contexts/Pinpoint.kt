@@ -18,6 +18,7 @@ interface PinpointEnabled : PinpointIdentifiable {
 
 open class BasePinpointContext(protected val context: IacContext) : PinpointEnabled by context {
 
+
 }
 
 @DslScope

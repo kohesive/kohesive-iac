@@ -18,6 +18,7 @@ interface SecurityTokenServiceEnabled : SecurityTokenServiceIdentifiable {
 
 open class BaseSecurityTokenServiceContext(protected val context: IacContext) : SecurityTokenServiceEnabled by context {
 
+
 }
 
 @DslScope

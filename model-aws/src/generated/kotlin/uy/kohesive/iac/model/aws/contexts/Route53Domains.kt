@@ -18,6 +18,7 @@ interface Route53DomainsEnabled : Route53DomainsIdentifiable {
 
 open class BaseRoute53DomainsContext(protected val context: IacContext) : Route53DomainsEnabled by context {
 
+
 }
 
 @DslScope

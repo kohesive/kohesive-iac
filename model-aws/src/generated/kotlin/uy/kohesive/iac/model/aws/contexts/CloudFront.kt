@@ -18,6 +18,7 @@ interface CloudFrontEnabled : CloudFrontIdentifiable {
 
 open class BaseCloudFrontContext(protected val context: IacContext) : CloudFrontEnabled by context {
 
+
 }
 
 @DslScope

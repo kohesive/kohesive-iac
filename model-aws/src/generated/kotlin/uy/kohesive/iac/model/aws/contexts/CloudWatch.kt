@@ -18,6 +18,7 @@ interface CloudWatchEnabled : CloudWatchIdentifiable {
 
 open class BaseCloudWatchContext(protected val context: IacContext) : CloudWatchEnabled by context {
 
+
 }
 
 @DslScope

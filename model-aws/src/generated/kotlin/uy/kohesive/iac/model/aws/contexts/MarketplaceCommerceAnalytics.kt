@@ -18,6 +18,7 @@ interface MarketplaceCommerceAnalyticsEnabled : MarketplaceCommerceAnalyticsIden
 
 open class BaseMarketplaceCommerceAnalyticsContext(protected val context: IacContext) : MarketplaceCommerceAnalyticsEnabled by context {
 
+
 }
 
 @DslScope

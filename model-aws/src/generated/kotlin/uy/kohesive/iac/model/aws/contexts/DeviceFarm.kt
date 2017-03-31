@@ -18,6 +18,42 @@ interface DeviceFarmEnabled : DeviceFarmIdentifiable {
 
 open class BaseDeviceFarmContext(protected val context: IacContext) : DeviceFarmEnabled by context {
 
+    fun createDevicePool(name: String, init: CreateDevicePoolRequest.() -> Unit): DevicePool {
+        return deviceFarmClient.createDevicePool(CreateDevicePoolRequest().apply {
+            withName(name)
+            init()
+        }).devicePool
+    }
+
+    fun createNetworkProfile(name: String, init: CreateNetworkProfileRequest.() -> Unit): NetworkProfile {
+        return deviceFarmClient.createNetworkProfile(CreateNetworkProfileRequest().apply {
+            withName(name)
+            init()
+        }).networkProfile
+    }
+
+    fun createProject(name: String, init: CreateProjectRequest.() -> Unit): Project {
+        return deviceFarmClient.createProject(CreateProjectRequest().apply {
+            withName(name)
+            init()
+        }).project
+    }
+
+    fun createRemoteAccessSession(name: String, init: CreateRemoteAccessSessionRequest.() -> Unit): RemoteAccessSession {
+        return deviceFarmClient.createRemoteAccessSession(CreateRemoteAccessSessionRequest().apply {
+            withName(name)
+            init()
+        }).remoteAccessSession
+    }
+
+    fun createUpload(name: String, init: CreateUploadRequest.() -> Unit): Upload {
+        return deviceFarmClient.createUpload(CreateUploadRequest().apply {
+            withName(name)
+            init()
+        }).upload
+    }
+
+
 }
 
 @DslScope

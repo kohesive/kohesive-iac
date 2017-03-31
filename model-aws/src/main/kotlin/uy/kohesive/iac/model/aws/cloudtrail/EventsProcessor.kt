@@ -18,15 +18,19 @@ fun main(args: Array<String>) {
         if (listOf("Create", "Put", "Attach", "Run").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()
 
-            val awsModel = try {
-                awsModelProvider.getModel(serviceName, event.apiVersion)
-            } catch (t: Throwable) {
-                throw RuntimeException("Can't obtain an AWS model for $event", t)
-            }
+            if (serviceName != "s3") {
+                val awsModel = try {
+                    awsModelProvider.getModel(serviceName, event.apiVersion)
+                } catch (t: Throwable) {
+                    throw RuntimeException("Can't obtain an AWS model for $event", t)
+                }
 
-            AWSApiCallBuilder(awsModel, event).build()
+                AWSApiCallBuilder(awsModel, event).build()
+            }
         }
     }
+
+    DEBUG.forEach { println(it) }
 }
 
 class EventsProcessor {
@@ -56,6 +60,11 @@ class EventsProcessor {
 
 }
 
+fun main2(args: Array<String>) {
+    val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
+    storeEvents(eventsDir)
+}
+
 fun storeEvents(outputDir: File) {
     val cloudTrailClient = AWSCloudTrailClientBuilder.defaultClient()
     val firstLookup      = cloudTrailClient.lookupEvents()
@@ -70,6 +79,8 @@ fun storeEvents(outputDir: File) {
     }
 
     events.forEach { event ->
-        File(outputDir, event.eventId + ".json").writeText(event.cloudTrailEvent)
+        val filename = event.eventId + ".json"
+        File(outputDir, filename).writeText(event.cloudTrailEvent)
+        println(filename)
     }
 }

@@ -18,6 +18,7 @@ interface ElasticsearchEnabled : ElasticsearchIdentifiable {
 
 open class BaseElasticsearchContext(protected val context: IacContext) : ElasticsearchEnabled by context {
 
+
 }
 
 @DslScope

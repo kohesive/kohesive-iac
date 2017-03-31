@@ -18,6 +18,7 @@ interface CloudWatchEventsEnabled : CloudWatchEventsIdentifiable {
 
 open class BaseCloudWatchEventsContext(protected val context: IacContext) : CloudWatchEventsEnabled by context {
 
+
 }
 
 @DslScope

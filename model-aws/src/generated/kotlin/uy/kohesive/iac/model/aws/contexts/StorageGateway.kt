@@ -18,6 +18,7 @@ interface StorageGatewayEnabled : StorageGatewayIdentifiable {
 
 open class BaseStorageGatewayContext(protected val context: IacContext) : StorageGatewayEnabled by context {
 
+
 }
 
 @DslScope

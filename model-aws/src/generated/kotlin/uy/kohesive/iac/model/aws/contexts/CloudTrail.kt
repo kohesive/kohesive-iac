@@ -18,6 +18,14 @@ interface CloudTrailEnabled : CloudTrailIdentifiable {
 
 open class BaseCloudTrailContext(protected val context: IacContext) : CloudTrailEnabled by context {
 
+    fun createTrail(name: String, init: CreateTrailRequest.() -> Unit): CreateTrailResult {
+        return cloudTrailClient.createTrail(CreateTrailRequest().apply {
+            withName(name)
+            init()
+        })
+    }
+
+
 }
 
 @DslScope

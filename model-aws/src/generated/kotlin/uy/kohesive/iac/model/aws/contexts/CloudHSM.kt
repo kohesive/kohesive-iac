@@ -18,6 +18,7 @@ interface CloudHSMEnabled : CloudHSMIdentifiable {
 
 open class BaseCloudHSMContext(protected val context: IacContext) : CloudHSMEnabled by context {
 
+
 }
 
 @DslScope

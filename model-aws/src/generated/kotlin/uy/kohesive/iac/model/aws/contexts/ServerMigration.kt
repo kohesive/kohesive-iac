@@ -18,6 +18,7 @@ interface ServerMigrationEnabled : ServerMigrationIdentifiable {
 
 open class BaseServerMigrationContext(protected val context: IacContext) : ServerMigrationEnabled by context {
 
+
 }
 
 @DslScope
