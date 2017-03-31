@@ -2,9 +2,7 @@ package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.ecr.AbstractAmazonECR
 import com.amazonaws.services.ecr.AmazonECR
-import com.amazonaws.services.ecr.model.CreateRepositoryRequest
-import com.amazonaws.services.ecr.model.CreateRepositoryResult
-import com.amazonaws.services.ecr.model.Repository
+import com.amazonaws.services.ecr.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 

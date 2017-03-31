@@ -1,6 +1,7 @@
 package uy.kohesive.iac.model.aws.contexts
 
 import com.amazonaws.services.applicationautoscaling.AWSApplicationAutoScaling
+import com.amazonaws.services.applicationautoscaling.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
 import uy.kohesive.iac.model.aws.utils.DslScope

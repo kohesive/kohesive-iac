@@ -8,6 +8,24 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSCodeCommit(val context: IacContext) : AbstractAWSCodeCommit(), AWSCodeCommit {
 
+    override fun createBranch(request: CreateBranchRequest): CreateBranchResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateBranchResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createRepository(request: CreateRepositoryRequest): CreateRepositoryResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateRepositoryRequest, CreateRepositoryResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
 
 }
 

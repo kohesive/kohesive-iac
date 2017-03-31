@@ -2,7 +2,9 @@ package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.cognitosync.AbstractAmazonCognitoSync
 import com.amazonaws.services.cognitosync.AmazonCognitoSync
+import com.amazonaws.services.cognitosync.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonCognitoSync(val context: IacContext) : AbstractAmazonCognitoSync(), AmazonCognitoSync {
 

@@ -14,7 +14,7 @@ open class ${baseDeferredClientClassName}(val context: IacContext) : Abstract${s
             request.registerWithAutoName()
             <#if method.emptyResult>
             ${method.resultType}().registerWithSameNameAs(request)
-            <#elseif method.memberContainingCreatedEntity??>
+            <#elseif method.memberContainingCreatedEntity?? && method.createdEntityType??>
             ${method.resultType}().with${method.createdEntityType}(
                 makeProxy<${method.requestType}, ${method.createdEntityType}>(
                     context       = this@with,

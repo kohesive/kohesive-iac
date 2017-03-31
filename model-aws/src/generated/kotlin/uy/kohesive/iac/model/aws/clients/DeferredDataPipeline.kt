@@ -8,6 +8,24 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredDataPipeline(val context: IacContext) : AbstractDataPipeline(), DataPipeline {
 
+    override fun addTags(request: AddTagsRequest): AddTagsResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddTagsResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createPipeline(request: CreatePipelineRequest): CreatePipelineResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreatePipelineRequest, CreatePipelineResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
 
 }
 

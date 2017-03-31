@@ -8,6 +8,24 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSOrganizations(val context: IacContext) : AbstractAWSOrganizations(), AWSOrganizations {
 
+    override fun attachPolicy(request: AttachPolicyRequest): AttachPolicyResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AttachPolicyResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createAccount(request: CreateAccountRequest): CreateAccountResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateAccountRequest, CreateAccountResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createOrganization(request: CreateOrganizationRequest): CreateOrganizationResult {
         return with (context) {
             request.registerWithAutoName()

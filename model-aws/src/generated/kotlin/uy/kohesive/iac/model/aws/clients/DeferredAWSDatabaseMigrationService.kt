@@ -8,6 +8,13 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSDatabaseMigrationService(val context: IacContext) : AbstractAWSDatabaseMigrationService(), AWSDatabaseMigrationService {
 
+    override fun addTagsToResource(request: AddTagsToResourceRequest): AddTagsToResourceResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddTagsToResourceResult().registerWithSameNameAs(request)
+        }
+    }
+
     override fun createEndpoint(request: CreateEndpointRequest): CreateEndpointResult {
         return with (context) {
             request.registerWithAutoName()

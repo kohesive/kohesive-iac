@@ -26,6 +26,20 @@ open class BaseDeferredAWSCodePipeline(val context: IacContext) : AbstractAWSCod
         }
     }
 
+    override fun createPipeline(request: CreatePipelineRequest): CreatePipelineResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreatePipelineRequest, CreatePipelineResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request,
+                copyFromReq   = mapOf(
+                    CreatePipelineRequest::getPipeline to CreatePipelineResult::getPipeline
+                )
+            )
+        }
+    }
+
 
 }
 

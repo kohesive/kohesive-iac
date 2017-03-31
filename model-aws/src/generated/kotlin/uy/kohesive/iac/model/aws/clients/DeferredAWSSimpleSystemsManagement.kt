@@ -8,6 +8,24 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSSimpleSystemsManagement(val context: IacContext) : AbstractAWSSimpleSystemsManagement(), AWSSimpleSystemsManagement {
 
+    override fun addTagsToResource(request: AddTagsToResourceRequest): AddTagsToResourceResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddTagsToResourceResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createActivation(request: CreateActivationRequest): CreateActivationResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateActivationRequest, CreateActivationResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createAssociation(request: CreateAssociationRequest): CreateAssociationResult {
         return with (context) {
             request.registerWithAutoName()
@@ -30,6 +48,17 @@ open class BaseDeferredAWSSimpleSystemsManagement(val context: IacContext) : Abs
         }
     }
 
+    override fun createAssociationBatch(request: CreateAssociationBatchRequest): CreateAssociationBatchResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateAssociationBatchRequest, CreateAssociationBatchResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createDocument(request: CreateDocumentRequest): CreateDocumentResult {
         return with (context) {
             request.registerWithAutoName()
@@ -44,6 +73,28 @@ open class BaseDeferredAWSSimpleSystemsManagement(val context: IacContext) : Abs
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createMaintenanceWindow(request: CreateMaintenanceWindowRequest): CreateMaintenanceWindowResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateMaintenanceWindowRequest, CreateMaintenanceWindowResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun createPatchBaseline(request: CreatePatchBaselineRequest): CreatePatchBaselineResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreatePatchBaselineRequest, CreatePatchBaselineResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 

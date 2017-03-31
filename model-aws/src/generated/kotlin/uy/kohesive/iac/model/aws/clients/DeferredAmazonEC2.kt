@@ -8,6 +8,57 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(), AmazonEC2 {
 
+    override fun attachClassicLinkVpc(request: AttachClassicLinkVpcRequest): AttachClassicLinkVpcResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<AttachClassicLinkVpcRequest, AttachClassicLinkVpcResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun attachInternetGateway(request: AttachInternetGatewayRequest): AttachInternetGatewayResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AttachInternetGatewayResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun attachNetworkInterface(request: AttachNetworkInterfaceRequest): AttachNetworkInterfaceResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<AttachNetworkInterfaceRequest, AttachNetworkInterfaceResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun attachVolume(request: AttachVolumeRequest): AttachVolumeResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<AttachVolumeRequest, AttachVolumeResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun attachVpnGateway(request: AttachVpnGatewayRequest): AttachVpnGatewayResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<AttachVpnGatewayRequest, AttachVpnGatewayResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createCustomerGateway(request: CreateCustomerGatewayRequest): CreateCustomerGatewayResult {
         return with (context) {
             request.registerWithAutoName()
@@ -50,6 +101,31 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
                     requestObject = request
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createFlowLogs(request: CreateFlowLogsRequest): CreateFlowLogsResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateFlowLogsRequest, CreateFlowLogsResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request,
+                copyFromReq   = mapOf(
+                    CreateFlowLogsRequest::getClientToken to CreateFlowLogsResult::getClientToken
+                )
+            )
+        }
+    }
+
+    override fun createImage(request: CreateImageRequest): CreateImageResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateImageRequest, CreateImageResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 
@@ -130,6 +206,13 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
         }
     }
 
+    override fun createNetworkAclEntry(request: CreateNetworkAclEntryRequest): CreateNetworkAclEntryResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateNetworkAclEntryResult().registerWithSameNameAs(request)
+        }
+    }
+
     override fun createNetworkInterface(request: CreateNetworkInterfaceRequest): CreateNetworkInterfaceResult {
         return with (context) {
             request.registerWithAutoName()
@@ -148,6 +231,35 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
         }
     }
 
+    override fun createPlacementGroup(request: CreatePlacementGroupRequest): CreatePlacementGroupResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreatePlacementGroupResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createReservedInstancesListing(request: CreateReservedInstancesListingRequest): CreateReservedInstancesListingResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateReservedInstancesListingRequest, CreateReservedInstancesListingResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun createRoute(request: CreateRouteRequest): CreateRouteResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateRouteRequest, CreateRouteResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createRouteTable(request: CreateRouteTableRequest): CreateRouteTableResult {
         return with (context) {
             request.registerWithAutoName()
@@ -161,6 +273,17 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createSecurityGroup(request: CreateSecurityGroupRequest): CreateSecurityGroupResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateSecurityGroupRequest, CreateSecurityGroupResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 
@@ -213,6 +336,13 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createTags(request: CreateTagsRequest): CreateTagsResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateTagsResult().registerWithSameNameAs(request)
         }
     }
 
@@ -302,6 +432,13 @@ open class BaseDeferredAmazonEC2(val context: IacContext) : AbstractAmazonEC2(),
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createVpnConnectionRoute(request: CreateVpnConnectionRouteRequest): CreateVpnConnectionRouteResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateVpnConnectionRouteResult().registerWithSameNameAs(request)
         }
     }
 

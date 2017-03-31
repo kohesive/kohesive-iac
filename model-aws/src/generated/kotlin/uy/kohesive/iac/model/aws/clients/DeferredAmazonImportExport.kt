@@ -8,6 +8,20 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonImportExport(val context: IacContext) : AbstractAmazonImportExport(), AmazonImportExport {
 
+    override fun createJob(request: CreateJobRequest): CreateJobResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateJobRequest, CreateJobResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request,
+                copyFromReq   = mapOf(
+                    CreateJobRequest::getJobType to CreateJobResult::getJobType
+                )
+            )
+        }
+    }
+
 
 }
 

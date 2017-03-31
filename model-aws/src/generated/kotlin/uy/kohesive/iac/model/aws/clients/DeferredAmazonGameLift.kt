@@ -44,6 +44,17 @@ open class BaseDeferredAmazonGameLift(val context: IacContext) : AbstractAmazonG
         }
     }
 
+    override fun createFleet(request: CreateFleetRequest): CreateFleetResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateFleetRequest, CreateFleetResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createGameSession(request: CreateGameSessionRequest): CreateGameSessionResult {
         return with (context) {
             request.registerWithAutoName()
@@ -98,6 +109,17 @@ open class BaseDeferredAmazonGameLift(val context: IacContext) : AbstractAmazonG
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createPlayerSessions(request: CreatePlayerSessionsRequest): CreatePlayerSessionsResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreatePlayerSessionsRequest, CreatePlayerSessionsResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 

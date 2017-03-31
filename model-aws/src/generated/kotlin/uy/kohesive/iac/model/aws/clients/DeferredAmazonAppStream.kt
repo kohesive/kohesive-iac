@@ -49,6 +49,17 @@ open class BaseDeferredAmazonAppStream(val context: IacContext) : AbstractAmazon
         }
     }
 
+    override fun createStreamingURL(request: CreateStreamingURLRequest): CreateStreamingURLResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateStreamingURLRequest, CreateStreamingURLResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
 
 }
 

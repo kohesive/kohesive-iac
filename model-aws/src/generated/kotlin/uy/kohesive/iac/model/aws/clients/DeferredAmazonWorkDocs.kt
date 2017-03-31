@@ -8,6 +8,28 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonWorkDocs(val context: IacContext) : AbstractAmazonWorkDocs(), AmazonWorkDocs {
 
+    override fun addResourcePermissions(request: AddResourcePermissionsRequest): AddResourcePermissionsResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<AddResourcePermissionsRequest, AddResourcePermissionsResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
+    override fun createFolder(request: CreateFolderRequest): CreateFolderResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateFolderRequest, CreateFolderResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
     override fun createNotificationSubscription(request: CreateNotificationSubscriptionRequest): CreateNotificationSubscriptionResult {
         return with (context) {
             request.registerWithAutoName()

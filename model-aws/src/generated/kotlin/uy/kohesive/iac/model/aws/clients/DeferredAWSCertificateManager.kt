@@ -8,6 +8,13 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSCertificateManager(val context: IacContext) : AbstractAWSCertificateManager(), AWSCertificateManager {
 
+    override fun addTagsToCertificate(request: AddTagsToCertificateRequest): AddTagsToCertificateResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddTagsToCertificateResult().registerWithSameNameAs(request)
+        }
+    }
+
 
 }
 

@@ -8,6 +8,13 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonMTurk(val context: IacContext) : AbstractAmazonMTurk(), AmazonMTurk {
 
+    override fun createAdditionalAssignmentsForHIT(request: CreateAdditionalAssignmentsForHITRequest): CreateAdditionalAssignmentsForHITResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateAdditionalAssignmentsForHITResult().registerWithSameNameAs(request)
+        }
+    }
+
     override fun createHIT(request: CreateHITRequest): CreateHITResult {
         return with (context) {
             request.registerWithAutoName()
@@ -31,6 +38,17 @@ open class BaseDeferredAmazonMTurk(val context: IacContext) : AbstractAmazonMTur
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createHITType(request: CreateHITTypeRequest): CreateHITTypeResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateHITTypeRequest, CreateHITTypeResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
         }
     }
 
@@ -76,6 +94,13 @@ open class BaseDeferredAmazonMTurk(val context: IacContext) : AbstractAmazonMTur
                     )
                 )
             ).registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createWorkerBlock(request: CreateWorkerBlockRequest): CreateWorkerBlockResult {
+        return with (context) {
+            request.registerWithAutoName()
+            CreateWorkerBlockResult().registerWithSameNameAs(request)
         }
     }
 

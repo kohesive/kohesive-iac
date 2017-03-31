@@ -8,6 +8,24 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonSQS(val context: IacContext) : AbstractAmazonSQS(), AmazonSQS {
 
+    override fun addPermission(request: AddPermissionRequest): AddPermissionResult {
+        return with (context) {
+            request.registerWithAutoName()
+            AddPermissionResult().registerWithSameNameAs(request)
+        }
+    }
+
+    override fun createQueue(request: CreateQueueRequest): CreateQueueResult {
+        return with (context) {
+            request.registerWithAutoName()
+            makeProxy<CreateQueueRequest, CreateQueueResult>(
+                context       = this@with,
+                sourceName    = getNameStrict(request),
+                requestObject = request
+            )
+        }
+    }
+
 
 }
 
