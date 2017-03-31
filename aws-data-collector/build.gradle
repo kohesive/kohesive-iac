@@ -1,0 +1,25 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "1.2.4"
+    id "com.ullink.ikvm" version "2.3"
+}
+
+dependencies {
+    compile project(':model-aws')
+}
+
+ikvm {
+    ikvmVersion = '8.1.5717.0'
+    debug = false
+    main = 'uy.kohesive.iac.util.aws.Ec2CrawlKt'
+    target = 'exe'
+    // jars = project.configurations.runtime.allDependencies.toArray() + [ jar.archivePath ]
+}
+
+shadowJar {
+    baseName = 'engine-cli-all'
+    classifier = ''
+}
+
+jar {
+    doLast { shadowJar.execute() }
+}
