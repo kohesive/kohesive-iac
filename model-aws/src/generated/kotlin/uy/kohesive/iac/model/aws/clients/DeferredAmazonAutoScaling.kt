@@ -6,4 +6,6 @@ import uy.kohesive.iac.model.aws.IacContext
 
 open class BaseDeferredAmazonAutoScaling(val context: IacContext) : AbstractAmazonAutoScaling(), AmazonAutoScaling {
 
+
 }
+

@@ -4,8 +4,10 @@ import com.amazonaws.services.marketplacecommerceanalytics.AbstractAWSMarketplac
 import com.amazonaws.services.marketplacecommerceanalytics.AWSMarketplaceCommerceAnalytics
 import com.amazonaws.services.marketplacecommerceanalytics.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSMarketplaceCommerceAnalytics(val context: IacContext) : AbstractAWSMarketplaceCommerceAnalytics(), AWSMarketplaceCommerceAnalytics {
+
 
 }
 

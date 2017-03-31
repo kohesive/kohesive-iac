@@ -4,8 +4,10 @@ import com.amazonaws.services.marketplacemetering.AbstractAWSMarketplaceMetering
 import com.amazonaws.services.marketplacemetering.AWSMarketplaceMetering
 import com.amazonaws.services.marketplacemetering.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSMarketplaceMetering(val context: IacContext) : AbstractAWSMarketplaceMetering(), AWSMarketplaceMetering {
+
 
 }
 

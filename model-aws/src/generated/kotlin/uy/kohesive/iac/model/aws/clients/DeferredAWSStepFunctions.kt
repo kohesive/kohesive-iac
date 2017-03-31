@@ -4,8 +4,10 @@ import com.amazonaws.services.stepfunctions.AbstractAWSStepFunctions
 import com.amazonaws.services.stepfunctions.AWSStepFunctions
 import com.amazonaws.services.stepfunctions.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSStepFunctions(val context: IacContext) : AbstractAWSStepFunctions(), AWSStepFunctions {
+
 
 }
 

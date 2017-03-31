@@ -4,8 +4,10 @@ import com.amazonaws.services.simpleemail.AbstractAmazonSimpleEmailService
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
 import com.amazonaws.services.simpleemail.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonSimpleEmailService(val context: IacContext) : AbstractAmazonSimpleEmailService(), AmazonSimpleEmailService {
+
 
 }
 

@@ -4,8 +4,10 @@ import com.amazonaws.services.cloudtrail.AbstractAWSCloudTrail
 import com.amazonaws.services.cloudtrail.AWSCloudTrail
 import com.amazonaws.services.cloudtrail.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSCloudTrail(val context: IacContext) : AbstractAWSCloudTrail(), AWSCloudTrail {
+
 
 }
 

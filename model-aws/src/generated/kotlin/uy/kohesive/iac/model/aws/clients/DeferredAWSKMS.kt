@@ -4,8 +4,10 @@ import com.amazonaws.services.kms.AbstractAWSKMS
 import com.amazonaws.services.kms.AWSKMS
 import com.amazonaws.services.kms.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSKMS(val context: IacContext) : AbstractAWSKMS(), AWSKMS {
+
 
 }
 

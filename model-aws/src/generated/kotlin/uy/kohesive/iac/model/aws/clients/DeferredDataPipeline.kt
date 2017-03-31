@@ -4,8 +4,10 @@ import com.amazonaws.services.datapipeline.AbstractDataPipeline
 import com.amazonaws.services.datapipeline.DataPipeline
 import com.amazonaws.services.datapipeline.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredDataPipeline(val context: IacContext) : AbstractDataPipeline(), DataPipeline {
+
 
 }
 

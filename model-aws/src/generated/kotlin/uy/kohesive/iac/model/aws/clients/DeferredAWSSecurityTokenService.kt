@@ -4,8 +4,10 @@ import com.amazonaws.services.securitytoken.AbstractAWSSecurityTokenService
 import com.amazonaws.services.securitytoken.AWSSecurityTokenService
 import com.amazonaws.services.securitytoken.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSSecurityTokenService(val context: IacContext) : AbstractAWSSecurityTokenService(), AWSSecurityTokenService {
+
 
 }
 

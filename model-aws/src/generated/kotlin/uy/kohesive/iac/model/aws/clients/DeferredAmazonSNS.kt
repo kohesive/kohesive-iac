@@ -4,8 +4,10 @@ import com.amazonaws.services.sns.AbstractAmazonSNS
 import com.amazonaws.services.sns.AmazonSNS
 import com.amazonaws.services.sns.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonSNS(val context: IacContext) : AbstractAmazonSNS(), AmazonSNS {
+
 
 }
 

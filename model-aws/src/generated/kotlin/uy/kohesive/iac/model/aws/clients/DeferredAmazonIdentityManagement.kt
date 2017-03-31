@@ -8,48 +8,6 @@ import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : AbstractAmazonIdentityManagement(), AmazonIdentityManagement {
 
-    override fun addClientIDToOpenIDConnectProvider(request: AddClientIDToOpenIDConnectProviderRequest): AddClientIDToOpenIDConnectProviderResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AddClientIDToOpenIDConnectProviderResult().registerWithSameNameAs(request)
-        }
-    }
-
-    override fun addRoleToInstanceProfile(request: AddRoleToInstanceProfileRequest): AddRoleToInstanceProfileResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AddRoleToInstanceProfileResult().registerWithSameNameAs(request)
-        }
-    }
-
-    override fun addUserToGroup(request: AddUserToGroupRequest): AddUserToGroupResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AddUserToGroupResult().registerWithSameNameAs(request)
-        }
-    }
-
-    override fun attachGroupPolicy(request: AttachGroupPolicyRequest): AttachGroupPolicyResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AttachGroupPolicyResult().registerWithSameNameAs(request)
-        }
-    }
-
-    override fun attachRolePolicy(request: AttachRolePolicyRequest): AttachRolePolicyResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AttachRolePolicyResult().registerWithSameNameAs(request)
-        }
-    }
-
-    override fun attachUserPolicy(request: AttachUserPolicyRequest): AttachUserPolicyResult {
-        return with (context) {
-            request.registerWithAutoName()
-            AttachUserPolicyResult().registerWithSameNameAs(request)
-        }
-    }
-
     override fun createAccessKey(request: CreateAccessKeyRequest): CreateAccessKeyResult {
         return with (context) {
             request.registerWithAutoName()
@@ -62,14 +20,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateAccessKeyRequest::getUserName to AccessKey::getUserName
                     )
                 )
-            )
-        }
-    }
-
-    override fun createAccountAlias(request: CreateAccountAliasRequest): CreateAccountAliasResult {
-        return with (context) {
-            request.registerWithAutoName()
-            CreateAccountAliasResult().registerWithSameNameAs(request)
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -86,7 +37,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateGroupRequest::getGroupName to Group::getGroupName
                     )
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -103,7 +54,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateInstanceProfileRequest::getInstanceProfileName to InstanceProfile::getInstanceProfileName
                     )
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -120,18 +71,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateLoginProfileRequest::getPasswordResetRequired to LoginProfile::getPasswordResetRequired
                     )
                 )
-            )
-        }
-    }
-
-    override fun createOpenIDConnectProvider(request: CreateOpenIDConnectProviderRequest): CreateOpenIDConnectProviderResult {
-        return with (context) {
-            request.registerWithAutoName()
-            makeProxy<CreateOpenIDConnectProviderRequest, CreateOpenIDConnectProviderResult>(
-                context       = this@with,
-                sourceName    = getNameStrict(request),
-                requestObject = request
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -149,7 +89,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreatePolicyRequest::getDescription to Policy::getDescription
                     )
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -162,7 +102,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                     sourceName    = getNameStrict(request),
                     requestObject = request
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -180,18 +120,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateRoleRequest::getAssumeRolePolicyDocument to Role::getAssumeRolePolicyDocument
                     )
                 )
-            )
-        }
-    }
-
-    override fun createSAMLProvider(request: CreateSAMLProviderRequest): CreateSAMLProviderResult {
-        return with (context) {
-            request.registerWithAutoName()
-            makeProxy<CreateSAMLProviderRequest, CreateSAMLProviderResult>(
-                context       = this@with,
-                sourceName    = getNameStrict(request),
-                requestObject = request
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -208,7 +137,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateServiceSpecificCredentialRequest::getUserName to ServiceSpecificCredential::getUserName
                     )
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -225,7 +154,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                         CreateUserRequest::getUserName to User::getUserName
                     )
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 
@@ -238,7 +167,7 @@ open class BaseDeferredAmazonIdentityManagement(val context: IacContext) : Abstr
                     sourceName    = getNameStrict(request),
                     requestObject = request
                 )
-            )
+            ).registerWithSameNameAs(request)
         }
     }
 

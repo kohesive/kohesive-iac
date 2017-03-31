@@ -56,6 +56,8 @@ data class DeferredClientData(val params: KohesiveGenerateParams, val versionPos
         )
     }.map {
         CreationMethod.fromOperation(params.model, it)
+    }.filter {
+        it.createdEntityType != null
     }
 
     val metadata      = params.model.metadata

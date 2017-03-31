@@ -4,8 +4,10 @@ import com.amazonaws.services.batch.AbstractAWSBatch
 import com.amazonaws.services.batch.AWSBatch
 import com.amazonaws.services.batch.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSBatch(val context: IacContext) : AbstractAWSBatch(), AWSBatch {
+
 
 }
 

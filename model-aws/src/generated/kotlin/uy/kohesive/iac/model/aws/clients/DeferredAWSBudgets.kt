@@ -4,8 +4,10 @@ import com.amazonaws.services.budgets.AbstractAWSBudgets
 import com.amazonaws.services.budgets.AWSBudgets
 import com.amazonaws.services.budgets.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSBudgets(val context: IacContext) : AbstractAWSBudgets(), AWSBudgets {
+
 
 }
 

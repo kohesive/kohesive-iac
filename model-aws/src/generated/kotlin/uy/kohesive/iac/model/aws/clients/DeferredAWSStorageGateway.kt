@@ -4,8 +4,10 @@ import com.amazonaws.services.storagegateway.AbstractAWSStorageGateway
 import com.amazonaws.services.storagegateway.AWSStorageGateway
 import com.amazonaws.services.storagegateway.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.proxy.makeProxy
 
 open class BaseDeferredAWSStorageGateway(val context: IacContext) : AbstractAWSStorageGateway(), AWSStorageGateway {
+
 
 }
 
