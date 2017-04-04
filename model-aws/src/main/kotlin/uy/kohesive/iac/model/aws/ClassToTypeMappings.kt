@@ -16,6 +16,8 @@ import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
 import com.amazonaws.services.ec2.model.SecurityGroup
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
+import uy.klutter.core.jdk.mustNotEndWith
+import uy.klutter.core.jdk.mustNotStartWith
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest
@@ -23,6 +25,7 @@ import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleResult
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
+import kotlin.reflect.full.functions
 
 object AutoNaming {
 
@@ -49,8 +52,16 @@ object AutoNaming {
         CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName
     )
 
+    // TODO: what else can we do to automate this?
     fun getName(request: AmazonWebServiceRequest): String? {
-        val getter = requestClassesToDefiningPropertyGetters[request::class]
+        val autoNameGetter = request::class.simpleName?.takeIf { it.startsWith("Create") }?.let { requestClassName ->
+            val entityName = requestClassName.mustNotStartWith("Create").mustNotEndWith("Request")
+            request::class.functions.firstOrNull {
+                it.name.toLowerCase() == "getname" || it.name.toLowerCase() == ("get${entityName}name").toLowerCase()
+            }
+        }
+
+        val getter = autoNameGetter ?: requestClassesToDefiningPropertyGetters[request::class]
             ?: throw java.lang.IllegalArgumentException("Unknown request type: ${ request::class.java.simpleName }")
 
         return (getter as KFunction1<AmazonWebServiceRequest, String>).invoke(request)
