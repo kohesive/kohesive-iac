@@ -1,6 +1,7 @@
 package uy.kohesive.iac.model.aws.codegen
 
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
+import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.OperationModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 
@@ -12,14 +13,16 @@ class OperationHelper(operation: OperationModel, model: IntermediateModel) {
         model.shapes[returnType]
     }
 
-    val memberContainingCreatedEntity: String? by lazy { returnShape?.members?.firstOrNull { member ->
-        member.c2jShape.isNotEmpty() && (
-            operation.methodName.contains(member.c2jShape) || (operation.methodName + "Description").contains(member.c2jShape)
-        )
-    }?.name }
+    val memberContainingCreatedEntityModel: MemberModel? by lazy {
+        returnShape?.members?.firstOrNull { member ->
+            !member.isSimple && member.c2jShape.isNotEmpty() && (
+                operation.methodName.contains(member.c2jShape) || (operation.methodName + "Description").contains(member.c2jShape)
+            )
+        }
+    }
 
     val entityShape: ShapeModel? by lazy {
-        memberContainingCreatedEntity?.let { entityMember ->
+        memberContainingCreatedEntityModel?.name.let { entityMember ->
             returnShape?.membersAsMap?.get(entityMember)
         }?.let { entityMember ->
             model.shapes[entityMember.c2jShape]

@@ -18,7 +18,7 @@ interface SimpleDBEnabled : SimpleDBIdentifiable {
 
 open class BaseSimpleDBContext(protected val context: IacContext) : SimpleDBEnabled by context {
 
-    fun createDomain(domainName: String, init: CreateDomainRequest.() -> Unit): CreateDomainResult {
+    open fun createDomain(domainName: String, init: CreateDomainRequest.() -> Unit): CreateDomainResult {
         return simpleDBClient.createDomain(CreateDomainRequest().apply {
             withDomainName(domainName)
             init()

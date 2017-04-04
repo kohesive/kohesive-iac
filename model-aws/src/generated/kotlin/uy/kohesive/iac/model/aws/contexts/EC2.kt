@@ -18,7 +18,7 @@ interface EC2Enabled : EC2Identifiable {
 
 open class BaseEC2Context(protected val context: IacContext) : EC2Enabled by context {
 
-    fun createImage(name: String, init: CreateImageRequest.() -> Unit): CreateImageResult {
+    open fun createImage(name: String, init: CreateImageRequest.() -> Unit): CreateImageResult {
         return ec2Client.createImage(CreateImageRequest().apply {
             withName(name)
             init()

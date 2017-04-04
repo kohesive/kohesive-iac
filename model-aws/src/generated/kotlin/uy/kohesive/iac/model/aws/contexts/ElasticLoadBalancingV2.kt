@@ -18,14 +18,14 @@ interface ElasticLoadBalancingV2Enabled : ElasticLoadBalancingV2Identifiable {
 
 open class BaseElasticLoadBalancingV2Context(protected val context: IacContext) : ElasticLoadBalancingV2Enabled by context {
 
-    fun createLoadBalancer(name: String, init: CreateLoadBalancerRequest.() -> Unit): CreateLoadBalancerResult {
+    open fun createLoadBalancer(name: String, init: CreateLoadBalancerRequest.() -> Unit): CreateLoadBalancerResult {
         return elasticLoadBalancingV2Client.createLoadBalancer(CreateLoadBalancerRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createTargetGroup(name: String, init: CreateTargetGroupRequest.() -> Unit): CreateTargetGroupResult {
+    open fun createTargetGroup(name: String, init: CreateTargetGroupRequest.() -> Unit): CreateTargetGroupResult {
         return elasticLoadBalancingV2Client.createTargetGroup(CreateTargetGroupRequest().apply {
             withName(name)
             init()

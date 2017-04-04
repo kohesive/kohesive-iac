@@ -18,25 +18,25 @@ interface OrganizationsEnabled : OrganizationsIdentifiable {
 
 open class BaseOrganizationsContext(protected val context: IacContext) : OrganizationsEnabled by context {
 
-    fun createAccount(accountName: String, init: CreateAccountRequest.() -> Unit): CreateAccountResult {
+    open fun createAccount(accountName: String, init: CreateAccountRequest.() -> Unit): CreateAccountResult {
         return organizationsClient.createAccount(CreateAccountRequest().apply {
             withAccountName(accountName)
             init()
         })
     }
 
-    fun createOrganizationalUnit(name: String, init: CreateOrganizationalUnitRequest.() -> Unit): OrganizationalUnit {
+    open fun createOrganizationalUnit(name: String, init: CreateOrganizationalUnitRequest.() -> Unit): OrganizationalUnit {
         return organizationsClient.createOrganizationalUnit(CreateOrganizationalUnitRequest().apply {
             withName(name)
             init()
-        }).organizationalUnit
+        }).getOrganizationalUnit()
     }
 
-    fun createPolicy(name: String, init: CreatePolicyRequest.() -> Unit): Policy {
+    open fun createPolicy(name: String, init: CreatePolicyRequest.() -> Unit): Policy {
         return organizationsClient.createPolicy(CreatePolicyRequest().apply {
             withName(name)
             init()
-        }).policy
+        }).getPolicy()
     }
 
 

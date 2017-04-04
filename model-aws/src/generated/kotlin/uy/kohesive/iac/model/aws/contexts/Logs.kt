@@ -18,14 +18,14 @@ interface LogsEnabled : LogsIdentifiable {
 
 open class BaseLogsContext(protected val context: IacContext) : LogsEnabled by context {
 
-    fun createLogGroup(logGroupName: String, init: CreateLogGroupRequest.() -> Unit): CreateLogGroupResult {
+    open fun createLogGroup(logGroupName: String, init: CreateLogGroupRequest.() -> Unit): CreateLogGroupResult {
         return logsClient.createLogGroup(CreateLogGroupRequest().apply {
             withLogGroupName(logGroupName)
             init()
         })
     }
 
-    fun createLogStream(logStreamName: String, init: CreateLogStreamRequest.() -> Unit): CreateLogStreamResult {
+    open fun createLogStream(logStreamName: String, init: CreateLogStreamRequest.() -> Unit): CreateLogStreamResult {
         return logsClient.createLogStream(CreateLogStreamRequest().apply {
             withLogStreamName(logStreamName)
             init()

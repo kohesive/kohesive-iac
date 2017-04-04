@@ -7,20 +7,20 @@ import com.amazonaws.codegen.model.intermediate.ShapeModel
 import uy.kohesive.iac.model.aws.utils.firstLetterToLowerCase
 
 data class CreationMethod(
-    val methodName: String,
-    val requestType: String,
-    val resultType: String,
+        val methodName: String,
+        val requestType: String,
+        val resultType: String,
 
-    val emptyResult: Boolean,
+        val emptyResult: Boolean,
 
-    val memberContainingCreatedEntity: String?,
-    val memberContainingCreatedEntityLC: String?,
-    val createdEntityType: String?,
-    val requestAndEntityCommonMembers: List<String>,
-    val requestAndResponseCommonMembers: List<String>,
+        val memberContainingCreatedEntity: String?,
+        val memberContainingCreatedEntityGetter: String?,
+        val createdEntityType: String?,
+        val requestAndEntityCommonMembers: List<String>,
+        val requestAndResponseCommonMembers: List<String>,
 
-    val nameMember: String?,
-    val nameMemberLC: String?
+        val nameMember: String?,
+        val nameMemberLC: String?
 ) {
 
     companion object {
@@ -51,10 +51,10 @@ data class CreationMethod(
 
                 emptyResult = operationHelper.returnShape?.members?.isEmpty() ?: true,
 
-                memberContainingCreatedEntity   = operationHelper.memberContainingCreatedEntity,
-                memberContainingCreatedEntityLC = operationHelper.memberContainingCreatedEntity?.firstLetterToLowerCase(),
-                requestAndEntityCommonMembers   = requestAndEntityCommonMembers,
-                requestAndResponseCommonMembers = requestAndResponseCommonMembers,
+                memberContainingCreatedEntity       = operationHelper.memberContainingCreatedEntityModel?.name,
+                memberContainingCreatedEntityGetter = operationHelper.memberContainingCreatedEntityModel?.getterMethodName,
+                requestAndEntityCommonMembers       = requestAndEntityCommonMembers,
+                requestAndResponseCommonMembers     = requestAndResponseCommonMembers,
 
                 createdEntityType  = operationHelper.entityShape?.c2jName,
 

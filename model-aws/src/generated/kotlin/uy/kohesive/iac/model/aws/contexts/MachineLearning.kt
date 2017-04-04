@@ -18,21 +18,21 @@ interface MachineLearningEnabled : MachineLearningIdentifiable {
 
 open class BaseMachineLearningContext(protected val context: IacContext) : MachineLearningEnabled by context {
 
-    fun createBatchPrediction(batchPredictionName: String, init: CreateBatchPredictionRequest.() -> Unit): CreateBatchPredictionResult {
+    open fun createBatchPrediction(batchPredictionName: String, init: CreateBatchPredictionRequest.() -> Unit): CreateBatchPredictionResult {
         return machineLearningClient.createBatchPrediction(CreateBatchPredictionRequest().apply {
             withBatchPredictionName(batchPredictionName)
             init()
         })
     }
 
-    fun createEvaluation(evaluationName: String, init: CreateEvaluationRequest.() -> Unit): CreateEvaluationResult {
+    open fun createEvaluation(evaluationName: String, init: CreateEvaluationRequest.() -> Unit): CreateEvaluationResult {
         return machineLearningClient.createEvaluation(CreateEvaluationRequest().apply {
             withEvaluationName(evaluationName)
             init()
         })
     }
 
-    fun createMLModel(mLModelName: String, init: CreateMLModelRequest.() -> Unit): CreateMLModelResult {
+    open fun createMLModel(mLModelName: String, init: CreateMLModelRequest.() -> Unit): CreateMLModelResult {
         return machineLearningClient.createMLModel(CreateMLModelRequest().apply {
             withMLModelName(mLModelName)
             init()

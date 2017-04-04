@@ -18,7 +18,7 @@ interface CognitoIdentityEnabled : CognitoIdentityIdentifiable {
 
 open class BaseCognitoIdentityContext(protected val context: IacContext) : CognitoIdentityEnabled by context {
 
-    fun createIdentityPool(identityPoolName: String, init: CreateIdentityPoolRequest.() -> Unit): CreateIdentityPoolResult {
+    open fun createIdentityPool(identityPoolName: String, init: CreateIdentityPoolRequest.() -> Unit): CreateIdentityPoolResult {
         return cognitoIdentityClient.createIdentityPool(CreateIdentityPoolRequest().apply {
             withIdentityPoolName(identityPoolName)
             init()

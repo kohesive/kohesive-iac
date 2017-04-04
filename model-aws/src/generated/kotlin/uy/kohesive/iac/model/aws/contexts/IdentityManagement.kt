@@ -18,53 +18,53 @@ interface IdentityManagementEnabled : IdentityManagementIdentifiable {
 
 open class BaseIdentityManagementContext(protected val context: IacContext) : IdentityManagementEnabled by context {
 
-    fun createGroup(groupName: String, init: CreateGroupRequest.() -> Unit): Group {
+    open fun createGroup(groupName: String, init: CreateGroupRequest.() -> Unit): Group {
         return identityManagementClient.createGroup(CreateGroupRequest().apply {
             withGroupName(groupName)
             init()
-        }).group
+        }).getGroup()
     }
 
-    fun createInstanceProfile(instanceProfileName: String, init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
+    open fun createInstanceProfile(instanceProfileName: String, init: CreateInstanceProfileRequest.() -> Unit): InstanceProfile {
         return identityManagementClient.createInstanceProfile(CreateInstanceProfileRequest().apply {
             withInstanceProfileName(instanceProfileName)
             init()
-        }).instanceProfile
+        }).getInstanceProfile()
     }
 
-    fun createPolicy(policyName: String, init: CreatePolicyRequest.() -> Unit): Policy {
+    open fun createPolicy(policyName: String, init: CreatePolicyRequest.() -> Unit): Policy {
         return identityManagementClient.createPolicy(CreatePolicyRequest().apply {
             withPolicyName(policyName)
             init()
-        }).policy
+        }).getPolicy()
     }
 
-    fun createRole(roleName: String, init: CreateRoleRequest.() -> Unit): Role {
+    open fun createRole(roleName: String, init: CreateRoleRequest.() -> Unit): Role {
         return identityManagementClient.createRole(CreateRoleRequest().apply {
             withRoleName(roleName)
             init()
-        }).role
+        }).getRole()
     }
 
-    fun createSAMLProvider(name: String, init: CreateSAMLProviderRequest.() -> Unit): CreateSAMLProviderResult {
+    open fun createSAMLProvider(name: String, init: CreateSAMLProviderRequest.() -> Unit): CreateSAMLProviderResult {
         return identityManagementClient.createSAMLProvider(CreateSAMLProviderRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createUser(userName: String, init: CreateUserRequest.() -> Unit): User {
+    open fun createUser(userName: String, init: CreateUserRequest.() -> Unit): User {
         return identityManagementClient.createUser(CreateUserRequest().apply {
             withUserName(userName)
             init()
-        }).user
+        }).getUser()
     }
 
-    fun createVirtualMFADevice(virtualMFADeviceName: String, init: CreateVirtualMFADeviceRequest.() -> Unit): VirtualMFADevice {
+    open fun createVirtualMFADevice(virtualMFADeviceName: String, init: CreateVirtualMFADeviceRequest.() -> Unit): VirtualMFADevice {
         return identityManagementClient.createVirtualMFADevice(CreateVirtualMFADeviceRequest().apply {
             withVirtualMFADeviceName(virtualMFADeviceName)
             init()
-        }).virtualMFADevice
+        }).getVirtualMFADevice()
     }
 
 

@@ -18,11 +18,11 @@ interface DynamoDBEnabled : DynamoDBIdentifiable {
 
 open class BaseDynamoDBContext(protected val context: IacContext) : DynamoDBEnabled by context {
 
-    fun createTable(tableName: String, init: CreateTableRequest.() -> Unit): TableDescription {
+    open fun createTable(tableName: String, init: CreateTableRequest.() -> Unit): TableDescription {
         return dynamoDBClient.createTable(CreateTableRequest().apply {
             withTableName(tableName)
             init()
-        }).tableDescription
+        }).getTableDescription()
     }
 
 

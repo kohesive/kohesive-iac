@@ -18,7 +18,7 @@ interface DataPipelineEnabled : DataPipelineIdentifiable {
 
 open class BaseDataPipelineContext(protected val context: IacContext) : DataPipelineEnabled by context {
 
-    fun createPipeline(name: String, init: CreatePipelineRequest.() -> Unit): CreatePipelineResult {
+    open fun createPipeline(name: String, init: CreatePipelineRequest.() -> Unit): CreatePipelineResult {
         return dataPipelineClient.createPipeline(CreatePipelineRequest().apply {
             withName(name)
             init()

@@ -18,7 +18,7 @@ interface KinesisFirehoseEnabled : KinesisFirehoseIdentifiable {
 
 open class BaseKinesisFirehoseContext(protected val context: IacContext) : KinesisFirehoseEnabled by context {
 
-    fun createDeliveryStream(deliveryStreamName: String, init: CreateDeliveryStreamRequest.() -> Unit): CreateDeliveryStreamResult {
+    open fun createDeliveryStream(deliveryStreamName: String, init: CreateDeliveryStreamRequest.() -> Unit): CreateDeliveryStreamResult {
         return kinesisFirehoseClient.createDeliveryStream(CreateDeliveryStreamRequest().apply {
             withDeliveryStreamName(deliveryStreamName)
             init()

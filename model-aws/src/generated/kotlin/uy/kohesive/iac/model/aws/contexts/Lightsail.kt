@@ -18,25 +18,25 @@ interface LightsailEnabled : LightsailIdentifiable {
 
 open class BaseLightsailContext(protected val context: IacContext) : LightsailEnabled by context {
 
-    fun createDomain(domainName: String, init: CreateDomainRequest.() -> Unit): CreateDomainResult {
+    open fun createDomain(domainName: String, init: CreateDomainRequest.() -> Unit): CreateDomainResult {
         return lightsailClient.createDomain(CreateDomainRequest().apply {
             withDomainName(domainName)
             init()
         })
     }
 
-    fun createInstanceSnapshot(instanceSnapshotName: String, init: CreateInstanceSnapshotRequest.() -> Unit): CreateInstanceSnapshotResult {
+    open fun createInstanceSnapshot(instanceSnapshotName: String, init: CreateInstanceSnapshotRequest.() -> Unit): CreateInstanceSnapshotResult {
         return lightsailClient.createInstanceSnapshot(CreateInstanceSnapshotRequest().apply {
             withInstanceSnapshotName(instanceSnapshotName)
             init()
         })
     }
 
-    fun createKeyPair(keyPairName: String, init: CreateKeyPairRequest.() -> Unit): KeyPair {
+    open fun createKeyPair(keyPairName: String, init: CreateKeyPairRequest.() -> Unit): KeyPair {
         return lightsailClient.createKeyPair(CreateKeyPairRequest().apply {
             withKeyPairName(keyPairName)
             init()
-        }).keyPair
+        }).getKeyPair()
     }
 
 

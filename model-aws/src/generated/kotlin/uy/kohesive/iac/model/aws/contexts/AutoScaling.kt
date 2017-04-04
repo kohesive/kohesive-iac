@@ -18,14 +18,14 @@ interface AutoScalingEnabled : AutoScalingIdentifiable {
 
 open class BaseAutoScalingContext(protected val context: IacContext) : AutoScalingEnabled by context {
 
-    fun createAutoScalingGroup(autoScalingGroupName: String, init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
+    open fun createAutoScalingGroup(autoScalingGroupName: String, init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {
             withAutoScalingGroupName(autoScalingGroupName)
             init()
         })
     }
 
-    fun createLaunchConfiguration(launchConfigurationName: String, init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
+    open fun createLaunchConfiguration(launchConfigurationName: String, init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
         return autoScalingClient.createLaunchConfiguration(CreateLaunchConfigurationRequest().apply {
             withLaunchConfigurationName(launchConfigurationName)
             init()

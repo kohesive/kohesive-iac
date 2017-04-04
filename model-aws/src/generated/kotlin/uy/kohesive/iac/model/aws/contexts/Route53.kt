@@ -18,25 +18,25 @@ interface Route53Enabled : Route53Identifiable {
 
 open class BaseRoute53Context(protected val context: IacContext) : Route53Enabled by context {
 
-    fun createHostedZone(name: String, init: CreateHostedZoneRequest.() -> Unit): HostedZone {
+    open fun createHostedZone(name: String, init: CreateHostedZoneRequest.() -> Unit): HostedZone {
         return route53Client.createHostedZone(CreateHostedZoneRequest().apply {
             withName(name)
             init()
-        }).hostedZone
+        }).getHostedZone()
     }
 
-    fun createTrafficPolicy(name: String, init: CreateTrafficPolicyRequest.() -> Unit): TrafficPolicy {
+    open fun createTrafficPolicy(name: String, init: CreateTrafficPolicyRequest.() -> Unit): TrafficPolicy {
         return route53Client.createTrafficPolicy(CreateTrafficPolicyRequest().apply {
             withName(name)
             init()
-        }).trafficPolicy
+        }).getTrafficPolicy()
     }
 
-    fun createTrafficPolicyInstance(name: String, init: CreateTrafficPolicyInstanceRequest.() -> Unit): TrafficPolicyInstance {
+    open fun createTrafficPolicyInstance(name: String, init: CreateTrafficPolicyInstanceRequest.() -> Unit): TrafficPolicyInstance {
         return route53Client.createTrafficPolicyInstance(CreateTrafficPolicyInstanceRequest().apply {
             withName(name)
             init()
-        }).trafficPolicyInstance
+        }).getTrafficPolicyInstance()
     }
 
 

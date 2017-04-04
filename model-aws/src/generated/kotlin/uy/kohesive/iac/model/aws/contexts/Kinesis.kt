@@ -18,7 +18,7 @@ interface KinesisEnabled : KinesisIdentifiable {
 
 open class BaseKinesisContext(protected val context: IacContext) : KinesisEnabled by context {
 
-    fun createStream(streamName: String, init: CreateStreamRequest.() -> Unit): CreateStreamResult {
+    open fun createStream(streamName: String, init: CreateStreamRequest.() -> Unit): CreateStreamResult {
         return kinesisClient.createStream(CreateStreamRequest().apply {
             withStreamName(streamName)
             init()

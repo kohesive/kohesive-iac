@@ -18,14 +18,14 @@ interface CodeCommitEnabled : CodeCommitIdentifiable {
 
 open class BaseCodeCommitContext(protected val context: IacContext) : CodeCommitEnabled by context {
 
-    fun createBranch(branchName: String, init: CreateBranchRequest.() -> Unit): CreateBranchResult {
+    open fun createBranch(branchName: String, init: CreateBranchRequest.() -> Unit): CreateBranchResult {
         return codeCommitClient.createBranch(CreateBranchRequest().apply {
             withBranchName(branchName)
             init()
         })
     }
 
-    fun createRepository(repositoryName: String, init: CreateRepositoryRequest.() -> Unit): CreateRepositoryResult {
+    open fun createRepository(repositoryName: String, init: CreateRepositoryRequest.() -> Unit): CreateRepositoryResult {
         return codeCommitClient.createRepository(CreateRepositoryRequest().apply {
             withRepositoryName(repositoryName)
             init()

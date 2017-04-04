@@ -18,21 +18,21 @@ interface CodeDeployEnabled : CodeDeployIdentifiable {
 
 open class BaseCodeDeployContext(protected val context: IacContext) : CodeDeployEnabled by context {
 
-    fun createApplication(applicationName: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
+    open fun createApplication(applicationName: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
         return codeDeployClient.createApplication(CreateApplicationRequest().apply {
             withApplicationName(applicationName)
             init()
         })
     }
 
-    fun createDeploymentConfig(deploymentConfigName: String, init: CreateDeploymentConfigRequest.() -> Unit): CreateDeploymentConfigResult {
+    open fun createDeploymentConfig(deploymentConfigName: String, init: CreateDeploymentConfigRequest.() -> Unit): CreateDeploymentConfigResult {
         return codeDeployClient.createDeploymentConfig(CreateDeploymentConfigRequest().apply {
             withDeploymentConfigName(deploymentConfigName)
             init()
         })
     }
 
-    fun createDeploymentGroup(deploymentGroupName: String, init: CreateDeploymentGroupRequest.() -> Unit): CreateDeploymentGroupResult {
+    open fun createDeploymentGroup(deploymentGroupName: String, init: CreateDeploymentGroupRequest.() -> Unit): CreateDeploymentGroupResult {
         return codeDeployClient.createDeploymentGroup(CreateDeploymentGroupRequest().apply {
             withDeploymentGroupName(deploymentGroupName)
             init()

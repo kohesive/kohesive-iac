@@ -18,18 +18,18 @@ interface ElasticTranscoderEnabled : ElasticTranscoderIdentifiable {
 
 open class BaseElasticTranscoderContext(protected val context: IacContext) : ElasticTranscoderEnabled by context {
 
-    fun createPipeline(name: String, init: CreatePipelineRequest.() -> Unit): Pipeline {
+    open fun createPipeline(name: String, init: CreatePipelineRequest.() -> Unit): Pipeline {
         return elasticTranscoderClient.createPipeline(CreatePipelineRequest().apply {
             withName(name)
             init()
-        }).pipeline
+        }).getPipeline()
     }
 
-    fun createPreset(name: String, init: CreatePresetRequest.() -> Unit): Preset {
+    open fun createPreset(name: String, init: CreatePresetRequest.() -> Unit): Preset {
         return elasticTranscoderClient.createPreset(CreatePresetRequest().apply {
             withName(name)
             init()
-        }).preset
+        }).getPreset()
     }
 
 

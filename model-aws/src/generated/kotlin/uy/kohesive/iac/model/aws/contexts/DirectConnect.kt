@@ -18,21 +18,21 @@ interface DirectConnectEnabled : DirectConnectIdentifiable {
 
 open class BaseDirectConnectContext(protected val context: IacContext) : DirectConnectEnabled by context {
 
-    fun createConnection(connectionName: String, init: CreateConnectionRequest.() -> Unit): CreateConnectionResult {
+    open fun createConnection(connectionName: String, init: CreateConnectionRequest.() -> Unit): CreateConnectionResult {
         return directConnectClient.createConnection(CreateConnectionRequest().apply {
             withConnectionName(connectionName)
             init()
         })
     }
 
-    fun createInterconnect(interconnectName: String, init: CreateInterconnectRequest.() -> Unit): CreateInterconnectResult {
+    open fun createInterconnect(interconnectName: String, init: CreateInterconnectRequest.() -> Unit): CreateInterconnectResult {
         return directConnectClient.createInterconnect(CreateInterconnectRequest().apply {
             withInterconnectName(interconnectName)
             init()
         })
     }
 
-    fun createLag(lagName: String, init: CreateLagRequest.() -> Unit): CreateLagResult {
+    open fun createLag(lagName: String, init: CreateLagRequest.() -> Unit): CreateLagResult {
         return directConnectClient.createLag(CreateLagRequest().apply {
             withLagName(lagName)
             init()

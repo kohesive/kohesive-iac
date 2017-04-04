@@ -18,39 +18,39 @@ interface DeviceFarmEnabled : DeviceFarmIdentifiable {
 
 open class BaseDeviceFarmContext(protected val context: IacContext) : DeviceFarmEnabled by context {
 
-    fun createDevicePool(name: String, init: CreateDevicePoolRequest.() -> Unit): DevicePool {
+    open fun createDevicePool(name: String, init: CreateDevicePoolRequest.() -> Unit): DevicePool {
         return deviceFarmClient.createDevicePool(CreateDevicePoolRequest().apply {
             withName(name)
             init()
-        }).devicePool
+        }).getDevicePool()
     }
 
-    fun createNetworkProfile(name: String, init: CreateNetworkProfileRequest.() -> Unit): NetworkProfile {
+    open fun createNetworkProfile(name: String, init: CreateNetworkProfileRequest.() -> Unit): NetworkProfile {
         return deviceFarmClient.createNetworkProfile(CreateNetworkProfileRequest().apply {
             withName(name)
             init()
-        }).networkProfile
+        }).getNetworkProfile()
     }
 
-    fun createProject(name: String, init: CreateProjectRequest.() -> Unit): Project {
+    open fun createProject(name: String, init: CreateProjectRequest.() -> Unit): Project {
         return deviceFarmClient.createProject(CreateProjectRequest().apply {
             withName(name)
             init()
-        }).project
+        }).getProject()
     }
 
-    fun createRemoteAccessSession(name: String, init: CreateRemoteAccessSessionRequest.() -> Unit): RemoteAccessSession {
+    open fun createRemoteAccessSession(name: String, init: CreateRemoteAccessSessionRequest.() -> Unit): RemoteAccessSession {
         return deviceFarmClient.createRemoteAccessSession(CreateRemoteAccessSessionRequest().apply {
             withName(name)
             init()
-        }).remoteAccessSession
+        }).getRemoteAccessSession()
     }
 
-    fun createUpload(name: String, init: CreateUploadRequest.() -> Unit): Upload {
+    open fun createUpload(name: String, init: CreateUploadRequest.() -> Unit): Upload {
         return deviceFarmClient.createUpload(CreateUploadRequest().apply {
             withName(name)
             init()
-        }).upload
+        }).getUpload()
     }
 
 

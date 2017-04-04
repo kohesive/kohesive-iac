@@ -18,28 +18,28 @@ interface DirectoryServiceEnabled : DirectoryServiceIdentifiable {
 
 open class BaseDirectoryServiceContext(protected val context: IacContext) : DirectoryServiceEnabled by context {
 
-    fun createComputer(computerName: String, init: CreateComputerRequest.() -> Unit): Computer {
+    open fun createComputer(computerName: String, init: CreateComputerRequest.() -> Unit): Computer {
         return directoryServiceClient.createComputer(CreateComputerRequest().apply {
             withComputerName(computerName)
             init()
-        }).computer
+        }).getComputer()
     }
 
-    fun createDirectory(name: String, init: CreateDirectoryRequest.() -> Unit): CreateDirectoryResult {
+    open fun createDirectory(name: String, init: CreateDirectoryRequest.() -> Unit): CreateDirectoryResult {
         return directoryServiceClient.createDirectory(CreateDirectoryRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createMicrosoftAD(name: String, init: CreateMicrosoftADRequest.() -> Unit): CreateMicrosoftADResult {
+    open fun createMicrosoftAD(name: String, init: CreateMicrosoftADRequest.() -> Unit): CreateMicrosoftADResult {
         return directoryServiceClient.createMicrosoftAD(CreateMicrosoftADRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createSnapshot(name: String, init: CreateSnapshotRequest.() -> Unit): CreateSnapshotResult {
+    open fun createSnapshot(name: String, init: CreateSnapshotRequest.() -> Unit): CreateSnapshotResult {
         return directoryServiceClient.createSnapshot(CreateSnapshotRequest().apply {
             withName(name)
             init()

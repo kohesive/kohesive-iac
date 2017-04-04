@@ -18,18 +18,18 @@ interface AppStreamEnabled : AppStreamIdentifiable {
 
 open class BaseAppStreamContext(protected val context: IacContext) : AppStreamEnabled by context {
 
-    fun createFleet(name: String, init: CreateFleetRequest.() -> Unit): Fleet {
+    open fun createFleet(name: String, init: CreateFleetRequest.() -> Unit): Fleet {
         return appStreamClient.createFleet(CreateFleetRequest().apply {
             withName(name)
             init()
-        }).fleet
+        }).getFleet()
     }
 
-    fun createStack(name: String, init: CreateStackRequest.() -> Unit): Stack {
+    open fun createStack(name: String, init: CreateStackRequest.() -> Unit): Stack {
         return appStreamClient.createStack(CreateStackRequest().apply {
             withName(name)
             init()
-        }).stack
+        }).getStack()
     }
 
 

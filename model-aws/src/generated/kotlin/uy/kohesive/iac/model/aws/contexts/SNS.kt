@@ -18,14 +18,14 @@ interface SNSEnabled : SNSIdentifiable {
 
 open class BaseSNSContext(protected val context: IacContext) : SNSEnabled by context {
 
-    fun createPlatformApplication(name: String, init: CreatePlatformApplicationRequest.() -> Unit): CreatePlatformApplicationResult {
+    open fun createPlatformApplication(name: String, init: CreatePlatformApplicationRequest.() -> Unit): CreatePlatformApplicationResult {
         return snsClient.createPlatformApplication(CreatePlatformApplicationRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createTopic(name: String, init: CreateTopicRequest.() -> Unit): CreateTopicResult {
+    open fun createTopic(name: String, init: CreateTopicRequest.() -> Unit): CreateTopicResult {
         return snsClient.createTopic(CreateTopicRequest().apply {
             withName(name)
             init()

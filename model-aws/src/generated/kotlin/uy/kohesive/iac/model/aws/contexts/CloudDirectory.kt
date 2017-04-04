@@ -18,21 +18,21 @@ interface CloudDirectoryEnabled : CloudDirectoryIdentifiable {
 
 open class BaseCloudDirectoryContext(protected val context: IacContext) : CloudDirectoryEnabled by context {
 
-    fun createDirectory(name: String, init: CreateDirectoryRequest.() -> Unit): CreateDirectoryResult {
+    open fun createDirectory(name: String, init: CreateDirectoryRequest.() -> Unit): CreateDirectoryResult {
         return cloudDirectoryClient.createDirectory(CreateDirectoryRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createFacet(name: String, init: CreateFacetRequest.() -> Unit): CreateFacetResult {
+    open fun createFacet(name: String, init: CreateFacetRequest.() -> Unit): CreateFacetResult {
         return cloudDirectoryClient.createFacet(CreateFacetRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createSchema(name: String, init: CreateSchemaRequest.() -> Unit): CreateSchemaResult {
+    open fun createSchema(name: String, init: CreateSchemaRequest.() -> Unit): CreateSchemaResult {
         return cloudDirectoryClient.createSchema(CreateSchemaRequest().apply {
             withName(name)
             init()

@@ -18,21 +18,21 @@ interface OpsWorksEnabled : OpsWorksIdentifiable {
 
 open class BaseOpsWorksContext(protected val context: IacContext) : OpsWorksEnabled by context {
 
-    fun createApp(name: String, init: CreateAppRequest.() -> Unit): CreateAppResult {
+    open fun createApp(name: String, init: CreateAppRequest.() -> Unit): CreateAppResult {
         return opsWorksClient.createApp(CreateAppRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createLayer(name: String, init: CreateLayerRequest.() -> Unit): CreateLayerResult {
+    open fun createLayer(name: String, init: CreateLayerRequest.() -> Unit): CreateLayerResult {
         return opsWorksClient.createLayer(CreateLayerRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createStack(name: String, init: CreateStackRequest.() -> Unit): CreateStackResult {
+    open fun createStack(name: String, init: CreateStackRequest.() -> Unit): CreateStackResult {
         return opsWorksClient.createStack(CreateStackRequest().apply {
             withName(name)
             init()

@@ -18,14 +18,14 @@ interface StepFunctionsEnabled : StepFunctionsIdentifiable {
 
 open class BaseStepFunctionsContext(protected val context: IacContext) : StepFunctionsEnabled by context {
 
-    fun createActivity(name: String, init: CreateActivityRequest.() -> Unit): CreateActivityResult {
+    open fun createActivity(name: String, init: CreateActivityRequest.() -> Unit): CreateActivityResult {
         return stepFunctionsClient.createActivity(CreateActivityRequest().apply {
             withName(name)
             init()
         })
     }
 
-    fun createStateMachine(name: String, init: CreateStateMachineRequest.() -> Unit): CreateStateMachineResult {
+    open fun createStateMachine(name: String, init: CreateStateMachineRequest.() -> Unit): CreateStateMachineResult {
         return stepFunctionsClient.createStateMachine(CreateStateMachineRequest().apply {
             withName(name)
             init()

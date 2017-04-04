@@ -18,11 +18,11 @@ interface ECREnabled : ECRIdentifiable {
 
 open class BaseECRContext(protected val context: IacContext) : ECREnabled by context {
 
-    fun createRepository(repositoryName: String, init: CreateRepositoryRequest.() -> Unit): Repository {
+    open fun createRepository(repositoryName: String, init: CreateRepositoryRequest.() -> Unit): Repository {
         return ecrClient.createRepository(CreateRepositoryRequest().apply {
             withRepositoryName(repositoryName)
             init()
-        }).repository
+        }).getRepository()
     }
 
 

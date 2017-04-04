@@ -18,7 +18,7 @@ interface KinesisAnalyticsEnabled : KinesisAnalyticsIdentifiable {
 
 open class BaseKinesisAnalyticsContext(protected val context: IacContext) : KinesisAnalyticsEnabled by context {
 
-    fun createApplication(applicationName: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
+    open fun createApplication(applicationName: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
         return kinesisAnalyticsClient.createApplication(CreateApplicationRequest().apply {
             withApplicationName(applicationName)
             init()

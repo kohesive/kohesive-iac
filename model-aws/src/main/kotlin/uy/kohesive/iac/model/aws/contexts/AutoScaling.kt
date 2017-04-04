@@ -11,7 +11,7 @@ class AutoScalingContext(context: IacContext): BaseAutoScalingContext(context) {
 
     val launchConfigTracking = hashMapOf<CreateLaunchConfigurationResult, CreateLaunchConfigurationRequest>()
 
-    fun AutoScalingContext.createLaunchConfiguration(launchConfigurationName: String, init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
+    override fun createLaunchConfiguration(launchConfigurationName: String, init: CreateLaunchConfigurationRequest.() -> Unit): CreateLaunchConfigurationResult {
         val launchConfig = CreateLaunchConfigurationRequest().apply {
             this.launchConfigurationName = launchConfigurationName
             this.init()
@@ -23,7 +23,7 @@ class AutoScalingContext(context: IacContext): BaseAutoScalingContext(context) {
 
     val CreateLaunchConfigurationResult.launchConfigurationName: String get() = launchConfigTracking[this]!!.launchConfigurationName
 
-    fun AutoScalingContext.createAutoScalingGroup(autoScalingGroupName: String, init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
+    override fun createAutoScalingGroup(autoScalingGroupName: String, init: CreateAutoScalingGroupRequest.() -> Unit): CreateAutoScalingGroupResult {
         return autoScalingClient.createAutoScalingGroup(CreateAutoScalingGroupRequest().apply {
             this.autoScalingGroupName = autoScalingGroupName
             this.init()

@@ -18,7 +18,7 @@ interface ApplicationDiscoveryEnabled : ApplicationDiscoveryIdentifiable {
 
 open class BaseApplicationDiscoveryContext(protected val context: IacContext) : ApplicationDiscoveryEnabled by context {
 
-    fun createApplication(name: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
+    open fun createApplication(name: String, init: CreateApplicationRequest.() -> Unit): CreateApplicationResult {
         return applicationDiscoveryClient.createApplication(CreateApplicationRequest().apply {
             withName(name)
             init()

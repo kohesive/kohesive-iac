@@ -19,11 +19,11 @@ interface ${serviceName}Enabled : ${serviceName}Identifiable {
 open class Base${serviceName}Context(protected val context: IacContext) : ${serviceName}Enabled by context {
 
     <#list creationMethods as method>
-    fun ${method.methodName}(${method.nameMemberLC}: String, init: ${method.requestType}.() -> Unit): <#if method.createdEntityType??>${method.createdEntityType}<#else>${method.resultType}</#if> {
+    open fun ${method.methodName}(${method.nameMemberLC}: String, init: ${method.requestType}.() -> Unit): <#if method.createdEntityType??>${method.createdEntityType}<#else>${method.resultType}</#if> {
         return ${serviceNameLC}Client.${method.methodName}(${method.requestType}().apply {
             with${method.nameMember}(${method.nameMemberLC})
             init()
-        })<#if method.memberContainingCreatedEntity??>.${method.memberContainingCreatedEntityLC}</#if>
+        })<#if method.memberContainingCreatedEntityGetter??>.${method.memberContainingCreatedEntityGetter}()</#if>
     }
 
     </#list>

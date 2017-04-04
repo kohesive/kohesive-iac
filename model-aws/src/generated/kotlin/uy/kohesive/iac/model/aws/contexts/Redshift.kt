@@ -18,21 +18,21 @@ interface RedshiftEnabled : RedshiftIdentifiable {
 
 open class BaseRedshiftContext(protected val context: IacContext) : RedshiftEnabled by context {
 
-    fun createClusterSecurityGroup(clusterSecurityGroupName: String, init: CreateClusterSecurityGroupRequest.() -> Unit): ClusterSecurityGroup {
+    open fun createClusterSecurityGroup(clusterSecurityGroupName: String, init: CreateClusterSecurityGroupRequest.() -> Unit): ClusterSecurityGroup {
         return redshiftClient.createClusterSecurityGroup(CreateClusterSecurityGroupRequest().apply {
             withClusterSecurityGroupName(clusterSecurityGroupName)
             init()
         })
     }
 
-    fun createClusterSubnetGroup(clusterSubnetGroupName: String, init: CreateClusterSubnetGroupRequest.() -> Unit): ClusterSubnetGroup {
+    open fun createClusterSubnetGroup(clusterSubnetGroupName: String, init: CreateClusterSubnetGroupRequest.() -> Unit): ClusterSubnetGroup {
         return redshiftClient.createClusterSubnetGroup(CreateClusterSubnetGroupRequest().apply {
             withClusterSubnetGroupName(clusterSubnetGroupName)
             init()
         })
     }
 
-    fun createSnapshotCopyGrant(snapshotCopyGrantName: String, init: CreateSnapshotCopyGrantRequest.() -> Unit): SnapshotCopyGrant {
+    open fun createSnapshotCopyGrant(snapshotCopyGrantName: String, init: CreateSnapshotCopyGrantRequest.() -> Unit): SnapshotCopyGrant {
         return redshiftClient.createSnapshotCopyGrant(CreateSnapshotCopyGrantRequest().apply {
             withSnapshotCopyGrantName(snapshotCopyGrantName)
             init()

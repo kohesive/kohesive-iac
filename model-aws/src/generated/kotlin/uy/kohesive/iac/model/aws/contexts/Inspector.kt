@@ -18,14 +18,14 @@ interface InspectorEnabled : InspectorIdentifiable {
 
 open class BaseInspectorContext(protected val context: IacContext) : InspectorEnabled by context {
 
-    fun createAssessmentTarget(assessmentTargetName: String, init: CreateAssessmentTargetRequest.() -> Unit): CreateAssessmentTargetResult {
+    open fun createAssessmentTarget(assessmentTargetName: String, init: CreateAssessmentTargetRequest.() -> Unit): CreateAssessmentTargetResult {
         return inspectorClient.createAssessmentTarget(CreateAssessmentTargetRequest().apply {
             withAssessmentTargetName(assessmentTargetName)
             init()
         })
     }
 
-    fun createAssessmentTemplate(assessmentTemplateName: String, init: CreateAssessmentTemplateRequest.() -> Unit): CreateAssessmentTemplateResult {
+    open fun createAssessmentTemplate(assessmentTemplateName: String, init: CreateAssessmentTemplateRequest.() -> Unit): CreateAssessmentTemplateResult {
         return inspectorClient.createAssessmentTemplate(CreateAssessmentTemplateRequest().apply {
             withAssessmentTemplateName(assessmentTemplateName)
             init()
