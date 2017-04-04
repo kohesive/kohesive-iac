@@ -15,6 +15,7 @@ data class CreationMethod(
 
         val memberContainingCreatedEntity: String?,
         val memberContainingCreatedEntityGetter: String?,
+        val memberContainingCreatedEntityFluent: String?,
         val createdEntityType: String?,
         val requestAndEntityCommonMembers: List<String>,
         val requestAndResponseCommonMembers: List<String>,
@@ -53,6 +54,7 @@ data class CreationMethod(
 
                 memberContainingCreatedEntity       = operationHelper.memberContainingCreatedEntityModel?.name,
                 memberContainingCreatedEntityGetter = operationHelper.memberContainingCreatedEntityModel?.getterMethodName,
+                memberContainingCreatedEntityFluent = operationHelper.memberContainingCreatedEntityModel?.fluentSetterMethodName,
                 requestAndEntityCommonMembers       = requestAndEntityCommonMembers,
                 requestAndResponseCommonMembers     = requestAndResponseCommonMembers,
 
