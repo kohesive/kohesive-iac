@@ -43,4 +43,9 @@ public class CreateWaitHandleRequest extends AmazonWebServiceRequest implements 
         return name != null ? name.hashCode() : 0;
     }
 
+    @Override
+    public CreateWaitHandleRequest clone() {
+        return (CreateWaitHandleRequest) super.clone();
+    }
+
 }

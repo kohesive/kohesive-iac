@@ -93,4 +93,10 @@ public class CreateWaitConditionRequest extends AmazonWebServiceRequest implemen
         result = 31 * result + (timeout != null ? timeout.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public CreateWaitConditionRequest clone() {
+        return (CreateWaitConditionRequest) super.clone();
+    }
+
 }
