@@ -10,6 +10,7 @@ import com.amazonaws.services.s3.AmazonS3
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
 import uy.klutter.core.jdk.mustNotEndWith
+import uy.klutter.core.jdk.mustNotStartWith
 import uy.kohesive.iac.model.aws.utils.namespace
 import uy.kohesive.iac.model.aws.utils.simpleName
 
@@ -66,28 +67,85 @@ fun main(args: Array<String>) {
         "Put"       to HttpMethodName.PUT
     )
 
+    // Init the shapes map with primitives
+    val shapes = HashMap<String, Shape>().apply {
+        listOf(
+            java.lang.String::class.java,
+            java.lang.Integer::class.java,
+            java.lang.Long::class.java,
+            java.lang.Boolean::class.java
+        ).forEach { autoboxType ->
+            put(autoboxType.simpleName, Shape().apply {
+                type = autoboxType.simpleName.toLowerCase()
+            })
+        }
+    }
+
+    fun createShape(shapeName: String, classFqName: String) = Shape().apply {
+        val clazz = try { Class.forName(classFqName) } catch (cnf: ClassNotFoundException) { Void::class.java }
+
+        val membersByGetters = clazz.declaredMethods.filter { method ->
+            method.name.startsWith("get") || method.name.startsWith("is")
+        }.map { getter ->
+            getter.name.mustNotStartWith("get").mustNotStartWith("is") to getter.returnType
+        }.toMap()
+
+        members = membersByGetters.mapValues {
+            val memberShape = if (it.value.isPrimitive) {
+                it.value.name
+            } else if (it.value.name.startsWith("java.lang.")) {
+                it.value.simpleName
+            } else if (List::class.java.isAssignableFrom(it.value)) {
+                it.key + "List" // TODO: save the shape
+            } else if (Set::class.java.isAssignableFrom(it.value)) {
+                it.key + "Set" // TODO: save the shape
+            } else if (Map::class.java.isAssignableFrom(it.value)) {
+                it.key + "Map" // TODO: save the shape
+            } else {
+                // TODO: save the shape
+                it.value.simpleName
+            }
+
+            Member().apply {
+                shape = memberShape
+            }
+        }
+
+        type = "structure"
+
+        shapes[shapeName] = this@apply
+    }
+
     val requestClassNames = typeElementsScanner.store.keySet().filter {
         it.endsWith("Request")
     }
-    val operations = requestClassNames.filterNot {
-        it.simpleName().let { simpleName ->
+    val operations = requestClassNames.filterNot { requestFqName ->
+        requestFqName.simpleName().let { simpleName ->
             simpleName.startsWith("Abstract") || simpleName.startsWith("Generic")
         }
-    }.map {
-        it.simpleName().mustNotEndWith("Request").let { operationName ->
+    }.map { requestFqName ->
+        requestFqName.simpleName().mustNotEndWith("Request").let { operationName ->
             val httpMethod = OperationPrefixToHttpMethod.firstOrNull { operationName.startsWith(it.first) }?.second?.name
+                ?: throw IllegalStateException("Can't figure out HTTP method for $operationName")
 
             val http = Http()
                 .withMethod(httpMethod)
                 .withRequestUri("/")
 
-            if (http.method == null) {
-                throw IllegalStateException("Can't figure out HTTP method for $operationName")
+            val input = Input().apply {
+                shape = operationName + "Input"
+            }
+            val output = Output().apply {
+                shape = operationName + "Output"
             }
 
+            createShape(input.shape, requestFqName)
+            createShape(output.shape, requestFqName.mustNotEndWith("Request") + "Result")
+
             val operation = Operation()
-                .withName(operationName) // TODO: fill the object
-                .withHttp(http)
+                .withName(operationName)
+                .withInput(input)
+                .withHttp(http).apply { setOutput(output) }
 
             operationName to operation
         }
@@ -99,7 +157,7 @@ fun main(args: Array<String>) {
         .serviceModel(ServiceModel(
             serviceMetadata,
             operations,
-            HashMap<String, Shape>(),     // TODO: add shapes
+            shapes,
             HashMap<String, Authorizer>() // TODO: add authorizers
         )
     ).build()
