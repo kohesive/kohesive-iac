@@ -3,8 +3,8 @@ package uy.kohesive.iac.model.aws.cloudformation.crawler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.TextNode
-import uy.klutter.core.jdk.mustNotEndWith
-import uy.klutter.core.jdk.mustNotStartWith
+import uy.klutter.core.common.mustNotEndWith
+import uy.klutter.core.common.mustNotStartWith
 import uy.kohesive.iac.model.aws.utils.singularize
 import java.io.File
 import java.net.SocketTimeoutException

@@ -6,14 +6,13 @@ dependencies {
     compile group: 'cglib', name: 'cglib', version: version_cglib
     compile group: 'org.reflections', name: 'reflections', version: version_reflections
     compile group: 'org.jsoup', name: 'jsoup', version: version_jsoup
-    compile group: 'uy.klutter', name: 'klutter-core-jdk8', version: version_klutter
+    compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
 }
 
 sourceSets {
     main {
         kotlin {
-            srcDir 'src/main/kotlin'
-            srcDir 'src/generated/kotlin'
+            srcDirs += 'src/generated/kotlin'
         }
     }
 }

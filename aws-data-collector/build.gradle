@@ -5,7 +5,12 @@ plugins {
 
 dependencies {
     compile project(':model-aws')
+
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: version_kotlin_coroutines
+    compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-jdk8', version: version_kotlin_coroutines
 }
+
+kotlin { experimental { coroutines 'enable' } }
 
 ikvm {
     ikvmVersion = '8.1.5717.0'
@@ -16,10 +21,17 @@ ikvm {
 }
 
 shadowJar {
-    baseName = 'engine-cli-all'
+    baseName = 'aws-data-collector-all'
     classifier = ''
 }
 
 jar {
     doLast { shadowJar.execute() }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url("http://dl.bintray.com/kotlin/kotlin-eap-1.1")
+    }
 }

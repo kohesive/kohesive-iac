@@ -16,8 +16,8 @@ import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
 import com.amazonaws.services.ec2.model.SecurityGroup
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
-import uy.klutter.core.jdk.mustNotEndWith
-import uy.klutter.core.jdk.mustNotStartWith
+import uy.klutter.core.common.mustNotEndWith
+import uy.klutter.core.common.mustNotStartWith
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest

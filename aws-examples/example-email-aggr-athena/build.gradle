@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":model-aws")
+}
+
+
+// test.dependsOn(":aws-examples_lambdas:buildLambdaZip")

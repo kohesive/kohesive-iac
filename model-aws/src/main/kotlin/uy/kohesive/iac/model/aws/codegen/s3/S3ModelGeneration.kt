@@ -9,8 +9,8 @@ import com.amazonaws.http.HttpMethodName
 import com.amazonaws.services.s3.AmazonS3
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
-import uy.klutter.core.jdk.mustNotEndWith
-import uy.klutter.core.jdk.mustNotStartWith
+import uy.klutter.core.common.mustNotEndWith
+import uy.klutter.core.common.mustNotStartWith
 import uy.kohesive.iac.model.aws.utils.namespace
 import uy.kohesive.iac.model.aws.utils.simpleName
 

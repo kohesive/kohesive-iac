@@ -1,7 +1,7 @@
 package uy.kohesive.iac.model.aws.cloudformation.crawler
 
-import uy.klutter.core.jdk.mustNotEndWith
-import uy.klutter.core.jdk.mustNotStartWith
+import uy.klutter.core.common.mustNotEndWith
+import uy.klutter.core.common.mustNotStartWith
 
 object CloudFormationExampleSyntaxParser {
 

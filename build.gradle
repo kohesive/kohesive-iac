@@ -1,25 +1,27 @@
 plugins {
-    id 'nebula.kotlin' version '1.1.1' apply false
+    id 'nebula.kotlin' version '1.1.0' apply false
+   // id 'org.jetbrains.kotlin.jvm' version '1.1.0' apply false
     id 'nebula.facet' version '3.3.0' apply false
     id 'nebula.dependency-lock' version '4.5.1' apply false
     id 'nebula.resolution-rules' version '2.4.2' apply false
+    id 'nebula.maven-resolved-dependencies' version '4.9.1' apply false
 }
 
 subprojects {
     apply plugin: 'nebula.kotlin'
+    // apply plugin: 'org.jetbrains.kotlin.jvm'
     apply plugin: 'nebula.resolution-rules'
     apply plugin: 'nebula.dependency-lock'
     apply plugin: 'nebula.facet'
+    apply plugin: 'nebula.maven-resolved-dependencies'
     apply plugin: 'idea'
 
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 
     dependencies {
-        compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8'
-        compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
-        compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: version_kotlin_coroutines
-        compile group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-jdk8', version: version_kotlin_coroutines
+        compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jre8', version: version_kotlin
+        compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: version_kotlin
         compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: version_jackson
 
         resolutionRules group: 'com.netflix.nebula', name: 'gradle-resolution-rules', version: version_nebula_resolution
@@ -29,10 +31,9 @@ subprojects {
         runtime group: 'ch.qos.logback', name: 'logback-classic', version: version_logback
 
         testCompile group: 'junit', name: 'junit', version: version_junit
-        testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test'
-        testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit'
+        testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test', version: version_kotlin
+        testCompile  group: 'org.jetbrains.kotlin', name: 'kotlin-test-junit', version: version_kotlin
     }
-
 
     nebulaResolutionRules {
         optional = ['slf4j-bridge']
@@ -40,17 +41,15 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven {
-            url "http://dl.bintray.com/kotlin/kotlin-eap-1.1"
-        }
     }
 
-    kotlin { experimental { coroutines 'enable' } }
-
+    /*
     compileKotlin {
         kotlinOptions {
             jvmTarget = 1.8
         }
     }
+    */
+
 }
 

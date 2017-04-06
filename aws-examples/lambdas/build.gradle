@@ -1,0 +1,22 @@
+dependencies {
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: version_awssdk_lambda_interfaces
+    compile group: 'com.amazonaws', name: 'aws-lambda-java-events', version: version_awssdk_lambda_events
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-kinesis', version: version_awssdk
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-ses', version: version_awssdk
+
+    compile files('../lib/AthenaJDBC41-1.0.0.jar')
+
+    compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
+    compile group: 'org.freemarker', name: 'freemarker', version: version_freemarker
+    compile group: 'nl.komponents.kovenant', name: 'kovenant', version: version_kovenant
+    compile group: 'org.apache.commons', name: 'commons-csv', version: version_commons_csv
+}
+
+task buildLambdaZip(type: Zip) {
+    from compileKotlin
+    from processResources
+    into('lib') {
+        from configurations.runtime
+    }
+}
+build.dependsOn buildLambdaZip
