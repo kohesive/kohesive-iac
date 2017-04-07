@@ -1,8 +1,11 @@
 package uy.kohesive.iac.model.aws.cloudformation.wait;
 
+import com.amazonaws.AmazonWebServiceResult;
+import com.amazonaws.ResponseMetadata;
+
 import java.io.Serializable;
 
-public class CreateWaitHandleResult extends com.amazonaws.AmazonWebServiceResult<com.amazonaws.ResponseMetadata> implements Serializable, Cloneable {
+public class CreateWaitHandleResult extends AmazonWebServiceResult<ResponseMetadata> implements Serializable, Cloneable {
 
     private WaitConditionHandle handle;
 

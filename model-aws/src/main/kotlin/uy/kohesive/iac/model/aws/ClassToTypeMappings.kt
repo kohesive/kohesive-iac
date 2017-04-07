@@ -18,10 +18,7 @@ import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
 import uy.klutter.core.common.mustNotEndWith
 import uy.klutter.core.common.mustNotStartWith
-import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
-import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
-import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest
-import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleResult
+import uy.kohesive.iac.model.aws.cloudformation.wait.*
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
