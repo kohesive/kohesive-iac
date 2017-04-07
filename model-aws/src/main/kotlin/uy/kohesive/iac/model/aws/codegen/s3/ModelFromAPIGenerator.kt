@@ -9,10 +9,11 @@ import com.amazonaws.http.HttpMethodName
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
 import uy.klutter.core.common.mustNotStartWith
+import uy.kohesive.iac.model.aws.utils.firstLetterToUpperCase
 import uy.kohesive.iac.model.aws.utils.namespace
 
 class ModelFromAPIGenerator(
-    serviceInterface: Class<*>,
+    val serviceInterface: Class<*>,
     val serviceMetadata: ServiceMetadata,
     val outputDir: String,
     val verbToHttpMethod: Map<String, HttpMethodName>,
@@ -43,7 +44,8 @@ class ModelFromAPIGenerator(
             java.lang.String::class.java,
             java.lang.Integer::class.java,
             java.lang.Long::class.java,
-            java.lang.Boolean::class.java
+            java.lang.Boolean::class.java,
+            java.lang.Void::class.java
         ).forEach { autoboxType ->
             put(autoboxType.simpleName, Shape().apply {
                 type = autoboxType.simpleName.toLowerCase()
@@ -51,9 +53,7 @@ class ModelFromAPIGenerator(
         }
     }
 
-    private fun createShape(shapeName: String, classFqName: String) = Shape().apply {
-        val clazz = try { Class.forName(classFqName) } catch (cnf: ClassNotFoundException) { Void::class.java }
-
+    private fun createShape(shapeName: String, clazz: Class<*>) = Shape().apply {
         val membersByGetters = clazz.declaredMethods.filter { method ->
             method.name.startsWith("get") || method.name.startsWith("is")
         }.map { getter ->
@@ -66,10 +66,13 @@ class ModelFromAPIGenerator(
             } else if (it.value.name.startsWith("java.lang.")) {
                 it.value.simpleName
             } else if (List::class.java.isAssignableFrom(it.value)) {
+                // TODO: lookup type parameter
                 it.key + "List" // TODO: save the shape
             } else if (Set::class.java.isAssignableFrom(it.value)) {
+                // TODO: lookup type parameter
                 it.key + "Set" // TODO: save the shape
             } else if (Map::class.java.isAssignableFrom(it.value)) {
+                // TODO: lookup type parameter
                 it.key + "Map" // TODO: save the shape
             } else {
                 // TODO: save the shape
@@ -87,17 +90,62 @@ class ModelFromAPIGenerator(
     }
 
     private fun createOperations(): List<Operation> {
+        val requestMethodsToRequestClasses = serviceInterface.methods.groupBy { it.name }.mapValues {
+            it.value.map { method ->
+                method to method.parameters.firstOrNull { parameter ->
+                    parameter.type.simpleName.endsWith("Request")
+                }?.type
+            }.firstOrNull()
+        }.values.filterNotNull().toMap().filterValues { it != null }.mapValues { it.value!! }.filter {
+            "${it.key.name.firstLetterToUpperCase()}Request" == it.value.simpleName
+        }
+
         // TODO: implement
-        return emptyList()
+        return requestMethodsToRequestClasses.map {
+            val requestMethod = it.key
+            val requestClass  = it.value
+            val resultClass   = it.key.returnType
+
+            val operationName = requestMethod.name.firstLetterToUpperCase()
+
+            val httpMethod = verbToHttpMethod.keys.firstOrNull { operationName.startsWith(it) }?.let { verb ->
+                verbToHttpMethod[verb]
+            }?.name ?: throw IllegalStateException("Can't figure out HTTP method for $operationName")
+
+            val http = Http()
+                .withMethod(httpMethod)
+                .withRequestUri("/")
+
+            val input = Input().apply {
+                shape = operationName + "Input"
+            }
+            createShape(input.shape, requestClass)
+
+            val output = Output().apply {
+                shape = if (resultClass.simpleName.endsWith("Result")) {
+                    operationName + "Output"
+                } else {
+                    resultClass.simpleName
+                }
+            }
+            createShape(output.shape, resultClass)
+
+            Operation()
+                .withName(operationName)
+                .withInput(input)
+                .withHttp(http).apply { setOutput(output) }
+        }
     }
 
     fun generate() {
+        val operations = createOperations()
+
         val c2jModels = C2jModels.builder()
             .codeGenConfig(codeGenConfig)
             .customizationConfig(CustomizationConfig.DEFAULT)
             .serviceModel(ServiceModel(
                 serviceMetadata,
-                createOperations().associateBy { it.name },
+                operations.associateBy { it.name },
                 shapes,
                 HashMap<String, Authorizer>() // TODO: add authorizers
             )
