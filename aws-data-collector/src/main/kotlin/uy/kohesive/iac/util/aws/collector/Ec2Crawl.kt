@@ -1,18 +1,8 @@
 package uy.kohesive.iac.util.aws.collector
 
-import com.amazonaws.auth.*
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.services.ec2.AmazonEC2ClientBuilder
+import com.amazonaws.services.cloudtrail.AWSCloudTrailClientBuilder
+import com.amazonaws.services.cloudtrail.model.GetTrailStatusRequest
 import com.amazonaws.services.ec2.model.*
-import com.amazonaws.services.ec2.model.AvailabilityZone
-import com.amazonaws.services.ec2.model.Subnet
-import com.amazonaws.services.ec2.model.Tag
-import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClientBuilder
-import com.amazonaws.services.identitymanagement.model.*
-import com.amazonaws.services.rds.AmazonRDSClientBuilder
-import com.amazonaws.services.rds.model.*
-import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClientBuilder
-import com.amazonaws.services.securitytoken.model.GetCallerIdentityRequest
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.newFixedThreadPoolContext
@@ -85,14 +75,26 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
         awsAccountIdTask.await()
     }
 
-    fun fetchAwsRegions(): List<com.amazonaws.services.ec2.model.Region> = runBlocking<List<com.amazonaws.services.ec2.model.Region>> {
+    fun fetchAwsRegions(): List<Region> = runBlocking<List<Region>> {
         val ec2UsEast1 = RegionClient(usEast1Region, com.amazonaws.services.ec2.AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
         println("Fetching AWS Regions...")
         val ec2RegionsTask = async(baseContext) { ec2UsEast1.client.describeRegions().regions }
         ec2RegionsTask.await()
     }
 
-    fun fetchEc2Data(awsAccountId: String, ec2Regions: List<com.amazonaws.services.ec2.model.Region>) = runBlocking<Ec2Data> {
+    fun fetchCloudTrailData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<CloudTrailData> {
+        val ctAll = ec2Regions.map { region -> RegionClient(region.regionName, AWSCloudTrailClientBuilder.standard().withCredentials(credentials).withRegion(region.regionName).build()) }
+
+        val trails = ctAll.perClient {
+            val trails = describeTrails().trailList
+            val trailsWithStatus = trails.map { CloudTrailWithStatus(it, getTrailStatus(GetTrailStatusRequest().withName(it.trailARN))) }
+            trailsWithStatus
+        }
+
+        CloudTrailData(trails.await())
+    }
+
+    fun fetchEc2Data(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<Ec2Data> {
         println("Making clients per Region...")
         val ec2UsEast1 = RegionClient(usEast1Region, com.amazonaws.services.ec2.AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
         val ec2All = ec2Regions.map { region -> RegionClient(region.regionName, com.amazonaws.services.ec2.AmazonEC2ClientBuilder.standard().withCredentials(credentials).withRegion(region.regionName).build()) }
@@ -100,7 +102,7 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
         println("Fetching EC2 instance list from all Regions...")
         val ec2InstancesTask = ec2All.perClientPaged { pagingToken ->
-            val results = describeInstances(com.amazonaws.services.ec2.model.DescribeInstancesRequest().apply {
+            val results = describeInstances(DescribeInstancesRequest().apply {
                 maxResults = 1000
                 nextToken = pagingToken
             })
@@ -109,14 +111,14 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
         println("Fetching Owned AMI Images...")
         val ec2OwnedAMIImagesTask = ec2All.perClient {
-            describeImages(com.amazonaws.services.ec2.model.DescribeImagesRequest().apply {
+            describeImages(DescribeImagesRequest().apply {
                 owners.add("self")
             }).images
         }
 
         println("Fetching Executable AMI Images...")
         val ec2ExecAmiImagesTask = ec2All.perClient {
-            describeImages(com.amazonaws.services.ec2.model.DescribeImagesRequest().apply {
+            describeImages(DescribeImagesRequest().apply {
                 setExecutableUsers(listOf(awsAccountId))
             }).images
         }
@@ -135,7 +137,7 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
         println("Fetching Instance Profile associatinos...")
         val ec2InstanceProfilesTask = ec2All.perClientPaged { pagingToken ->
-            val results = describeIamInstanceProfileAssociations(com.amazonaws.services.ec2.model.DescribeIamInstanceProfileAssociationsRequest().apply {
+            val results = describeIamInstanceProfileAssociations(DescribeIamInstanceProfileAssociationsRequest().apply {
                 maxResults = 1000
                 nextToken = pagingToken
             })
@@ -147,7 +149,7 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
         println("Fetching Egress Only Internet Gateways...")
         val ec2EgressOnlyGatewaysTask = ec2All.perClientPaged { pagingToken ->
-            val results = describeEgressOnlyInternetGateways(com.amazonaws.services.ec2.model.DescribeEgressOnlyInternetGatewaysRequest().apply {
+            val results = describeEgressOnlyInternetGateways(DescribeEgressOnlyInternetGatewaysRequest().apply {
                 maxResults = 255
                 nextToken = pagingToken
             })
@@ -159,7 +161,7 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
         println("Fetching NAT Gateways...")
         val ec2NatGatewaysTask = ec2All.perClientPaged { pagingToken ->
-            val results = describeNatGateways(com.amazonaws.services.ec2.model.DescribeNatGatewaysRequest().apply {
+            val results = describeNatGateways(DescribeNatGatewaysRequest().apply {
                 maxResults = 1000
                 nextToken = pagingToken
             })
@@ -193,12 +195,22 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
         println("Fetching Account Attributes...")
         val ec2AccountInfoTask = listOf(ec2UsEast1).perClient { describeAccountAttributes().accountAttributes }
 
+        println("Fetching EBS Volumes...")
+        val ec2EbsVolsTask = ec2All.perClientPaged { pagingToken ->
+            val results = describeVolumes(DescribeVolumesRequest().apply {
+                maxResults = 1000
+                nextToken = pagingToken
+            })
+            Pair(results.nextToken, results.volumes)
+        }
+
         // gather EC2 stuff...
 
         val ec2AvailZones = ec2AvailZoneTask.await()
         val ec2Instances = ec2InstancesTask.await()
         val ec2OwnedAmiImages = ec2OwnedAMIImagesTask.await()
         val ec2ExecAmiImages = ec2ExecAmiImagesTask.await()
+        val ec2EbsVols = ec2EbsVolsTask.await()
 
         val ec2LeftoverImageIds = ec2Instances.map { region -> region.value.map { Pair(region.key, it.imageId) } }.flatten().toSet() -
                 ec2OwnedAmiImages.map { region -> region.value.map { Pair(region.key, it.imageId) } }.flatten().toSet() -
@@ -206,10 +218,10 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
         val ec2ReferencedImagesByIds = ec2LeftoverImageIds.groupBy { it.first }.mapValues { it.value.map { it.second } }
 
         println("Fetching Unknown AMI images that are not in account nor exec privileged...")
-        val ec2UnknownAmiImagesTask: Deferred<Map<String, List<com.amazonaws.services.ec2.model.Image>>> = async(baseContext) {
+        val ec2UnknownAmiImagesTask: Deferred<Map<String, List<Image>>> = async(baseContext) {
             val tasks = ec2ReferencedImagesByIds.map { Pair(ec2ByRegion.get(it.key)!!, it.value) }.map { (client, imageIds) ->
                 listOf(client).perClient {
-                    describeImages(com.amazonaws.services.ec2.model.DescribeImagesRequest().apply {
+                    describeImages(DescribeImagesRequest().apply {
                         setImageIds(imageIds)
                     }).images
                 }
@@ -258,10 +270,11 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
                 vpcsByRegion = ec2Vpcs,
                 vpcPeeringConnectionsByRegion = ec2VpcPeeringConnections,
                 vpnGatewaysByRegion = ec2VpnGateways,
-                vpnConnectionsByRegion = ec2VpnConnections)
+                vpnConnectionsByRegion = ec2VpnConnections,
+                ebsVolsByRegion = ec2EbsVols)
     }
 
-    fun fetchIamData(awsAccountId: String, ec2Regions: List<com.amazonaws.services.ec2.model.Region>) = runBlocking<IamData> {
+    fun fetchIamData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<IamData> {
         val iamUsEast1 = RegionClient(usEast1Region, com.amazonaws.services.identitymanagement.AmazonIdentityManagementClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
 
         // continue onto IAM ...
@@ -523,7 +536,7 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
 
     }
 
-    fun fetchRdsData(awsAccountId: String, ec2Regions: List<com.amazonaws.services.ec2.model.Region>) = runBlocking<RdsData> {
+    fun fetchRdsData(awsAccountId: String, ec2Regions: List<Region>) = runBlocking<RdsData> {
         val rdsUsEast1 = RegionClient(usEast1Region, com.amazonaws.services.rds.AmazonRDSClientBuilder.standard().withCredentials(credentials).withRegion(usEast1Region).build())
         // val rdsAll = ec2Regions.map { region -> RegionClient(region.regionName, AmazonRDSClientBuilder.standard().withCredentials(credentials).withRegion(region.regionName).build()) }
 
@@ -620,43 +633,47 @@ class Ec2Crawl(credentialsCfg: AwsCrawlCredentials,
         val ec2Data = fetchEc2Data(accountId, regions)
         val iamData = fetchIamData(accountId, regions)
         val rdsData = fetchRdsData(accountId, regions)
+        val cloudTrailData = fetchCloudTrailData(accountId, regions)
 
         printEc2Data(ec2Data)
         printIamData(iamData)
         printRdsData(rdsData)
+        printCloudTrailData(cloudTrailData)
 
-        AwsData(accountId, ec2Data, iamData, rdsData)
+        AwsData(accountId, ec2Data, iamData, rdsData, cloudTrailData)
     }
 }
 
 data class AwsData(val accountId: String,
                    val ec2Data: Ec2Data,
                    val iamData: IamData,
-                   val rdsData: RdsData)
+                   val rdsData: RdsData,
+                   val cloudTrailData: CloudTrailData)
 
-data class Ec2Data(val accountAttributes: List<com.amazonaws.services.ec2.model.AccountAttribute>,
+data class Ec2Data(val accountAttributes: List<AccountAttribute>,
                    val regions: List<String>,
-                   val availabilityZonesByRegion: Map<String, List<com.amazonaws.services.ec2.model.AvailabilityZone>>,
-                   val instancesByRegion: Map<String, List<com.amazonaws.services.ec2.model.Instance>>,
-                   val ownedAmisByRegion: Map<String, List<com.amazonaws.services.ec2.model.Image>>,
-                   val execAmisByRegion: Map<String, List<com.amazonaws.services.ec2.model.Image>>,
-                   val otherAmisByRegion: Map<String, List<com.amazonaws.services.ec2.model.Image>>,
-                   val securityGroupsByRegion: Map<String, List<com.amazonaws.services.ec2.model.SecurityGroup>>,
-                   val elasticIpsByRegion: Map<String, List<com.amazonaws.services.ec2.model.Address>>,
-                   val keyPairsByRegion: Map<String, List<com.amazonaws.services.ec2.model.KeyPairInfo>>,
-                   val instanceProfileAssociationsByRegion: Map<String, List<com.amazonaws.services.ec2.model.IamInstanceProfileAssociation>>,
-                   val clusterGatewaysByRegion: Map<String, List<com.amazonaws.services.ec2.model.CustomerGateway>>,
-                   val egressOnlyInternetGatewaysByRegion: Map<String, List<com.amazonaws.services.ec2.model.EgressOnlyInternetGateway>>,
-                   val internetGatewaysByRegion: Map<String, List<com.amazonaws.services.ec2.model.InternetGateway>>,
-                   val natGatewaysByRegion: Map<String, List<com.amazonaws.services.ec2.model.NatGateway>>,
-                   val networkAclsByRegion: Map<String, List<com.amazonaws.services.ec2.model.NetworkAcl>>,
-                   val networkInterfacesByRegion: Map<String, List<com.amazonaws.services.ec2.model.NetworkInterface>>,
-                   val routeTablesByRegion: Map<String, List<com.amazonaws.services.ec2.model.RouteTable>>,
-                   val subnetsByRegion: Map<String, List<com.amazonaws.services.ec2.model.Subnet>>,
-                   val vpcsByRegion: Map<String, List<com.amazonaws.services.ec2.model.Vpc>>,
-                   val vpcPeeringConnectionsByRegion: Map<String, List<com.amazonaws.services.ec2.model.VpcPeeringConnection>>,
-                   val vpnGatewaysByRegion: Map<String, List<com.amazonaws.services.ec2.model.VpnGateway>>,
-                   val vpnConnectionsByRegion: Map<String, List<com.amazonaws.services.ec2.model.VpnConnection>>)
+                   val availabilityZonesByRegion: Map<String, List<AvailabilityZone>>,
+                   val instancesByRegion: Map<String, List<Instance>>,
+                   val ownedAmisByRegion: Map<String, List<Image>>,
+                   val execAmisByRegion: Map<String, List<Image>>,
+                   val otherAmisByRegion: Map<String, List<Image>>,
+                   val securityGroupsByRegion: Map<String, List<SecurityGroup>>,
+                   val elasticIpsByRegion: Map<String, List<Address>>,
+                   val keyPairsByRegion: Map<String, List<KeyPairInfo>>,
+                   val instanceProfileAssociationsByRegion: Map<String, List<IamInstanceProfileAssociation>>,
+                   val clusterGatewaysByRegion: Map<String, List<CustomerGateway>>,
+                   val egressOnlyInternetGatewaysByRegion: Map<String, List<EgressOnlyInternetGateway>>,
+                   val internetGatewaysByRegion: Map<String, List<InternetGateway>>,
+                   val natGatewaysByRegion: Map<String, List<NatGateway>>,
+                   val networkAclsByRegion: Map<String, List<NetworkAcl>>,
+                   val networkInterfacesByRegion: Map<String, List<NetworkInterface>>,
+                   val routeTablesByRegion: Map<String, List<RouteTable>>,
+                   val subnetsByRegion: Map<String, List<Subnet>>,
+                   val vpcsByRegion: Map<String, List<Vpc>>,
+                   val vpcPeeringConnectionsByRegion: Map<String, List<VpcPeeringConnection>>,
+                   val vpnGatewaysByRegion: Map<String, List<VpnGateway>>,
+                   val vpnConnectionsByRegion: Map<String, List<VpnConnection>>,
+                   val ebsVolsByRegion: Map<String, List<Volume>>)
 
 data class IamData(val users: List<com.amazonaws.services.identitymanagement.model.User>,
                    val groups: List<com.amazonaws.services.identitymanagement.model.Group>,
@@ -681,6 +698,10 @@ data class RdsData(val dbCertificates: List<com.amazonaws.services.rds.model.Cer
                    val dbInstances: List<com.amazonaws.services.rds.model.DBInstance>,
                    val dbSecurityGroups: List<com.amazonaws.services.rds.model.DBSecurityGroup>,
                    val dbSubnetGroups: List<com.amazonaws.services.rds.model.DBSubnetGroup>)
+
+data class CloudTrailData(val trailsByRegion: Map<String, List<CloudTrailWithStatus>>)
+data class CloudTrailWithStatus(val trail: com.amazonaws.services.cloudtrail.model.Trail,
+                                val trailStatus: com.amazonaws.services.cloudtrail.model.GetTrailStatusResult)
 
 fun main(args: Array<String>) {
     println("AWS Crawler")
@@ -760,6 +781,15 @@ fun printEc2Data(data: Ec2Data) {
         println("  ${it.key}:")
         it.value.forEach {
             println("    ${it.publicIp} :: ${it.privateIpAddress} :: ${it.instanceId}")
+        }
+    }
+
+    println()
+    println("EBS Volumes:")
+    data.ebsVolsByRegion.forEach {
+        println("  ${it.key}:")
+        it.value.forEach {
+            println("    ${it.volumeId} :: ${it.volumeType} :: ${it.isEncrypted} :: ${it.attachments.map { it.instanceId }.joinToString()}")
         }
     }
 
@@ -900,4 +930,12 @@ fun printRdsData(data: RdsData) {
     }
 }
 
-fun List<com.amazonaws.services.ec2.model.Tag>.nameTag() = firstOrNull { it.key.equals("Name", ignoreCase = true) }?.value ?: "unknown"
+fun printCloudTrailData(data: CloudTrailData) {
+    println()
+    println("============[ CloudTrail RESULTS ]=============")
+    println()
+
+    println("    found data for ${data.trailsByRegion.map { it.value }.flatten().size} trails")
+}
+
+fun List<Tag>.nameTag() = firstOrNull { it.key.equals("Name", ignoreCase = true) }?.value ?: "unknown"
