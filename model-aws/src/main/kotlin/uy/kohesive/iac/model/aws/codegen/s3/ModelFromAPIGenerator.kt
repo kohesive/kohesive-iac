@@ -6,6 +6,7 @@ import com.amazonaws.codegen.model.config.BasicCodeGenConfig
 import com.amazonaws.codegen.model.config.customization.CustomizationConfig
 import com.amazonaws.codegen.model.service.*
 import com.amazonaws.http.HttpMethodName
+import com.github.javaparser.ast.type.ClassOrInterfaceType
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
 import uy.klutter.core.common.mustNotStartWith
@@ -29,9 +30,12 @@ class ModelFromAPIGenerator(
 
     private val modelClassFqNamesBySimpleName = TypeElementsScanner().apply {
         Reflections(modelPackage, this)
-    }.store.keySet().associateBy(String::simpleName) + mapOf(
-        "HttpMethod" to "com.amazonaws.HttpMethod"
-    )
+    }.store.keySet().associateBy(String::simpleName) + listOf(
+        java.lang.String::class.java,
+        java.lang.Boolean::class.java,
+        java.lang.Integer::class.java,
+        java.lang.Long::class.java
+    ).associate { it.simpleName to it.name }
 
     private val sources = SourceCache(serviceSourcesDir)
 
@@ -49,11 +53,11 @@ class ModelFromAPIGenerator(
         Class.forName(fqName)
     } ?: throw IllegalArgumentException("Unknown model class: $simpleName")
 
-    private fun getOrCreateShape(clazz: Class<*>, typeParameterFqName: List<String> = emptyList(), shapeNameOverride: String? = null): Pair<String, Shape> =
-        (clazz.name + (if (typeParameterFqName.isEmpty()) "" else "<${typeParameterFqName.joinToString(", ")}>")).let { classFqName ->
+    private fun getOrCreateShape(clazz: Class<*>, typeParameterFqNames: List<Class<*>> = emptyList(), shapeNameOverride: String? = null): Pair<String, Shape> =
+        (clazz.name + (if (typeParameterFqNames.isEmpty()) "" else "<${typeParameterFqNames.joinToString(", ")}>")).let { classFqName ->
             var fillWithMembers = false
 
-            classFqNameToShape.getOrPut(clazz.canonicalName) {
+            classFqNameToShape.getOrPut(classFqName) {
                 val nameAndShape = if (clazz.isPrimitive) {
                     clazz.name.firstLetterToUpperCase() to Shape().apply { type = clazz.name.toLowerCase() }
                 } else if (clazz.name.startsWith("java.lang.")) {
@@ -63,27 +67,31 @@ class ModelFromAPIGenerator(
                 } else if (clazz.name.endsWith("[]") || clazz.name.namespace().let { it == "java.io" || it == "java.net" }) {
                     throw UnmodelableOperation()
                 } else if (List::class.java.isAssignableFrom(clazz)) {
-                    if (typeParameterFqName.isEmpty()) throw IllegalStateException("Un-parameterized list")
+                    if (typeParameterFqNames.isEmpty()) {
+                        throw IllegalStateException("Un-parameterized list")
+                    }
 
-                    val listParameterFqName = typeParameterFqName.first()
-                    listParameterFqName.simpleName() + "List" to Shape().apply {
+                    val listParameter = typeParameterFqNames.first()
+                    listParameter.simpleName + "List" to Shape().apply {
                         type       = "list"
                         listMember = Member().apply {
-                            shape = getOrCreateShape(Class.forName(listParameterFqName)).first
+                            shape = getOrCreateShape(listParameter).first
                         }
                     }
                 } else if (Map::class.java.isAssignableFrom(clazz)) {
-                    if (typeParameterFqName.isEmpty()) throw IllegalStateException("Un-parameterized map")
+                    if (typeParameterFqNames.isEmpty()) {
+                        throw IllegalStateException("Un-parameterized map")
+                    }
 
-                    val mapKeyParameterFqName   = typeParameterFqName[0]
-                    val mapValueParameterFqName = typeParameterFqName[1]
-                    mapKeyParameterFqName.simpleName() + "Map" to Shape().apply {
+                    val mapKeyParameter   = typeParameterFqNames[0]
+                    val mapValueParameter = typeParameterFqNames[1]
+                    mapValueParameter.simpleName + "Map" to Shape().apply {
                         type       = "map"
                         mapKeyType = Member().apply {
-                            shape = getOrCreateShape(Class.forName(mapKeyParameterFqName)).first
+                            shape = getOrCreateShape(mapKeyParameter).first
                         }
                         mapValueType = Member().apply {
-                            shape = getOrCreateShape(Class.forName(mapValueParameterFqName)).first
+                            shape = getOrCreateShape(mapValueParameter).first
                         }
                     }
                 } else {
@@ -104,7 +112,27 @@ class ModelFromAPIGenerator(
                         getter.name.mustNotStartWith("get").mustNotStartWith("is") to getter.returnType
                     }.toMap()
 
-                    // TODO: implement
+                    second.members = membersByGetters.mapValues {
+                        val member      = it.key
+                        val memberClass = it.value
+
+                        val typeArguments = if (memberClass.simpleName.let { it == "List" || it == "Map" }) {
+                            val classifierFromSources = sources.get(clazz.name).getClassByName(clazz.simpleName).get()
+                            classifierFromSources.getMethodsByName("get$member")?.firstOrNull()?.let { getter ->
+                                (getter.type as? ClassOrInterfaceType)?.typeArguments?.get()?.map { typeArgument ->
+                                    (typeArgument as? ClassOrInterfaceType)?.nameAsString?.let { simpleName ->
+                                        getModelClassBySimpleName(simpleName)
+                                    }
+                                }
+                            }.orEmpty().filterNotNull()
+                        } else {
+                            emptyList()
+                        }
+
+                        Member().apply {
+                            shape = getOrCreateShape(memberClass, typeParameterFqNames = typeArguments).first
+                        }
+                    }
                 }
             }
         }
