@@ -14,6 +14,8 @@ gradlew.bat build -x test
 
 ## Making .NET artifacts
 
+You will need to isntall IKVM (I am using `ikvm-8.1.5717.0`) to convert the Java JAR files into .NET DLL
+
 ### To make the .NET DLL:
 
 on Linux / Mac OSX:
