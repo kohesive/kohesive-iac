@@ -7,6 +7,7 @@ dependencies {
     compile group: 'org.reflections', name: 'reflections', version: version_reflections
     compile group: 'org.jsoup', name: 'jsoup', version: version_jsoup
     compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
+    compile group: 'com.github.javaparser', name: 'javaparser-core', version: version_javaparser
 }
 
 sourceSets {
