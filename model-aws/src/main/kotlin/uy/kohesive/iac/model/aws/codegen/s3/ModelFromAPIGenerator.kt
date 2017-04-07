@@ -6,6 +6,7 @@ import com.amazonaws.codegen.model.config.BasicCodeGenConfig
 import com.amazonaws.codegen.model.config.customization.CustomizationConfig
 import com.amazonaws.codegen.model.service.*
 import com.amazonaws.http.HttpMethodName
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration
 import com.github.javaparser.ast.type.ClassOrInterfaceType
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
@@ -30,11 +31,18 @@ class ModelFromAPIGenerator(
 
     private val modelClassFqNamesBySimpleName = TypeElementsScanner().apply {
         Reflections(modelPackage, this)
-    }.store.keySet().associateBy(String::simpleName) + listOf(
+    }.store.keySet().associateBy(String::simpleName).mapKeys {
+        if (it.key.contains("$")) {
+            it.key.substring(it.key.lastIndexOf('$') + 1)
+        } else {
+            it.key
+        }
+    } + listOf(
         java.lang.String::class.java,
         java.lang.Boolean::class.java,
         java.lang.Integer::class.java,
-        java.lang.Long::class.java
+        java.lang.Long::class.java,
+        java.lang.Object::class.java
     ).associate { it.simpleName to it.name }
 
     private val sources = SourceCache(serviceSourcesDir)
@@ -60,12 +68,15 @@ class ModelFromAPIGenerator(
             classFqNameToShape.getOrPut(classFqName) {
                 val nameAndShape = if (clazz.isPrimitive) {
                     clazz.name.firstLetterToUpperCase() to Shape().apply { type = clazz.name.toLowerCase() }
+                } else if (clazz.name == "java.lang.Object") {
+                    // Looks weird, but seems to be correct. Raw Objects are used in Map values mapped to Strings.
+                    "String" to Shape().apply { type = "string" }
                 } else if (clazz.name.startsWith("java.lang.")) {
                     clazz.simpleName to Shape().apply { type = clazz.simpleName.toLowerCase() }
                 } else if (clazz.name == "java.util.Date") {
                     "Date" to Shape().apply { type = "timestamp" }
                 } else if (clazz.name.endsWith("[]") || clazz.name.namespace().let { it == "java.io" || it == "java.net" }) {
-                    throw UnmodelableOperation()
+                    throw UnModelableOperation()
                 } else if (List::class.java.isAssignableFrom(clazz)) {
                     if (typeParameterFqNames.isEmpty()) {
                         throw IllegalStateException("Un-parameterized list")
@@ -116,18 +127,7 @@ class ModelFromAPIGenerator(
                         val member      = it.key
                         val memberClass = it.value
 
-                        val typeArguments = if (memberClass.simpleName.let { it == "List" || it == "Map" }) {
-                            val classifierFromSources = sources.get(clazz.name).getClassByName(clazz.simpleName).get()
-                            classifierFromSources.getMethodsByName("get$member")?.firstOrNull()?.let { getter ->
-                                (getter.type as? ClassOrInterfaceType)?.typeArguments?.get()?.map { typeArgument ->
-                                    (typeArgument as? ClassOrInterfaceType)?.nameAsString?.let { simpleName ->
-                                        getModelClassBySimpleName(simpleName)
-                                    }
-                                }
-                            }.orEmpty().filterNotNull()
-                        } else {
-                            emptyList()
-                        }
+                        val typeArguments = getCollectionTypeArguments(clazz, "get$member", memberClass)
 
                         Member().apply {
                             shape = getOrCreateShape(memberClass, typeParameterFqNames = typeArguments).first
@@ -135,6 +135,41 @@ class ModelFromAPIGenerator(
                     }
                 }
             }
+        }
+
+    private fun getCollectionTypeArguments(clazz: Class<*>, memberName: String, memberClass: Class<*>): List<Class<*>> =
+        if (memberClass.simpleName.let { it == "List" || it == "Map" }) {
+            val classifierFromSources = sources.get(clazz.name).let { compilationUnit ->
+                if (clazz.name.contains('$')) {
+                    val pathArray = clazz.name.simpleName().split('$')
+
+                    val initialType = compilationUnit.types.filterIsInstance<ClassOrInterfaceDeclaration>().first {
+                        it.nameAsString == pathArray[0]
+                    }
+
+                    pathArray.drop(1).fold(initialType) { classifier, pathElement ->
+                        classifier.childNodes.filterIsInstance<ClassOrInterfaceDeclaration>().first {
+                            it.nameAsString == pathElement
+                        }
+                    }
+                } else {
+                    if (clazz.isInterface) {
+                        compilationUnit.getInterfaceByName(clazz.simpleName).get()
+                    } else {
+                        compilationUnit.getClassByName(clazz.simpleName).get()
+                    }
+                }
+            }
+
+            classifierFromSources.getMethodsByName(memberName)?.firstOrNull()?.let { getter ->
+                (getter.type as? ClassOrInterfaceType)?.typeArguments?.get()?.map { typeArgument ->
+                    (typeArgument as? ClassOrInterfaceType)?.nameAsString?.let { simpleName ->
+                        getModelClassBySimpleName(simpleName)
+                    }
+                }
+            }.orEmpty().filterNotNull()
+        } else {
+            emptyList()
         }
 
     private fun createOperations(): List<Operation> {
@@ -176,13 +211,14 @@ class ModelFromAPIGenerator(
                         resultClass.simpleName
                     }
                 }
-                getOrCreateShape(resultClass, shapeNameOverride = output.shape)
+                val typeArguments = getCollectionTypeArguments(serviceInterface, requestMethod.name, resultClass)
+                getOrCreateShape(resultClass, shapeNameOverride = output.shape, typeParameterFqNames = typeArguments)
 
                 Operation()
                     .withName(operationName)
                     .withInput(input)
                     .withHttp(http).apply { setOutput(output) }
-            } catch (ume: UnmodelableOperation) {
+            } catch (ume: UnModelableOperation) {
                 // ignore this operation
                 null
             }
@@ -208,4 +244,4 @@ class ModelFromAPIGenerator(
 
 }
 
-class UnmodelableOperation : Exception()
+class UnModelableOperation : Exception()

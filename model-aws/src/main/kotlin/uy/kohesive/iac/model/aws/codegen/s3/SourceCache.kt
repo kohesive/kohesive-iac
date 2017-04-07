@@ -11,14 +11,16 @@ class SourceCache(val sourceDir: String) {
     private val cache = HashMap<String, CompilationUnit>()
 
     fun get(classFqName: String): CompilationUnit {
-        if (classFqName.contains('$')) {
-            throw UnsupportedOperationException("Nested classes not supported yet")
+        val classKey = if (classFqName.contains('$')) {
+            classFqName.substring(0, classFqName.lastIndexOf('$'))
+        } else {
+            classFqName
         }
 
-        return cache.getOrPut(classFqName) {
-            val classFile = File(sourceDir, classFqName.replace('.', '/') + ".java")
+        return cache.getOrPut(classKey) {
+            val classFile = File(sourceDir, classKey.replace('.', '/') + ".java")
             if (!classFile.exists()) {
-                throw IllegalStateException("Source for $classFqName doesn't exist under ${classFile.path}")
+                throw IllegalStateException("Source for $classKey doesn't exist under ${classFile.path}")
             }
 
             FileInputStream(classFile).use {
