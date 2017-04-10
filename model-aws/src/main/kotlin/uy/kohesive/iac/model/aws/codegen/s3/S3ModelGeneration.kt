@@ -57,7 +57,7 @@ class S3ModelGenerator(
             outputDir         = outputDir,
             serviceMetadata   = S3ServiceMetadata,
             verbToHttpMethod  = S3OperationPrefixToHttpMethod.toMap(),
-            fileNamePrefix    = "s3",
+            fileNamePrefix    = S3ServiceMetadata.uid,
             serviceSourcesDir = serviceSourcesDir
         ).generate()
     }
