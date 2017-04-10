@@ -16,6 +16,7 @@ import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
 import com.amazonaws.services.ec2.model.SecurityGroup
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
+import com.amazonaws.services.s3.model.CreateBucketRequest
 import uy.klutter.core.common.mustNotEndWith
 import uy.klutter.core.common.mustNotStartWith
 import uy.kohesive.iac.model.aws.cloudformation.wait.*
@@ -46,7 +47,8 @@ object AutoNaming {
         CreateAccessKeyRequest::class           to CreateAccessKeyRequest::getUserName,
         CreateAccountAliasRequest::class        to CreateAccountAliasRequest::getAccountAlias,
         CreateGroupRequest::class               to CreateGroupRequest::getGroupName,
-        CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName
+        CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName,
+        CreateBucketRequest::class              to CreateBucketRequest::getBucketName
     )
 
     // TODO: what else can we do to automate this?

@@ -15,5 +15,8 @@ sourceSets {
         kotlin {
             srcDirs += 'src/generated/kotlin'
         }
+        resources {
+            srcDirs += 'src/generated/resources'
+        }
     }
 }

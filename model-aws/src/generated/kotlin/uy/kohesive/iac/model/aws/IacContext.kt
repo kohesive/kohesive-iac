@@ -1,83 +1,71 @@
 package uy.kohesive.iac.model.aws
 
-import uy.kohesive.iac.model.aws.clients.*
-import uy.kohesive.iac.model.aws.contexts.*
+import com.amazonaws.services.apigateway.AmazonApiGateway
 import com.amazonaws.services.applicationautoscaling.AWSApplicationAutoScaling
 import com.amazonaws.services.applicationdiscovery.AWSApplicationDiscovery
+import com.amazonaws.services.appstream.AmazonAppStream
+import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.batch.AWSBatch
 import com.amazonaws.services.budgets.AWSBudgets
 import com.amazonaws.services.certificatemanager.AWSCertificateManager
-import com.amazonaws.services.cloudhsm.AWSCloudHSM
-import com.amazonaws.services.cloudtrail.AWSCloudTrail
-import com.amazonaws.services.codebuild.AWSCodeBuild
-import com.amazonaws.services.codecommit.AWSCodeCommit
-import com.amazonaws.services.codepipeline.AWSCodePipeline
-import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider
-import com.amazonaws.services.costandusagereport.AWSCostAndUsageReport
-import com.amazonaws.services.databasemigrationservice.AWSDatabaseMigrationService
-import com.amazonaws.services.devicefarm.AWSDeviceFarm
-import com.amazonaws.services.directory.AWSDirectoryService
-import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalk
-import com.amazonaws.services.elasticsearch.AWSElasticsearch
-import com.amazonaws.services.health.AWSHealth
-import com.amazonaws.services.iot.AWSIot
-import com.amazonaws.services.iotdata.AWSIotData
-import com.amazonaws.services.kms.AWSKMS
-import com.amazonaws.services.lambda.AWSLambda
-import com.amazonaws.services.logs.AWSLogs
-import com.amazonaws.services.marketplacecommerceanalytics.AWSMarketplaceCommerceAnalytics
-import com.amazonaws.services.marketplacemetering.AWSMarketplaceMetering
-import com.amazonaws.services.opsworks.AWSOpsWorks
-import com.amazonaws.services.opsworkscm.AWSOpsWorksCM
-import com.amazonaws.services.organizations.AWSOrganizations
-import com.amazonaws.services.securitytoken.AWSSecurityTokenService
-import com.amazonaws.services.servermigration.AWSServerMigration
-import com.amazonaws.services.servicecatalog.AWSServiceCatalog
-import com.amazonaws.services.shield.AWSShield
-import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement
-import com.amazonaws.services.stepfunctions.AWSStepFunctions
-import com.amazonaws.services.storagegateway.AWSStorageGateway
-import com.amazonaws.services.support.AWSSupport
-import com.amazonaws.services.waf.AWSWAF
-import com.amazonaws.services.waf.AWSWAFRegional
-import com.amazonaws.services.xray.AWSXRay
-import com.amazonaws.services.apigateway.AmazonApiGateway
-import com.amazonaws.services.appstream.AmazonAppStream
-import com.amazonaws.services.autoscaling.AmazonAutoScaling
 import com.amazonaws.services.clouddirectory.AmazonCloudDirectory
 import com.amazonaws.services.cloudformation.AmazonCloudFormation
 import com.amazonaws.services.cloudfront.AmazonCloudFront
-import com.amazonaws.services.cloudsearchv2.AmazonCloudSearch
+import com.amazonaws.services.cloudhsm.AWSCloudHSM
 import com.amazonaws.services.cloudsearchdomain.AmazonCloudSearchDomain
+import com.amazonaws.services.cloudsearchv2.AmazonCloudSearch
+import com.amazonaws.services.cloudtrail.AWSCloudTrail
 import com.amazonaws.services.cloudwatch.AmazonCloudWatch
 import com.amazonaws.services.cloudwatchevents.AmazonCloudWatchEvents
+import com.amazonaws.services.codebuild.AWSCodeBuild
+import com.amazonaws.services.codecommit.AWSCodeCommit
 import com.amazonaws.services.codedeploy.AmazonCodeDeploy
+import com.amazonaws.services.codepipeline.AWSCodePipeline
 import com.amazonaws.services.cognitoidentity.AmazonCognitoIdentity
+import com.amazonaws.services.cognitoidp.AWSCognitoIdentityProvider
 import com.amazonaws.services.cognitosync.AmazonCognitoSync
 import com.amazonaws.services.config.AmazonConfig
+import com.amazonaws.services.costandusagereport.AWSCostAndUsageReport
+import com.amazonaws.services.databasemigrationservice.AWSDatabaseMigrationService
+import com.amazonaws.services.datapipeline.DataPipeline
+import com.amazonaws.services.devicefarm.AWSDeviceFarm
 import com.amazonaws.services.directconnect.AmazonDirectConnect
+import com.amazonaws.services.directory.AWSDirectoryService
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBStreams
 import com.amazonaws.services.ec2.AmazonEC2
 import com.amazonaws.services.ecr.AmazonECR
 import com.amazonaws.services.ecs.AmazonECS
 import com.amazonaws.services.elasticache.AmazonElastiCache
+import com.amazonaws.services.elasticbeanstalk.AWSElasticBeanstalk
 import com.amazonaws.services.elasticfilesystem.AmazonElasticFileSystem
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancing
 import com.amazonaws.services.elasticmapreduce.AmazonElasticMapReduce
+import com.amazonaws.services.elasticsearch.AWSElasticsearch
 import com.amazonaws.services.elastictranscoder.AmazonElasticTranscoder
 import com.amazonaws.services.gamelift.AmazonGameLift
 import com.amazonaws.services.glacier.AmazonGlacier
+import com.amazonaws.services.health.AWSHealth
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement
 import com.amazonaws.services.importexport.AmazonImportExport
 import com.amazonaws.services.inspector.AmazonInspector
+import com.amazonaws.services.iot.AWSIot
+import com.amazonaws.services.iotdata.AWSIotData
 import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.kinesisanalytics.AmazonKinesisAnalytics
 import com.amazonaws.services.kinesisfirehose.AmazonKinesisFirehose
+import com.amazonaws.services.kms.AWSKMS
+import com.amazonaws.services.lambda.AWSLambda
 import com.amazonaws.services.lexruntime.AmazonLexRuntime
 import com.amazonaws.services.lightsail.AmazonLightsail
-import com.amazonaws.services.mturk.AmazonMTurk
+import com.amazonaws.services.logs.AWSLogs
 import com.amazonaws.services.machinelearning.AmazonMachineLearning
+import com.amazonaws.services.marketplacecommerceanalytics.AWSMarketplaceCommerceAnalytics
+import com.amazonaws.services.marketplacemetering.AWSMarketplaceMetering
+import com.amazonaws.services.mturk.AmazonMTurk
+import com.amazonaws.services.opsworks.AWSOpsWorks
+import com.amazonaws.services.opsworkscm.AWSOpsWorksCM
+import com.amazonaws.services.organizations.AWSOrganizations
 import com.amazonaws.services.pinpoint.AmazonPinpoint
 import com.amazonaws.services.polly.AmazonPolly
 import com.amazonaws.services.rds.AmazonRDS
@@ -85,15 +73,28 @@ import com.amazonaws.services.redshift.AmazonRedshift
 import com.amazonaws.services.rekognition.AmazonRekognition
 import com.amazonaws.services.route53.AmazonRoute53
 import com.amazonaws.services.route53domains.AmazonRoute53Domains
-import com.amazonaws.services.sns.AmazonSNS
-import com.amazonaws.services.sqs.AmazonSQS
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.securitytoken.AWSSecurityTokenService
+import com.amazonaws.services.servermigration.AWSServerMigration
+import com.amazonaws.services.servicecatalog.AWSServiceCatalog
+import com.amazonaws.services.shield.AWSShield
 import com.amazonaws.services.simpledb.AmazonSimpleDB
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService
+import com.amazonaws.services.simplesystemsmanagement.AWSSimpleSystemsManagement
 import com.amazonaws.services.simpleworkflow.AmazonSimpleWorkflow
 import com.amazonaws.services.snowball.AmazonSnowball
+import com.amazonaws.services.sns.AmazonSNS
+import com.amazonaws.services.sqs.AmazonSQS
+import com.amazonaws.services.stepfunctions.AWSStepFunctions
+import com.amazonaws.services.storagegateway.AWSStorageGateway
+import com.amazonaws.services.support.AWSSupport
+import com.amazonaws.services.waf.AWSWAF
+import com.amazonaws.services.waf.AWSWAFRegional
 import com.amazonaws.services.workdocs.AmazonWorkDocs
 import com.amazonaws.services.workspaces.AmazonWorkspaces
-import com.amazonaws.services.datapipeline.DataPipeline
+import com.amazonaws.services.xray.AWSXRay
+import uy.kohesive.iac.model.aws.clients.*
+import uy.kohesive.iac.model.aws.contexts.*
 
 // @DslScope
 open class IacContext(
@@ -101,7 +102,7 @@ open class IacContext(
     val planId: String,
     val namingStrategy: IacContextNamingStrategy = IacSimpleEnvPrefixNamingStrategy(),
     init: IacContext.() -> Unit = {}
-): BaseIacContext(), ApiGatewayEnabled, AppStreamEnabled, ApplicationAutoScalingEnabled, ApplicationDiscoveryEnabled, AutoScalingEnabled, BatchEnabled, BudgetsEnabled, CertificateManagerEnabled, CloudDirectoryEnabled, CloudFormationEnabled, CloudFrontEnabled, CloudHSMEnabled, CloudSearchEnabled, CloudSearchDomainEnabled, CloudTrailEnabled, CloudWatchEnabled, CloudWatchEventsEnabled, CodeBuildEnabled, CodeCommitEnabled, CodeDeployEnabled, CodePipelineEnabled, CognitoIdentityEnabled, CognitoIdentityProviderEnabled, CognitoSyncEnabled, ConfigEnabled, CostAndUsageReportEnabled, DataPipelineEnabled, DatabaseMigrationServiceEnabled, DeviceFarmEnabled, DirectConnectEnabled, DirectoryServiceEnabled, DynamoDBEnabled, DynamoDBStreamsEnabled, EC2Enabled, ECREnabled, ECSEnabled, ElastiCacheEnabled, ElasticBeanstalkEnabled, ElasticFileSystemEnabled, ElasticLoadBalancingEnabled, ElasticLoadBalancingV2Enabled, ElasticMapReduceEnabled, ElasticTranscoderEnabled, ElasticsearchEnabled, GameLiftEnabled, GlacierEnabled, HealthEnabled, IdentityManagementEnabled, ImportExportEnabled, InspectorEnabled, IotEnabled, IotDataEnabled, KMSEnabled, KinesisAnalyticsEnabled, KinesisEnabled, KinesisFirehoseEnabled, LambdaEnabled, LexRuntimeEnabled, LightsailEnabled, LogsEnabled, MTurkEnabled, MachineLearningEnabled, MarketplaceCommerceAnalyticsEnabled, MarketplaceMeteringEnabled, OpsWorksCMEnabled, OpsWorksEnabled, OrganizationsEnabled, PinpointEnabled, PollyEnabled, RDSEnabled, RedshiftEnabled, RekognitionEnabled, Route53Enabled, Route53DomainsEnabled, SNSEnabled, SQSEnabled, SecurityTokenServiceEnabled, ServerMigrationEnabled, ServiceCatalogEnabled, ShieldEnabled, SimpleDBEnabled, SimpleEmailServiceEnabled, SimpleSystemsManagementEnabled, SimpleWorkflowEnabled, SnowballEnabled, StepFunctionsEnabled, StorageGatewayEnabled, SupportEnabled, WAFEnabled, WAFRegionalEnabled, WorkDocsEnabled, WorkspacesEnabled, XRayEnabled {
+): BaseIacContext(), ApiGatewayEnabled, AppStreamEnabled, ApplicationAutoScalingEnabled, ApplicationDiscoveryEnabled, AutoScalingEnabled, BatchEnabled, BudgetsEnabled, CertificateManagerEnabled, CloudDirectoryEnabled, CloudFormationEnabled, CloudFrontEnabled, CloudHSMEnabled, CloudSearchEnabled, CloudSearchDomainEnabled, CloudTrailEnabled, CloudWatchEnabled, CloudWatchEventsEnabled, CodeBuildEnabled, CodeCommitEnabled, CodeDeployEnabled, CodePipelineEnabled, CognitoIdentityEnabled, CognitoIdentityProviderEnabled, CognitoSyncEnabled, ConfigEnabled, CostAndUsageReportEnabled, DataPipelineEnabled, DatabaseMigrationServiceEnabled, DeviceFarmEnabled, DirectConnectEnabled, DirectoryServiceEnabled, DynamoDBEnabled, DynamoDBStreamsEnabled, EC2Enabled, ECREnabled, ECSEnabled, ElastiCacheEnabled, ElasticBeanstalkEnabled, ElasticFileSystemEnabled, ElasticLoadBalancingEnabled, ElasticLoadBalancingV2Enabled, ElasticMapReduceEnabled, ElasticTranscoderEnabled, ElasticsearchEnabled, GameLiftEnabled, GlacierEnabled, HealthEnabled, IdentityManagementEnabled, ImportExportEnabled, InspectorEnabled, IotEnabled, IotDataEnabled, KMSEnabled, KinesisAnalyticsEnabled, KinesisEnabled, KinesisFirehoseEnabled, LambdaEnabled, LexRuntimeEnabled, LightsailEnabled, LogsEnabled, MTurkEnabled, MachineLearningEnabled, MarketplaceCommerceAnalyticsEnabled, MarketplaceMeteringEnabled, OpsWorksCMEnabled, OpsWorksEnabled, OrganizationsEnabled, PinpointEnabled, PollyEnabled, RDSEnabled, RedshiftEnabled, RekognitionEnabled, Route53Enabled, Route53DomainsEnabled, SNSEnabled, SQSEnabled, SecurityTokenServiceEnabled, ServerMigrationEnabled, ServiceCatalogEnabled, ShieldEnabled, SimpleDBEnabled, SimpleEmailServiceEnabled, SimpleSystemsManagementEnabled, SimpleWorkflowEnabled, SnowballEnabled, StepFunctionsEnabled, StorageGatewayEnabled, SupportEnabled, WAFEnabled, WAFRegionalEnabled, WorkDocsEnabled, WorkspacesEnabled, XRayEnabled, S3Enabled {
 
     // Clients
     override val applicationAutoScalingClient: AWSApplicationAutoScaling by lazy { DeferredAWSApplicationAutoScaling(this) }
@@ -197,6 +198,7 @@ open class IacContext(
     override val workDocsClient: AmazonWorkDocs by lazy { DeferredAmazonWorkDocs(this) }
     override val workspacesClient: AmazonWorkspaces by lazy { DeferredAmazonWorkspaces(this) }
     override val dataPipelineClient: DataPipeline by lazy { DeferredDataPipeline(this) }
+    override val s3Client: AmazonS3 by lazy { DeferredAmazonS3(this) }
 
     // Contexts
     override val apiGatewayContext: ApiGatewayContext by lazy { ApiGatewayContext(this) }
@@ -292,6 +294,7 @@ open class IacContext(
     override val workDocsContext: WorkDocsContext by lazy { WorkDocsContext(this) }
     override val workspacesContext: WorkspacesContext by lazy { WorkspacesContext(this) }
     override val xRayContext: XRayContext by lazy { XRayContext(this) }
+    override val s3Context: S3Context by lazy { S3Context(this) }
 
     init {
         init()

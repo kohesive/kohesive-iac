@@ -48,7 +48,7 @@ class KohesiveAwsCodeGen(
         val intermediateFiles = Reflections("models", ResourcesScanner()).getResources(IntermediateFilenameRegexp.toPattern())
 
         // Prepare intermediate data
-        val recentIntermediateFiles = intermediateFiles.filter { it.matches(IntermediateFilenameRegexp) }.map { filePath ->
+        val recentIntermediateFiles = intermediateFiles.filterNot { it.contains("s3-") }.filter { it.matches(IntermediateFilenameRegexp) }.map { filePath ->
             val filename = filePath.substring(filePath.lastIndexOf('/')).drop(1)
             IntermediateFile(
                 filePath    = filePath,
