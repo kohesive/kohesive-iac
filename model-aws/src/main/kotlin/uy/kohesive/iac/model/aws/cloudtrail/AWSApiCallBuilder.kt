@@ -4,6 +4,7 @@ import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import com.amazonaws.codegen.model.intermediate.ListModel
+import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 import freemarker.template.Template
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
@@ -14,6 +15,33 @@ class AWSApiCallBuilder(
     val awsModel: IntermediateModel,
     val event: CloudTrailEvent
 ) {
+
+    private fun createMap(requestMap: RequestMap, mapModel: MapModel): RequestMapNode {
+        // TODO: do we need to support complex keys?
+        val members = requestMap.mapValues {
+            if (mapModel.isValueSimple) {
+                RequestMapNode.simple(
+                    type  = mapModel.valueType,
+                    value = it.value
+                )
+            } else {
+                val memberShape = mapModel.valueModel.shape ?: awsModel.shapes[mapModel.valueModel.c2jShape]
+                    ?: throw RuntimeException("Can't locate shape for ${mapModel.valueModel.c2jShape}")
+
+                (it.value as? RequestMap)?.let { subRequestMap ->
+                    createRequestMapNode(subRequestMap, memberShape)
+                } ?: throw RuntimeException("Complex value of map is not of java.util.Map type")
+            }
+        }.map {
+            RequestMapNodeMember(
+                key   = it.key,
+                value = it.value,
+                memberModel = mapModel.valueModel
+            )
+        }
+
+        return RequestMapNode.map(mapModel, members)
+    }
 
     private fun createListModelFromMap(requestMap: RequestMap, listModel: ListModel): RequestMapNode =
         createListModelFromList(requestMap.keys.firstOrNull()?.let { itemsKey ->
@@ -55,13 +83,15 @@ class AWSApiCallBuilder(
         membersAsMap += membersAsMap.filter { it.value.isList && !it.key.endsWith("Set") }.mapKeys {
             it.key + "set"
         }
+        membersAsMap += membersAsMap.filter { it.value.isList && !it.key.endsWith("Set") && it.key.endsWith("s") }.mapKeys {
+            it.key.dropLast(1) + "set"
+        }
 
         val nodeMembers = requestMap.filterValues { it != null }.map {
             val fieldName  = it.key
             val fieldValue = it.value
 
-            val memberModel = membersAsMap[fieldName.toLowerCase()]
-                ?: throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+            val memberModel = membersAsMap[fieldName.toLowerCase()] ?: throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
 
             val fieldValueNode = if (memberModel.isSimple) {
                 RequestMapNode.simple(memberModel.c2jShape, fieldValue)
@@ -74,9 +104,17 @@ class AWSApiCallBuilder(
                     } else {
                         throw RuntimeException("List member $fieldName of ${shapeModel.c2jName} is of unsupported type ${fieldValue?.javaClass?.simpleName}")
                     }
+                } else if (memberModel.isMap) {
+                    (fieldValue as? RequestMap)?.let { subRequestMap ->
+                        createMap(subRequestMap, memberModel.mapModel)
+                    } ?: throw IllegalStateException(
+                        "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                    )
                 } else {
                     val memberShapeModel = memberModel.shape ?: awsModel.shapes[memberModel.c2jShape]
-                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
+                    if (memberShapeModel == null) {
+                        throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
+                    }
 
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
                         createRequestMapNode(subRequestMap, memberShapeModel)

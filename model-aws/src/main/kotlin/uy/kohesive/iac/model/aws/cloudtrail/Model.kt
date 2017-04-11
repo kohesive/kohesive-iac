@@ -1,6 +1,7 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
 import com.amazonaws.codegen.model.intermediate.ListModel
+import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 
@@ -15,39 +16,40 @@ data class CloudTrailEvent(
 )
 
 data class RequestMapNode(
-    val shape: ShapeModel?,
-    val members: List<RequestMapNodeMember>,
+    val shape: ShapeModel? = null,
+    val members: List<RequestMapNodeMember> = emptyList(),
 
-    val simpleType: String?,
-    val simpleValue: Any?,
+    val simpleType: String? = null,
+    val simpleValue: Any? = null,
 
-    val listModel: ListModel? = null
+    val listModel: ListModel? = null,
+
+    val mapModel: MapModel? = null
 ) {
     companion object {
         fun simple(type: String, value: Any?) = RequestMapNode(
-            shape       = null,
-            members     = emptyList(),
             simpleType  = type,
             simpleValue = value
         )
 
         fun complex(shape: ShapeModel, members: List<RequestMapNodeMember>) = RequestMapNode(
             shape       = shape,
-            members     = members,
-            simpleType  = null,
-            simpleValue = null
+            members     = members
         )
 
         fun list(listModel: ListModel, items: List<RequestMapNodeMember>) = RequestMapNode(
             listModel   = listModel,
-            shape       = null,
-            members     = items,
-            simpleType  = null,
-            simpleValue = null
+            members     = items
+        )
+
+        fun map(mapModel: MapModel, items: List<RequestMapNodeMember>) = RequestMapNode(
+            mapModel = mapModel,
+            members  = items
         )
     }
 
     fun isList()      = listModel != null
+    fun isMap()       = mapModel != null
     fun isSimple()    = simpleType != null
     fun isStructure() = shape != null
 
@@ -60,5 +62,7 @@ data class ApiCallData(
 
 data class RequestMapNodeMember(
     val memberModel: MemberModel,
-    val value: RequestMapNode?
+    val value: RequestMapNode?,
+
+    val key: String? = null // for maps
 )
