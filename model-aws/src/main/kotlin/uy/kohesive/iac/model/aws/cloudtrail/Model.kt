@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
+import com.amazonaws.codegen.model.intermediate.ListModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 
@@ -18,7 +19,9 @@ data class RequestMapNode(
     val members: List<RequestMapNodeMember>,
 
     val simpleType: String?,
-    val simpleValue: Any?
+    val simpleValue: Any?,
+
+    val listModel: ListModel? = null
 ) {
     companion object {
         fun simple(type: String, value: Any?) = RequestMapNode(
@@ -34,11 +37,28 @@ data class RequestMapNode(
             simpleType  = null,
             simpleValue = null
         )
+
+        fun list(listModel: ListModel, items: List<RequestMapNodeMember>) = RequestMapNode(
+            listModel   = listModel,
+            shape       = null,
+            members     = items,
+            simpleType  = null,
+            simpleValue = null
+        )
     }
+
+    fun isList()      = listModel != null
+    fun isSimple()    = simpleType != null
+    fun isStructure() = shape != null
+
 }
 
+data class ApiCallData(
+    val shape: ShapeModel,
+    val requestMap: RequestMap
+)
+
 data class RequestMapNodeMember(
-    val name: String,
     val memberModel: MemberModel,
     val value: RequestMapNode?
 )

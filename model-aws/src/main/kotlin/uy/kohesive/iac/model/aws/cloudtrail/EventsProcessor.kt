@@ -41,7 +41,12 @@ class EventsProcessor {
     fun process(eventsDir: File, processor: (CloudTrailEvent) -> Unit) {
         eventsDir.listFiles { _, name -> name.endsWith(".json") }.forEach { jsonFile ->
             JSON.readValue<Map<String, Any>>(jsonFile).let { jsonMap ->
-                processor(parseEvent(jsonMap, jsonFile.nameWithoutExtension))
+                val cloudTrailEvent = parseEvent(jsonMap, jsonFile.nameWithoutExtension)
+                try {
+                    processor(cloudTrailEvent)
+                } catch (t: Throwable) {
+                    throw RuntimeException("Error while processing event $cloudTrailEvent", t)
+                }
             }
         }
     }

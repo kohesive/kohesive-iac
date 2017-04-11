@@ -3,20 +3,52 @@ package uy.kohesive.iac.model.aws.cloudtrail
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
+import com.amazonaws.codegen.model.intermediate.ListModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 import freemarker.template.Template
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.StringWriter
 import java.io.Writer
 
-
-
 class AWSApiCallBuilder(
     val awsModel: IntermediateModel,
     val event: CloudTrailEvent
 ) {
 
-    private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel, awsModel: IntermediateModel): RequestMapNode {
+    private fun createListModelFromMap(requestMap: RequestMap, listModel: ListModel): RequestMapNode =
+        createListModelFromList(requestMap.keys.firstOrNull()?.let { itemsKey ->
+            requestMap[itemsKey] as? List<Any?>
+        }.orEmpty(), listModel)
+
+    private fun createListModelFromList(list: List<Any?>, listModel: ListModel): RequestMapNode =
+        if (listModel.isSimple) {
+            val simpleValues = list.filterNotNull().flatMap { listItem ->
+                (listItem as? Map<*, *>)?.values?.filterNotNull() ?: listOf(listItem)
+            }
+
+            RequestMapNode.list(listModel, simpleValues.map { simpleValue ->
+                RequestMapNodeMember(listModel.listMemberModel, RequestMapNode.simple(
+                    type  = listModel.memberType,
+                    value = simpleValue
+                ))
+            })
+        } else {
+            val memberShape = listModel.listMemberModel.shape ?: awsModel.shapes[listModel.listMemberModel.c2jShape]
+                ?: throw RuntimeException("Can't locate shape for ${listModel.listMemberModel.c2jName}")
+
+            RequestMapNode.list(listModel, list.map { listEntry ->
+                (listEntry as? Map<String, Any?>)?.let { itemAsMap ->
+                    createRequestMapNode(itemAsMap, memberShape)
+                }
+            }.filterNotNull().map { requestMapNode ->
+                RequestMapNodeMember(
+                    memberModel = listModel.listMemberModel,
+                    value       = requestMapNode
+                )
+            })
+        }
+
+    private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel): RequestMapNode {
         var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
             (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
         }.orEmpty()
@@ -24,7 +56,7 @@ class AWSApiCallBuilder(
             it.key + "set"
         }
 
-        val nodeMembers = requestMap.map {
+        val nodeMembers = requestMap.filterValues { it != null }.map {
             val fieldName  = it.key
             val fieldValue = it.value
 
@@ -32,22 +64,29 @@ class AWSApiCallBuilder(
                 ?: throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
 
             val fieldValueNode = if (memberModel.isSimple) {
-                RequestMapNode.simple(memberModel.shape.type, fieldValue)
+                RequestMapNode.simple(memberModel.c2jShape, fieldValue)
             } else {
-                (fieldValue as? RequestMap)?.let { subRequestMap ->
-                    val memberShapeModel = memberModel.shape
-                    if (memberShapeModel == null) {
-                        throw RuntimeException()
+                if (memberModel.isList) {
+                    if (fieldValue is Map<*, *>) {
+                        createListModelFromMap(fieldValue as Map<String, Any>, memberModel.listModel)
+                    } else if (fieldValue is List<*>) {
+                        createListModelFromList(fieldValue as List<Any>, memberModel.listModel)
+                    } else {
+                        throw RuntimeException("List member $fieldName of ${shapeModel.c2jName} is of unsupported type ${fieldValue?.javaClass?.simpleName}")
                     }
+                } else {
+                    val memberShapeModel = memberModel.shape ?: awsModel.shapes[memberModel.c2jShape]
+                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
 
-                    createRequestMapNode(subRequestMap, memberShapeModel, awsModel)
-                } ?: throw IllegalStateException(
-                    "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
-                )
+                    (fieldValue as? RequestMap)?.let { subRequestMap ->
+                        createRequestMapNode(subRequestMap, memberShapeModel)
+                    } ?: throw IllegalStateException(
+                        "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                    )
+                }
             }
 
             RequestMapNodeMember(
-                name        = memberModel.name,
                 memberModel = memberModel,
                 value       = fieldValueNode
             )
@@ -64,7 +103,7 @@ class AWSApiCallBuilder(
             requestMap = event.request.orEmpty()
         )
 
-        val requestNode = createRequestMapNode(apiCallData.requestMap, apiCallData.shape, awsModel)
+        val requestNode = createRequestMapNode(apiCallData.requestMap, apiCallData.shape)
 
         val stringWriter = StringWriter()
 //        val emitter      = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
@@ -77,11 +116,6 @@ class AWSApiCallBuilder(
     }
 
 }
-
-data class ApiCallData(
-    val shape: ShapeModel,
-    val requestMap: RequestMap
-)
 
 class GenerateApiCallsTask private constructor(writer: Writer, template: Template, data: Any)
     : FreemarkerGeneratorTask(writer, template, data) {
