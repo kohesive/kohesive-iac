@@ -9,31 +9,51 @@ import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.StringWriter
 import java.io.Writer
 
-//data class RequestMapNode(
-//    val
-//)
 
-val DEBUG = HashSet<String>()
 
 class AWSApiCallBuilder(
     val awsModel: IntermediateModel,
     val event: CloudTrailEvent
 ) {
 
-    private fun doStuff(map: RequestMap, shapeModel: ShapeModel, awsModel: IntermediateModel) {
+    private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel, awsModel: IntermediateModel): RequestMapNode {
         var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
             (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
         }.orEmpty()
-
         membersAsMap += membersAsMap.filter { it.value.isList && !it.key.endsWith("Set") }.mapKeys {
             it.key + "set"
         }
 
-        map.forEach { fieldName, fieldValue ->
-            if (!membersAsMap.contains(fieldName.toLowerCase())) {
-                DEBUG.add("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+        val nodeMembers = requestMap.map {
+            val fieldName  = it.key
+            val fieldValue = it.value
+
+            val memberModel = membersAsMap[fieldName.toLowerCase()]
+                ?: throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+
+            val fieldValueNode = if (memberModel.isSimple) {
+                RequestMapNode.simple(memberModel.shape.type, fieldValue)
+            } else {
+                (fieldValue as? RequestMap)?.let { subRequestMap ->
+                    val memberShapeModel = memberModel.shape
+                    if (memberShapeModel == null) {
+                        throw RuntimeException()
+                    }
+
+                    createRequestMapNode(subRequestMap, memberShapeModel, awsModel)
+                } ?: throw IllegalStateException(
+                    "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                )
             }
+
+            RequestMapNodeMember(
+                name        = memberModel.name,
+                memberModel = memberModel,
+                value       = fieldValueNode
+            )
         }
+
+        return RequestMapNode.complex(shapeModel, nodeMembers)
     }
 
     fun build(): String {
@@ -44,10 +64,7 @@ class AWSApiCallBuilder(
             requestMap = event.request.orEmpty()
         )
 
-        val op = awsModel.getOperation(event.eventName)
-
-        // TODO?
-        doStuff(apiCallData.requestMap, apiCallData.shape, awsModel)
+        val requestNode = createRequestMapNode(apiCallData.requestMap, apiCallData.shape, awsModel)
 
         val stringWriter = StringWriter()
 //        val emitter      = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)

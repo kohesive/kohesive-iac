@@ -28,9 +28,6 @@ fun main(args: Array<String>) {
             AWSApiCallBuilder(awsModel, event).build()
         }
     }
-
-    // TODO: delete this
-    DEBUG.forEach(::println)
 }
 
 class EventsProcessor {
