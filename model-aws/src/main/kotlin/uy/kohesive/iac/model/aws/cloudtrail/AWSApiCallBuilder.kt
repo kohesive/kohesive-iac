@@ -21,10 +21,16 @@ class AWSApiCallBuilder(
 ) {
 
     private fun doStuff(map: Map<String, Any>, shapeModel: ShapeModel, awsModel: IntermediateModel) {
-        val some = shapeModel.membersAsMap.keys.map(String::toLowerCase).toSet() + shapeModel.members?.map { it.http?.unmarshallLocationName?.orEmpty() }?.filterNotNull()?.map(String::toLowerCase)?.orEmpty()?.toSet().orEmpty()
+        var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
+            (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
+        }.orEmpty()
+
+        membersAsMap += membersAsMap.filter { it.value.isList && !it.key.endsWith("Set") }.mapKeys {
+            it.key + "set"
+        }
 
         map.forEach { fieldName, fieldValue ->
-            if (!some.contains(fieldName.toLowerCase())) {
+            if (!membersAsMap.contains(fieldName.toLowerCase())) {
                 DEBUG.add("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
             }
         }

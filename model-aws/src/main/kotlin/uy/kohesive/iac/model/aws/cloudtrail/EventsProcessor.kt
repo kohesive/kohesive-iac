@@ -6,6 +6,7 @@ import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import uy.kohesive.iac.model.aws.cloudtrail.preprocessing.RequestPreprocessors
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 
@@ -18,19 +19,18 @@ fun main(args: Array<String>) {
         if (listOf("Create", "Put", "Attach", "Run").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()
 
-            if (serviceName != "s3") {
-                val awsModel = try {
-                    awsModelProvider.getModel(serviceName, event.apiVersion)
-                } catch (t: Throwable) {
-                    throw RuntimeException("Can't obtain an AWS model for $event", t)
-                }
-
-                AWSApiCallBuilder(awsModel, event).build()
+            val awsModel = try {
+                awsModelProvider.getModel(serviceName, event.apiVersion)
+            } catch (t: Throwable) {
+                throw RuntimeException("Can't obtain an AWS model for $event", t)
             }
+
+            AWSApiCallBuilder(awsModel, event).build()
         }
     }
 
-    DEBUG.forEach { println(it) }
+    // TODO: delete this
+    DEBUG.forEach(::println)
 }
 
 class EventsProcessor {
@@ -55,14 +55,12 @@ class EventsProcessor {
             eventSource = jsonMap["eventSource"] as String,
             eventName   = jsonMap["eventName"] as String,
             apiVersion  = jsonMap["apiVersion"] as? String,
-            request     = jsonMap["requestParameters"] as? Map<String, Any>
+            request     = RequestPreprocessors.preprocess(
+                eventName  = jsonMap["eventName"] as String,
+                requestMap = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
+            )
         )
 
-}
-
-fun main2(args: Array<String>) {
-    val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
-    storeEvents(eventsDir)
 }
 
 fun storeEvents(outputDir: File) {

@@ -37,7 +37,10 @@ class AWSModelProvider {
             val filePath = if (apiVersion == null) {
                 versionToFilepath.values.first()
             } else {
-                versionToFilepath[apiVersion.replace("_", "")] ?: throw IllegalArgumentException("Unknown $service version: $apiVersion")
+                versionToFilepath[apiVersion.replace("_", "")] ?: {
+                    println("Unknown $service version: $apiVersion") // TODO: LOG.warn
+                    versionToFilepath.values.first()
+                }()
             }
 
             modelCache.getOrPut(filePath) {

@@ -3,6 +3,7 @@ package uy.kohesive.iac.model.aws.codegen.s3
 import com.amazonaws.codegen.model.service.ServiceMetadata
 import com.amazonaws.http.HttpMethodName
 import com.amazonaws.services.s3.AmazonS3
+import uy.kohesive.iac.model.aws.codegen.model.ModelFromAPIGenerator
 
 fun main(args: Array<String>) {
     S3ModelGenerator(

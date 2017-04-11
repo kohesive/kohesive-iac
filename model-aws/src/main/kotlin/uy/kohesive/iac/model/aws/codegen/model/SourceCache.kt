@@ -1,4 +1,4 @@
-package uy.kohesive.iac.model.aws.codegen.s3
+package uy.kohesive.iac.model.aws.codegen.model
 
 import com.github.javaparser.JavaParser
 import com.github.javaparser.ast.CompilationUnit

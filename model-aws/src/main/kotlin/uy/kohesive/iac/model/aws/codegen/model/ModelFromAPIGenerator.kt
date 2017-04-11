@@ -1,4 +1,4 @@
-package uy.kohesive.iac.model.aws.codegen.s3
+package uy.kohesive.iac.model.aws.codegen.model
 
 import com.amazonaws.codegen.C2jModels
 import com.amazonaws.codegen.CodeGenerator
@@ -17,12 +17,12 @@ import uy.kohesive.iac.model.aws.utils.simpleName
 import java.util.*
 
 class ModelFromAPIGenerator(
-    val serviceInterface: Class<*>,
-    val serviceMetadata: ServiceMetadata,
-    val outputDir: String,
-    val verbToHttpMethod: Map<String, HttpMethodName>,
-    val fileNamePrefix: String,
-    serviceSourcesDir: String
+        val serviceInterface: Class<*>,
+        val serviceMetadata: ServiceMetadata,
+        val outputDir: String,
+        val verbToHttpMethod: Map<String, HttpMethodName>,
+        val fileNamePrefix: String,
+        serviceSourcesDir: String
 ) {
 
     private val interfaceSimpleName: String = serviceInterface.simpleName
