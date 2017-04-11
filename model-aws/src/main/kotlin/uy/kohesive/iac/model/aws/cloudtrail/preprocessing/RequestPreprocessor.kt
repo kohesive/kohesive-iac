@@ -13,14 +13,15 @@ interface RequestPreprocessor {
 object RequestPreprocessors {
 
     private val preprocessors: List<RequestPreprocessor> = listOf(
-        RunInstancesPreprocessor()
+        RunInstancesPreprocessor(),
+        CreateNetworkInterfacePreprocessor()
     )
 
     private val eventNameToPreProcessors = preprocessors.flatMap { preprocessor ->
         preprocessor.eventNames.map { eventName ->
-            eventName to preprocessors
+            eventName to preprocessor
         }
-    }.groupBy { it.first }.mapValues { it.value.flatMap { it.second } }
+    }.groupBy { it.first }.mapValues { it.value.map { it.second } }
 
     fun preprocess(eventName: String, requestMap: RequestMap): RequestMap =
         eventNameToPreProcessors[eventName]?.let { preprocessors ->

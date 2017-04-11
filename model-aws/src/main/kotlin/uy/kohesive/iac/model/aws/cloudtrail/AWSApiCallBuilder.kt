@@ -20,7 +20,7 @@ class AWSApiCallBuilder(
     val event: CloudTrailEvent
 ) {
 
-    private fun doStuff(map: Map<String, Any>, shapeModel: ShapeModel, awsModel: IntermediateModel) {
+    private fun doStuff(map: RequestMap, shapeModel: ShapeModel, awsModel: IntermediateModel) {
         var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
             (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
         }.orEmpty()
@@ -63,7 +63,7 @@ class AWSApiCallBuilder(
 
 data class ApiCallData(
     val shape: ShapeModel,
-    val requestMap: Map<String, Any>
+    val requestMap: RequestMap
 )
 
 class GenerateApiCallsTask private constructor(writer: Writer, template: Template, data: Any)
