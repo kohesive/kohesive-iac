@@ -10,6 +10,11 @@ import uy.kohesive.iac.model.aws.cloudtrail.preprocessing.RequestPreprocessors
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 
+fun main2(args: Array<String>) {
+    val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
+    storeEvents(eventsDir)
+}
+
 fun main(args: Array<String>) {
     val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
 
@@ -25,7 +30,8 @@ fun main(args: Array<String>) {
                 throw RuntimeException("Can't obtain an AWS model for $event", t)
             }
 
-            AWSApiCallBuilder(awsModel, event).build()
+            // TODO: delete println
+            println(AWSApiCallBuilder(awsModel, event).build())
         }
     }
 }

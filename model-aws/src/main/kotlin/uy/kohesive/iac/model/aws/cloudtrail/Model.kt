@@ -50,14 +50,33 @@ data class RequestMapNode(
 
     fun isList()      = listModel != null
     fun isMap()       = mapModel != null
-    fun isSimple()    = simpleType != null
+    fun isSimple()    = simpleValue != null
     fun isStructure() = shape != null
+
+    fun getSimpleValueLiteral(): Any {
+        if (!isSimple()) throw IllegalStateException("Not a simple value")
+
+        val extractedSimpleValue = if (simpleValue is Map<*, *>) {
+            simpleValue[simpleValue.keys.first()]
+        } else {
+            simpleValue
+        }
+
+        if (extractedSimpleValue is String) {
+            return '"' + extractedSimpleValue.toString() + '"'
+        } else if (extractedSimpleValue is Number) {
+            return extractedSimpleValue.toString()
+        } else if (extractedSimpleValue is Boolean) {
+            return extractedSimpleValue.toString()
+        } else {
+            throw IllegalStateException("Unsupported simple value: ${simpleValue?.javaClass?.simpleName}")
+        }
+    }
 
 }
 
 data class ApiCallData(
-    val shape: ShapeModel,
-    val requestMap: RequestMap
+    val requestNodes: List<RequestMapNode>
 )
 
 data class RequestMapNodeMember(

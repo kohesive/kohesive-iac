@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
+import com.amazonaws.codegen.emitters.CodeEmitter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
@@ -136,19 +137,18 @@ class AWSApiCallBuilder(
     fun build(): String {
         val generatorTaskExecutor = GeneratorTaskExecutor()
 
-        val apiCallData = ApiCallData(
-            shape      = awsModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event"),
-            requestMap = event.request.orEmpty()
+        val requestShape = awsModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event")
+        val requestNode  = createRequestMapNode(event.request.orEmpty(), requestShape)
+        val apiCallData  = ApiCallData(
+            requestNodes = listOf(requestNode)
         )
 
-        val requestNode = createRequestMapNode(apiCallData.requestMap, apiCallData.shape)
-
         val stringWriter = StringWriter()
-//        val emitter      = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
-//        emitter.emit()
-//
-//        generatorTaskExecutor.waitForCompletion()
-//        generatorTaskExecutor.shutdown()
+        val codeEmitter  = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
+        codeEmitter.emit()
+
+        generatorTaskExecutor.waitForCompletion()
+        generatorTaskExecutor.shutdown()
 
         return stringWriter.buffer.toString()
     }
