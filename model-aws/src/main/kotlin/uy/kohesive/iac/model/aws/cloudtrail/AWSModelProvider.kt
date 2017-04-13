@@ -38,7 +38,6 @@ class AWSModelProvider {
                 versionToFilepath.values.first()
             } else {
                 versionToFilepath[apiVersion.replace("_", "")] ?: {
-                    println("Unknown $service version: $apiVersion") // TODO: LOG.warn
                     versionToFilepath.values.first()
                 }()
             }

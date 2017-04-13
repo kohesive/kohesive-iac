@@ -24,10 +24,8 @@ object RequestPreprocessors {
     }.groupBy { it.first }.mapValues { it.value.map { it.second } }
 
     fun preprocess(eventName: String, requestMap: RequestMap): RequestMap =
-        eventNameToPreProcessors[eventName]?.let { preprocessors ->
-            preprocessors.fold(requestMap) { currentRequest, preprocessor ->
-                preprocessor.process(currentRequest)
-            }
+        eventNameToPreProcessors[eventName]?.fold(requestMap) { currentRequest, preprocessor ->
+            preprocessor.process(currentRequest)
         } ?: requestMap
 
 }

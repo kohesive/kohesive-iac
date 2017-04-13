@@ -4,6 +4,7 @@ import com.amazonaws.codegen.model.intermediate.ListModel
 import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
+import org.apache.commons.lang3.StringEscapeUtils
 
 typealias RequestMap = Map<String, Any?>
 
@@ -19,6 +20,8 @@ data class RequestMapNode(
     val shape: ShapeModel? = null,
     val members: List<RequestMapNodeMember> = emptyList(),
 
+    val constructorArgs: List<RequestMapNodeMember> = emptyList(),
+
     val simpleType: String? = null,
     val simpleValue: Any? = null,
 
@@ -33,13 +36,13 @@ data class RequestMapNode(
         )
 
         fun complex(shape: ShapeModel, members: List<RequestMapNodeMember>) = RequestMapNode(
-            shape       = shape,
-            members     = members
+            shape   = shape,
+            members = members
         )
 
         fun list(listModel: ListModel, items: List<RequestMapNodeMember>) = RequestMapNode(
-            listModel   = listModel,
-            members     = items
+            listModel = listModel,
+            members   = items
         )
 
         fun map(mapModel: MapModel, items: List<RequestMapNodeMember>) = RequestMapNode(
@@ -47,6 +50,8 @@ data class RequestMapNode(
             members  = items
         )
     }
+
+    fun isEmpty(): Boolean = ((isStructure() || isList() || isMap()) && members.isEmpty()) || (isSimple() && simpleValue == null)
 
     fun isList()      = listModel != null
     fun isMap()       = mapModel != null
@@ -63,7 +68,7 @@ data class RequestMapNode(
         }
 
         if (extractedSimpleValue is String) {
-            return '"' + extractedSimpleValue.toString() + '"'
+            return "\"${StringEscapeUtils.escapeJava(extractedSimpleValue.toString())}\""
         } else if (extractedSimpleValue is Number) {
             return extractedSimpleValue.toString()
         } else if (extractedSimpleValue is Boolean) {
@@ -74,10 +79,6 @@ data class RequestMapNode(
     }
 
 }
-
-data class ApiCallData(
-    val requestNodes: List<RequestMapNode>
-)
 
 data class RequestMapNodeMember(
     val memberModel: MemberModel,

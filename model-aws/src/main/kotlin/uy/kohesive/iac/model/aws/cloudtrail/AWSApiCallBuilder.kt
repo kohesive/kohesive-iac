@@ -8,9 +8,14 @@ import com.amazonaws.codegen.model.intermediate.ListModel
 import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 import freemarker.template.Template
+import uy.kohesive.iac.model.aws.cloudtrail.postprocessing.RequestPostProcessors
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.StringWriter
 import java.io.Writer
+
+data class ApiCallData(
+    val requestNodes: List<RequestMapNode>
+)
 
 class AWSApiCallBuilder(
     val awsModel: IntermediateModel,
@@ -113,9 +118,7 @@ class AWSApiCallBuilder(
                     )
                 } else {
                     val memberShapeModel = memberModel.shape ?: awsModel.shapes[memberModel.c2jShape]
-                    if (memberShapeModel == null) {
-                        throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
-                    }
+                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
 
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
                         createRequestMapNode(subRequestMap, memberShapeModel)
@@ -129,7 +132,7 @@ class AWSApiCallBuilder(
                 memberModel = memberModel,
                 value       = fieldValueNode
             )
-        }
+        }.filterNot { it.value?.isEmpty() ?: true }
 
         return RequestMapNode.complex(shapeModel, nodeMembers)
     }
@@ -138,7 +141,7 @@ class AWSApiCallBuilder(
         val generatorTaskExecutor = GeneratorTaskExecutor()
 
         val requestShape = awsModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event")
-        val requestNode  = createRequestMapNode(event.request.orEmpty(), requestShape)
+        val requestNode  = RequestPostProcessors.postProcess(createRequestMapNode(event.request.orEmpty(), requestShape))
         val apiCallData  = ApiCallData(
             requestNodes = listOf(requestNode)
         )
