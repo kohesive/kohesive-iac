@@ -51,21 +51,25 @@ data class RequestMapNode(
         )
     }
 
-    fun isEmpty(): Boolean = ((isStructure() || isList() || isMap()) && members.isEmpty()) || (isSimple() && simpleValue == null)
+    val simpleValueLiteral: Any? by lazy { getSimpleValueLiteral_() }
+
+    fun isEmpty(): Boolean = ((isStructure() || isList() || isMap()) && members.isEmpty()) || (isSimple() && simpleValueLiteral == null)
 
     fun isList()      = listModel != null
     fun isMap()       = mapModel != null
     fun isSimple()    = simpleValue != null
     fun isStructure() = shape != null
 
-    fun getSimpleValueLiteral(): Any {
+    private fun getSimpleValueLiteral_(): Any? {
         if (!isSimple()) throw IllegalStateException("Not a simple value")
 
-        val extractedSimpleValue = if (simpleValue is Map<*, *>) {
-            simpleValue[simpleValue.keys.first()]
+        val extractedSimpleValue = (if (simpleValue is Map<*, *>) {
+            simpleValue.keys.firstOrNull()?.let { firstKey ->
+                simpleValue[firstKey]
+            }
         } else {
             simpleValue
-        }
+        }) ?: return null
 
         if (extractedSimpleValue is String) {
             return "\"${StringEscapeUtils.escapeJava(extractedSimpleValue.toString())}\""
