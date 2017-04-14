@@ -17,11 +17,23 @@ class RunInstancesPreprocessor : RequestPreprocessor {
         val groupIds   = groupItems?.map { it["groupId"] }
         val groupNames = groupItems?.map { it["groupName"] }
 
-        // Remove 'availabilityZone' parameter
-        return (requestMap - "instancesSet" - "availabilityZone" - "groupSet") + instanceProps + mapOf(
+        // Fix 'tenancy', put it in placement
+        val oldPlacement = (requestMap["placement"] as? Map<String, Any?>).orEmpty()
+        val newPlacement = (requestMap["tenancy"] as? String)?.let { tenancy ->
+            oldPlacement + mapOf(
+                "tenancy" to tenancy
+            )
+        } ?: oldPlacement
+        val placementPairMap = if (newPlacement.isNotEmpty()) {
+            mapOf("placement" to newPlacement)
+        } else {
+            emptyMap()
+        }
+
+        return (requestMap - "instancesSet" - "availabilityZone" - "groupSet" - "tenancy") + instanceProps + mapOf(
             "securityGroups"   to groupNames,
             "securityGroupIds" to groupIds
-        )
+        ) + placementPairMap
     }
 
 }
