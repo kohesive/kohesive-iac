@@ -178,7 +178,9 @@ class ModelFromAPIGenerator(
                 method to method.parameters.firstOrNull { parameter ->
                     parameter.type.simpleName.endsWith("Request")
                 }?.type
-            }.firstOrNull()
+            }.firstOrNull {
+                it.second != null
+            }
         }.values.filterNotNull().toMap().filterValues { it != null }.mapValues { it.value!! }.filter {
             "${it.key.name.firstLetterToUpperCase()}Request" == it.value.simpleName
         }
@@ -240,10 +242,6 @@ class ModelFromAPIGenerator(
         ).build()
 
         CodeGenerator(c2jModels, outputDir, outputDir, fileNamePrefix).execute()
-
-        // This is completely nuts but we have to do this as we don't control the task executor's
-        // lifecycle which is used by AWS's CodeGenerator
-        Thread.sleep(15000)
     }
 
 }
