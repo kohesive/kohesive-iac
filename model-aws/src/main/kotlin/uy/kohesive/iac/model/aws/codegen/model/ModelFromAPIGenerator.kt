@@ -226,7 +226,7 @@ class ModelFromAPIGenerator(
     }
 
     fun generate() {
-        val operations = createOperations()
+        val operations = createOperations().sortedBy { it.name }
 
         val c2jModels = C2jModels.builder()
             .codeGenConfig(codeGenConfig)
@@ -234,12 +234,16 @@ class ModelFromAPIGenerator(
             .serviceModel(ServiceModel(
                 serviceMetadata,
                 operations.associateBy { it.name },
-                classFqNameToShape.values.toMap(),
+                classFqNameToShape.values.toMap().toSortedMap(),
                 HashMap<String, Authorizer>() // TODO: add authorizers
             )
         ).build()
 
         CodeGenerator(c2jModels, outputDir, outputDir, fileNamePrefix).execute()
+
+        // This is completely nuts but we have to do this as we don't control the task executor's
+        // lifecycle which is used by AWS's CodeGenerator
+        Thread.sleep(15000)
     }
 
 }
