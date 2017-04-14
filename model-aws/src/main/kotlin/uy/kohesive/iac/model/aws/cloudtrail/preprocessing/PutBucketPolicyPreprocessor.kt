@@ -27,7 +27,6 @@ class PutBucketPolicyPreprocessor : CloudTrailEventPreprocessor {
         return event.copy(
             eventName = "SetBucketPolicy",
             request   = event.request?.let { requestMap ->
-                // Bucket policy is spelled 'buc'
                 val bucketPolicyAsJSON = ((requestMap["buckeyPolicy"] ?: requestMap["bucketPolicy"]) as? Map<String, Any?>)?.let { policyMap ->
                     JSON.writeValueAsString(policyMap)
                 }

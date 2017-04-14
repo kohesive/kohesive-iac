@@ -46,6 +46,8 @@ class EventsProcessor(
         val JSON = jacksonObjectMapper()
             .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
+
+        val VersionedEventNameRegexp = "(.*)(\\d{4}(-|_)\\d{2}(-|_)\\d{2})".toRegex()
     }
 
     fun <T> process(processor: (CloudTrailEvent) -> T): Sequence<T> = eventsDir.walkTopDown().filter { file ->
@@ -82,14 +84,26 @@ class EventsProcessor(
             }.orEmpty().asSequence()
         }
 
-    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent =
-        CloudTrailEventPreprocessors.preprocess(CloudTrailEvent(
+    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent {
+        val eventName  = jsonMap["eventName"] as String
+        val apiVersion = jsonMap["apiVersion"] as? String
+
+        val (fixedEventName, fixedApiVersion) = if (VersionedEventNameRegexp.matches(eventName)) {
+            VersionedEventNameRegexp.find(eventName)!!.groupValues.let {
+                it[1] to it[2]
+            }
+        } else {
+            eventName to apiVersion
+        }
+
+        return CloudTrailEventPreprocessors.preprocess(CloudTrailEvent(
             eventId     = eventId,
             eventSource = jsonMap["eventSource"] as String,
-            eventName   = jsonMap["eventName"] as String,
-            apiVersion  = jsonMap["apiVersion"] as? String,
+            eventName   = fixedEventName,
+            apiVersion  = fixedApiVersion,
             request     = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
         ))
+    }
 
 }
 
