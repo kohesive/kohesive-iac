@@ -14,7 +14,8 @@ object RequestPreprocessors {
 
     private val preprocessors: List<RequestPreprocessor> = listOf(
         RunInstancesPreprocessor(),
-        CreateNetworkInterfacePreprocessor()
+        CreateNetworkInterfacePreprocessor(),
+        CreateBucketPreprocessor()
     )
 
     private val eventNameToPreProcessors = preprocessors.flatMap { preprocessor ->
