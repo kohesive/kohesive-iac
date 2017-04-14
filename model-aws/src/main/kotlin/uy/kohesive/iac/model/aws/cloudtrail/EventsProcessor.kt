@@ -9,18 +9,17 @@ import com.fasterxml.jackson.module.kotlin.readValue
 import uy.kohesive.iac.model.aws.cloudtrail.preprocessing.RequestPreprocessors
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
-
-fun main2(args: Array<String>) {
-    val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
-    storeEvents(eventsDir)
-}
+import java.io.FileInputStream
+import java.util.zip.GZIPInputStream
 
 fun main(args: Array<String>) {
-    val eventsDir = File("/Users/eliseyev/TMP/cloudtrail/")
-
     val awsModelProvider = AWSModelProvider()
 
-    EventsProcessor().process(eventsDir) { event ->
+    EventsProcessor(
+        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/"),
+        oneEventPerFile = false,
+        gzipped         = true
+    ).process { event ->
         if (listOf("Create", "Put", "Attach", "Run").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()
 
@@ -30,13 +29,18 @@ fun main(args: Array<String>) {
                 throw RuntimeException("Can't obtain an AWS model for $event", t)
             }
 
-            // TODO: delete println
-            println(AWSApiCallBuilder(awsModel, event).build())
+            AWSApiCallBuilder(awsModel, event).build()
+        } else {
+            null
         }
-    }
+    }.filterNotNull().forEach(::println)
 }
 
-class EventsProcessor {
+class EventsProcessor(
+    val eventsDir: File,
+    val oneEventPerFile: Boolean,
+    val gzipped: Boolean
+) {
 
     companion object {
         val JSON = jacksonObjectMapper()
@@ -44,18 +48,39 @@ class EventsProcessor {
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
     }
 
-    fun process(eventsDir: File, processor: (CloudTrailEvent) -> Unit) {
-        eventsDir.listFiles { _, name -> name.endsWith(".json") }.forEach { jsonFile ->
-            JSON.readValue<Map<String, Any>>(jsonFile).let { jsonMap ->
-                val cloudTrailEvent = parseEvent(jsonMap, jsonFile.nameWithoutExtension)
-                try {
-                    processor(cloudTrailEvent)
-                } catch (t: Throwable) {
-                    throw RuntimeException("Error while processing event $cloudTrailEvent", t)
+    fun <T> process(processor: (CloudTrailEvent) -> T): Sequence<T> = eventsDir.walkTopDown().filter { file ->
+        if (gzipped) {
+            file.name.endsWith(".json.gz")
+        } else {
+            file.name.endsWith(".json")
+        }
+    }.flatMap { file ->
+        FileInputStream(file).let { fis ->
+            when {
+                gzipped -> GZIPInputStream(fis)
+                else    -> fis
+            }
+        }.use { inputStream ->
+            JSON.readValue<Map<String, Any>>(inputStream).let { jsonMap ->
+                parseEvents(jsonMap, file.nameWithoutExtension).map { cloudTrailEvent ->
+                    try {
+                        processor(cloudTrailEvent)
+                    } catch (t: Throwable) {
+                        throw RuntimeException("Error while processing event $cloudTrailEvent\nat ${file.path}", t)
+                    }
                 }
             }
         }
     }
+
+    private fun parseEvents(jsonMap: Map<String, Any>, eventId: String): Sequence<CloudTrailEvent> =
+        if (oneEventPerFile) {
+            sequenceOf(parseEvent(jsonMap, eventId))
+        } else {
+            (jsonMap["Records"] as? List<Map<String, Any>>)?.mapIndexed { index, record ->
+                parseEvent(record, eventId = "${eventId}_$index")
+            }.orEmpty().asSequence()
+        }
 
     private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent =
         CloudTrailEvent(
@@ -71,7 +96,7 @@ class EventsProcessor {
 
 }
 
-fun storeEvents(outputDir: File) {
+fun fetchEvents(outputDir: File) {
     val cloudTrailClient = AWSCloudTrailClientBuilder.defaultClient()
     val firstLookup      = cloudTrailClient.lookupEvents()
 
