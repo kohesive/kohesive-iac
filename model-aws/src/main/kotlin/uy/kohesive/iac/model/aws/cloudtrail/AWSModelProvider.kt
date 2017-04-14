@@ -5,6 +5,7 @@ import com.amazonaws.codegen.utils.ModelLoaderUtils
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
 import uy.kohesive.iac.model.aws.codegen.loadModel
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class AWSModelProvider {
@@ -17,7 +18,7 @@ class AWSModelProvider {
         = Reflections("models", ResourcesScanner()).getResources(IntermediateFilenameRegexp.toPattern())
 
     // Service name -> version -> file
-    private val serviceShortNameToVersions: Map<String, Map<String, String>> by lazy {
+    private val serviceShortNameToVersions: Map<String, SortedMap<String, String>> by lazy {
         intermediateFiles.map { filePath ->
             IntermediateFilenameRegexp.find(filePath.takeLastWhile { it != '/' })?.groupValues?.let {
                 val serviceName = it[1]
@@ -26,7 +27,7 @@ class AWSModelProvider {
                 serviceName to (apiVersion to filePath)
             }
         }.filterNotNull().groupBy { it.first }.mapValues {
-            it.value.map { it.second }.toMap()
+            it.value.map { it.second }.toMap().toSortedMap()
         }
     }
 

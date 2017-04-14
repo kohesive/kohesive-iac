@@ -6,7 +6,7 @@ class CreateNetworkInterfacePreprocessor : RequestPreprocessor {
 
     override val eventNames = listOf("CreateNetworkInterface")
 
-    override fun process(requestMap: RequestMap): RequestMap {
+    override fun processRequestMap(requestMap: RequestMap): RequestMap {
         // Fix group IDs/names
         val groupSet   = (requestMap["groupSet"] as? RequestMap).orEmpty()
         val groupItems = groupSet["items"] as? List<RequestMap>

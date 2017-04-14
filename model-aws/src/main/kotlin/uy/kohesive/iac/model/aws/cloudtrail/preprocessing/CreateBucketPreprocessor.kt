@@ -6,7 +6,7 @@ class CreateBucketPreprocessor : RequestPreprocessor {
 
     override val eventNames = listOf("CreateBucket")
 
-    override fun process(requestMap: RequestMap): RequestMap {
+    override fun processRequestMap(requestMap: RequestMap): RequestMap {
         val configuration = (requestMap["CreateBucketConfiguration"] as? Map<String, Any?>).orEmpty()
         val locationConstraint = configuration["LocationConstraint"] as? String
 

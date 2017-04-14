@@ -6,7 +6,7 @@ class RunInstancesPreprocessor : RequestPreprocessor {
 
     override val eventNames = listOf("RunInstances")
 
-    override fun process(requestMap: RequestMap): RequestMap {
+    override fun processRequestMap(requestMap: RequestMap): RequestMap {
         // Fix instances parameters
         val instancesSet  = requestMap["instancesSet"] as? RequestMap
         val instanceProps = (instancesSet?.get("items") as? List<RequestMap>)?.firstOrNull().orEmpty()

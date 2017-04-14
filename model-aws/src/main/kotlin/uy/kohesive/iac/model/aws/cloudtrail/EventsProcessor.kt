@@ -6,7 +6,7 @@ import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import uy.kohesive.iac.model.aws.cloudtrail.preprocessing.RequestPreprocessors
+import uy.kohesive.iac.model.aws.cloudtrail.preprocessing.CloudTrailEventPreprocessors
 import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 import java.io.FileInputStream
@@ -83,16 +83,13 @@ class EventsProcessor(
         }
 
     private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent =
-        CloudTrailEvent(
+        CloudTrailEventPreprocessors.preprocess(CloudTrailEvent(
             eventId     = eventId,
             eventSource = jsonMap["eventSource"] as String,
             eventName   = jsonMap["eventName"] as String,
             apiVersion  = jsonMap["apiVersion"] as? String,
-            request     = RequestPreprocessors.preprocess(
-                eventName  = jsonMap["eventName"] as String,
-                requestMap = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
-            )
-        )
+            request     = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
+        ))
 
 }
 
