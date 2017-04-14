@@ -20,7 +20,7 @@ fun main(args: Array<String>) {
         oneEventPerFile = false,
         gzipped         = true
     ).process { event ->
-        if (listOf("Create", "Put", "Attach", "Run").any { event.eventName.startsWith(it) }) {
+        if (listOf("Create", "Put", "Attach", "Run", "Set").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()
 
             val awsModel = try {
