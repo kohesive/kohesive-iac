@@ -16,12 +16,17 @@ import uy.kohesive.iac.model.aws.utils.namespace
 import uy.kohesive.iac.model.aws.utils.simpleName
 import java.util.*
 
+data class EnumHandler(
+    val enumClass: Class<*>,
+    val keys: List<String>
+)
 class ModelFromAPIGenerator(
     val serviceInterface: Class<*>,
     val serviceMetadata: ServiceMetadata,
     val outputDir: String,
     val verbToHttpMethod: Map<String, HttpMethodName>,
     val fileNamePrefix: String,
+    val enumHandlers: List<EnumHandler>,
     serviceSourcesDir: String
 ) {
 
@@ -72,6 +77,14 @@ class ModelFromAPIGenerator(
             classFqNameToShape.getOrPut(classFqName) {
                 val nameAndShape = if (clazz.isPrimitive) {
                     clazz.name.firstLetterToUpperCase() to Shape().apply { type = clazz.name.toLowerCase() }
+                } else if (clazz.isEnum) {
+                    val enumHandler = enumHandlers.firstOrNull { it.enumClass == clazz}
+                        ?: throw IllegalArgumentException("No enum handler defined for ${clazz.simpleName}")
+
+                    clazz.simpleName to Shape().apply {
+                        enumValues = enumHandler.keys
+                        type = "structure"
+                    }
                 } else if (clazz.name == "java.lang.Object") {
                     // Looks weird, but seems to be correct. Raw Objects are used in Map values mapped to Strings.
                     "String" to Shape().apply { type = "string" }

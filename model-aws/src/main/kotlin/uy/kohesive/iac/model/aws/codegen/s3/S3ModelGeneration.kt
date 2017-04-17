@@ -1,8 +1,14 @@
 package uy.kohesive.iac.model.aws.codegen.s3
 
+import com.amazonaws.HttpMethod
 import com.amazonaws.codegen.model.service.ServiceMetadata
 import com.amazonaws.http.HttpMethodName
 import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.model.CORSRule
+import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.model.Permission
+import com.amazonaws.services.s3.model.StorageClass
+import uy.kohesive.iac.model.aws.codegen.model.EnumHandler
 import uy.kohesive.iac.model.aws.codegen.model.ModelFromAPIGenerator
 
 fun main(args: Array<String>) {
@@ -59,7 +65,14 @@ class S3ModelGenerator(
             serviceMetadata   = S3ServiceMetadata,
             verbToHttpMethod  = S3OperationPrefixToHttpMethod.toMap(),
             fileNamePrefix    = S3ServiceMetadata.uid,
-            serviceSourcesDir = serviceSourcesDir
+            serviceSourcesDir = serviceSourcesDir,
+            enumHandlers      = listOf(
+                EnumHandler(Permission::class.java, Permission.values().map { it.toString() }),
+                EnumHandler(CannedAccessControlList::class.java, CannedAccessControlList.values().map { it.toString() }),
+                EnumHandler(StorageClass::class.java, StorageClass.values().map { it.toString() }),
+                EnumHandler(HttpMethod::class.java, HttpMethod.values().map { it.name }),
+                EnumHandler(CORSRule.AllowedMethods::class.java, CORSRule.AllowedMethods.values().map { it.toString() })
+            )
         ).generate()
     }
 
