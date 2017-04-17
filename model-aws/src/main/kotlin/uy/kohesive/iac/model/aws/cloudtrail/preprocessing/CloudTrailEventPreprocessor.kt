@@ -16,7 +16,8 @@ object CloudTrailEventPreprocessors {
         RunInstancesPreprocessor(),
         CreateNetworkInterfacePreprocessor(),
         CreateBucketPreprocessor(),
-        PutBucketPolicyPreprocessor()
+        PutBucketPolicyPreprocessor(),
+        PutBucketAclPreprocessor()
     )
 
     private val eventNameToPreProcessors = preprocessors.flatMap { preprocessor ->
