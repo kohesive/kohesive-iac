@@ -30,9 +30,11 @@ ${memberNode.memberModel.setterMethodName}(<@content memberNode.value level />)
 <@indent level />"${memberNode.key}" to <@content memberNode.value level /><#if memberNode_has_next>,</#if></#list>
 <@indent level-1 />)</#macro>
 
+<#macro enumMacro mapRequestNode level=0>${mapRequestNode.shape.c2jName}.${mapRequestNode.enumValue}</#macro>
+
 <#macro content requestNode level=0>
 <#if requestNode.isStructure()>
 ${requestNode.shape.variable.simpleType}(<#list requestNode.constructorArgs as arg><@content arg.value level /><#if arg_has_next>, </#if></#list>).apply {
 <#list requestNode.members as memberNode>
 <@indent level+1 /><@structureMember memberNode level+1 />
-</#list><@indent level />}<#elseif requestNode.isSimple()>${requestNode.simpleValueLiteral}<#elseif requestNode.isMap()><@mapMacro requestNode level+1 /><#elseif requestNode.isList()><@listMacro requestNode level+1 /></#if></#macro>
+</#list><@indent level />}<#elseif requestNode.isSimple()>${requestNode.simpleValueLiteral}<#elseif requestNode.isEnum()><@enumMacro requestNode level+1 /><#elseif requestNode.isMap()><@mapMacro requestNode level+1 /><#elseif requestNode.isList()><@listMacro requestNode level+1 /></#if></#macro>

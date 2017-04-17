@@ -3,10 +3,7 @@ package uy.kohesive.iac.model.aws.cloudtrail
 import com.amazonaws.codegen.emitters.CodeEmitter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
-import com.amazonaws.codegen.model.intermediate.IntermediateModel
-import com.amazonaws.codegen.model.intermediate.ListModel
-import com.amazonaws.codegen.model.intermediate.MapModel
-import com.amazonaws.codegen.model.intermediate.ShapeModel
+import com.amazonaws.codegen.model.intermediate.*
 import freemarker.template.Template
 import uy.kohesive.iac.model.aws.cloudtrail.postprocessing.RequestPostProcessors
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
@@ -18,8 +15,8 @@ data class ApiCallData(
 )
 
 class AWSApiCallBuilder(
-    val awsModel: IntermediateModel,
-    val event: CloudTrailEvent
+        val intermediateModel: IntermediateModel,
+        val event: CloudTrailEvent
 ) {
 
     private fun createMap(requestMap: RequestMap, mapModel: MapModel): RequestMapNode {
@@ -31,11 +28,11 @@ class AWSApiCallBuilder(
                     value = it.value
                 )
             } else {
-                val memberShape = mapModel.valueModel.shape ?: awsModel.shapes[mapModel.valueModel.c2jShape]
+                val memberShape = mapModel.valueModel.shape ?: intermediateModel.shapes[mapModel.valueModel.c2jShape]
                     ?: throw RuntimeException("Can't locate shape for ${mapModel.valueModel.c2jShape}")
 
                 (it.value as? RequestMap)?.let { subRequestMap ->
-                    createRequestMapNode(subRequestMap, memberShape)
+                    createRequestMapNode(subRequestMap, memberShape, parentRequestObject = requestMap)
                 } ?: throw RuntimeException("Complex value of map is not of java.util.Map type")
             }
         }.map {
@@ -47,6 +44,17 @@ class AWSApiCallBuilder(
         }
 
         return RequestMapNode.map(mapModel, members)
+    }
+
+    private fun createEnumNode(value: String, shape: ShapeModel): RequestMapNode {
+        val enumClass      = Class.forName(intermediateModel.metadata.packageName + ".model." + shape.c2jName)
+        val nameMethod     = enumClass.methods.first { it.name == "name" }
+        val toStringToName = (enumClass.methods.firstOrNull { it.name == "values" }?.invoke(null) as Array<*>).map {
+            it.toString() to nameMethod.invoke(it) as String
+        }.toMap()
+
+        // Let's find the actual value
+        return RequestMapNode.enum(toStringToName[value] ?: throw IllegalStateException("Can't figure out enum value of ${shape.c2jName} by '$value'"), shape)
     }
 
     private fun createListModelFromMap(requestMap: RequestMap, listModel: ListModel): RequestMapNode =
@@ -67,12 +75,12 @@ class AWSApiCallBuilder(
                 ))
             })
         } else {
-            val memberShape = listModel.listMemberModel.shape ?: awsModel.shapes[listModel.listMemberModel.c2jShape]
+            val memberShape = listModel.listMemberModel.shape ?: intermediateModel.shapes[listModel.listMemberModel.c2jShape]
                 ?: throw RuntimeException("Can't locate shape for ${listModel.listMemberModel.c2jName}")
 
             RequestMapNode.list(listModel, list.map { listEntry ->
-                (listEntry as? Map<String, Any?>)?.let { itemAsMap ->
-                    createRequestMapNode(itemAsMap, memberShape)
+                (listEntry as? RequestMap)?.let { itemAsMap ->
+                    createRequestMapNode(itemAsMap, memberShape, parentRequestObject = list)
                 }
             }.filterNotNull().map { requestMapNode ->
                 RequestMapNodeMember(
@@ -82,7 +90,7 @@ class AWSApiCallBuilder(
             })
         }
 
-    private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel): RequestMapNode {
+    private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel, parentRequestObject: Any?): RequestMapNode {
         var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
             (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
         }.orEmpty()
@@ -97,7 +105,17 @@ class AWSApiCallBuilder(
             val fieldName  = it.key
             val fieldValue = it.value
 
-            val memberModel = membersAsMap[fieldName.toLowerCase()] ?: throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+            val memberModel = membersAsMap[fieldName.toLowerCase()] ?: {
+                // xsi:type is a special type we want to keep for further processing
+                if (fieldName == "xsi:type") {
+                    createFakeSimpleMemberModel("xsi:type")
+                } else if (requestMap.contains("xsi:type")) {
+                    // Might be an abstract property
+                    createFakeSimpleMemberModel(fieldName)
+                } else {
+                    throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
+                }
+            }()
 
             val fieldValueNode = if (memberModel.isSimple) {
                 RequestMapNode.simple(memberModel.c2jShape, fieldValue)
@@ -114,14 +132,19 @@ class AWSApiCallBuilder(
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
                         createMap(subRequestMap, memberModel.mapModel)
                     } ?: throw IllegalStateException(
-                        "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                            "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
                     )
+                } else if (memberModel.enumType != null) {
+                    val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
+                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
+
+                    createEnumNode((fieldValue as? String) ?: throw RuntimeException("Enum type member has empty value"), memberShapeModel)
                 } else {
-                    val memberShapeModel = memberModel.shape ?: awsModel.shapes[memberModel.c2jShape]
+                    val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
                         ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
 
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
-                        createRequestMapNode(subRequestMap, memberShapeModel)
+                        createRequestMapNode(subRequestMap, memberShapeModel, parentRequestObject = requestMap)
                     } ?: throw IllegalStateException(
                         "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
                     )
@@ -137,11 +160,22 @@ class AWSApiCallBuilder(
         return RequestMapNode.complex(shapeModel, nodeMembers)
     }
 
+    private fun createFakeSimpleMemberModel(varName: String): MemberModel {
+        return MemberModel().apply {
+            c2jShape = "String"
+            c2jName  = varName
+            name     = varName
+            variable = VariableModel(varName, "String")
+        }
+    }
+
     fun build(): String {
         val generatorTaskExecutor = GeneratorTaskExecutor()
 
-        val requestShape = awsModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event")
-        val requestNode  = RequestPostProcessors.postProcess(createRequestMapNode(event.request.orEmpty(), requestShape))
+        val requestShape = intermediateModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event")
+        val requestNode  = RequestPostProcessors.postProcess(
+            requestMapNode = createRequestMapNode(event.request.orEmpty(), requestShape, parentRequestObject = null),
+            awsModel       = intermediateModel)
         val apiCallData  = ApiCallData(
             requestNodes = listOf(requestNode)
         )
