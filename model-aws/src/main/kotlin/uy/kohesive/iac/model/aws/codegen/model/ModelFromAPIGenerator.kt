@@ -17,12 +17,12 @@ import uy.kohesive.iac.model.aws.utils.simpleName
 import java.util.*
 
 class ModelFromAPIGenerator(
-        val serviceInterface: Class<*>,
-        val serviceMetadata: ServiceMetadata,
-        val outputDir: String,
-        val verbToHttpMethod: Map<String, HttpMethodName>,
-        val fileNamePrefix: String,
-        serviceSourcesDir: String
+    val serviceInterface: Class<*>,
+    val serviceMetadata: ServiceMetadata,
+    val outputDir: String,
+    val verbToHttpMethod: Map<String, HttpMethodName>,
+    val fileNamePrefix: String,
+    serviceSourcesDir: String
 ) {
 
     private val interfaceSimpleName: String = serviceInterface.simpleName
@@ -61,7 +61,11 @@ class ModelFromAPIGenerator(
         Class.forName(fqName)
     } ?: throw IllegalArgumentException("Unknown model class: $simpleName")
 
-    private fun getOrCreateShape(clazz: Class<*>, typeParameterFqNames: List<Class<*>> = emptyList(), shapeNameOverride: String? = null): Pair<String, Shape> =
+    private fun getOrCreateShape(
+        clazz: Class<*>,
+        typeParameterFqNames: List<Class<*>> = emptyList(),
+        shapeNameOverride: String? = null
+    ): Pair<String, Shape> =
         (clazz.name + (if (typeParameterFqNames.isEmpty()) "" else "<${typeParameterFqNames.joinToString(", ")}>")).let { classFqName ->
             var fillWithMembers = false
 
@@ -77,13 +81,13 @@ class ModelFromAPIGenerator(
                     "Date" to Shape().apply { type = "timestamp" }
                 } else if (clazz.name.endsWith("[]") || clazz.name.namespace().let { it == "java.io" || it == "java.net" }) {
                     throw UnModelableOperation()
-                } else if (List::class.java.isAssignableFrom(clazz)) {
+                } else if (List::class.java.isAssignableFrom(clazz) || Set::class.java.isAssignableFrom(clazz)) {
                     if (typeParameterFqNames.isEmpty()) {
                         throw IllegalStateException("Un-parameterized list")
                     }
 
                     val listParameter = typeParameterFqNames.first()
-                    listParameter.simpleName + "List" to Shape().apply {
+                    (listParameter.simpleName + if (Set::class.java.isAssignableFrom(clazz)) "Set" else "List") to Shape().apply {
                         type       = "list"
                         listMember = Member().apply {
                             shape = getOrCreateShape(listParameter).first
@@ -138,7 +142,7 @@ class ModelFromAPIGenerator(
         }
 
     private fun getCollectionTypeArguments(clazz: Class<*>, memberName: String, memberClass: Class<*>): List<Class<*>> =
-        if (memberClass.simpleName.let { it == "List" || it == "Map" }) {
+        if (memberClass.simpleName.let { it == "List" || it == "Set" || it == "Map" }) {
             val classifierFromSources = sources.get(clazz.name).let { compilationUnit ->
                 if (clazz.name.contains('$')) {
                     val pathArray = clazz.name.simpleName().split('$')
@@ -174,12 +178,13 @@ class ModelFromAPIGenerator(
 
     private fun createOperations(): List<Operation> {
         val requestMethodsToRequestClasses = serviceInterface.methods.groupBy { it.name }.mapValues {
+            // Here we take the method -> request class pair where request class is not null
             it.value.map { method ->
                 method to method.parameters.firstOrNull { parameter ->
                     parameter.type.simpleName.endsWith("Request")
                 }?.type
             }.firstOrNull {
-                it.second != null
+                it.second != null // it.second is request class
             }
         }.values.filterNotNull().toMap().filterValues { it != null }.mapValues { it.value!! }.filter {
             "${it.key.name.firstLetterToUpperCase()}Request" == it.value.simpleName
@@ -220,7 +225,7 @@ class ModelFromAPIGenerator(
                     .withName(operationName)
                     .withInput(input)
                     .withHttp(http).apply { setOutput(output) }
-            } catch (ume: UnModelableOperation) {
+            } catch (umo: UnModelableOperation) {
                 // ignore this operation
                 null
             }
@@ -237,7 +242,7 @@ class ModelFromAPIGenerator(
                 serviceMetadata,
                 operations.associateBy { it.name },
                 classFqNameToShape.values.toMap().toSortedMap(),
-                HashMap<String, Authorizer>() // TODO: add authorizers
+                emptyMap()
             )
         ).build()
 
