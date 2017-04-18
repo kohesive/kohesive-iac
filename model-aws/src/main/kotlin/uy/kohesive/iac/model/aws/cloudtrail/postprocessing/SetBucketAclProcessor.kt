@@ -6,6 +6,12 @@ import uy.kohesive.iac.model.aws.cloudtrail.RequestMapNodeMember
 
 class SetBucketAclProcessor : RequestNodePostProcessor {
 
+    companion object {
+        val GroupGranteeEnumFix = mapOf(
+            "HttpAcsAmazonawsComgroupss3LogDelivery" to "LogDelivery"
+        )
+    }
+
     override val shapeNames = listOf("SetBucketAclInput")
 
     override fun process(requestMapNode: RequestMapNode, awsModel: IntermediateModel): RequestMapNode {
@@ -18,11 +24,11 @@ class SetBucketAclProcessor : RequestNodePostProcessor {
         }?.filterNotNull().orEmpty()
 
         grantees.forEach { grantee ->
-            val granteeType = grantee.members.firstOrNull { member ->
-                member.memberModel.name == "xsi:type"
-            }?.value?.simpleValue ?: throw IllegalArgumentException("Can't figure out grantee type")
-
-            println()
+            if (grantee.shape?.shapeName == "GroupGrantee") {
+                grantee.enumValue = grantee.enumValue?.let { enumValue ->
+                    GroupGranteeEnumFix[enumValue]
+                } ?: grantee.enumValue
+            }
         }
 
         return requestMapNode
