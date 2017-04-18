@@ -22,9 +22,9 @@
 ${memberNode.memberModel.setterMethodName}(<@content memberNode.value level />)
 </#macro>
 
-<#macro listMacro listRequestNode level=0>listOf(<#list listRequestNode.members as memberNode>
+<#macro listMacro listRequestNode level=0><#if !listRequestNode.vararg>listOf(</#if><#list listRequestNode.members as memberNode>
 <@indent level /><@content memberNode.value level /><#if memberNode_has_next>,</#if></#list>
-<@indent level-1 />)</#macro>
+<@indent level-1 /><#if !listRequestNode.vararg>)</#if></#macro>
 
 <#macro mapMacro mapRequestNode level=0>mapOf(<#list mapRequestNode.members as memberNode>
 <@indent level />"${memberNode.key}" to <@content memberNode.value level /><#if memberNode_has_next>,</#if></#list>

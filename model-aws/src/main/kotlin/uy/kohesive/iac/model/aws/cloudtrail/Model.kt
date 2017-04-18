@@ -26,6 +26,7 @@ data class RequestMapNode(
     val simpleValue: Any? = null,
 
     val listModel: ListModel? = null,
+    var vararg: Boolean = false,
 
     val mapModel: MapModel? = null,
 
@@ -96,7 +97,7 @@ data class RequestMapNode(
 }
 
 data class RequestMapNodeMember(
-    val memberModel: MemberModel,
+    var memberModel: MemberModel,
     val value: RequestMapNode?,
 
     val key: String? = null // for maps
