@@ -15,12 +15,15 @@ data class ApiCallData(
 )
 
 class AWSApiCallBuilder(
-        val intermediateModel: IntermediateModel,
-        val event: CloudTrailEvent
+    val intermediateModel: IntermediateModel,
+    val event: CloudTrailEvent
 ) {
 
+    companion object {
+        val XSITypeValue = "xsi:type"
+    }
+
     private fun createMap(requestMap: RequestMap, mapModel: MapModel): RequestMapNode {
-        // TODO: do we need to support complex keys?
         val members = requestMap.mapValues {
             if (mapModel.isValueSimple) {
                 RequestMapNode.simple(
@@ -91,7 +94,16 @@ class AWSApiCallBuilder(
         }
 
     private fun createRequestMapNode(requestMap: RequestMap, shapeModel: ShapeModel, parentRequestObject: Any?): RequestMapNode {
-        var membersAsMap = shapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + shapeModel.members?.associate {
+        // Override shape for abstract class values containing xsi:type fields
+        val actualShapeModel = if (requestMap.containsKey(XSITypeValue)) {
+            val xsiType = requestMap[XSITypeValue]
+            intermediateModel.shapes[xsiType] ?: throw IllegalStateException("Can't locate shape $xsiType")
+        } else {
+            shapeModel
+        }
+
+        // Collect the possible member names map
+        var membersAsMap = actualShapeModel.membersAsMap.mapKeys { it.key.toLowerCase() }.orEmpty() + actualShapeModel.members?.associate {
             (it.http?.unmarshallLocationName?.toLowerCase() ?: "\$NONE") to it
         }.orEmpty()
         membersAsMap += membersAsMap.filter { it.value.isList && !it.key.endsWith("Set") }.mapKeys {
@@ -101,21 +113,15 @@ class AWSApiCallBuilder(
             it.key.dropLast(1) + "set"
         }
 
-        val nodeMembers = requestMap.filterValues { it != null }.map {
+        // Map members to AWS model-aware request nodes
+        val nodeMembers = requestMap.filterKeys {
+            it != XSITypeValue && !it.startsWith("xmlns:")
+        }.filterValues { it != null }.map {
             val fieldName  = it.key
             val fieldValue = it.value
 
-            val memberModel = membersAsMap[fieldName.toLowerCase()] ?: {
-                // xsi:type is a special type we want to keep for further processing
-                if (fieldName == "xsi:type") {
-                    createFakeSimpleMemberModel("xsi:type")
-                } else if (requestMap.contains("xsi:type")) {
-                    // Might be an abstract property
-                    createFakeSimpleMemberModel(fieldName)
-                } else {
-                    throw RuntimeException("Shape ${shapeModel.shapeName} doesn't have member $fieldName")
-                }
-            }()
+            val memberModel = membersAsMap[fieldName.toLowerCase()]
+                ?:throw RuntimeException("Shape ${actualShapeModel.shapeName} doesn't have member $fieldName")
 
             val fieldValueNode = if (memberModel.isSimple) {
                 RequestMapNode.simple(memberModel.c2jShape, fieldValue)
@@ -126,27 +132,27 @@ class AWSApiCallBuilder(
                     } else if (fieldValue is List<*>) {
                         createListModelFromList(fieldValue as List<Any>, memberModel.listModel)
                     } else {
-                        throw RuntimeException("List member $fieldName of ${shapeModel.c2jName} is of unsupported type ${fieldValue?.javaClass?.simpleName}")
+                        throw RuntimeException("List member $fieldName of ${actualShapeModel.c2jName} is of unsupported type ${fieldValue?.javaClass?.simpleName}")
                     }
                 } else if (memberModel.isMap) {
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
                         createMap(subRequestMap, memberModel.mapModel)
                     } ?: throw IllegalStateException(
-                            "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                            "$fieldName of ${actualShapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
                     )
                 } else if (memberModel.enumType != null) {
                     val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
-                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
+                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${actualShapeModel.c2jName}")
 
                     createEnumNode((fieldValue as? String) ?: throw RuntimeException("Enum type member has empty value"), memberShapeModel)
                 } else {
                     val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
-                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${shapeModel.c2jName}")
+                        ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${actualShapeModel.c2jName}")
 
                     (fieldValue as? RequestMap)?.let { subRequestMap ->
                         createRequestMapNode(subRequestMap, memberShapeModel, parentRequestObject = requestMap)
                     } ?: throw IllegalStateException(
-                        "$fieldName of ${shapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
+                        "$fieldName of ${actualShapeModel.c2jName} is ${fieldValue?.javaClass?.simpleName} while expected to be Map<String, Any>"
                     )
                 }
             }
@@ -157,7 +163,7 @@ class AWSApiCallBuilder(
             )
         }.filterNot { it.value?.isEmpty() ?: true }
 
-        return RequestMapNode.complex(shapeModel, nodeMembers)
+        return RequestMapNode.complex(actualShapeModel, nodeMembers)
     }
 
     private fun createFakeSimpleMemberModel(varName: String): MemberModel {
