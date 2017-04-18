@@ -29,7 +29,7 @@ data class RequestMapNode(
 
     val mapModel: MapModel? = null,
 
-    val enumValue: String? = null
+    var enumValue: String? = null
 ) {
     companion object {
         fun simple(type: String, value: Any?) = RequestMapNode(

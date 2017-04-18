@@ -3,7 +3,10 @@ package uy.kohesive.iac.model.aws.cloudtrail
 import com.amazonaws.codegen.emitters.CodeEmitter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
-import com.amazonaws.codegen.model.intermediate.*
+import com.amazonaws.codegen.model.intermediate.IntermediateModel
+import com.amazonaws.codegen.model.intermediate.ListModel
+import com.amazonaws.codegen.model.intermediate.MapModel
+import com.amazonaws.codegen.model.intermediate.ShapeModel
 import freemarker.template.Template
 import uy.kohesive.iac.model.aws.cloudtrail.postprocessing.RequestPostProcessors
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
@@ -121,7 +124,15 @@ class AWSApiCallBuilder(
             val fieldValue = it.value
 
             val memberModel = membersAsMap[fieldName.toLowerCase()]
-                ?:throw RuntimeException("Shape ${actualShapeModel.shapeName} doesn't have member $fieldName")
+            if (memberModel == null) {
+                // Could be an enum
+                val enumModel = actualShapeModel.findEnumModelByValue(fieldValue?.toString())
+                if (enumModel != null) {
+                    return RequestMapNode.enum(enumModel.name, actualShapeModel)
+                }
+
+                throw RuntimeException("Shape ${actualShapeModel.shapeName} doesn't have member $fieldName")
+            }
 
             val fieldValueNode = if (memberModel.isSimple) {
                 RequestMapNode.simple(memberModel.c2jShape, fieldValue)
@@ -164,15 +175,6 @@ class AWSApiCallBuilder(
         }.filterNot { it.value?.isEmpty() ?: true }
 
         return RequestMapNode.complex(actualShapeModel, nodeMembers)
-    }
-
-    private fun createFakeSimpleMemberModel(varName: String): MemberModel {
-        return MemberModel().apply {
-            c2jShape = "String"
-            c2jName  = varName
-            name     = varName
-            variable = VariableModel(varName, "String")
-        }
     }
 
     fun build(): String {
