@@ -20,7 +20,7 @@ data class RequestMapNode(
     val shape: ShapeModel? = null,
     val members: MutableList<RequestMapNodeMember> = mutableListOf(),
 
-    val constructorArgs: List<RequestMapNodeMember> = emptyList(),
+    val constructorArgs: MutableList<RequestMapNodeMember> = mutableListOf(),
 
     val simpleType: String? = null,
     val simpleValue: Any? = null,

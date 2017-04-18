@@ -12,7 +12,7 @@ class CreateBucketProcessor : RequestNodePostProcessor {
     }?.let { bucketNameMember ->
         requestMapNode.copy(
             members         = (requestMapNode.members - bucketNameMember).toMutableList(),
-            constructorArgs = requestMapNode.constructorArgs + bucketNameMember
+            constructorArgs = (requestMapNode.constructorArgs + bucketNameMember).toMutableList()
         )
     } ?: throw IllegalStateException("CreateBucketRequest request does not contain bucket name")
 
