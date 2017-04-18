@@ -82,7 +82,7 @@ class ModelFromAPIGenerator(
                         ?: throw IllegalArgumentException("No enum handler defined for ${clazz.simpleName}")
 
                     clazz.simpleName to Shape().apply {
-                        enumValues = enumHandler.keys
+                        enumValues = enumHandler.keys.filterNotNull()
                         type = "structure"
                     }
                 } else if (clazz.name == "java.lang.Object") {
@@ -108,7 +108,7 @@ class ModelFromAPIGenerator(
                     }
                 } else if (Map::class.java.isAssignableFrom(clazz)) {
                     if (typeParameterFqNames.isEmpty()) {
-                        throw IllegalStateException("Un-parameterized map")
+                        throw UnModelableOperation("Un-parameterized map")
                     }
 
                     val mapKeyParameter   = typeParameterFqNames[0]
@@ -246,22 +246,65 @@ class ModelFromAPIGenerator(
     }
 
     fun generate() {
-        val operations = createOperations().sortedBy { it.name }
+        // Create operations and shapes used in operations
+        val operations    = createOperations().sortedBy { it.name }.associateBy { it.name }
+        val shapesFromOps = classFqNameToShape.values.toMap()
 
+        // Create shapes for the rest of model classes
+        val modelsClassesWithNoShape = (modelClassFqNamesBySimpleName - (modelClassFqNamesBySimpleName.keys.intersect(shapesFromOps.keys))).filter {
+            val simpleName = it.key
+            val fqName     = it.value
+
+            fqName.namespace() == modelPackage &&
+            !simpleName.endsWith("marshaller", ignoreCase = true) &&
+            !simpleName.endsWith("Request") &&
+            !simpleName.startsWith("Abstract") &&
+            simpleName.first().isJavaIdentifierStart() &&
+            simpleName.all(Char::isJavaIdentifierPart)
+        }
+        val shapeFromModelsNames = modelsClassesWithNoShape.map {
+            try {
+                getOrCreateShape(getModelClassBySimpleName(it.key)).first
+            } catch (umo: UnModelableOperation) {
+                null
+            }
+        }.filterNotNull()
+
+        // Create a fake operation to reference the model shapes not used in real operations
+        val preserveModelsShape = "KohesiveModelPreserveInput" to Shape().apply {
+            type    = "structure"
+            members = shapeFromModelsNames.associate { shapeName ->
+                shapeName to Member().apply {
+                    shape = shapeName
+                }
+            }
+        }
+        val preserveModelsOp = "KohesivePreserveShapesOperation" to Operation()
+            .withName("KohesivePreserveShapesOperation")
+            .withInput(Input().apply {
+                shape = "KohesiveModelPreserveInput"
+            })
+            .withHttp(Http()
+                .withMethod("GET")
+                .withRequestUri("/")
+            )
+
+        // Build the models
         val c2jModels = C2jModels.builder()
             .codeGenConfig(codeGenConfig)
             .customizationConfig(CustomizationConfig.DEFAULT)
             .serviceModel(ServiceModel(
                 serviceMetadata,
-                operations.associateBy { it.name },
-                classFqNameToShape.values.toMap().toSortedMap(),
+                operations + preserveModelsOp,
+                (classFqNameToShape.values.toMap() + preserveModelsShape).toSortedMap(),
                 emptyMap()
             )
         ).build()
 
+        // Generate models JSON and service API
         CodeGenerator(c2jModels, outputDir, outputDir, fileNamePrefix).execute()
     }
 
 }
 
-class UnModelableOperation : Exception()
+class UnModelableOperation(override val message: String? = null) : Exception()

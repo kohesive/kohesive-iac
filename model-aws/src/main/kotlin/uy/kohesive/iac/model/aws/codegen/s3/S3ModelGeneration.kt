@@ -4,10 +4,7 @@ import com.amazonaws.HttpMethod
 import com.amazonaws.codegen.model.service.ServiceMetadata
 import com.amazonaws.http.HttpMethodName
 import com.amazonaws.services.s3.AmazonS3
-import com.amazonaws.services.s3.model.CORSRule
-import com.amazonaws.services.s3.model.CannedAccessControlList
-import com.amazonaws.services.s3.model.Permission
-import com.amazonaws.services.s3.model.StorageClass
+import com.amazonaws.services.s3.model.*
 import uy.kohesive.iac.model.aws.codegen.model.EnumHandler
 import uy.kohesive.iac.model.aws.codegen.model.ModelFromAPIGenerator
 
@@ -71,7 +68,20 @@ class S3ModelGenerator(
                 EnumHandler(CannedAccessControlList::class.java, CannedAccessControlList.values().map { it.toString() }),
                 EnumHandler(StorageClass::class.java, StorageClass.values().map { it.toString() }),
                 EnumHandler(HttpMethod::class.java, HttpMethod.values().map { it.name }),
-                EnumHandler(CORSRule.AllowedMethods::class.java, CORSRule.AllowedMethods.values().map { it.toString() })
+                EnumHandler(CORSRule.AllowedMethods::class.java, CORSRule.AllowedMethods.values().map { it.toString() }),
+                EnumHandler(ReplicationRuleStatus::class.java, ReplicationRuleStatus.values().map { it.name }),
+                EnumHandler(CryptoStorageMode::class.java, CryptoStorageMode.values().map { it.name }),
+                EnumHandler(SSEAlgorithm::class.java, SSEAlgorithm.values().map { it.toString() }),
+                EnumHandler(S3KeyFilter.FilterRuleName::class.java, S3KeyFilter.FilterRuleName.values().map { it.name }),
+                EnumHandler(BucketAccelerateStatus::class.java, BucketAccelerateStatus.values().map { it.name }),
+                EnumHandler(RequestPaymentConfiguration.Payer::class.java, RequestPaymentConfiguration.Payer.values().map { it.name }),
+                EnumHandler(CryptoMode::class.java, CryptoMode.values().map { it.name }),
+                EnumHandler(Region::class.java, Region.values().map { it.toString() }),
+                EnumHandler(S3Event::class.java, S3Event.values().map { it.toString() }),
+                EnumHandler(GroupGrantee::class.java, GroupGrantee.values().map { it.getIdentifier() }),
+                EnumHandler(ExtraMaterialsDescription.ConflictResolution::class.java, ExtraMaterialsDescription.ConflictResolution.values().map { it.name }),
+                EnumHandler(S3DataSource.Utils::class.java, S3DataSource.Utils.values().map { it.toString() }),
+                EnumHandler(Tier::class.java, Tier.values().map { it.toString() })
             )
         ).generate()
     }
