@@ -16,7 +16,8 @@ fun main(args: Array<String>) {
     val awsModelProvider = AWSModelProvider()
 
     EventsProcessor(
-        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/"),
+//        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/"),
+        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/us-east-1/2016/04/21/"),
         oneEventPerFile = false,
         gzipped         = true
     ).process { event ->
@@ -68,6 +69,7 @@ class EventsProcessor(
                     try {
                         processor(cloudTrailEvent)
                     } catch (t: Throwable) {
+                        Thread.sleep(100)
                         throw RuntimeException("Error while processing event $cloudTrailEvent\nat ${file.path}", t)
                     }
                 }

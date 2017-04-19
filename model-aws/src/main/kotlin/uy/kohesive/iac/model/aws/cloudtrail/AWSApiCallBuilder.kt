@@ -118,7 +118,7 @@ class AWSApiCallBuilder(
 
         // Map members to AWS model-aware request nodes
         val nodeMembers = requestMap.filterKeys {
-            it != XSITypeValue && !it.startsWith("xmlns:")
+            it != XSITypeValue && !it.startsWith("xmlns")
         }.filterValues { it != null }.map {
             val fieldName  = it.key
             val fieldValue = it.value
