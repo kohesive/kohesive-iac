@@ -10,28 +10,13 @@ class PutBucketLoggingPreprocessor : CloudTrailEventPreprocessor {
         return event.copy(
             eventName = "SetBucketLoggingConfiguration",
             request   = event.request?.let { originalRequestMap ->
-                val loggingConfiguration = ((originalRequestMap["BucketLoggingStatus"] as? Map<String, Any>)?.get("LoggingEnabled") as? Map<String, Any>)?.let {
-                    val prefix = it["TargetPrefix"]
-                    val bucket = it["TargetBucket"]
-
-                    it - "TargetPrefix" - "TargetBucket" + prefix.toMapValue("logFilePrefix") + bucket.toMapValue("destinationBucketName")
-                }
-
-                originalRequestMap - "BucketLoggingStatus" + if (loggingConfiguration == null) {
-                    emptyMap()
-                } else {
-                    mapOf("LoggingConfiguration" to loggingConfiguration)
+                originalRequestMap.replaceAndTransform("BucketLoggingStatus", "LoggingConfiguration") {
+                    originalRequestMap.mapByPath("BucketLoggingStatus.LoggingEnabled")
+                        .rename("TargetPrefix", "LogFilePrefix")
+                        .rename("TargetBucket", "DestinationBucketName")
                 }
             }
         )
     }
 
-}
-
-fun Any?.toMapValue(name: String): Map<String, Any> {
-    if (this == null) {
-        return emptyMap()
-    } else {
-        return mapOf(name to this)
-    }
 }
