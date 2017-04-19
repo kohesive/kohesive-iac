@@ -18,7 +18,9 @@ object CloudTrailEventPreprocessors {
         CreateBucketPreprocessor(),
         PutBucketPolicyPreprocessor(),
         PutBucketAclPreprocessor(),
-        PutBucketLoggingPreprocessor()
+        PutBucketLoggingPreprocessor(),
+        CreateVolumeRequestPreprocessor(),
+        AttachVolumePreprocessor()
     )
 
     private val eventNameToPreProcessors = preprocessors.flatMap { preprocessor ->
