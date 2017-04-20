@@ -155,7 +155,14 @@ class AWSApiCallBuilder(
                     val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
                         ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${actualShapeModel.c2jName}")
 
-                    createEnumNode((fieldValue as? String) ?: throw RuntimeException("Enum type member has empty value"), memberShapeModel)
+                    val enumValue = when (fieldValue) {
+                        is String  -> fieldValue
+                        is List<*> -> fieldValue.firstOrNull()?.toString()
+                        null -> throw RuntimeException("Enum type member has empty value")
+                        else -> throw RuntimeException("Unsupported Enum type holder type: ${fieldValue.javaClass.simpleName}")
+                    }
+
+                    createEnumNode(enumValue ?: throw RuntimeException("Enum type member has empty value"), memberShapeModel)
                 } else {
                     val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
                         ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${actualShapeModel.c2jName}")
