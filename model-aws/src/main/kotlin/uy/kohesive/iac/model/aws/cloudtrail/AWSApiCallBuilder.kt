@@ -164,6 +164,7 @@ class AWSApiCallBuilder(
 
                     createEnumNode(enumValue ?: throw RuntimeException("Enum type member has empty value"), memberShapeModel)
                 } else {
+                    // Structure
                     val memberShapeModel = memberModel.shape ?: intermediateModel.shapes[memberModel.c2jShape]
                         ?: throw RuntimeException("Can't locate shape for ${memberModel.c2jName} member of ${actualShapeModel.c2jName}")
 

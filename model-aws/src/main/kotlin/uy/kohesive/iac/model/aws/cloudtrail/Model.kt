@@ -23,9 +23,9 @@ data class RequestMapNode(
     val constructorArgs: MutableList<RequestMapNodeMember> = mutableListOf(),
 
     val simpleType: String? = null,
-    val simpleValue: Any? = null,
+    var simpleValue: Any? = null,
 
-    val listModel: ListModel? = null,
+    var listModel: ListModel? = null,
     var vararg: Boolean = false,
 
     val mapModel: MapModel? = null,
@@ -75,12 +75,13 @@ data class RequestMapNode(
     private fun getSimpleValueLiteral_(): Any? {
         if (!isSimple()) throw IllegalStateException("Not a simple value")
 
-        val extractedSimpleValue = (if (simpleValue is Map<*, *>) {
-            simpleValue.keys.firstOrNull()?.let { firstKey ->
-                simpleValue[firstKey]
+        val capturedSimpleValue  = simpleValue
+        val extractedSimpleValue = (if (capturedSimpleValue is Map<*, *>) {
+            capturedSimpleValue.keys.firstOrNull()?.let { firstKey ->
+                capturedSimpleValue[firstKey]
             }
         } else {
-            simpleValue
+            capturedSimpleValue
         }) ?: return null
 
         if (extractedSimpleValue is String) {
