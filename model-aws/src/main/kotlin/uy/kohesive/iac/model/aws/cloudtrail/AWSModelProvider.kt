@@ -38,7 +38,7 @@ class AWSModelProvider {
             val filePath = if (apiVersion == null) {
                 versionToFilepath.values.first()
             } else {
-                versionToFilepath[apiVersion.replace("_", "")] ?: {
+                versionToFilepath[apiVersion.replace("-", "").replace("_", "")] ?: {
                     versionToFilepath.values.first()
                 }()
             }
