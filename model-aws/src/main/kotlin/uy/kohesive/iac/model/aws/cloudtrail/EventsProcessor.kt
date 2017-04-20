@@ -16,8 +16,7 @@ fun main(args: Array<String>) {
     val awsModelProvider = AWSModelProvider()
 
     EventsProcessor(
-//        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/"),
-        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/us-east-1/2016/04/21/"),
+        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail2/"),
         oneEventPerFile = false,
         gzipped         = true
     ).process { event ->
@@ -48,7 +47,7 @@ class EventsProcessor(
             .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
             .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
 
-        val VersionedEventNameRegexp = "(.*)(\\d{4}(-|_)\\d{2}(-|_)\\d{2})".toRegex()
+        val VersionedEventNameRegexp = "(.*)(\\d{4}(-|_)?\\d{2}(-|_)?\\d{2})".toRegex()
     }
 
     fun <T> process(processor: (CloudTrailEvent) -> T): Sequence<T> = eventsDir.walkTopDown().filter { file ->
