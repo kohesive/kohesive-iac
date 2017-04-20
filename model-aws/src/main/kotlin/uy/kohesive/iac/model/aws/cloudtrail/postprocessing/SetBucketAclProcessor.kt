@@ -2,6 +2,7 @@ package uy.kohesive.iac.model.aws.cloudtrail.postprocessing
 
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
+import com.amazonaws.services.s3.model.GroupGrantee
 import uy.kohesive.iac.model.aws.cloudtrail.RequestMapNode
 import uy.kohesive.iac.model.aws.cloudtrail.RequestMapNodeMember
 
@@ -9,7 +10,9 @@ class SetBucketAclProcessor : RequestNodePostProcessor {
 
     companion object {
         val GroupGranteeEnumFix = mapOf(
-            "HttpAcsAmazonawsComgroupss3LogDelivery" to "LogDelivery"
+            "HttpAcsAmazonawsComgroupss3LogDelivery" to GroupGrantee.LogDelivery.name,
+            "HttpAcsAmazonawsComgroupsglobalAuthenticatedUsers" to GroupGrantee.AuthenticatedUsers.name,
+            "HttpAcsAmazonawsComgroupsglobalAllUsers" to GroupGrantee.AllUsers.name
         )
     }
 

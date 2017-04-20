@@ -25,6 +25,7 @@ class PutBucketAclPreprocessor : CloudTrailEventPreprocessor {
         return event.copy(
             eventName = "SetBucketAcl",
             request   = event.request?.let { originalRequestMap ->
+                // Custom ACL
                 val fixedAcl = ((originalRequestMap["AccessControlPolicy"] as? RequestMap)?.get("AccessControlList") as? RequestMap)?.let {
                     val fixedGrants = (it["Grant"] as? List<RequestMap>)?.map { grant ->
                         val fixedGrantee = (grant["Grantee"] as? RequestMap)?.let { grantee ->
@@ -51,7 +52,8 @@ class PutBucketAclPreprocessor : CloudTrailEventPreprocessor {
                     )
                 }
 
-                originalRequestMap - "AccessControlPolicy" + mapOf(
+                // Canned ACL
+                originalRequestMap.rename("x-amz-acl", "CannedAcl")!! - "AccessControlPolicy" + mapOf(
                     "acl" to fixedAcl
                 )
             }
