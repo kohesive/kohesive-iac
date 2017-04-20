@@ -31,7 +31,7 @@ class PutBucketPolicyPreprocessor : CloudTrailEventPreprocessor {
                     JSON.writeValueAsString(policyMap)
                 }
 
-                (requestMap - "buckeyPolicy" - "bucketPolicy") + bucketPolicyAsJSON?.let { json ->
+                (requestMap - "buckeyPolicy" - "bucketPolicy" - "policy") + bucketPolicyAsJSON?.let { json ->
                     mapOf("policyText" to json)
                 }.orEmpty()
             }

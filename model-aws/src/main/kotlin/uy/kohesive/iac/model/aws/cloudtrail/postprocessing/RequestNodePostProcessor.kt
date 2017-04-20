@@ -16,7 +16,9 @@ object RequestPostProcessors {
     private val postProcessors: List<RequestNodePostProcessor> = listOf(
         CreateBucketProcessor(),
         SetBucketAclProcessor(),
-        SetBucketLoggingConfigurationProcessor()
+        SetBucketLoggingConfigurationProcessor(),
+        SetBucketWebsiteConfigurationProcessor(),
+        SetBucketTaggingConfigurationProcessor()
     )
 
     private val shapeNameToPostProcessors = postProcessors.flatMap { postprocessor ->
