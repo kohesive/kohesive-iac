@@ -11,7 +11,10 @@ import java.io.StringWriter
 import java.io.Writer
 
 data class AWSApiCallData(
-    val requestNodes: List<RequestMapNode>,
+    val packageName: String,
+    val className: String,
+    val imports: List<String>,
+    val requestNode: RequestMapNode,
     val operation: OperationModel,
     val awsModel: IntermediateModel,
     val event: CloudTrailEvent
@@ -19,7 +22,9 @@ data class AWSApiCallData(
 
 class AWSApiCallBuilder(
     val intermediateModel: IntermediateModel,
-    val event: CloudTrailEvent
+    val event: CloudTrailEvent,
+    val className: String,
+    val packageName: String
 ) {
 
     companion object {
@@ -196,11 +201,20 @@ class AWSApiCallBuilder(
             awsModel       = intermediateModel
         )
 
+        val imports = listOf(
+            intermediateModel.metadata.packageName + ".model.*",
+            intermediateModel.metadata.packageName + "." + intermediateModel.metadata.syncInterface,
+            "java.util.*"
+        )
+
         val apiCallData  = AWSApiCallData(
-            requestNodes = listOf(requestNode),
+            requestNode  = requestNode,
             awsModel     = intermediateModel,
             event        = event,
-            operation    = operation
+            operation    = operation,
+            packageName  = packageName,
+            className    = className,
+            imports      = imports
         )
 
         val stringWriter = StringWriter()

@@ -21,6 +21,12 @@ enum class TemplateDescriptor(
             templateLocation  = "/macros/cloudTrail/MemberBuilder.ftl",
             importAsNamespace = "CloudTrailMemberMacro"
         )
+    )),
+    RequestRunner("/templates/cloudTrail/RequestRunner.ftl", listOf(
+        ChildTemplate(
+            templateLocation  = "/macros/cloudTrail/MemberBuilder.ftl",
+            importAsNamespace = "CloudTrailMemberMacro"
+        )
     ));
 
     fun load(): Template = TemplateLoader.getTemplate(this)
