@@ -12,7 +12,8 @@ import java.util.zip.GZIPInputStream
 class EventsProcessor(
     val eventsDir: File,
     val oneEventPerFile: Boolean,
-    val gzipped: Boolean
+    val gzipped: Boolean,
+    val ignoreFailedRequests: Boolean = true
 ) {
 
     companion object {
@@ -51,14 +52,19 @@ class EventsProcessor(
 
     private fun parseEvents(jsonMap: Map<String, Any>, eventId: String): Sequence<CloudTrailEvent> =
         if (oneEventPerFile) {
-            sequenceOf(parseEvent(jsonMap, eventId))
+            parseEvent(jsonMap, eventId)?.let { sequenceOf(it) } ?: emptySequence()
         } else {
             (jsonMap["Records"] as? List<Map<String, Any>>)?.mapIndexed { index, record ->
                 parseEvent(record, eventId = "${eventId}_$index")
-            }.orEmpty().asSequence()
+            }.orEmpty().filterNotNull().asSequence()
         }
 
-    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent {
+    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent? {
+        val errorCode = jsonMap["errorCode"] as String?
+        if (ignoreFailedRequests && errorCode != null) {
+            return null
+        }
+
         val eventName  = jsonMap["eventName"] as String
         val apiVersion = jsonMap["apiVersion"] as? String
 
