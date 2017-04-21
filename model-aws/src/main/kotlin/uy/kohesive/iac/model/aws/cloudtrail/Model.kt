@@ -84,6 +84,26 @@ data class RequestMapNode(
             capturedSimpleValue
         }) ?: return null
 
+        if (simpleType == "Integer") {
+            if (simpleValue is Int) {
+                return simpleValue
+            } else {
+                return simpleValue?.toString()?.toInt()
+            }
+        } else if (simpleType == "Long") {
+            if (simpleValue is Long) {
+                return simpleValue
+            } else {
+                return simpleValue?.toString()?.toLong()
+            }
+        } else if (simpleType == "Boolean") {
+            if (simpleValue is Boolean) {
+                return simpleValue
+            } else {
+                return simpleValue?.toString()?.toBoolean()
+            }
+        }
+
         if (extractedSimpleValue is String) {
             return "\"${StringEscapeUtils.escapeJava(extractedSimpleValue.toString())}\"".replace("$", "\\$")
         } else if (extractedSimpleValue is Number) {
