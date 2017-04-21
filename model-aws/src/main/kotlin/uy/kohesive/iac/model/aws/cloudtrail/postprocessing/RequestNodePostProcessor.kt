@@ -16,6 +16,7 @@ object RequestPostProcessors {
     private val postProcessors: List<RequestNodePostProcessor> = listOf(
         CreateBucketProcessor(),
         SetBucketAclProcessor(),
+        SetBucketPolicyProcessor(),
         SetBucketLoggingConfigurationProcessor(),
         SetBucketWebsiteConfigurationProcessor(),
         SetBucketTaggingConfigurationProcessor()
