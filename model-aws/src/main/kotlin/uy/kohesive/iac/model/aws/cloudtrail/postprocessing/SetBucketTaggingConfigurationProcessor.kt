@@ -14,7 +14,7 @@ class SetBucketTaggingConfigurationProcessor : RequestNodePostProcessor {
         requestMapNode.members.clear()
 
         requestMapNode.constructorArgs.firstOrNull { it.memberModel.name == "TaggingConfiguration" }?.let { tagConfig ->
-            tagConfig.value?.members?.firstOrNull { it.memberModel.name == "TagSet" }?.let { tagSetMember ->
+            tagConfig.value?.members?.firstOrNull { it.memberModel.name.startsWith("TagSet") }?.let { tagSetMember ->
                 tagSetMember.memberModel.name = "TagSets"
                 tagSetMember.memberModel.c2jName = "TagSets"
                 tagSetMember.memberModel.setterMethodName = "withTagSets"
@@ -23,9 +23,10 @@ class SetBucketTaggingConfigurationProcessor : RequestNodePostProcessor {
                     (tagMember.value?.simpleValue as? Map<String, String>)?.let { tagMap ->
                         tagMap["Key"] to tagMap["Value"]
                     }?.let { keyValuePair ->
+                        tagMember.value?.simpleType  = null
                         tagMember.value?.simpleValue = null
-                        tagMember.value?.listModel = ListModel(null, null, null, null, null)
-                        tagMember.value?.vararg = true
+                        tagMember.value?.listModel   = ListModel(null, null, null, null, null)
+                        tagMember.value?.vararg      = true
                         tagMember.value?.members?.addAll(listOf(
                             RequestMapNodeMember(tagMember.memberModel, RequestMapNode.simple("String", keyValuePair.first)),
                             RequestMapNodeMember(tagMember.memberModel, RequestMapNode.simple("String", keyValuePair.second))
