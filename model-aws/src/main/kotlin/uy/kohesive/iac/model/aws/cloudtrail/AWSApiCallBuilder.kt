@@ -3,18 +3,18 @@ package uy.kohesive.iac.model.aws.cloudtrail
 import com.amazonaws.codegen.emitters.CodeEmitter
 import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
 import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
-import com.amazonaws.codegen.model.intermediate.IntermediateModel
-import com.amazonaws.codegen.model.intermediate.ListModel
-import com.amazonaws.codegen.model.intermediate.MapModel
-import com.amazonaws.codegen.model.intermediate.ShapeModel
+import com.amazonaws.codegen.model.intermediate.*
 import freemarker.template.Template
 import uy.kohesive.iac.model.aws.cloudtrail.postprocessing.RequestPostProcessors
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.StringWriter
 import java.io.Writer
 
-data class ApiCallData(
-    val requestNodes: List<RequestMapNode>
+data class AWSApiCallData(
+    val requestNodes: List<RequestMapNode>,
+    val operation: OperationModel,
+    val awsModel: IntermediateModel,
+    val event: CloudTrailEvent
 )
 
 class AWSApiCallBuilder(
@@ -185,19 +185,28 @@ class AWSApiCallBuilder(
         return RequestMapNode.complex(actualShapeModel, nodeMembers)
     }
 
-    fun build(): String {
+    fun build(template: TemplateDescriptor): String {
         val generatorTaskExecutor = GeneratorTaskExecutor()
 
         val requestShape = intermediateModel.shapes[event.eventName + "Request"] ?: throw IllegalStateException("Can't find a shape for event $event")
+        val operation    = intermediateModel.getOperation(event.eventName) ?: throw IllegalStateException("Can't find an operation for event $event")
+
         val requestNode  = RequestPostProcessors.postProcess(
             requestMapNode = createRequestMapNode(event.request.orEmpty(), requestShape, parentRequestObject = null),
-            awsModel       = intermediateModel)
-        val apiCallData  = ApiCallData(
-            requestNodes = listOf(requestNode)
+            awsModel       = intermediateModel
+        )
+
+        val apiCallData  = AWSApiCallData(
+            requestNodes = listOf(requestNode),
+            awsModel     = intermediateModel,
+            event        = event,
+            operation    = operation
         )
 
         val stringWriter = StringWriter()
-        val codeEmitter  = CodeEmitter(listOf(GenerateApiCallsTask.create(stringWriter, apiCallData)), generatorTaskExecutor)
+        val codeEmitter  = CodeEmitter(listOf(
+            GenerateApiCallsTask.create(stringWriter, apiCallData, template)
+        ), generatorTaskExecutor)
         codeEmitter.emit()
 
         generatorTaskExecutor.waitForCompletion()
@@ -212,10 +221,10 @@ class GenerateApiCallsTask private constructor(writer: Writer, template: Templat
     : FreemarkerGeneratorTask(writer, template, data) {
 
     companion object {
-        fun create(stringWriter: StringWriter, data: ApiCallData): GenerateApiCallsTask {
+        fun create(stringWriter: StringWriter, data: AWSApiCallData, template: TemplateDescriptor): GenerateApiCallsTask {
             return GenerateApiCallsTask(
                 stringWriter,
-                TemplateDescriptor.RequestBuilder.load(),
+                template.load(),
                 data
             )
         }

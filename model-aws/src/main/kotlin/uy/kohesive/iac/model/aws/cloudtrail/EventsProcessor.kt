@@ -1,8 +1,5 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
-import com.amazonaws.services.cloudtrail.AWSCloudTrailClientBuilder
-import com.amazonaws.services.cloudtrail.model.Event
-import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -11,30 +8,6 @@ import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 import java.io.FileInputStream
 import java.util.zip.GZIPInputStream
-
-fun main(args: Array<String>) {
-    val awsModelProvider = AWSModelProvider()
-
-    EventsProcessor(
-        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail2/"),
-        oneEventPerFile = false,
-        gzipped         = true
-    ).process { event ->
-        if (listOf("Create", "Put", "Attach", "Run", "Set").any { event.eventName.startsWith(it) }) {
-            val serviceName = event.eventSource.split('.').first()
-
-            val awsModel = try {
-                awsModelProvider.getModel(serviceName, event.apiVersion)
-            } catch (t: Throwable) {
-                throw RuntimeException("Can't obtain an AWS model for $event", t)
-            }
-
-            AWSApiCallBuilder(awsModel, event).build()
-        } else {
-            null
-        }
-    }.filterNotNull().forEach(::println)
-}
 
 class EventsProcessor(
     val eventsDir: File,
@@ -106,24 +79,4 @@ class EventsProcessor(
         ))
     }
 
-}
-
-fun fetchEvents(outputDir: File) {
-    val cloudTrailClient = AWSCloudTrailClientBuilder.defaultClient()
-    val firstLookup      = cloudTrailClient.lookupEvents()
-
-    var nextToken: String? = firstLookup.nextToken
-    val events: MutableList<Event> = firstLookup.events
-
-    while (nextToken != null) {
-        val nextLookup = cloudTrailClient.lookupEvents(LookupEventsRequest().withNextToken(nextToken))
-        events.addAll(nextLookup.events)
-        nextToken = nextLookup.nextToken
-    }
-
-    events.forEach { event ->
-        val filename = event.eventId + ".json"
-        File(outputDir, filename).writeText(event.cloudTrailEvent)
-        println(filename)
-    }
 }
