@@ -190,6 +190,20 @@ class AWSApiCallBuilder(
         return RequestMapNode.complex(actualShapeModel, nodeMembers)
     }
 
+    private fun RequestMapNode.collectShapeNames(): Set<String> {
+        return HashSet<String>().apply {
+            this@collectShapeNames.collectShapeNames(this)
+        }
+    }
+    private fun RequestMapNode.collectShapeNames(shapesSet: MutableSet<String>) {
+        if (isStructure()) {
+            this.shape?.let { shape ->
+                shapesSet.add(shape.c2jName)
+            }
+        }
+        (members + constructorArgs).forEach { it.value?.collectShapeNames(shapesSet) }
+    }
+
     fun build(template: TemplateDescriptor): String {
         val generatorTaskExecutor = GeneratorTaskExecutor()
 
@@ -201,9 +215,11 @@ class AWSApiCallBuilder(
             awsModel       = intermediateModel
         )
 
-        val imports = listOf(
-            intermediateModel.metadata.packageName + ".model.*",
-            intermediateModel.metadata.packageName + "." + intermediateModel.metadata.syncInterface,
+        val imports = requestNode.collectShapeNames().filterNot { it.endsWith("Input") || it.startsWith(operation.operationName) }.map { shapeName ->
+            "${intermediateModel.metadata.packageName}.model.$shapeName"
+        } + listOf(
+            "${intermediateModel.metadata.packageName}.model.*",
+            "${intermediateModel.metadata.packageName}.${intermediateModel.metadata.syncInterface}",
             "java.util.*"
         )
 

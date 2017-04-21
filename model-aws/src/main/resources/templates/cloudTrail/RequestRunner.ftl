@@ -4,6 +4,7 @@ package ${packageName}
 import ${import}
 </#list>
 
+// Generated from CloudTrail event ${event.eventId}
 class ${className}(val client: ${awsModel.metadata.syncInterface}) {
 
     fun run() {
