@@ -22,7 +22,7 @@ data class RequestMapNode(
 
     val constructorArgs: MutableList<RequestMapNodeMember> = mutableListOf(),
 
-    val simpleType: String? = null,
+    var simpleType: String? = null,
     var simpleValue: Any? = null,
 
     var listModel: ListModel? = null,
@@ -85,7 +85,7 @@ data class RequestMapNode(
         }) ?: return null
 
         if (extractedSimpleValue is String) {
-            return "\"${StringEscapeUtils.escapeJava(extractedSimpleValue.toString())}\""
+            return "\"${StringEscapeUtils.escapeJava(extractedSimpleValue.toString())}\"".replace("$", "\\$")
         } else if (extractedSimpleValue is Number) {
             return extractedSimpleValue.toString()
         } else if (extractedSimpleValue is Boolean) {
