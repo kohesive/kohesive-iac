@@ -32,9 +32,11 @@ ${memberNode.memberModel.setterMethodName}(<@content memberNode.value level />)
 
 <#macro enumMacro mapRequestNode level=0>${mapRequestNode.shape.c2jName}.${mapRequestNode.enumValue}</#macro>
 
+<#macro dateMacro dateValue>Calendar.getInstance().apply { set(${dateValue.year?c}, ${dateValue.month}, ${dateValue.date}, ${dateValue.hrs}, ${dateValue.min}) }.time</#macro>
+
 <#macro content requestNode level=0>
 <#if requestNode.isStructure()>
 ${requestNode.shape.variable.simpleType}(<#list requestNode.constructorArgs as arg><@content arg.value level /><#if arg_has_next>, </#if></#list>)<#if requestNode.members?size != 0>.apply {
 <#list requestNode.members as memberNode>
 <@indent level+1 /><@structureMember memberNode level+1 />
-</#list><@indent level />}</#if><#elseif requestNode.isSimple()>${requestNode.simpleValueLiteral}<#elseif requestNode.isEnum()><@enumMacro requestNode level+1 /><#elseif requestNode.isMap()><@mapMacro requestNode level+1 /><#elseif requestNode.isList()><@listMacro requestNode level+1 /></#if></#macro>
+</#list><@indent level />}</#if><#elseif requestNode.isDate()><@dateMacro requestNode.dateValue /><#elseif requestNode.isSimple()>${requestNode.simpleValueLiteral}<#elseif requestNode.isEnum()><@enumMacro requestNode level+1 /><#elseif requestNode.isMap()><@mapMacro requestNode level+1 /><#elseif requestNode.isList()><@listMacro requestNode level+1 /></#if></#macro>

@@ -5,6 +5,7 @@ import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 import org.apache.commons.lang3.StringEscapeUtils
+import uy.kohesive.iac.model.aws.cloudtrail.utils.DateTime
 
 typealias RequestMap = Map<String, Any?>
 
@@ -30,12 +31,18 @@ data class RequestMapNode(
 
     val mapModel: MapModel? = null,
 
-    var enumValue: String? = null
+    var enumValue: String? = null,
+
+    val dateValue: DateTime? = null
 ) {
     companion object {
         fun simple(type: String, value: Any?) = RequestMapNode(
             simpleType  = type,
             simpleValue = value
+        )
+
+        fun date(dateValue: String) = RequestMapNode(
+            dateValue = DateTime.parse(dateValue)
         )
 
         fun complex(shape: ShapeModel, members: List<RequestMapNodeMember>) = RequestMapNode(
@@ -71,6 +78,7 @@ data class RequestMapNode(
     fun isMap()       = mapModel != null
     fun isSimple()    = simpleValue != null
     fun isStructure() = shape != null && enumValue == null
+    fun isDate()      = dateValue != null
 
     private fun getSimpleValueLiteral_(): Any? {
         if (!isSimple()) throw IllegalStateException("Not a simple value")

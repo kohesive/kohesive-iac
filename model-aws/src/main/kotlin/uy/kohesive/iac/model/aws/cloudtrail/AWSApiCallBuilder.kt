@@ -140,7 +140,13 @@ class AWSApiCallBuilder(
             }
 
             val fieldValueNode = if (memberModel.isSimple) {
-                RequestMapNode.simple(memberModel.c2jShape, fieldValue)
+                if (memberModel.c2jShape.startsWith("Timestamp")) {
+                    (fieldValue as? String)?.let { dateStr ->
+                        RequestMapNode.date(dateStr)
+                    } ?: throw IllegalStateException("Invalid date value for Timestamp member: $fieldValue")
+                } else {
+                    RequestMapNode.simple(memberModel.c2jShape, fieldValue)
+                }
             } else {
                 if (memberModel.isList) {
                     if (fieldValue is Map<*, *>) {
