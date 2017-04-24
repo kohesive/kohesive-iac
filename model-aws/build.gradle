@@ -8,6 +8,7 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: version_jsoup
     compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: version_javaparser
+    compile group: 'com.joestelmach', name: 'natty', version: version_natty
 }
 
 sourceSets {
