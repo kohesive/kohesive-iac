@@ -64,21 +64,22 @@ open class FileSystemEventsProcessor(
         }
     }
 
-    private fun parseEvents(jsonMap: Map<String, Any>, eventId: String): Sequence<CloudTrailEvent> =
+    private fun parseEvents(jsonMap: Map<String, Any>, eventSourceFile: String): Sequence<CloudTrailEvent> =
         if (oneEventPerFile) {
-            parseEvent(jsonMap, eventId)?.let { sequenceOf(it) } ?: emptySequence()
+            parseEvent(jsonMap, eventSourceFile)?.let { sequenceOf(it) } ?: emptySequence()
         } else {
             (jsonMap["Records"] as? List<Map<String, Any>>)?.mapIndexed { index, record ->
-                parseEvent(record, eventId = "${eventId}_$index")
+                parseEvent(record, eventSourceFile = "${eventSourceFile}_$index")
             }.orEmpty().filterNotNull().asSequence()
         }
 
-    private fun parseEvent(jsonMap: Map<String, Any>, eventId: String): CloudTrailEvent? {
+    private fun parseEvent(jsonMap: Map<String, Any>, eventSourceFile: String): CloudTrailEvent? {
         val errorCode = jsonMap["errorCode"] as String?
         if (ignoreFailedRequests && errorCode != null) {
             return null
         }
 
+        val eventId    = jsonMap["eventID"] as String
         val eventName  = jsonMap["eventName"] as String
         val apiVersion = jsonMap["apiVersion"] as? String
         val eventTime  = DateUtils.parseISO8601Date(jsonMap["eventTime"] as String)
@@ -92,12 +93,13 @@ open class FileSystemEventsProcessor(
         }
 
         return CloudTrailEventPreprocessors.preprocess(CloudTrailEvent(
-            eventId     = eventId,
-            eventTime   = eventTime,
-            eventSource = jsonMap["eventSource"] as String,
-            eventName   = fixedEventName,
-            apiVersion  = fixedApiVersion,
-            request     = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
+            eventId         = eventId,
+            eventSourceFile = eventSourceFile,
+            eventTime       = eventTime,
+            eventSource     = jsonMap["eventSource"] as String,
+            eventName       = fixedEventName,
+            apiVersion      = fixedApiVersion,
+            request         = (jsonMap["requestParameters"] as? RequestMap).orEmpty()
         ))
     }
 

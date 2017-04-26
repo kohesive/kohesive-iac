@@ -21,7 +21,20 @@ fun EventsFilter.toRequest() = LookupEventsRequest().apply {
     endTime   = this@toRequest.endTime
 }
 
-fun AWSCloudTrail.eventsSequence(eventsFilter: EventsFilter): Sequence<Event> = CloudTrailEventsSequence(this, eventsFilter)
+fun AWSCloudTrail.eventsSequence(eventsFilter: EventsFilter): Sequence<Event> {
+    var sequence: Sequence<Event> = CloudTrailEventsSequence(this, eventsFilter)
+    if (eventsFilter.hasIdConstraints()) {
+        if (eventsFilter.startId != null) {
+            sequence = sequence.dropWhile { it.eventId != eventsFilter.startId }
+        }
+        if (eventsFilter.endId != null) {
+            sequence = sequence.takeWhile { it.eventId != eventsFilter.endId }
+        }
+        return sequence
+    } else {
+        return sequence
+    }
+}
 
 private class CloudTrailEventsSequence(
     private val cloudTrailClient: AWSCloudTrail,

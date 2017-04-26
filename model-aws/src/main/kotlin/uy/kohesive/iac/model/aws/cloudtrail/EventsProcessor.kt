@@ -9,16 +9,22 @@ interface EventsProcessor {
 }
 
 data class EventsFilter(
-    val startTime: Date? = null,
-    val endTime: Date? = null
+    val startTime: Date?,
+    val endTime: Date?,
+    val startId: String?,
+    val endId: String?
 ) {
+
     companion object {
         val Empty = EventsFilter(
             startTime = null,
-            endTime = null
+            endTime   = null,
+            startId   = null,
+            endId     = null
         )
     }
 
     fun isEmpty() = this == Empty
+    fun hasIdConstraints() = startId != null || endId != null
 
 }

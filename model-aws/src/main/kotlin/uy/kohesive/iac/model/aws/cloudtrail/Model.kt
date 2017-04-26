@@ -12,6 +12,7 @@ typealias RequestMap = Map<String, Any?>
 
 data class CloudTrailEvent(
     val eventId: String,
+    val eventSourceFile: String?,
     val eventSource: String,
     val eventName: String,
     val apiVersion: String?,
