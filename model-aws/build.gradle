@@ -9,6 +9,7 @@ dependencies {
     compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
     compile group: 'com.github.javaparser', name: 'javaparser-core', version: version_javaparser
     compile group: 'com.joestelmach', name: 'natty', version: version_natty
+    compile group: 'io.airlift', name: 'airline', version: version_airline
 }
 
 sourceSets {

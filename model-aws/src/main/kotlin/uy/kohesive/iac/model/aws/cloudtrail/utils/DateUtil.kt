@@ -25,7 +25,7 @@ data class DateTime(
             )
         }
 
-        private fun parseDate(dateStr: String): Date {
+        fun parseDate(dateStr: String): Date {
             try {
                 return DateUtils.parseRFC822Date(dateStr)
             } catch (t: Throwable) {
