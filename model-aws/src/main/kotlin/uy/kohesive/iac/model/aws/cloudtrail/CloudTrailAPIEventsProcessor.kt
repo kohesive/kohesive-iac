@@ -2,7 +2,8 @@ package uy.kohesive.iac.model.aws.cloudtrail
 
 import com.google.common.io.Files
 
-class CloudTrailAPIEventsProcessor(ignoreFailedRequests: Boolean) : FileSystemEventsProcessor(
+class CloudTrailAPIEventsProcessor(ignoreFailedRequests: Boolean, eventsFilter: EventsFilter = EventsFilter.Empty) : FileSystemEventsProcessor(
+    eventsFilter         = eventsFilter,
     eventsDir            = Files.createTempDir(),
     oneEventPerFile      = true,
     gzipped              = false,
@@ -10,7 +11,7 @@ class CloudTrailAPIEventsProcessor(ignoreFailedRequests: Boolean) : FileSystemEv
 ) {
 
     init {
-        EventsFetcher(eventsDir).fetchEvents()
+        EventsFetcher(eventsDir, eventsFilter).fetchEvents()
     }
 
 }

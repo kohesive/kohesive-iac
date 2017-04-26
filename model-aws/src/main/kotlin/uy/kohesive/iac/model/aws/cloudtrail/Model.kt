@@ -6,6 +6,7 @@ import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
 import org.apache.commons.lang3.StringEscapeUtils
 import uy.kohesive.iac.model.aws.cloudtrail.utils.DateTime
+import java.util.*
 
 typealias RequestMap = Map<String, Any?>
 
@@ -14,6 +15,7 @@ data class CloudTrailEvent(
     val eventSource: String,
     val eventName: String,
     val apiVersion: String?,
+    val eventTime: Date,
     val request: RequestMap?
 )
 

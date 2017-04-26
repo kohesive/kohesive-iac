@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
+import com.amazonaws.util.DateUtils
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
@@ -15,6 +16,7 @@ enum class EventsSource {
 }
 
 open class FileSystemEventsProcessor(
+    val eventsFilter: EventsFilter = EventsFilter.Empty,
     val eventsDir: File,
     val oneEventPerFile: Boolean,
     val gzipped: Boolean,
@@ -43,7 +45,14 @@ open class FileSystemEventsProcessor(
             }
         }.use { inputStream ->
             JSON.readValue<Map<String, Any>>(inputStream).let { jsonMap ->
-                parseEvents(jsonMap, file.nameWithoutExtension).map { cloudTrailEvent ->
+                parseEvents(jsonMap, file.nameWithoutExtension).filter { cloudTrailEvent ->
+                    if (eventsFilter.isEmpty()) {
+                        true
+                    } else {
+                        eventsFilter.startTime?.let { it.before(cloudTrailEvent.eventTime) } ?: true &&
+                        eventsFilter.endTime?.let { it.after(cloudTrailEvent.eventTime) } ?: true
+                    }
+                }.map { cloudTrailEvent ->
                     try {
                         processor(cloudTrailEvent)
                     } catch (t: Throwable) {
@@ -72,6 +81,7 @@ open class FileSystemEventsProcessor(
 
         val eventName  = jsonMap["eventName"] as String
         val apiVersion = jsonMap["apiVersion"] as? String
+        val eventTime  = DateUtils.parseISO8601Date(jsonMap["eventTime"] as String)
 
         val (fixedEventName, fixedApiVersion) = if (VersionedEventNameRegexp.matches(eventName)) {
             VersionedEventNameRegexp.find(eventName)!!.groupValues.let {
@@ -83,6 +93,7 @@ open class FileSystemEventsProcessor(
 
         return CloudTrailEventPreprocessors.preprocess(CloudTrailEvent(
             eventId     = eventId,
+            eventTime   = eventTime,
             eventSource = jsonMap["eventSource"] as String,
             eventName   = fixedEventName,
             apiVersion  = fixedApiVersion,

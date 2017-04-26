@@ -6,28 +6,37 @@ import com.amazonaws.services.cloudtrail.model.Event
 import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import java.io.File
 
-class EventsFetcher(val outputDir: File) {
+class EventsFetcher(val outputDir: File, val eventsFilter: EventsFilter) {
 
     fun fetchEvents() {
-        AWSCloudTrailClientBuilder.defaultClient().eventsSequence().forEach { event ->
+        AWSCloudTrailClientBuilder.defaultClient().eventsSequence(eventsFilter).forEach { event ->
             File(outputDir, event.eventId + ".json").writeText(event.cloudTrailEvent)
         }
     }
 
 }
 
-fun AWSCloudTrail.eventsSequence(): Sequence<Event> = CloudTrailEventsSequence(this)
+fun EventsFilter.toRequest() = LookupEventsRequest().apply {
+    startTime = this@toRequest.startTime
+    endTime   = this@toRequest.endTime
+}
 
-private class CloudTrailEventsSequence(private val cloudTrailClient: AWSCloudTrail) : Sequence<Event> {
+fun AWSCloudTrail.eventsSequence(eventsFilter: EventsFilter): Sequence<Event> = CloudTrailEventsSequence(this, eventsFilter)
+
+private class CloudTrailEventsSequence(
+    private val cloudTrailClient: AWSCloudTrail,
+    private val eventsFilter: EventsFilter
+) : Sequence<Event> {
 
     override fun iterator(): Iterator<Event> {
-        val firstLookup = cloudTrailClient.lookupEvents()
+        val firstLookup = cloudTrailClient.lookupEvents(eventsFilter.toRequest())
         val firstNextToken: String? = firstLookup.nextToken
 
         return CloudTrailEventsIterator(
             currentBunchIterator = firstLookup.events.iterator(),
             nextToken            = firstNextToken,
-            cloudTrailClient     = cloudTrailClient
+            cloudTrailClient     = cloudTrailClient,
+            eventsFilter         = eventsFilter
         )
     }
 
@@ -36,7 +45,8 @@ private class CloudTrailEventsSequence(private val cloudTrailClient: AWSCloudTra
 private class CloudTrailEventsIterator(
     private var currentBunchIterator: Iterator<Event>,
     private var nextToken: String?,
-    private val cloudTrailClient: AWSCloudTrail
+    private val cloudTrailClient: AWSCloudTrail,
+    private val eventsFilter: EventsFilter
 ) : Iterator<Event> {
 
     override fun hasNext(): Boolean {
@@ -48,7 +58,7 @@ private class CloudTrailEventsIterator(
             return currentBunchIterator.next()
         } else {
             if (nextToken != null) {
-                val lookupEventsResult = cloudTrailClient.lookupEvents(LookupEventsRequest().withNextToken(nextToken))
+                val lookupEventsResult = cloudTrailClient.lookupEvents(eventsFilter.toRequest().withNextToken(nextToken))
 
                 nextToken = lookupEventsResult.nextToken
                 currentBunchIterator = lookupEventsResult.events.iterator()
