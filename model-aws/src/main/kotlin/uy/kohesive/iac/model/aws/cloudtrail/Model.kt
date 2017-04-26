@@ -104,12 +104,6 @@ data class RequestMapNode(
             } else {
                 return simpleValue?.toString()?.toLong()
             }
-        } else if (simpleType == "Boolean") {
-            if (simpleValue is Boolean) {
-                return simpleValue
-            } else {
-                return simpleValue?.toString()?.toBoolean()
-            }
         }
 
         if (extractedSimpleValue is String) {
