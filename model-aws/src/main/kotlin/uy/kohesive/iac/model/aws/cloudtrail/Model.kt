@@ -4,6 +4,7 @@ import com.amazonaws.codegen.model.intermediate.ListModel
 import com.amazonaws.codegen.model.intermediate.MapModel
 import com.amazonaws.codegen.model.intermediate.MemberModel
 import com.amazonaws.codegen.model.intermediate.ShapeModel
+import com.amazonaws.util.DateUtils
 import org.apache.commons.lang3.StringEscapeUtils
 import uy.kohesive.iac.model.aws.cloudtrail.utils.DateTime
 import java.util.*
@@ -12,13 +13,18 @@ typealias RequestMap = Map<String, Any?>
 
 data class CloudTrailEvent(
     val eventId: String,
-    val eventSourceFile: String?,
+    val eventSourceUri: String?,
     val eventSource: String,
     val eventName: String,
     val apiVersion: String?,
     val eventTime: Date,
     val request: RequestMap?
-)
+) {
+
+    override fun toString(): String {
+        return "id=$eventId, type=$eventName, time=${DateUtils.formatISO8601Date(eventTime)}"
+    }
+}
 
 data class RequestMapNode(
     val shape: ShapeModel? = null,

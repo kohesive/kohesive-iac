@@ -1,15 +1,14 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
 import com.amazonaws.services.cloudtrail.AWSCloudTrail
-import com.amazonaws.services.cloudtrail.AWSCloudTrailClientBuilder
 import com.amazonaws.services.cloudtrail.model.Event
 import com.amazonaws.services.cloudtrail.model.LookupEventsRequest
 import java.io.File
 
-class EventsFetcher(val outputDir: File, val eventsFilter: EventsFilter) {
+class EventsFetcher(val outputDir: File, val eventsFilter: EventsFilter, val awsClient: AWSCloudTrail) {
 
     fun fetchEvents() {
-        AWSCloudTrailClientBuilder.defaultClient().eventsSequence(eventsFilter).forEach { event ->
+        awsClient.eventsSequence(eventsFilter).forEach { event ->
             File(outputDir, event.eventId + ".json").writeText(event.cloudTrailEvent)
         }
     }

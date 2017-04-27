@@ -1,17 +1,28 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
-import com.google.common.io.Files
+import com.amazonaws.services.cloudtrail.AWSCloudTrail
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 
-class CloudTrailAPIEventsProcessor(ignoreFailedRequests: Boolean, eventsFilter: EventsFilter = EventsFilter.Empty) : FileSystemEventsProcessor(
-    eventsFilter         = eventsFilter,
-    eventsDir            = Files.createTempDir(),
-    oneEventPerFile      = true,
-    gzipped              = false,
-    ignoreFailedRequests = ignoreFailedRequests
-) {
+class CloudTrailAPIEventsProcessor(
+    override val eventsFilter: EventsFilter = EventsFilter.Empty,
+    override val ignoreFailedRequests: Boolean = true,
 
-    init {
-        EventsFetcher(eventsDir, eventsFilter).fetchEvents()
+    val awsClient: AWSCloudTrail
+) : EventsProcessor {
+
+    companion object {
+        val JSON = jacksonObjectMapper()
+            .setPropertyNamingStrategy(CasePreservingJacksonNamingStrategy())
+            .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)
     }
+
+    override fun scrollEvents(): Sequence<CloudTrailEvent> = awsClient.eventsSequence(eventsFilter).map { record ->
+        FileSystemEventsProcessor.JSON.readValue<Map<String, Any>>(record.cloudTrailEvent).let { jsonMap ->
+            parseEvent(jsonMap)
+        }
+    }.filterNotNull()
 
 }
