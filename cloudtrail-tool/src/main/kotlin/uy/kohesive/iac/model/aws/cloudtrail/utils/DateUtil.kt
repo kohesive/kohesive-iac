@@ -40,6 +40,14 @@ data class DateTime(
         }
     }
 
+    fun getISO8601Date(): String = DateUtils.formatISO8601Date(Calendar.getInstance().apply {
+        set(Calendar.YEAR, year)
+        set(Calendar.MONTH, month)
+        set(Calendar.DAY_OF_MONTH, date)
+        set(Calendar.HOUR_OF_DAY, hrs)
+        set(Calendar.MINUTE, min)
+    }.time)
+
 }
 
 

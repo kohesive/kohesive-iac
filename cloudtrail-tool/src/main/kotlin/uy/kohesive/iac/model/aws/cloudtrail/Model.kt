@@ -89,6 +89,8 @@ data class RequestMapNode(
     fun isStructure() = shape != null && enumValue == null
     fun isDate()      = dateValue != null
 
+    fun getDateFormatted(): String = dateValue?.getISO8601Date() ?: "(unknown date)"
+
     private fun getSimpleValueLiteral_(): Any? {
         if (!isSimple()) throw IllegalStateException("Not a simple value")
 
