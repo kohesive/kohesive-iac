@@ -1,0 +1,25 @@
+apply plugin: 'application'
+
+dependencies {
+    compile project(':model-common')
+    compile project(':model-aws')
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: version_awssdk
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-code-generator', version: version_awssdk
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-workdocs', version: version_awssdk
+    compile group: 'uy.kohesive.klutter', name: 'klutter-core', version: version_klutter
+    compile group: 'com.joestelmach', name: 'natty', version: version_natty
+    compile group: 'io.airlift', name: 'airline', version: version_airline
+}
+
+mainClassName = "uy.kohesive.iac.model.aws.cloudtrail.command.CloudTrailTool"
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs += 'src/generated/kotlin'
+        }
+        resources {
+            srcDirs += 'src/generated/resources'
+        }
+    }
+}

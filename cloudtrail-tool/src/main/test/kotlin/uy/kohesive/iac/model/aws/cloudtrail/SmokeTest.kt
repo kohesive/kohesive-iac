@@ -4,17 +4,19 @@ import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.File
 
 fun main(args: Array<String>) {
-    val packageName = "uy.kohesive.iac.model.aws.cloudtrail.test"
+    val packageName = "uy.kohesive.iac.model.aws.cloudtrail.test4"
     val outputDir   = File("/Users/eliseyev/TMP/codegen/runners/", packageName.replace('.', '/')).apply { mkdirs() }
 
     val awsModelProvider = AWSModelProvider()
     var counter = 0
 
-    EventsProcessor(
-        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail2/us-east-1/2017/02/16/"),
-//        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail2/"),
-        oneEventPerFile = false,
-        gzipped         = true
+    FileSystemEventsProcessor(
+//        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail2/us-east-1/2017/02/16/"),
+//        eventsDir       = File("/Users/eliseyev/Downloads/CloudTrail/"),
+        eventsDir       = File("/Users/eliseyev/TMP/cloudtrail/"),
+//        eventsDir       = File("/Users/eliseyev/Downloads/BadCloudTrail/"),
+        oneEventPerFile = true,
+        gzipped         = false
     ).process { event ->
         if (listOf("Create", "Put", "Attach", "Run", "Set").any { event.eventName.startsWith(it) }) {
             val serviceName = event.eventSource.split('.').first()

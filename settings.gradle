@@ -7,6 +7,6 @@ pluginRepositories {
 
 rootProject.name = 'kohesive-iac'
 
-include 'model-common', 'model-aws', 'aws-data-collector'
+include 'model-common', 'model-aws', 'aws-data-collector', 'cloudtrail-tool'
 // , 'engine', 'engine-cli'
 // , 'aws-examples/lambdas', 'aws-examples/example-email-aggr-athena'
