@@ -1,5 +1,6 @@
 package uy.kohesive.iac.model.aws.cloudtrail
 
+import uy.kohesive.iac.model.aws.codegen.AWSModelProvider
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.File
 

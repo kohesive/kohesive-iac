@@ -3,7 +3,7 @@ package uy.kohesive.iac.model.aws.cloudtrail.command
 import io.airlift.airline.Command
 import io.airlift.airline.Option
 import uy.kohesive.iac.model.aws.cloudtrail.AWSApiCallBuilder
-import uy.kohesive.iac.model.aws.cloudtrail.AWSModelProvider
+import uy.kohesive.iac.model.aws.codegen.AWSModelProvider
 import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
 import java.io.File
 

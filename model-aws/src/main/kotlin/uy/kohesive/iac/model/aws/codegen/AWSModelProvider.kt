@@ -1,10 +1,9 @@
-package uy.kohesive.iac.model.aws.cloudtrail
+package uy.kohesive.iac.model.aws.codegen
 
 import com.amazonaws.codegen.model.intermediate.IntermediateModel
 import com.amazonaws.codegen.utils.ModelLoaderUtils
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
-import uy.kohesive.iac.model.aws.codegen.loadModel
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
