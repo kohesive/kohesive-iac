@@ -37,9 +37,11 @@ class CloudFormationModelCodeGen(
     private val generatorTaskExecutor = GeneratorTaskExecutor()
 
     fun generate() {
+        File(outputDir).mkdirs()
+
         File(inputDir).listFiles { _, name ->
             name.endsWith(".json", ignoreCase = true)
-        }.forEach { file ->
+        }.map { file ->
             val model = AmazonServiceCFModel(
                 serviceName = file.nameWithoutExtension,
                 resources   = JSON.readValue<List<CloudFormationResource>>(file)
@@ -48,6 +50,17 @@ class CloudFormationModelCodeGen(
                 outputDir   = outputDir,
                 packageName = packageName,
                 cfModel     = model
+            )
+
+            val emitter = CodeEmitter(listOf(generateTask), generatorTaskExecutor)
+            emitter.emit()
+
+            model.serviceName
+        }.let { serviceNames ->
+            val generateTask = CFResourcesListGenerateTask.create(
+                outputDir   = outputDir,
+                packageName = packageName,
+                model       = CFResourcesSummaryData(serviceNames, packageName)
             )
 
             val emitter = CodeEmitter(listOf(generateTask), generatorTaskExecutor)
@@ -87,3 +100,28 @@ data class AmazonServiceCFModel(
     val serviceName: String,
     val resources: List<CloudFormationResource>
 )
+
+class CFResourcesListGenerateTask private constructor(writer: Writer, template: Template, data: Any)
+    : FreemarkerGeneratorTask(writer, template, data) {
+
+    companion object {
+        fun create(outputDir: String, packageName: String, model: CFResourcesSummaryData): CFResourcesListGenerateTask {
+            return CFResourcesListGenerateTask(
+                CodeWriter(
+                    outputDir + "/" + packageName.replace('.', '/'),
+                    "CFResources",
+                    ".kt"
+                ),
+                TemplateDescriptor.CloudFormationResourcesList.load(),
+                model
+            )
+        }
+    }
+
+}
+
+data class CFResourcesSummaryData(
+    val serviceNames: List<String>,
+    val packageName: String
+)
+

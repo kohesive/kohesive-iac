@@ -10,6 +10,7 @@ enum class TemplateDescriptor(
     BaseIacContext("/templates/context/IacContext.ftl"),
     ServiceContext("/templates/context/ServiceContext.ftl"),
     DeferredClient("/templates/client/DeferredClient.ftl"),
+    CloudFormationResourcesList("/templates/cfModel/CfResourcesList.ftl"),
     CloudFormationModel("/templates/cfModel/CfModel.ftl", listOf(
         ChildTemplate(
             templateLocation  = "/macros/cfModel/ModelClass.ftl",
