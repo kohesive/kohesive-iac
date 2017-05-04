@@ -112,11 +112,11 @@ data class Parameter(
 interface ResourceProperties
 
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class CloudFormationType(val value: String)
 
 @Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.SOURCE)
+@Retention(AnnotationRetention.RUNTIME)
 annotation class CloudFormationTypes
 
 data class Resource(
