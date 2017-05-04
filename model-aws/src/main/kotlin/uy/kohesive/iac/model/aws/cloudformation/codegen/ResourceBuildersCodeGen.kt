@@ -1,12 +1,20 @@
 package uy.kohesive.iac.model.aws.cloudformation.codegen
 
+import com.amazonaws.codegen.emitters.CodeEmitter
+import com.amazonaws.codegen.emitters.CodeWriter
+import com.amazonaws.codegen.emitters.FreemarkerGeneratorTask
+import com.amazonaws.codegen.emitters.GeneratorTaskExecutor
+import freemarker.template.Template
 import org.reflections.Reflections
 import org.reflections.scanners.TypeElementsScanner
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.resources.CFResources
 import uy.kohesive.iac.model.aws.codegen.AWSModelProvider
+import uy.kohesive.iac.model.aws.codegen.TemplateDescriptor
+import uy.kohesive.iac.model.aws.utils.firstLetterToLowerCase
 import uy.kohesive.iac.model.aws.utils.pluralize
 import uy.kohesive.iac.model.aws.utils.simpleName
+import java.io.Writer
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
 
@@ -22,6 +30,8 @@ class ResourceBuildersCodeGen(
     val outputDir: String,
     val packageName: String
 ) {
+
+    private val generatorTaskExecutor = GeneratorTaskExecutor()
 
     var totalCFTypes = 0
     var foundRequestClasses = 0
@@ -58,8 +68,10 @@ class ResourceBuildersCodeGen(
                     serviceName to null
                 }
 
+                val missingResources = ArrayList<String>()
+
                 val awsModel     = awsModelProvider.getModel(serviceKey, serviceVersion)
-                val modelPackage = (awsModel.metadata.packageName + ".model.").let {
+                val modelPackage = (awsModel.metadata.packageName + ".model").let {
                     if (serviceName == "kinesisfirehose") {
                         it.replace("kinesis", "kinesisfirehose")
                     } else {
@@ -79,7 +91,7 @@ class ResourceBuildersCodeGen(
 
                 typesContainer.nestedClasses.filter { nestedClass ->
                     nestedClass.findAnnotation<CloudFormationType>() != null
-                }.forEach { nestedClass ->
+                }.map { nestedClass ->
                     totalCFTypes++
 
                     val cfType = nestedClass.findAnnotation<CloudFormationType>()?.value
@@ -104,6 +116,8 @@ class ResourceBuildersCodeGen(
 
                     if (requestClass == null) {
                         println("No model class for CF resource $cfType")
+                        missingResources.add(cfType!!)
+                        null
                     } else {
                         foundRequestClasses++
 
@@ -113,16 +127,49 @@ class ResourceBuildersCodeGen(
                             it.name.replaceFirst("get", "")
                         }
 
+                        var missingProperties: List<String> = emptyList()
+
                         if (modelClassProperties.containsAll(cfClassProperties)) {
                             matchingProperties++
                             mostlyMatchingProperties++
                         } else {
-                            val missingProperties = cfClassProperties.filterNot { modelClassProperties.contains(it) }
-                            if (missingProperties.size < cfClassProperties.size / 2) {
+                            missingProperties = cfClassProperties.filterNot { modelClassProperties.contains(it) }
+                            if (missingProperties.size <= cfClassProperties.size / 2) {
                                 mostlyMatchingProperties++
                             }
                         }
+
+                        val matchingProperties = cfClassProperties.intersect(modelClassProperties)
+
+                        Resource(
+                            entityName        = nestedClass.simpleName!!,
+                            requestName       = requestClass.simpleName,
+                            missingProperties = missingProperties,
+                            properties        = matchingProperties.map {
+                                Property(
+                                    name   = it,
+                                    nameLC = it.firstLetterToLowerCase()
+                                )
+                            }
+                        )
                     }
+                }.filterNotNull().takeIf { it.isNotEmpty() }?.let { resources ->
+                    val codegenModel     = CFResourcesBuilderTemplateModel(
+                        modelPackage     = modelPackage,
+                        packageName      = packageName,
+                        serviceName      = typesContainer.simpleName!!,
+                        resources        = resources,
+                        missingResources = missingResources
+                    )
+
+                    val generateTask = CFResourcesBuilderTemplateGenerateTask.create(
+                        model       = codegenModel,
+                        packageName = packageName,
+                        outputDir   = outputDir
+                    )
+
+                    val emitter = CodeEmitter(listOf(generateTask), generatorTaskExecutor)
+                    emitter.emit()
                 }
             }
         }
@@ -131,6 +178,48 @@ class ResourceBuildersCodeGen(
         println("matchingProperties: $matchingProperties")
         println("mostlyMatchingProperties: $mostlyMatchingProperties")
         println("totalCFTypes: $totalCFTypes")
+
+        generatorTaskExecutor.waitForCompletion()
+        generatorTaskExecutor.shutdown()
+    }
+
+}
+
+data class CFResourcesBuilderTemplateModel(
+    val packageName: String,
+    val modelPackage: String,
+    val serviceName: String,
+    val missingResources: List<String>,
+    val resources: List<Resource>
+)
+
+data class Resource(
+    val entityName: String,
+    val requestName: String,
+    val missingProperties: List<String>,
+    val properties: List<Property>
+)
+
+data class Property(
+    val name: String,
+    val nameLC: String
+)
+
+class CFResourcesBuilderTemplateGenerateTask private constructor(writer: Writer, template: Template, data: Any)
+    : FreemarkerGeneratorTask(writer, template, data) {
+
+    companion object {
+        fun create(outputDir: String, packageName: String, model: CFResourcesBuilderTemplateModel): CFResourcesBuilderTemplateGenerateTask {
+            return CFResourcesBuilderTemplateGenerateTask(
+                CodeWriter(
+                    outputDir + "/" + packageName.replace('.', '/'),
+                    model.serviceName,
+                    ".kt"
+                ),
+                TemplateDescriptor.CloudFormationResourceBuilder.load(),
+                model
+            )
+        }
     }
 
 }
