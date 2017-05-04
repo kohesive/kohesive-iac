@@ -14,13 +14,13 @@ import uy.kohesive.iac.model.aws.utils.CasePreservingJacksonNamingStrategy
 import java.io.File
 import java.io.Writer
 
-fun main(args: Array<String>) {
-    CloudFormationModelCodeGen(
-        inputDir    = "./model-aws/src/generated/resources/cfSchema",
-        outputDir   = "/Users/eliseyev/TMP/cf/model/",
-        packageName = "uy.kohesive.iac.model.aws.cloudformation.resources"
-    ).generate()
-}
+//fun main(args: Array<String>) {
+//    CloudFormationModelCodeGen(
+//        inputDir    = "./model-aws/src/generated/resources/cfSchema",
+//        outputDir   = "/Users/eliseyev/TMP/cf/model/",
+//        packageName = "uy.kohesive.iac.model.aws.cloudformation.resources"
+//    ).generate()
+//}
 
 class CloudFormationModelCodeGen(
     val inputDir: String,
