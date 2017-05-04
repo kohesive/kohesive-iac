@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object AutoScaling {
@@ -71,12 +71,12 @@ object AutoScaling {
 
         data class MappingProperty(
             val DeviceName: String,
-            val Ebs: LaunchConfiguration.MappingProperty.AutoScalingEBSBlockDeviceTypeIsAnEmbeddedProperty? = null,
+            val Ebs: LaunchConfiguration.MappingProperty.AutoScalingEBSBlockDevice? = null,
             val NoDevice: String? = null,
             val VirtualName: String? = null
         ) {
 
-            data class AutoScalingEBSBlockDeviceTypeIsAnEmbeddedProperty(
+            data class AutoScalingEBSBlockDevice(
                 val DeleteOnTermination: String? = null,
                 val Encrypted: String? = null,
                 val Iops: String? = null,
