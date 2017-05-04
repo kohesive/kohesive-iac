@@ -96,9 +96,8 @@ class LaunchConfigurationPropertiesBuilder : ResourcePropertiesBuilder<CreateLau
                 SecurityGroups               = request.securityGroups,
                 SpotPrice                    = request.spotPrice,
                 UserData                     = request.userData,
-                RamDiskId                    = request.ramdiskId
-                // TODO: instanceMonitoring is a String, got to parse it
-                // InstanceMonitoring = request.instanceMonitoring
+                RamDiskId                    = request.ramdiskId,
+                InstanceMonitoring           = request.instanceMonitoring?.enabled?.toString()
             )
         }
 
