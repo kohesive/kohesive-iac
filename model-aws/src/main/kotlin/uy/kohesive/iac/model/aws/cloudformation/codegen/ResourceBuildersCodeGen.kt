@@ -122,24 +122,25 @@ class ResourceBuildersCodeGen(
                         foundRequestClasses++
 
                         // Let's check if we have all the needed properties in the model class
-                        val cfClassProperties    = nestedClass.memberProperties.map { it.name }
-                        val modelClassProperties = requestClass.methods.filter { it.name.startsWith("get") }.map {
-                            it.name.replaceFirst("get", "")
+                        val cfClassPropertiesNames = nestedClass.memberProperties.map { it.name }
+                        val modelClassGetters      = requestClass.methods.filter { it.name.startsWith("get") }.associate {
+                            it.name.replaceFirst("get", "") to it
                         }
+                        val modelClassPropertiesNames = modelClassGetters.keys
 
                         var missingProperties: List<String> = emptyList()
 
-                        if (modelClassProperties.containsAll(cfClassProperties)) {
+                        if (modelClassPropertiesNames.containsAll(cfClassPropertiesNames)) {
                             matchingProperties++
                             mostlyMatchingProperties++
                         } else {
-                            missingProperties = cfClassProperties.filterNot { modelClassProperties.contains(it) }
-                            if (missingProperties.size <= cfClassProperties.size / 2) {
+                            missingProperties = cfClassPropertiesNames.filterNot { modelClassPropertiesNames.contains(it) }
+                            if (missingProperties.size <= cfClassPropertiesNames.size / 2) {
                                 mostlyMatchingProperties++
                             }
                         }
 
-                        val matchingProperties = cfClassProperties.intersect(modelClassProperties)
+                        val matchingProperties = cfClassPropertiesNames.intersect(modelClassPropertiesNames)
 
                         Resource(
                             entityName        = nestedClass.simpleName!!,
@@ -148,7 +149,10 @@ class ResourceBuildersCodeGen(
                             properties        = matchingProperties.map {
                                 Property(
                                     name   = it,
-                                    nameLC = it.firstLetterToLowerCase()
+                                    nameLC = it.firstLetterToLowerCase(),
+                                    nonStringPrimitive = (modelClassGetters[it]?.returnType)?.let { propertyClass ->
+                                        setOf("Int", "Integer", "Double", "Boolean").contains(propertyClass.simpleName)
+                                    } ?: false
                                 )
                             }
                         )
@@ -202,7 +206,8 @@ data class Resource(
 
 data class Property(
     val name: String,
-    val nameLC: String
+    val nameLC: String,
+    val nonStringPrimitive: Boolean
 )
 
 class CFResourcesBuilderTemplateGenerateTask private constructor(writer: Writer, template: Template, data: Any)

@@ -21,7 +21,7 @@ class ${serviceName}${resource.entityName}ResourcePropertiesBuilder : ResourcePr
         (request as ${resource.requestName}).let {
             ${serviceName}.${resource.entityName}(
                 <#list resource.properties as property>
-                ${property.name} = request.${property.nameLC}<#if property_has_next>,</#if>
+                ${property.name} = request.${property.nameLC}<#if property.nonStringPrimitive>?.toString()</#if><#if property_has_next>,</#if>
                 </#list>
             )
         }
