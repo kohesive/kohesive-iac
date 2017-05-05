@@ -97,7 +97,7 @@ class ResourceBuildersCodeGen(
                     val cfType = nestedClass.findAnnotation<CloudFormationType>()?.value
 
                     // Let's find a corresponding request class
-                    val supposedRequestNames = listOf("Create", "Put").flatMap {
+                    val supposedRequestNames = listOf("Create", "Put", "Register").flatMap {
                         listOf(
                             it + nestedClass.simpleName + "Request",
                             it + nestedClass.simpleName?.pluralize() + "Request"
