@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object ElastiCache {
@@ -66,7 +66,7 @@ object ElastiCache {
         val SnapshotRetentionLimit: String? = null,
         val SnapshottingClusterId: String? = null,
         val SnapshotWindow: String? = null,
-        val Tags: CloudFormation.ResourceTag? = null
+        val Tags: List<CloudFormation.ResourceTag>? = null
     ) : ResourceProperties {
 
         data class NodeGroupConfigurationProperty(

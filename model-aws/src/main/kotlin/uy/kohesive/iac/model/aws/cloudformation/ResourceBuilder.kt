@@ -2,7 +2,6 @@ package uy.kohesive.iac.model.aws.cloudformation
 
 import com.amazonaws.AmazonWebServiceRequest
 import uy.kohesive.iac.model.aws.AwsTypes
-import uy.kohesive.iac.model.aws.cloudformation.resources.*
 import uy.kohesive.iac.model.aws.cloudformation.resources.builders.*
 import kotlin.reflect.KClass
 
