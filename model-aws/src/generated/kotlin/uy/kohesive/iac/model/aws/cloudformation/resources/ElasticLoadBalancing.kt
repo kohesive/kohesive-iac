@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object ElasticLoadBalancing {
@@ -74,16 +74,22 @@ object ElasticLoadBalancing {
             val PolicyNames: List<String>? = null,
             val Protocol: String,
             val SSLCertificateId: String? = null
-        ) 
+        )
 
 
         data class PolicyProperty(
-            val Attributes: List<String>,
+            val Attributes: List<PolicyPropertyAttribute>,
             val InstancePorts: List<String>? = null,
             val LoadBalancerPorts: List<String>? = null,
             val PolicyName: String,
             val PolicyType: String
-        ) 
+        )
+
+        data class PolicyPropertyAttribute(
+            val Name: String,
+            val Value: String
+        )
+
 
     }
 
