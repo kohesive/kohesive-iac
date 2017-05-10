@@ -1,15 +1,15 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object RDS {
 
     @CloudFormationType("AWS::RDS::DBCluster")
     data class DBCluster(
-        val AvailabilityZones: String? = null,
+        val AvailabilityZones: List<String>? = null,
         val BackupRetentionPeriod: String? = null,
         val DatabaseName: String? = null,
         val DBClusterParameterGroupName: String? = null,
@@ -32,7 +32,7 @@ object RDS {
     data class DBClusterParameterGroup(
         val Description: String,
         val Family: String,
-        val Parameters: Any,
+        val Parameters: Any?,
         val Tags: List<CloudFormation.ResourceTag>? = null
     ) : ResourceProperties 
 
@@ -133,7 +133,7 @@ object RDS {
         val EngineName: String,
         val MajorEngineVersion: String,
         val OptionGroupDescription: String,
-        val OptionConfigurations: List<RDS.OptionGroup.OptionConfigurationProperty>,
+        val OptionConfigurations: List<RDS.OptionGroup.OptionConfigurationProperty>?,
         val Tags: List<CloudFormation.ResourceTag>? = null
     ) : ResourceProperties {
 
