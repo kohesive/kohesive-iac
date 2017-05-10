@@ -53,21 +53,26 @@ class TemplateBuilder(
                     } ?: false
                 }?.let { creationRequest ->
                     val awsType = AwsTypes.fromClass(creationRequest::class)
+                    val amazonWebServiceRequest = creationRequest as AmazonWebServiceRequest
 
-                    Resource(
-                        Type       = awsType.type,
-                        Properties = ResourcePropertyBuilders.getBuilder(awsType)?.buildResource(
-                            creationRequest as AmazonWebServiceRequest,
-                            objectsWithSameName
-                        ),
-                        DependsOn  = nameToDependsOnNames[name]?.let { dependOnNames ->
-                            if (dependOnNames.size == 1) {
-                                dependOnNames[0]
-                            } else {
-                                dependOnNames
+                    ResourcePropertyBuilders.getBuilder(awsType)?.takeIf {
+                        it.canBuildFrom(amazonWebServiceRequest)
+                    }?.let { resourceBuilder ->
+                        Resource(
+                            Type       = awsType.type,
+                            Properties = resourceBuilder.buildResource(
+                                amazonWebServiceRequest,
+                                objectsWithSameName
+                            ),
+                            DependsOn = nameToDependsOnNames[name]?.let { dependOnNames ->
+                                if (dependOnNames.size == 1) {
+                                    dependOnNames[0]
+                                } else {
+                                    dependOnNames
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }.filterValues { it != null }.mapValues { it.value!! },
             Outputs = context.outputs.map {

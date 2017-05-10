@@ -24,6 +24,11 @@ object ResourcePropertyBuilders {
 }
 
 interface ResourcePropertiesBuilder<T : AmazonWebServiceRequest> {
+
     val requestClazz: KClass<T>
+
     fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>): ResourceProperties
+
+    fun canBuildFrom(request: AmazonWebServiceRequest): Boolean = true
+
 }
