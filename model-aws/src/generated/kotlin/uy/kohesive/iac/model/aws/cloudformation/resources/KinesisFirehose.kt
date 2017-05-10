@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object KinesisFirehose {
@@ -21,10 +21,10 @@ object KinesisFirehose {
             val DomainARN: String,
             val IndexName: String,
             val IndexRotationPeriod: String,
-            val RetryOptions: String,
+            val RetryOptions: RetryOptionProperty? = null,
             val RoleARN: String,
             val S3BackupMode: String,
-            val S3Configuration: String,
+            val S3Configuration: S3DestinationConfigurationProperty?,
             val TypeName: String
         ) {
 
