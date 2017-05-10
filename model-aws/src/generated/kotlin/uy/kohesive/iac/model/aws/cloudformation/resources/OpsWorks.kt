@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object OpsWorks {
@@ -10,7 +10,7 @@ object OpsWorks {
     @CloudFormationType("AWS::OpsWorks::App")
     data class App(
         val AppSource: Stack.SourceProperty? = null,
-        val Attributes: List<String>? = null,
+        val Attributes: Map<String, String>? = null,
         val Description: String? = null,
         val DataSources: List<OpsWorks.App.DataSourceProperty>? = null,
         val Domains: List<String>? = null,
@@ -108,7 +108,7 @@ object OpsWorks {
 
     @CloudFormationType("AWS::OpsWorks::Layer")
     data class Layer(
-        val Attributes: List<String>? = null,
+        val Attributes: Map<String, String>? = null,
         val AutoAssignElasticIps: String,
         val AutoAssignPublicIps: String,
         val CustomInstanceProfileArn: String? = null,
@@ -180,7 +180,7 @@ object OpsWorks {
     @CloudFormationType("AWS::OpsWorks::Stack")
     data class Stack(
         val AgentVersion: String? = null,
-        val Attributes: List<String>? = null,
+        val Attributes: Map<String, String>? = null,
         val ChefConfiguration: Stack.ChefConfigurationProperty? = null,
         val CloneAppIds: List<String>? = null,
         val ClonePermissions: String? = null,
