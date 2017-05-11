@@ -2,7 +2,10 @@ package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.workspaces.AbstractAmazonWorkspaces
 import com.amazonaws.services.workspaces.AmazonWorkspaces
-import com.amazonaws.services.workspaces.model.*
+import com.amazonaws.services.workspaces.model.CreateTagsRequest
+import com.amazonaws.services.workspaces.model.CreateTagsResult
+import com.amazonaws.services.workspaces.model.CreateWorkspacesRequest
+import com.amazonaws.services.workspaces.model.CreateWorkspacesResult
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.proxy.makeProxy
 

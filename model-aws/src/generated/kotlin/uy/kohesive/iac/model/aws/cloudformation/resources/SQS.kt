@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object SQS {
@@ -19,8 +19,8 @@ object SQS {
     ) : ResourceProperties {
 
         data class RedrivePolicyProperty(
-            val deadLetterTargetArn: String,
-            val maxReceiveCount: String
+            val deadLetterTargetArn: String?,
+            val maxReceiveCount: String?
         ) 
 
     }
