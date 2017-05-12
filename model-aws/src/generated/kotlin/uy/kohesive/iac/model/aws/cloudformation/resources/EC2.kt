@@ -1,8 +1,8 @@
 package uy.kohesive.iac.model.aws.cloudformation.resources
 
-import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationType
 import uy.kohesive.iac.model.aws.cloudformation.CloudFormationTypes
+import uy.kohesive.iac.model.aws.cloudformation.ResourceProperties
 
 @CloudFormationTypes
 object EC2 {
@@ -91,12 +91,12 @@ object EC2 {
 
         data class MappingProperty(
             val DeviceName: String,
-            val Ebs: Instance.MappingProperty.AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbeddedProperty? = null,
+            val Ebs: Instance.MappingProperty.AmazonElasticBlockStoreProperty? = null,
             val NoDevice: Map<String, String>? = null,
             val VirtualName: String? = null
         ) {
 
-            data class AmazonElasticBlockStoreBlockDeviceTypeIsAnEmbeddedProperty(
+            data class AmazonElasticBlockStoreProperty(
                 val DeleteOnTermination: String? = null,
                 val Encrypted: String? = null,
                 val Iops: String? = null,
