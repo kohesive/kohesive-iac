@@ -1,10 +1,10 @@
 package uy.kohesive.iac.model.aws.contexts
 
 import com.amazonaws.services.ec2.AmazonEC2
-import com.amazonaws.services.ec2.model.*
+import com.amazonaws.services.ec2.model.CreateImageRequest
+import com.amazonaws.services.ec2.model.CreateImageResult
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.KohesiveIdentifiable
-import uy.kohesive.iac.model.aws.utils.DslScope
 
 interface EC2Identifiable : KohesiveIdentifiable {
 

@@ -2,6 +2,7 @@ package uy.kohesive.iac.model.aws.clients
 
 import com.amazonaws.services.ec2.model.*
 import uy.kohesive.iac.model.aws.IacContext
+import uy.kohesive.iac.model.aws.helpers.RunSingleEC2InstanceRequest
 import uy.kohesive.iac.model.aws.proxy.KohesiveReference
 import uy.kohesive.iac.model.aws.proxy.ReferenceParseException
 import uy.kohesive.iac.model.aws.proxy.makeProxy
@@ -34,29 +35,37 @@ class DeferredAmazonEC2(context: IacContext) : BaseDeferredAmazonEC2(context) {
 
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
-            val requestName = getNameStrict(request)
-            if (request.minCount == null || request.minCount != 1 || request.minCount != request.maxCount) {
-                throw IllegalArgumentException("minCount & maxCount must be equal to 1: one instance per request")
+            val requestName   = getNameStrict(request)
+            val instanceCount = request.minCount
+
+            if (instanceCount == null || instanceCount < 1 || instanceCount != request.maxCount) {
+                throw IllegalArgumentException("minCount & maxCount must be not-null, equal and positive")
             }
 
             RunInstancesResult().registerWithName(requestName).apply {
-                withReservation(makeProxy<RunInstancesRequest, Reservation>(context, requestName, request)
+                withReservation(makeProxy<RunInstancesRequest, Reservation>(context, "$requestName-Reservation", request)
                     // Instances
-                    .withInstances(listOf(
-                        makeProxy<RunInstancesRequest, Instance>(context, requestName, request, mapOf(
+                    .withInstances((0..instanceCount - 1).map { instanceIdx ->
+                        val singleEC2InstanceRequest = RunSingleEC2InstanceRequest(
+                            originalRequest   = request,
+                            index             = instanceIdx,
+                            requestNamePrefix = requestName
+                        ).registerWithAutoName()
+
+                        val instanceName = singleEC2InstanceRequest.getKohesiveName()
+
+                        makeProxy<RunInstancesRequest, Instance>(context, instanceName, request, mapOf(
                             RunInstancesRequest::getImageId             to Instance::getImageId,
                             RunInstancesRequest::getClientToken         to Instance::getClientToken,
                             RunInstancesRequest::getEbsOptimized        to Instance::getEbsOptimized,
                             RunInstancesRequest::getInstanceType        to Instance::getInstanceType,
                             RunInstancesRequest::getKernelId            to Instance::getKernelId,
                             RunInstancesRequest::getKeyName             to Instance::getKeyName,
+                            RunInstancesRequest::getNetworkInterfaces   to Instance::getNetworkInterfaces,
                             RunInstancesRequest::getPlacement           to Instance::getPlacement,
-                            RunInstancesRequest::getRamdiskId           to Instance::getRamdiskId,
-                            RunInstancesRequest::getSubnetId            to Instance::getSubnetId
+                            RunInstancesRequest::getRamdiskId           to Instance::getRamdiskId
                         ))
                     })
-
-                    // TODO: rest of 'Instance' properties
                 )
             }
         }

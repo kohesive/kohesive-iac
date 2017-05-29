@@ -10,16 +10,17 @@ import com.amazonaws.services.autoscaling.model.CreateLaunchConfigurationResult
 import com.amazonaws.services.dynamodbv2.model.CreateTableRequest
 import com.amazonaws.services.dynamodbv2.model.CreateTableResult
 import com.amazonaws.services.dynamodbv2.model.TableDescription
-import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
-import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
-import com.amazonaws.services.ec2.model.CreateSecurityGroupResult
-import com.amazonaws.services.ec2.model.SecurityGroup
+import com.amazonaws.services.ec2.model.*
 import com.amazonaws.services.identitymanagement.model.*
 import com.amazonaws.services.iot.model.CreatePolicyResult
 import com.amazonaws.services.s3.model.CreateBucketRequest
 import uy.klutter.core.common.mustNotEndWith
 import uy.klutter.core.common.mustNotStartWith
-import uy.kohesive.iac.model.aws.cloudformation.wait.*
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionRequest
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest
+import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleResult
+import uy.kohesive.iac.model.aws.helpers.RunSingleEC2InstanceRequest
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
@@ -48,7 +49,8 @@ object AutoNaming {
         CreateAccountAliasRequest::class        to CreateAccountAliasRequest::getAccountAlias,
         CreateGroupRequest::class               to CreateGroupRequest::getGroupName,
         CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName,
-        CreateBucketRequest::class              to CreateBucketRequest::getBucketName
+        CreateBucketRequest::class              to CreateBucketRequest::getBucketName,
+        RunSingleEC2InstanceRequest::class      to RunSingleEC2InstanceRequest::getKohesiveName
     )
 
     // TODO: what else can we do to automate this?
@@ -79,6 +81,7 @@ enum class AwsTypes(val type: String,
     IamInstanceProfile("AWS::IAM::InstanceProfile", CreateInstanceProfileRequest::class, CreateInstanceProfileResult::class, InstanceProfile::class, AddRoleToInstanceProfileRequest::class),
     AutoScalingGroup("AWS::AutoScaling::AutoScalingGroup", CreateAutoScalingGroupRequest::class, CreateAutoScalingGroupResult::class, com.amazonaws.services.autoscaling.model.AutoScalingGroup::class),
     LaunchConfiguration("AWS::AutoScaling::LaunchConfiguration", CreateLaunchConfigurationRequest::class, CreateLaunchConfigurationResult::class, com.amazonaws.services.autoscaling.model.LaunchConfiguration::class),
+    Ec2Instance("AWS::EC2::Instance", RunSingleEC2InstanceRequest::class, RunInstancesResult::class, Instance::class),
     Ec2SecurityGroup("AWS::EC2::SecurityGroup", CreateSecurityGroupRequest::class, CreateSecurityGroupResult::class, SecurityGroup::class, AuthorizeSecurityGroupIngressRequest::class),
     DynamoDBTable("AWS::DynamoDB::Table", CreateTableRequest::class, CreateTableResult::class, TableDescription::class),
     WaitCondition("AWS::CloudFormation::WaitCondition", CreateWaitConditionRequest::class, CreateWaitConditionResult::class, uy.kohesive.iac.model.aws.cloudformation.wait.WaitCondition::class),
@@ -93,9 +96,9 @@ enum class AwsTypes(val type: String,
 
         private val requestClasses: Set<KClass<out AmazonWebServiceRequest>> = enumValues<AwsTypes>().map { it.requestClass }.toSet()
 
-        fun fromString(typeString: String): AwsTypes = typeStringToEnum.get(typeString) ?: throw IllegalArgumentException("type ${typeString} is not a known AWS type")
+        fun fromString(typeString: String): AwsTypes = typeStringToEnum[typeString] ?: throw IllegalArgumentException("type $typeString is not a known AWS type")
 
-        fun fromClass(relatedClass: KClass<out Any>): AwsTypes = typeClassToEnum.get(relatedClass) ?: throw IllegalArgumentException("type ${relatedClass.simpleName} is not a known AWS type")
+        fun fromClass(relatedClass: KClass<out Any>): AwsTypes = typeClassToEnum[relatedClass] ?: throw IllegalArgumentException("type ${relatedClass.simpleName} is not a known AWS type")
 
         fun isCreationRequestClass(requestClass: KClass<out AmazonWebServiceRequest>) = requestClasses.contains(requestClass)
     }

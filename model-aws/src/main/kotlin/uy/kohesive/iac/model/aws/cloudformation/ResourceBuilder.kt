@@ -14,6 +14,7 @@ object ResourcePropertyBuilders {
         AwsTypes.IamInstanceProfile  to IamInstanceProfilePropertiesBuilder(),
         AwsTypes.LaunchConfiguration to LaunchConfigurationPropertiesBuilder(),
         AwsTypes.AutoScalingGroup    to AutoScalingGroupPropertiesBuilder(),
+        AwsTypes.Ec2Instance         to Ec2InstancePropertiesBuilder(),
         AwsTypes.Ec2SecurityGroup    to Ec2SecurityGroupPropertiesBuilder(),
         AwsTypes.DynamoDBTable       to DynamoDBTableResourcePropertiesBuilder(),
         AwsTypes.WaitCondition       to WaitConditionPropertiesBuilder()

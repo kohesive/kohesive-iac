@@ -5,16 +5,17 @@ import com.amazonaws.services.ec2.model.*
 import uy.kohesive.iac.model.aws.cloudformation.ResourcePropertiesBuilder
 import uy.kohesive.iac.model.aws.cloudformation.resources.CloudFormation
 import uy.kohesive.iac.model.aws.cloudformation.resources.EC2
+import uy.kohesive.iac.model.aws.helpers.RunSingleEC2InstanceRequest
 
 // TODO: RequestSpotInstancesRequest can also result RunInstancesRequest, also mind the 'AvailabilityZone' property
 
-class Ec2InstancePropertiesBuilder : ResourcePropertiesBuilder<RunInstancesRequest> {
+class Ec2InstancePropertiesBuilder : ResourcePropertiesBuilder<RunSingleEC2InstanceRequest> {
 
-    override val requestClazz = RunInstancesRequest::class
+    override val requestClazz = RunSingleEC2InstanceRequest::class
 
     // TODO: SsmAssociations?
     override fun buildResource(request: AmazonWebServiceRequest, relatedObjects: List<Any>) =
-        (request as RunInstancesRequest).let {
+        (request as RunSingleEC2InstanceRequest).originalRequest.let {
             val placementRequest = relatedObjects.filterIsInstance<ModifyInstancePlacementRequest>().lastOrNull()
             EC2.Instance(
                 Affinity            = placementRequest?.affinity,
