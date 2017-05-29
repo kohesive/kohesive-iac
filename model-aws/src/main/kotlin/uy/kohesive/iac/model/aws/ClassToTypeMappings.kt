@@ -21,6 +21,7 @@ import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitConditionResult
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleRequest
 import uy.kohesive.iac.model.aws.cloudformation.wait.CreateWaitHandleResult
 import uy.kohesive.iac.model.aws.helpers.RunSingleEC2InstanceRequest
+import uy.kohesive.iac.model.aws.helpers.getInstanceNameFromId
 import uy.kohesive.iac.model.aws.helpers.getPolicyNameFromArn
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
@@ -50,7 +51,8 @@ object AutoNaming {
         CreateGroupRequest::class               to CreateGroupRequest::getGroupName,
         CreateLoginProfileRequest::class        to CreateLoginProfileRequest::getUserName,
         CreateBucketRequest::class              to CreateBucketRequest::getBucketName,
-        RunSingleEC2InstanceRequest::class      to RunSingleEC2InstanceRequest::getKohesiveName
+        RunSingleEC2InstanceRequest::class      to RunSingleEC2InstanceRequest::getKohesiveName,
+        ModifyInstancePlacementRequest::class   to ModifyInstancePlacementRequest::getInstanceNameFromId
     )
 
     // TODO: what else can we do to automate this?

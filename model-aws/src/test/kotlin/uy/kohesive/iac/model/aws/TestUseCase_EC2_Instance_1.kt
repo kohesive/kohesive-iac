@@ -139,6 +139,12 @@ class TestUseCase_EC2_Instance_1 : TestCase() {
 
                 val instance = reservation.instances.first()
 
+                modifyPlacement(instance.instanceId) {
+                    affinity = "host"
+                    tenancy  = "host"
+                    hostId   = "someHostId"
+                }
+
                 addAsOutput("InstanceId", instance.instanceId,      "InstanceId of the newly created EC2 instance")
                 addAsOutput("PublicDNS",  instance.publicDnsName,   "Public DNSName of the newly created EC2 instance")
                 addAsOutput("PublicIP",   instance.publicIpAddress, "Public IP address of the newly created EC2 instance")

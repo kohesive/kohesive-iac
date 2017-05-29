@@ -1,9 +1,6 @@
 package uy.kohesive.iac.model.aws.contexts
 
-import com.amazonaws.services.ec2.model.AuthorizeSecurityGroupIngressRequest
-import com.amazonaws.services.ec2.model.CreateSecurityGroupRequest
-import com.amazonaws.services.ec2.model.Reservation
-import com.amazonaws.services.ec2.model.RunInstancesRequest
+import com.amazonaws.services.ec2.model.*
 import uy.kohesive.iac.model.aws.IacContext
 import uy.kohesive.iac.model.aws.utils.DslScope
 import java.util.concurrent.atomic.AtomicInteger
@@ -24,6 +21,13 @@ class EC2Context(context: IacContext): BaseEC2Context(context) {
             minCount = minCount ?: count
             maxCount = maxCount ?: count
         }).reservation
+    }
+
+    fun EC2Context.modifyPlacement(instanceId: String, init: ModifyInstancePlacementRequest.() -> Unit) {
+        ec2Client.modifyInstancePlacement(ModifyInstancePlacementRequest().apply {
+            withInstanceId(instanceId)
+            init(this)
+        })
     }
 
     /**

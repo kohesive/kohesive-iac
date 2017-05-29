@@ -33,6 +33,13 @@ class DeferredAmazonEC2(context: IacContext) : BaseDeferredAmazonEC2(context) {
         }
     }
 
+    override fun modifyInstancePlacement(request: ModifyInstancePlacementRequest): ModifyInstancePlacementResult {
+        return with (context) {
+            request.registerWithAutoName()
+            ModifyInstancePlacementResult().withReturn(true).registerWithSameNameAs(request)
+        }
+    }
+
     override fun runInstances(request: RunInstancesRequest): RunInstancesResult {
         return with (context) {
             val requestName   = getNameStrict(request)
