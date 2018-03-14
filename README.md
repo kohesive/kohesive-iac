@@ -5,7 +5,7 @@ THIS IS A WORK IN PROGRESS, NO RELEASES OR INFORMATION IS YET AVAILABLE
 
 ### Building CloudFormation templates with AWS API DSL
 
-```
+```kotlin
 val hashKeyNameParam = ParameterizedValue.newString("HaskKeyElementName",
     description           = "HashType PrimaryKey Name",
     allowedPattern        = "[a-zA-Z0-9]*".toRegex(),
@@ -33,7 +33,7 @@ val context = CloudFormationContext("test", "dynamodb-table-myDynamoDBTable") {
 TemplateBuilder(context, description = "This template demonstrates the creation of a DynamoDB table.").build()
 ```        
 Results in the following CloudFormation template:
-```
+```json
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
   "Description" : "This template demonstrates the creation of a DynamoDB table.",
